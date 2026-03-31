@@ -1,0 +1,20 @@
+{
+	"team": "Sauna Tent",
+	"roster": [
+		{"name": "XeduR", "toons": ["2-1-8623376"]},
+		{"name": "invertebrate", "toons": ["2-1-51092"]},
+		{"name": "Engine", "toons": ["2-1-1157874"]},
+		{"name": "quuood", "toons": ["2-1-1404485"]},
+		{"name": "Antss", "toons": ["2-1-198475"]},
+		{"name": "Grezor", "toons": ["2-1-885944"]}
+	],
+	"replayDirectory": "replays",
+	"outputDirectory": "data",
+	"heroprotocolPath": "tools/heroprotocol",
+	"extraction": {
+		"details": true,
+		"trackerevents": true,
+		"attributeevents": true,
+		"header": true
+	}
+}

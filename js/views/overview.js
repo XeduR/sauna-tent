@@ -1,0 +1,307 @@
+// Overview page: team stats, player cards, most played heroes, game modes, party sizes
+// Supports filtering by mode, party size, and date range via match index.
+var OverviewView = (function() {
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
+	var matchIndex = null;
+	var roster = null;
+	var summary = null;
+
+	function hasActiveFilters() {
+		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo;
+	}
+
+	function renderPlayerCards(playerStats) {
+		var html = '<h2 class="section-title">Players</h2><div class="card-grid">';
+		for (var i = 0; i < roster.players.length; i++) {
+			var p = roster.players[i];
+			var ps = playerStats[p.name];
+			if (!ps || ps.games === 0) continue;
+			html += '<a href="' + appLink('/player/' + p.slug) + '" class="card player-card">' +
+				'<div class="player-card-name">' + escapeHtml(p.name) + '</div>' +
+				'<div class="player-card-stats">' +
+				'<span>' + ps.games.toLocaleString() + ' games</span>' +
+				winrateSpan(ps.winrate) +
+				'</div>' +
+				'<div class="player-card-bar">' +
+				'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
+				'</div>' +
+				'</a>';
+		}
+		html += '</div>';
+		return html;
+	}
+
+	function renderMostPlayedHeroes(heroStats) {
+		// Sort by games descending, take top 10
+		var entries = [];
+		for (var hero in heroStats) {
+			entries.push({ hero: hero, games: heroStats[hero].games });
+		}
+		entries.sort(function(a, b) { return b.games - a.games; });
+		var top = entries.slice(0, AppSettings.overview.topHeroesCount);
+
+		if (top.length === 0) return "";
+		var maxGames = top[0].games;
+		var html = '<h2 class="section-title">Most Played Heroes</h2><div class="hero-bars">';
+		for (var i = 0; i < top.length; i++) {
+			var h = top[i];
+			var heroSlug = slugify(h.hero);
+			var pct = (h.games / maxGames * 100).toFixed(1);
+			html += '<a href="' + appLink('/hero/' + heroSlug) + '" class="hero-bar-row">' +
+				'<span class="hero-bar-name">' + escapeHtml(h.hero) + '</span>' +
+				'<span class="hero-bar-track"><span class="hero-bar-fill" style="width:' + pct + '%"></span></span>' +
+				'<span class="hero-bar-count">' + h.games.toLocaleString() + '</span>' +
+				'</a>';
+		}
+		html += '</div>';
+		return html;
+	}
+
+	function renderGameModes(modeStats) {
+		var keys = Object.keys(modeStats);
+		keys.sort(function(a, b) { return modeStats[b].games - modeStats[a].games; });
+
+		var html = '<h2 class="section-title">Game Modes</h2>' +
+			'<div class="table-wrap"><table>' +
+			'<thead><tr>' +
+			'<th class="no-sort">Mode</th>' +
+			'<th class="no-sort">Games</th>' +
+			'<th class="no-sort">Wins</th>' +
+			'<th class="no-sort">Losses</th>' +
+			'<th class="no-sort">Win Rate</th>' +
+			'<th class="no-sort">Avg Duration</th>' +
+			'</tr></thead><tbody>';
+
+		for (var i = 0; i < keys.length; i++) {
+			var mode = keys[i];
+			var m = modeStats[mode];
+			html += '<tr>' +
+				'<td>' + escapeHtml(displayModeName(mode)) + '</td>' +
+				'<td class="num">' + m.games.toLocaleString() + '</td>' +
+				'<td class="num">' + m.wins.toLocaleString() + '</td>' +
+				'<td class="num">' + m.losses.toLocaleString() + '</td>' +
+				'<td class="num">' + winrateSpan(m.winrate) + '</td>' +
+				'<td class="num">' + formatDuration(m.avgDuration) + '</td>' +
+				'</tr>';
+		}
+		html += '</tbody></table></div>';
+		return html;
+	}
+
+	function renderPartySizes(partyStats) {
+		var keys = Object.keys(partyStats);
+		keys.sort(function(a, b) { return Number(a) - Number(b); });
+
+		var html = '<h2 class="section-title">Party Size</h2>' +
+			'<div class="table-wrap"><table>' +
+			'<thead><tr>' +
+			'<th class="no-sort">Party</th>' +
+			'<th class="no-sort">Games</th>' +
+			'<th class="no-sort">Wins</th>' +
+			'<th class="no-sort">Losses</th>' +
+			'<th class="no-sort">Win Rate</th>' +
+			'<th class="no-sort">Avg Duration</th>' +
+			'</tr></thead><tbody>';
+
+		for (var i = 0; i < keys.length; i++) {
+			var key = keys[i];
+			var s = partyStats[key];
+			var label = PARTY_LABELS[Number(key)] || key + "-stack";
+			html += '<tr>' +
+				'<td>' + escapeHtml(label) + '</td>' +
+				'<td class="num">' + s.games.toLocaleString() + '</td>' +
+				'<td class="num">' + s.wins.toLocaleString() + '</td>' +
+				'<td class="num">' + s.losses.toLocaleString() + '</td>' +
+				'<td class="num">' + winrateSpan(s.winrate) + '</td>' +
+				'<td class="num">' + formatDuration(s.avgDuration) + '</td>' +
+				'</tr>';
+		}
+		html += '</tbody></table></div>';
+		return html;
+	}
+
+	function renderMetaStats(metaStats) {
+		var side = metaStats.teamSide;
+		var fb = metaStats.firstBlood;
+		var html = "";
+
+		if (side.left.games > 0 || side.right.games > 0) {
+			html += '<h2 class="section-title">Team Side</h2>' +
+				'<div class="table-wrap"><table>' +
+				'<thead><tr>' +
+				'<th class="no-sort">Side</th>' +
+				'<th class="no-sort">Games</th>' +
+				'<th class="no-sort">Wins</th>' +
+				'<th class="no-sort">Losses</th>' +
+				'<th class="no-sort">Win Rate</th>' +
+				'</tr></thead><tbody>';
+			var sides = [["left", "Left"], ["right", "Right"]];
+			for (var i = 0; i < sides.length; i++) {
+				var s = side[sides[i][0]];
+				html += '<tr>' +
+					'<td>' + sides[i][1] + '</td>' +
+					'<td class="num">' + s.games.toLocaleString() + '</td>' +
+					'<td class="num">' + s.wins.toLocaleString() + '</td>' +
+					'<td class="num">' + s.losses.toLocaleString() + '</td>' +
+					'<td class="num">' + winrateSpan(s.winrate) + '</td>' +
+					'</tr>';
+			}
+			html += '</tbody></table></div>';
+		}
+
+		if (fb.got.games > 0 || fb.gave.games > 0) {
+			html += '<h2 class="section-title">First Blood</h2>' +
+				'<div class="table-wrap"><table>' +
+				'<thead><tr>' +
+				'<th class="no-sort">First Blood</th>' +
+				'<th class="no-sort">Games</th>' +
+				'<th class="no-sort">Wins</th>' +
+				'<th class="no-sort">Losses</th>' +
+				'<th class="no-sort">Win Rate</th>' +
+				'</tr></thead><tbody>';
+			var fbKeys = [["got", "Got First Blood"], ["gave", "Gave First Blood"]];
+			for (var i = 0; i < fbKeys.length; i++) {
+				var f = fb[fbKeys[i][0]];
+				html += '<tr>' +
+					'<td>' + fbKeys[i][1] + '</td>' +
+					'<td class="num">' + f.games.toLocaleString() + '</td>' +
+					'<td class="num">' + f.wins.toLocaleString() + '</td>' +
+					'<td class="num">' + f.losses.toLocaleString() + '</td>' +
+					'<td class="num">' + winrateSpan(f.winrate) + '</td>' +
+					'</tr>';
+			}
+			html += '</tbody></table></div>';
+		}
+
+		return html;
+	}
+
+	// Find the roster team ID from a match entry's teams object
+	function getRosterTeam(teams) {
+		for (var t in teams) {
+			for (var j = 0; j < teams[t].length; j++) {
+				if (teams[t][j].isRoster) return t;
+			}
+		}
+		return null;
+	}
+
+	function computeRoleCompositions(filtered) {
+		var heroRolesMap = summary.heroRoles || {};
+		var roleComps = {};
+
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			var teamId = getRosterTeam(m.teams);
+			if (teamId === null) continue;
+
+			var team = m.teams[teamId];
+			var roles = [];
+			for (var j = 0; j < team.length; j++) {
+				roles.push(heroRolesMap[team[j].hero] || "Unknown");
+			}
+
+			roles.sort();
+			var roleKey = roles.join(", ");
+			if (!roleComps[roleKey]) roleComps[roleKey] = { games: 0, wins: 0 };
+			roleComps[roleKey].games++;
+			if (m.result === "win") roleComps[roleKey].wins++;
+		}
+
+		var rows = [];
+		for (var key in roleComps) {
+			var c = roleComps[key];
+			if (c.games >= AppSettings.overview.minGamesForComposition) {
+				rows.push({
+					roles: key,
+					games: c.games,
+					wins: c.wins,
+					losses: c.games - c.wins,
+					winrate: c.wins / c.games,
+				});
+			}
+		}
+		rows.sort(function(a, b) { return b.winrate - a.winrate || b.games - a.games; });
+		return rows.slice(0, AppSettings.overview.topCompositionsCount);
+	}
+
+	function renderContent() {
+		var app = document.getElementById("app");
+		var filtered = MatchIndexUtils.filter(matchIndex, filters);
+		var t = MatchIndexUtils.totals(filtered);
+		var playerStats = MatchIndexUtils.groupByPlayer(filtered);
+		var heroStats = MatchIndexUtils.groupByHero(filtered);
+		var modeStats = MatchIndexUtils.groupByMode(filtered);
+		var partyStats = MatchIndexUtils.groupByParty(filtered);
+
+		var html =
+			'<div class="page-header"><h1>Sauna Tent</h1>' +
+			'<div class="subtitle">' + t.games.toLocaleString() + ' out of ' +
+			matchIndex.length.toLocaleString() + ' matches</div></div>';
+
+		html += buildPageFilterBar(filters, { mode: true, partySize: true, dateFrom: true, dateTo: true });
+
+		html += '<div class="stat-row">' +
+			statBox("Total Games", t.games.toLocaleString()) +
+			statBox("Wins", t.wins.toLocaleString()) +
+			statBox("Losses", t.losses.toLocaleString()) +
+			statBox("Win Rate", winrateSpan(t.winrate)) +
+			'</div>';
+
+		html += renderPlayerCards(playerStats);
+		html += renderMostPlayedHeroes(heroStats);
+
+		// Team Compositions
+		var compRows = computeRoleCompositions(filtered);
+		var compTable = null;
+		if (compRows.length > 0) {
+			var compColumns = [
+				{ key: "roles", label: "Composition", noSort: true },
+				{ key: "games", label: "Total", className: "num", format: function(v) { return v.toLocaleString(); } },
+				{ key: "wins", label: "Win", className: "num", format: function(v) { return v.toLocaleString(); } },
+				{ key: "losses", label: "Loss", className: "num", format: function(v) { return v.toLocaleString(); } },
+				{ key: "winrate", label: "Win Rate", className: "num", format: function(v) { return winrateSpan(v); } },
+			];
+			var compHeaderGroups = [
+				{ label: "", span: 1 },
+				{ label: "Games", span: 3 },
+				{ label: "", span: 1 },
+			];
+			compTable = sortableTable("comp-table", compColumns, compRows, "games", true, compHeaderGroups);
+			html += '<h2 class="section-title">Team Compositions</h2>';
+			html += compTable.buildHTML();
+		}
+
+		html += renderMetaStats(MatchIndexUtils.computeMetaStats(filtered));
+
+		// Only show mode table if not filtering by a specific mode
+		if (!filters.mode) {
+			html += renderGameModes(modeStats);
+		}
+
+		html += renderPartySizes(partyStats);
+
+		app.innerHTML = html;
+		if (compTable) compTable.attachListeners(app);
+		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
+	}
+
+	async function render() {
+		var app = document.getElementById("app");
+		app.innerHTML = '<div class="loading">Loading overview...</div>';
+
+		try {
+			var results = await Promise.all([Data.matchIndex(), Data.roster(), Data.summary(), Data.settings()]);
+			matchIndex = results[0];
+			roster = results[1];
+			summary = results[2];
+			readFiltersFromURL(filters, defaults);
+			renderContent();
+		} catch (err) {
+			app.innerHTML = '<div class="error">Failed to load summary data.</div>';
+		}
+	}
+
+	return { render: render };
+})();

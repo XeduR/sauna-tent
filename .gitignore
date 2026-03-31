@@ -1,0 +1,9 @@
+# replays are too many and too large for Git.
+**/replays
+
+# Processing manifest (local state, not served to client)
+manifest.json
+
+# Python
+__pycache__/
+*.pyc

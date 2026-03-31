@@ -1,0 +1,285 @@
+// Shared utilities for filtering and aggregating match index data on the frontend.
+// All filterable pages (overview, players, heroes, maps) use these to compute
+// stats from the cached match index rather than pre-computed aggregates.
+
+var MatchIndexUtils = (function() {
+	// Filter match index entries by criteria
+	function filter(matches, filters) {
+		var result = [];
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			if (filters.mode && m.gameMode !== filters.mode) continue;
+			if (filters.map && m.map !== filters.map) continue;
+			if (filters.dateFrom && m.timestamp.substring(0, 10) < filters.dateFrom) continue;
+			if (filters.dateTo && m.timestamp.substring(0, 10) > filters.dateTo) continue;
+
+			if (filters.partySize) {
+				var ps = Number(filters.partySize);
+				var hasParty = false;
+				for (var j = 0; j < m.rosterPlayers.length; j++) {
+					if (m.rosterPlayers[j].partySize === ps) {
+						hasParty = true;
+						break;
+					}
+				}
+				if (!hasParty) continue;
+			}
+
+			result.push(m);
+		}
+		return result;
+	}
+
+	function _newGroup() {
+		return {
+			games: 0, wins: 0, losses: 0, totalDuration: 0,
+			totalKills: 0, totalDeaths: 0, totalAssists: 0,
+			totalHeroDamage: 0, totalSiegeDamage: 0,
+			totalHealing: 0, totalSelfHealing: 0, totalDamageTaken: 0,
+			totalXpContribution: 0, totalMercCaptures: 0, totalTimeSpentDead: 0,
+			durationMin: null, durationMax: null, lastPlayed: null
+		};
+	}
+
+	function _addMatchDuration(g, m) {
+		g.totalDuration += m.durationSeconds;
+		if (g.durationMin === null || m.durationSeconds < g.durationMin) g.durationMin = m.durationSeconds;
+		if (g.durationMax === null || m.durationSeconds > g.durationMax) g.durationMax = m.durationSeconds;
+		if (g.lastPlayed === null || m.timestamp > g.lastPlayed) g.lastPlayed = m.timestamp;
+	}
+
+	function _addPlayerStats(g, rp) {
+		g.totalKills += rp.kills || 0;
+		g.totalDeaths += rp.deaths || 0;
+		g.totalAssists += rp.assists || 0;
+		g.totalHeroDamage += rp.heroDamage || 0;
+		g.totalSiegeDamage += rp.siegeDamage || 0;
+		g.totalHealing += rp.healing || 0;
+		g.totalSelfHealing += rp.selfHealing || 0;
+		g.totalDamageTaken += rp.damageTaken || 0;
+		g.totalXpContribution += rp.xpContribution || 0;
+		g.totalMercCaptures += rp.mercCaptures || 0;
+		g.totalTimeSpentDead += rp.timeSpentDead || 0;
+	}
+
+	function _finalizeGroup(g) {
+		g.winrate = g.games > 0 ? g.wins / g.games : 0;
+		g.avgDuration = g.games > 0 ? g.totalDuration / g.games : 0;
+		if (g.games > 0) {
+			var n = g.games;
+			var deaths = Math.max(g.totalDeaths, 1);
+			g.averages = {
+				kills: Math.round(g.totalKills / n * 10) / 10,
+				deaths: Math.round(g.totalDeaths / n * 10) / 10,
+				assists: Math.round(g.totalAssists / n * 10) / 10,
+				kda: Math.round((g.totalKills + g.totalAssists) / deaths * 100) / 100,
+				heroDamage: Math.round(g.totalHeroDamage / n),
+				siegeDamage: Math.round(g.totalSiegeDamage / n),
+				healing: Math.round(g.totalHealing / n),
+				selfHealing: Math.round(g.totalSelfHealing / n),
+				damageTaken: Math.round(g.totalDamageTaken / n),
+				xpContribution: Math.round(g.totalXpContribution / n),
+				mercCaptures: Math.round(g.totalMercCaptures / n * 10) / 10,
+				timeSpentDead: Math.round(g.totalTimeSpentDead / n * 10) / 10
+			};
+		}
+	}
+
+	// Group filtered matches by player, returning stats per roster player
+	function groupByPlayer(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (!groups[rp.name]) groups[rp.name] = _newGroup();
+				var g = groups[rp.name];
+				g.games++;
+				if (rp.result === "win") g.wins++;
+				else g.losses++;
+				_addMatchDuration(g, m);
+				_addPlayerStats(g, rp);
+			}
+		}
+		for (var name in groups) _finalizeGroup(groups[name]);
+		return groups;
+	}
+
+	// Group filtered matches by hero (from roster player appearances)
+	function groupByHero(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (!groups[rp.hero]) groups[rp.hero] = _newGroup();
+				var g = groups[rp.hero];
+				g.games++;
+				if (rp.result === "win") g.wins++;
+				else g.losses++;
+				_addMatchDuration(g, m);
+				_addPlayerStats(g, rp);
+			}
+		}
+		for (var hero in groups) _finalizeGroup(groups[hero]);
+		return groups;
+	}
+
+	// Group filtered matches by map (per roster-player-appearance, matching pipeline)
+	function groupByMap(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			if (!groups[m.map]) groups[m.map] = _newGroup();
+			var g = groups[m.map];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				g.games++;
+				if (m.rosterPlayers[j].result === "win") g.wins++;
+				else g.losses++;
+				_addMatchDuration(g, m);
+				_addPlayerStats(g, m.rosterPlayers[j]);
+			}
+		}
+		for (var map in groups) _finalizeGroup(groups[map]);
+		return groups;
+	}
+
+	// Group by game mode
+	function groupByMode(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			if (!groups[m.gameMode]) {
+				groups[m.gameMode] = { games: 0, wins: 0, losses: 0, totalDuration: 0 };
+			}
+			var g = groups[m.gameMode];
+			g.games++;
+			if (m.result === "win") g.wins++;
+			else g.losses++;
+			g.totalDuration += m.durationSeconds;
+		}
+		for (var mode in groups) {
+			var g = groups[mode];
+			g.winrate = g.games > 0 ? g.wins / g.games : 0;
+			g.avgDuration = g.games > 0 ? g.totalDuration / g.games : 0;
+		}
+		return groups;
+	}
+
+	// Group by party size
+	function groupByParty(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var ps = String(m.rosterPlayers[j].partySize);
+				if (!groups[ps]) {
+					groups[ps] = { games: 0, wins: 0, losses: 0, totalDuration: 0 };
+				}
+				var g = groups[ps];
+				g.games++;
+				if (m.rosterPlayers[j].result === "win") g.wins++;
+				else g.losses++;
+				g.totalDuration += m.durationSeconds;
+			}
+		}
+		for (var ps in groups) {
+			var g = groups[ps];
+			g.winrate = g.games > 0 ? g.wins / g.games : 0;
+			g.avgDuration = g.games > 0 ? g.totalDuration / g.games : 0;
+		}
+		return groups;
+	}
+
+	// Compute overall totals from filtered matches
+	function totals(matches) {
+		var t = { games: 0, wins: 0, losses: 0, totalDuration: 0 };
+		for (var i = 0; i < matches.length; i++) {
+			t.games++;
+			if (matches[i].result === "win") t.wins++;
+			else t.losses++;
+			t.totalDuration += matches[i].durationSeconds;
+		}
+		t.winrate = t.games > 0 ? t.wins / t.games : 0;
+		t.avgDuration = t.games > 0 ? t.totalDuration / t.games : 0;
+		return t;
+	}
+
+	// Get unique stack compositions from matches with stats
+	function groupByStack(matches) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			// Group roster players by team to identify stacks
+			var teams = {};
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.partySize < 2) continue;
+				if (!teams[rp.result]) teams[rp.result] = [];
+				teams[rp.result].push(rp.name);
+			}
+			// Each result group with 2+ players is a stack
+			for (var result in teams) {
+				var names = teams[result].sort();
+				if (names.length < 2) continue;
+				var key = names.join("+");
+				if (!groups[key]) {
+					groups[key] = { players: names, size: names.length, games: 0, wins: 0, losses: 0 };
+				}
+				groups[key].games++;
+				if (result === "win") groups[key].wins++;
+				else groups[key].losses++;
+			}
+		}
+		for (var key in groups) {
+			var g = groups[key];
+			g.winrate = g.games > 0 ? g.wins / g.games : 0;
+		}
+		return groups;
+	}
+
+	// Compute meta stats from filtered matches (team side, first blood)
+	function computeMetaStats(matches) {
+		var side = { left: { games: 0, wins: 0 }, right: { games: 0, wins: 0 } };
+		var firstBlood = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+
+			if (m.rosterSide) {
+				side[m.rosterSide].games++;
+				if (m.result === "win") side[m.rosterSide].wins++;
+			}
+
+			if (m.rosterFirstBlood != null) {
+				var fbKey = m.rosterFirstBlood ? "got" : "gave";
+				firstBlood[fbKey].games++;
+				if (m.result === "win") firstBlood[fbKey].wins++;
+			}
+		}
+
+		// Compute winrates
+		for (var s in side) {
+			side[s].losses = side[s].games - side[s].wins;
+			side[s].winrate = side[s].games > 0 ? side[s].wins / side[s].games : 0;
+		}
+		for (var fb in firstBlood) {
+			firstBlood[fb].losses = firstBlood[fb].games - firstBlood[fb].wins;
+			firstBlood[fb].winrate = firstBlood[fb].games > 0 ? firstBlood[fb].wins / firstBlood[fb].games : 0;
+		}
+
+		return { teamSide: side, firstBlood: firstBlood };
+	}
+
+	return {
+		filter: filter,
+		groupByPlayer: groupByPlayer,
+		groupByHero: groupByHero,
+		groupByMap: groupByMap,
+		groupByMode: groupByMode,
+		groupByParty: groupByParty,
+		groupByStack: groupByStack,
+		computeMetaStats: computeMetaStats,
+		totals: totals,
+	};
+})();

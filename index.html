@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script>
+		// Compute base path from current location and inject <base> before
+		// the parser reaches any resource references (<link>, <script src>).
+		// No static <base> in the HTML so the preload scanner resolves
+		// resources against the document URL, which is already correct.
+		// On GitHub Pages, 404.html redirects to the deployment root before
+		// index.html loads, so location.pathname is always the root here.
+		(function() {
+			var basePath = decodeURIComponent(location.pathname);
+			if (basePath.charAt(basePath.length - 1) !== '/') basePath += '/';
+
+			var base = document.createElement('base');
+			base.setAttribute('href', basePath);
+			document.head.appendChild(base);
+
+			var redirect = sessionStorage.getItem('spa-redirect');
+			if (redirect) {
+				sessionStorage.removeItem('spa-redirect');
+				history.replaceState(null, '', redirect);
+			}
+		})();
+	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sauna Tent</title>
+	<meta name="description" content="Heroes of the Storm replay analytics for the Sauna Tent team.">
+	<meta property="og:title" content="Sauna Tent">
+	<meta property="og:description" content="Heroes of the Storm replay analytics for the Sauna Tent team.">
+	<!-- OG/Twitter: absolute URLs required by spec. Update when deployment domain changes. -->
+	<meta property="og:image" content="https://xedur.github.io/Sauna%20Tent/img/sauna-tent-logo.png">
+	<meta property="og:url" content="https://xedur.github.io/Sauna%20Tent/">
+	<meta property="og:type" content="website">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Sauna Tent">
+	<meta name="twitter:description" content="Heroes of the Storm replay analytics for the Sauna Tent team.">
+	<meta name="twitter:image" content="https://xedur.github.io/Sauna%20Tent/img/sauna-tent-logo.png">
+	<link rel="icon" type="image/png" href="img/sauna-tent-logo.png">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<nav id="main-nav">
+		<a href="./" class="nav-brand">
+			<img src="img/sauna-tent-logo.png" alt="" class="nav-logo">
+			Sauna Tent
+		</a>
+		<ul class="nav-links">
+			<li><a href="./" class="nav-link" data-route="overview">Overview</a></li>
+			<li class="nav-dropdown">
+				<a href="players" class="nav-link nav-dropdown-toggle" data-route="players">Players</a>
+				<ul class="nav-dropdown-menu" id="nav-players-menu"></ul>
+			</li>
+			<li><a href="heroes" class="nav-link" data-route="heroes">Heroes</a></li>
+			<li><a href="maps" class="nav-link" data-route="maps">Maps</a></li>
+			<li><a href="matches" class="nav-link" data-route="matches">Matches</a></li>
+			<li><a href="hall-of-fame" class="nav-link" data-route="hall-of-fame">Hall of Fame</a></li>
+			<li><a href="draft" class="nav-link" data-route="draft">Draft Tool</a></li>
+		</ul>
+		<button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+	</nav>
+
+	<main id="app"></main>
+
+	<footer id="site-footer">
+		<a href="https://www.erantanen.com/">&copy; 2026 Eetu Rantanen</a>
+	</footer>
+
+	<!-- Chart.js for hero/role popularity charts on the Heroes page -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/router.js"></script>
+	<script src="js/match-utils.js"></script>
+	<script src="js/table-config.js"></script>
+	<script src="js/standard-table.js"></script>
+	<script src="js/views/overview.js"></script>
+	<script src="js/views/players.js"></script>
+	<script src="js/views/player.js"></script>
+	<script src="js/views/heroes-main.js"></script>
+	<script src="js/views/hero.js"></script>
+	<script src="js/views/maps-main.js"></script>
+	<script src="js/views/map.js"></script>
+	<script src="js/views/matches.js"></script>
+	<script src="js/views/match.js"></script>
+	<script src="js/views/halloffame.js"></script>
+	<script src="js/views/draft.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>

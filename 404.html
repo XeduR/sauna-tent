@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script>
+		// GitHub Pages SPA workaround: preserve the requested path and redirect
+		// to the deployment root where index.html and the router can resolve it.
+		// segmentsToKeep: 1 for project sites (user.github.io/repo-name/),
+		// 0 for user/org sites and custom domains (user.github.io/).
+		var segmentsToKeep = 1;
+		var root = '/' + location.pathname.split('/').slice(1, segmentsToKeep + 1).join('/');
+		if (root.charAt(root.length - 1) !== '/') root += '/';
+		sessionStorage.setItem('spa-redirect', location.pathname + location.search + location.hash);
+		location.replace(root);
+	</script>
+</head>
+</html>

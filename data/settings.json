@@ -1,0 +1,32 @@
+{
+	"minGamesDefault": 10,
+	"rosterSize": 6,
+	"overview": {
+		"topHeroesCount": 10,
+		"topCompositionsCount": 10,
+		"minGamesForComposition": 3
+	},
+	"matches": {
+		"pageSize": 50
+	},
+	"hero": {
+		"topBuildsCount": 10
+	},
+	"draft": {
+		"minGamesForRecommendation": 3,
+		"topRecommendations": 10,
+		"lowConfidenceThreshold": 5,
+		"minHeroesForCombo": 2
+	},
+	"hallOfFame": {
+		"topEntries": 5,
+		"winrateMinGames": 50,
+		"stackMinGames": {
+			"duo": 10,
+			"trio": 5,
+			"quad": 5,
+			"full": 3
+		}
+	},
+	"recentMatchesCount": 5
+}

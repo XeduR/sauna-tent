@@ -1,0 +1,6 @@
+# SPA fallback for local Apache/XAMPP. Reuses the same 404.html that
+# GitHub Pages serves natively: saves the path, redirects to root.
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ 404.html [L]
