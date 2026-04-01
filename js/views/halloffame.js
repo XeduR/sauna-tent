@@ -224,6 +224,40 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
+	function renderPercentCard(title, data, description, detailLabel) {
+		var mode = getMode();
+		var records = (data && data[mode]) ? data[mode] : [];
+		var entries = [];
+		for (var i = 0; i < records.length; i++) {
+			var r = records[i];
+			if (r.games > 0 && r.value > 0) {
+				entries.push({ playerName: r.playerName, pct: r.value / r.games, value: r.value, games: r.games });
+			}
+		}
+		entries.sort(function(a, b) { return b.pct - a.pct; });
+		var top = entries.slice(0, AppSettings.hallOfFame.topEntries);
+
+		var html = '<div class="hof-card card">' +
+			'<div class="hof-card-title">' + escapeHtml(title) + '</div>' +
+			descHtml(description);
+
+		if (top.length === 0) {
+			html += '<div class="text-muted">No records</div>';
+		} else {
+			html += '<div class="hof-list">';
+			for (var i = 0; i < top.length; i++) {
+				var e = top[i];
+				html += '<div class="hof-entry"><span class="hof-rank">' + (i + 1) + '</span>' +
+					'<div class="hof-entry-main"><span class="hof-value">' + (e.pct * 100).toFixed(1) + '%</span> ' +
+					'<a href="' + appLink('/player/' + slugify(e.playerName)) + '">' + escapeHtml(e.playerName) + '</a>' +
+					' <span class="text-muted">(' + e.value + ' ' + detailLabel + ' in ' + e.games + ' games)</span></div></div>';
+			}
+			html += '</div>';
+		}
+		html += '</div>';
+		return html;
+	}
+
 	function renderMostScaredCard() {
 		var mode = getMode();
 		var deathSources = ["deathsByMinions", "deathsByMercs", "deathsByStructures", "deathsByMonsters"];
@@ -481,6 +515,10 @@ var HallOfFameView = (function() {
 				html += renderCumulativeCard("Total All Chat", cumulative.chatMessagesAll, 'Friendly messages sent to other team, e.g. "gl & hf"');
 			}
 			html += renderAccidentalTeamChatsCard();
+			if (cumulative.chatGamesClean) {
+				html += renderPercentCard("Conversationalist", cumulative.chatGamesClean,
+					"Percentage of games with chat and no toxic messages", "clean games");
+			}
 			if (cumulative.votesGiven) {
 				html += renderCumulativeCard("Total Votes Given", cumulative.votesGiven, "Post-game votes given to other players");
 			}
@@ -507,6 +545,11 @@ var HallOfFameView = (function() {
 			var records = cat[mode] || [];
 			var display = { label: snarkyLabels[snarkyKeys[i]] };
 			html += renderStatCard(display, records, STAT_DESC[snarkyKeys[i]]);
+		}
+
+		if (cumulative.chatGamesToxic) {
+			html += renderPercentCard("Most Toxic Conversationalist", cumulative.chatGamesToxic,
+				"Percentage of games where the player sent a toxic message", "toxic games");
 		}
 
 		if (hofData.stats.damageSoakedMin) {

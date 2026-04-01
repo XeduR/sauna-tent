@@ -250,6 +250,9 @@ _HOF_CUMULATIVE_CATEGORIES = [
 	("deathsByMonsters", "Total Deaths to Monsters"),
 	("chatMessagesAll", "Total All Chat"),
 	("chatMessagesTeam", "Total Team Chat"),
+	("chatToxicMessages", "Total Toxic Messages"),
+	("chatGamesClean", "Conversationalist Games"),
+	("chatGamesToxic", "Toxic Games"),
 	("timeOnFire", "Total Time on Fire"),
 ]
 

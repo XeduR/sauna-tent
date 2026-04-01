@@ -1,0 +1,3 @@
+# Toxic keyword list for in-game chat detection.
+# One keyword per line. Case-insensitive substring matching.
+# Lines starting with # are comments.

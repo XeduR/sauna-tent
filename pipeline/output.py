@@ -115,6 +115,36 @@ def _build_match_index_entry(match: dict) -> dict:
 	if first_merc is not None and roster_team_id is not None:
 		entry["rosterFirstMerc"] = first_merc == roster_team_id
 
+	# Chat toxicity classification for the roster team
+	# Examines all players on the roster's team (not just roster members)
+	if roster_team_id is not None:
+		had_team_chat = False
+		has_toxic_roster = False
+		has_toxic_other = False
+		for p in match.get("players", []):
+			if p["team"] != roster_team_id:
+				continue
+			s = p.get("stats", {})
+			if s.get("chatMessagesTeam", 0) > 0:
+				had_team_chat = True
+			if s.get("chatToxicMessages", 0) > 0:
+				if p.get("isRoster"):
+					has_toxic_roster = True
+				else:
+					has_toxic_other = True
+
+		entry["hadTeamChat"] = had_team_chat
+		if not had_team_chat:
+			entry["chatToxicity"] = "none"
+		elif has_toxic_roster and has_toxic_other:
+			entry["chatToxicity"] = "toxic_mixed"
+		elif has_toxic_roster:
+			entry["chatToxicity"] = "toxic_roster"
+		elif has_toxic_other:
+			entry["chatToxicity"] = "toxic_other"
+		else:
+			entry["chatToxicity"] = "clean"
+
 	return entry
 
 

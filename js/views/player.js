@@ -393,6 +393,24 @@ var PlayerView = (function() {
 		return result;
 	}
 
+	function renderPlayerChatStats(playerMatches) {
+		if (filters.mode === "Custom") {
+			return '<h2 class="section-title">Chat Statistics</h2>' +
+				'<div class="text-muted">Chat win rate correlation is not available for Custom games.</div>';
+		}
+
+		var chatStats = MatchIndexUtils.computeChatStats(playerMatches);
+		var rows = [];
+		if (chatStats.noChat.games > 0) rows.push(["No Team Chat", chatStats.noChat]);
+		if (chatStats.anyChat.games > 0) rows.push(["Team Chat", chatStats.anyChat]);
+		if (chatStats.cleanChat.games > 0) rows.push(["Non-Toxic Chat", chatStats.cleanChat]);
+		if (chatStats.toxicRoster.games > 0) rows.push(["Toxic Chat (Roster)", chatStats.toxicRoster]);
+		if (chatStats.toxicOther.games > 0) rows.push(["Toxic Chat (Non-Roster)", chatStats.toxicOther]);
+		if (chatStats.toxicMixed.games > 0) rows.push(["Toxic Chat (Mixed)", chatStats.toxicMixed]);
+		if (rows.length === 0) return "";
+		return renderMetaFactorTable("Chat Statistics", rows);
+	}
+
 	function renderMatchFactorBoxes(metaStats) {
 		var side = metaStats.teamSide;
 		var fb = metaStats.firstBlood;
@@ -508,6 +526,7 @@ var PlayerView = (function() {
 		var metaStats = MatchIndexUtils.computeMetaStats(playerMatches);
 		html += renderMatchFactorBoxes(metaStats);
 		html += renderPlayerLevelLead(metaStats);
+		html += renderPlayerChatStats(playerMatches);
 
 		html += '<h2 class="section-title">Heroes</h2>';
 		html += heroTable.buildToggles();

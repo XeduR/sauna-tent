@@ -199,6 +199,24 @@ var OverviewView = (function() {
 		return rows.slice(0, AppSettings.overview.topCompositionsCount);
 	}
 
+	function renderChatStats(filtered) {
+		if (filters.mode === "Custom") {
+			return '<h2 class="section-title">Chat Statistics</h2>' +
+				'<div class="text-muted">Chat win rate correlation is not available for Custom games.</div>';
+		}
+
+		var chatStats = MatchIndexUtils.computeChatStats(filtered);
+		var rows = [];
+		if (chatStats.noChat.games > 0) rows.push(["No Team Chat", chatStats.noChat]);
+		if (chatStats.anyChat.games > 0) rows.push(["Team Chat", chatStats.anyChat]);
+		if (chatStats.cleanChat.games > 0) rows.push(["Non-Toxic Chat", chatStats.cleanChat]);
+		if (chatStats.toxicRoster.games > 0) rows.push(["Toxic Chat (Roster)", chatStats.toxicRoster]);
+		if (chatStats.toxicOther.games > 0) rows.push(["Toxic Chat (Non-Roster)", chatStats.toxicOther]);
+		if (chatStats.toxicMixed.games > 0) rows.push(["Toxic Chat (Mixed)", chatStats.toxicMixed]);
+		if (rows.length === 0) return "";
+		return renderMetaFactorTable("Chat Statistics", rows);
+	}
+
 	function renderContent() {
 		var app = document.getElementById("app");
 		var filtered = MatchIndexUtils.filter(matchIndex, filters);
@@ -248,6 +266,7 @@ var OverviewView = (function() {
 		}
 
 		html += renderMetaStats(MatchIndexUtils.computeMetaStats(filtered));
+		html += renderChatStats(filtered);
 
 		// Only show mode table if not filtering by a specific mode
 		if (!filters.mode) {

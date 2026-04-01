@@ -18,6 +18,7 @@ if _HEROPROTOCOL_PATH not in sys.path:
 from heroprotocol.versions import build, latest
 
 from pipeline.herodata import HERO_NAMES, MAP_NAMES, ARAM_MAP_IDS
+from pipeline.toxicity import is_toxic
 
 # Windows FILETIME epoch offset (100-ns intervals between 1601-01-01 and 1970-01-01)
 _FILETIME_EPOCH_DIFF = 116444736000000000
@@ -414,6 +415,13 @@ def parse_replay(replay_path: str) -> dict:
 						players[player_idx]["stats"].setdefault("chatMessagesTeam", 0)
 						players[player_idx]["stats"]["chatMessagesTeam"] += 1
 
+					# Toxicity detection on message text
+					raw_text = event.get("m_string", b"")
+					text = _decode_bytes(raw_text) if isinstance(raw_text, bytes) else str(raw_text)
+					if text and is_toxic(text):
+						players[player_idx]["stats"].setdefault("chatToxicMessages", 0)
+						players[player_idx]["stats"]["chatToxicMessages"] += 1
+
 			elif event_name.endswith(".SPingMessage"):
 				if player_idx is not None and 0 <= player_idx < num_players:
 					players[player_idx]["stats"].setdefault("pings", 0)
@@ -432,6 +440,16 @@ def parse_replay(replay_path: str) -> dict:
 		for pi in disconnected:
 			if 0 <= pi < num_players:
 				players[pi]["stats"]["disconnectedAtEnd"] = 1
+
+		# Derived chat stats: per-player clean/toxic game flags for HoF/HoS
+		for pi in range(num_players):
+			s = players[pi]["stats"]
+			total_chat = s.get("chatMessages", 0)
+			toxic_chat = s.get("chatToxicMessages", 0)
+			if total_chat > 0 and toxic_chat == 0:
+				s["chatGamesClean"] = 1
+			if toxic_chat > 0:
+				s["chatGamesToxic"] = 1
 
 	# Store death-by-source stats
 	for pi in range(num_players):

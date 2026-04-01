@@ -327,6 +327,58 @@ var MatchIndexUtils = (function() {
 		};
 	}
 
+	// Compute chat statistics win rates from filtered matches.
+	// Only Storm League and ARAM are included (Custom excluded for win rate correlation).
+	function computeChatStats(matches) {
+		var categories = {
+			noChat: { games: 0, wins: 0 },
+			anyChat: { games: 0, wins: 0 },
+			cleanChat: { games: 0, wins: 0 },
+			toxicRoster: { games: 0, wins: 0 },
+			toxicOther: { games: 0, wins: 0 },
+			toxicMixed: { games: 0, wins: 0 }
+		};
+
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			if (m.gameMode !== "StormLeague" && m.gameMode !== "ARAM") continue;
+			if (m.hadTeamChat == null) continue;
+
+			var isWin = m.result === "win";
+
+			if (!m.hadTeamChat) {
+				categories.noChat.games++;
+				if (isWin) categories.noChat.wins++;
+			} else {
+				categories.anyChat.games++;
+				if (isWin) categories.anyChat.wins++;
+
+				var tox = m.chatToxicity;
+				if (tox === "clean") {
+					categories.cleanChat.games++;
+					if (isWin) categories.cleanChat.wins++;
+				} else if (tox === "toxic_roster") {
+					categories.toxicRoster.games++;
+					if (isWin) categories.toxicRoster.wins++;
+				} else if (tox === "toxic_other") {
+					categories.toxicOther.games++;
+					if (isWin) categories.toxicOther.wins++;
+				} else if (tox === "toxic_mixed") {
+					categories.toxicMixed.games++;
+					if (isWin) categories.toxicMixed.wins++;
+				}
+			}
+		}
+
+		function finalize(acc) {
+			acc.losses = acc.games - acc.wins;
+			acc.winrate = acc.games > 0 ? acc.wins / acc.games : 0;
+		}
+		for (var k in categories) finalize(categories[k]);
+
+		return categories;
+	}
+
 	// Compute party-size win rate breakdowns keyed by a grouping function.
 	// groupKeyFn(match, rosterPlayer) returns the group key, or null to skip.
 	function computePartyBreakdowns(matches, groupKeyFn) {
@@ -362,6 +414,7 @@ var MatchIndexUtils = (function() {
 		groupByParty: groupByParty,
 		groupByStack: groupByStack,
 		computeMetaStats: computeMetaStats,
+		computeChatStats: computeChatStats,
 		computePartyBreakdowns: computePartyBreakdowns,
 		totals: totals,
 	};
