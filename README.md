@@ -121,4 +121,4 @@ Each roster entry can have multiple toon IDs (for players with accounts across r
 
 ## License
 
-Copyright 2026 Eetu Rantanen. All rights reserved.
+Copyright 2026 Eetu Rantanen. MIT License. See [LICENSE](LICENSE) for details.
