@@ -88,7 +88,7 @@ var PlayersView = (function() {
 		html += '</div>';
 
 		var wrl = getWrl();
-		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var partyContext = wrl === "full" ? { showAll: true, filterPartySize: filters.partySize || null } : null;
 		var rows = buildPlayerRows(matchIndex, roster, filtered);
 		var table = StandardTable.create("players-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
@@ -97,9 +97,13 @@ var PlayersView = (function() {
 		html += table.buildHTML();
 
 		app.innerHTML = html;
-		var onWrlChange = function(newWrl) {
+		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
+			if (newMask != null) {
+				currentMask = newMask;
+				StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["players-main"].defaultMask);
+			}
 			renderContent(matchIndex, roster);
 		};
 		table.attachListeners(app, function(newMask) {

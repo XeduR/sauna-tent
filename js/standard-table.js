@@ -55,9 +55,9 @@ var StandardTable = (function() {
 	}
 
 	// Build columns and header groups from layout + current mask + party context.
-	// partyContext: { showAll: bool, filterLabel: string|null }
-	//   showAll = true: show Avg + all party sub-columns
-	//   filterLabel: show only matching party column (replaces Avg label)
+	// partyContext: { showAll: bool, filterPartySize: string|null }
+	//   showAll = true: show Avg + party sub-columns
+	//   filterPartySize: when set, only show the matching party column alongside Avg
 	//   neither: show Avg only
 	function buildColumnsAndGroups(layout, mask, partyContext) {
 		var identity = TableConfig.IDENTITY[layout.identity];
@@ -85,24 +85,31 @@ var StandardTable = (function() {
 			var segCols = [];
 
 			if (seg.id === "winrate" && layout.hasPartyData && partyContext) {
-				// Win rate segment with party data handling
-				if (partyContext.filterLabel) {
-					// Single party filter active: show one column with party label
-					segCols.push({
-						key: "winrate",
-						label: partyContext.filterLabel,
-						format: resolveFormat("wr"),
-						className: "num"
-					});
-				} else {
-					// Avg column always present
-					segCols.push({
-						key: "winrate",
-						label: "Avg",
-						format: resolveFormat("wr"),
-						className: "num"
-					});
-					if (partyContext.showAll && seg.partyColumns) {
+				// Avg column always present
+				segCols.push({
+					key: "winrate",
+					label: "Avg",
+					format: resolveFormat("wr"),
+					className: "num"
+				});
+				if (partyContext.showAll && seg.partyColumns) {
+					if (partyContext.filterPartySize) {
+						// Party filter active: only show the matching party column
+						var partyKeyMap = { "1": "wrSolo", "2": "wrDuo", "3": "wr3s", "4": "wr4s", "5": "wr5s" };
+						var targetKey = partyKeyMap[partyContext.filterPartySize];
+						for (var p = 0; p < seg.partyColumns.length; p++) {
+							if (seg.partyColumns[p].key === targetKey) {
+								var pc = seg.partyColumns[p];
+								segCols.push({
+									key: pc.key,
+									label: pc.label,
+									format: resolveFormat(pc.format),
+									className: pc.className || ""
+								});
+								break;
+							}
+						}
+					} else {
 						for (var p = 0; p < seg.partyColumns.length; p++) {
 							var pc = seg.partyColumns[p];
 							segCols.push({
@@ -143,20 +150,22 @@ var StandardTable = (function() {
 		var html = '<div class="vf-toggle-bar" data-layout="' + layoutKey + '">';
 		for (var i = 0; i < segments.length; i++) {
 			var seg = segments[i];
+			if (seg.id === "winrate" && layout.hasPartyData) {
+				// Two mutually exclusive buttons replace the single WIN RATE toggle
+				var fullActive = isVisible(mask, seg.bit) && wrl === "full";
+				var avgActive = isVisible(mask, seg.bit) && wrl === "avg";
+				html += '<button class="wrl-toggle' + (fullActive ? ' vf-active' : '') +
+					'" data-wrl="full">WIN RATE (FULL)</button>';
+				html += '<button class="wrl-toggle' + (avgActive ? ' vf-active' : '') +
+					'" data-wrl="avg">WIN RATE (AVG)</button>';
+				continue;
+			}
 			var active = isVisible(mask, seg.bit);
 			html += '<button class="vf-toggle' + (active ? ' vf-active' : '') +
 				'" data-bit="' + seg.bit + '">' + escapeHtml(seg.label) + '</button>';
 		}
-		if (mask !== defaultMask) {
+		if (mask !== defaultMask || wrl !== "full") {
 			html += '<button class="vf-reset">Reset columns</button>';
-		}
-		// WIN RATE layout toggle (only when layout has party data and winrate segment visible)
-		if (wrl != null && layout.hasPartyData && isVisible(mask, 1)) {
-			html += '<span class="vf-separator"></span>' +
-				'<button class="wrl-toggle' + (wrl === "full" ? ' vf-active' : '') +
-				'" data-wrl="full">WIN RATE (FULL)</button>' +
-				'<button class="wrl-toggle' + (wrl === "avg" ? ' vf-active' : '') +
-				'" data-wrl="avg">WIN RATE (AVG)</button>';
 		}
 		html += '</div>';
 		return html;
@@ -220,24 +229,37 @@ var StandardTable = (function() {
 							window.scrollTo(0, scrollY);
 						});
 					}
+				}
 
-					var resetBtn = toggleBar.querySelector('.vf-reset');
-					if (resetBtn) {
-						resetBtn.addEventListener('click', function() {
-							var scrollY = window.scrollY;
+				var resetBtn = toggleBar.querySelector('.vf-reset');
+				if (resetBtn) {
+					resetBtn.addEventListener('click', function() {
+						var scrollY = window.scrollY;
+						if (onWrlChange) {
+							onWrlChange("full", layout.defaultMask);
+						} else if (onMaskChange) {
 							onMaskChange(layout.defaultMask);
-							window.scrollTo(0, scrollY);
-						});
-					}
+						}
+						window.scrollTo(0, scrollY);
+					});
 				}
 
 				if (onWrlChange) {
 					var wrlButtons = toggleBar.querySelectorAll('.wrl-toggle');
 					for (var i = 0; i < wrlButtons.length; i++) {
 						wrlButtons[i].addEventListener('click', function() {
-							var newWrl = this.getAttribute('data-wrl');
+							var clickedWrl = this.getAttribute('data-wrl');
+							var isActive = isVisible(mask, 1) && wrl === clickedWrl;
+							var newWrl, newMask;
+							if (isActive) {
+								newWrl = wrl;
+								newMask = mask & ~(1 << 1);
+							} else {
+								newWrl = clickedWrl;
+								newMask = mask | (1 << 1);
+							}
 							var scrollY = window.scrollY;
-							onWrlChange(newWrl);
+							onWrlChange(newWrl, newMask);
 							window.scrollTo(0, scrollY);
 						});
 					}

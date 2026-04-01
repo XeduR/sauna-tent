@@ -185,7 +185,7 @@ var MapView = (function() {
 		var mask = getMask();
 
 		var wrl = getWrl();
-		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var partyContext = wrl === "full" ? { showAll: true, filterPartySize: filters.partySize || null } : null;
 
 		var players, heroesData;
 		var playerPartyData = null;
@@ -295,9 +295,13 @@ var MapView = (function() {
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["map-players"].defaultMask);
 			renderContent();
 		};
-		var onWrlChange = function(newWrl) {
+		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
+			if (newMask != null) {
+				currentMask = newMask;
+				StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["map-players"].defaultMask);
+			}
 			renderContent();
 		};
 		playerTable.attachListeners(app, onMaskChange, onWrlChange);

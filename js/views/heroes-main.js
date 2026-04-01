@@ -201,7 +201,7 @@ var HeroesMainView = (function() {
 		}
 
 		var wrl = getWrl();
-		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var partyContext = wrl === "full" ? { showAll: true, filterPartySize: filters.partySize || null } : null;
 		var table = StandardTable.create("heroes-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		var tableHtml = '<div id="heroes-table-section">' +
@@ -228,9 +228,13 @@ var HeroesMainView = (function() {
 			attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex, summary); });
 		}
 
-		var onWrlChange = function(newWrl) {
+		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
+			if (newMask != null) {
+				currentMask = newMask;
+				StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["heroes-main"].defaultMask);
+			}
 			renderContent(matchIndex, summary, true);
 		};
 		table.attachListeners(app, function(newMask) {

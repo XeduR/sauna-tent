@@ -1273,13 +1273,6 @@ tfoot {
 	color: var(--accent);
 }
 
-.vf-separator {
-	width: 1px;
-	align-self: stretch;
-	background: var(--border);
-	margin: 0 0.15rem;
-}
-
 .vf-reset {
 	padding: 0.3rem 0.7rem;
 	font-size: 0.78rem;

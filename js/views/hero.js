@@ -263,7 +263,7 @@ var HeroView = (function() {
 		var mask = getMask();
 
 		var wrl = getWrl();
-		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var partyContext = wrl === "full" ? { showAll: true, filterPartySize: filters.partySize || null } : null;
 
 		var players;
 		var partyData = null;
@@ -322,9 +322,13 @@ var HeroView = (function() {
 		}
 
 		app.innerHTML = html;
-		var onWrlChange = function(newWrl) {
+		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
+			if (newMask != null) {
+				currentMask = newMask;
+				StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["hero-players"].defaultMask);
+			}
 			renderContent();
 		};
 		playerTable.attachListeners(app, function(newMask) {

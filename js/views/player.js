@@ -157,7 +157,7 @@ var PlayerView = (function() {
 	}
 
 	function buildHeroRows(heroes, minGames, useFiltered, partyFilter, wrl) {
-		var showAllPartyWr = !partyFilter && wrl === "full";
+		var showAllPartyWr = wrl === "full";
 		var searchTerm = (filters.search || "").toLowerCase();
 		var rows = [];
 		var names = Object.keys(heroes);
@@ -474,19 +474,9 @@ var PlayerView = (function() {
 		var o = aggregateHeroes(heroes, minGames, partyFilter);
 
 		var wrl = getWrl();
-		// Party context for the hero table's win rate segment
-		var partyLabels = { "1": "Solo", "2": "Duo", "3": "3S", "4": "4S", "5": "5S" };
-		var heroPartyContext = null;
-		var heroWrl = wrl;
-		if (partyFilter) {
-			heroPartyContext = { showAll: false, filterLabel: partyLabels[partyFilter] || "Avg" };
-			heroWrl = null;
-		} else if (wrl === "full") {
-			heroPartyContext = { showAll: true, filterLabel: null };
-		}
-
+		var heroPartyContext = wrl === "full" ? { showAll: true, filterPartySize: partyFilter || null } : null;
 		var heroRows = buildHeroRows(heroes, minGames, useFiltered, partyFilter, wrl);
-		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: heroPartyContext, wrl: heroWrl });
+		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: heroPartyContext, wrl: wrl });
 
 		var html =
 			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + '</h1>' +
@@ -534,7 +524,7 @@ var PlayerView = (function() {
 
 		var mapTable = null;
 		if (!useFiltered) {
-			var mapPartyContext = wrl === "full" ? { showAll: true } : null;
+			var mapPartyContext = wrl === "full" ? { showAll: true, filterPartySize: null } : null;
 			var mapPartyData = MatchIndexUtils.computePartyBreakdowns(matchIndex, function(m, rp) {
 				return rp.name === playerName ? m.map : null;
 			});
@@ -557,9 +547,13 @@ var PlayerView = (function() {
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["player-heroes"].defaultMask);
 			renderContent();
 		};
-		var onWrlChange = function(newWrl) {
+		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
+			if (newMask != null) {
+				currentMask = newMask;
+				StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["player-heroes"].defaultMask);
+			}
 			renderContent();
 		};
 		heroTable.attachListeners(app, onMaskChange, onWrlChange);
