@@ -1419,6 +1419,11 @@ tfoot {
 	color: var(--text);
 }
 
+.footer-separator {
+	margin: 0 0.5rem;
+	color: var(--border);
+}
+
 /* Recent matches on player pages */
 .talent-build {
 	font-family: var(--font-mono);
