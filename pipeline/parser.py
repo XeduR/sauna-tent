@@ -63,6 +63,12 @@ _TALENT_TIERS = [
 	b"Tier5Talent", b"Tier6Talent", b"Tier7Talent",
 ]
 
+# Talent tier levels where breakpoints matter for level lead tracking
+_TALENT_TIER_LEVELS = frozenset({4, 7, 10, 13, 16, 20})
+
+# JungleCampCapture camp type classification
+_BOSS_CAMP_TYPE = "Boss Camp"
+
 # Attribute IDs for talent internal codes (per-player scope, IDs 4032-4038)
 _TALENT_ATTR_IDS = [4032, 4033, 4034, 4035, 4036, 4037, 4038]
 
@@ -250,6 +256,14 @@ def parse_replay(replay_path: str) -> dict:
 	tracker_map_id = None
 	first_blood_loop = None  # gameloop of first hero death
 	first_blood_victim_idx = None  # player index (0-based) of first hero to die
+	# Level lead: first gameloop each team reaches a talent tier level
+	# team_level_loops[team_id][level] = first gameloop
+	team_level_loops = {0: {}, 1: {}}
+	# First boss/merc capture: team ID (0 or 1) or None
+	first_boss_team = None
+	first_boss_loop = None
+	first_merc_team = None
+	first_merc_loop = None
 	if hasattr(protocol, "decode_replay_tracker_events"):
 		for event in protocol.decode_replay_tracker_events(tracker_content):
 			event_type = event.get("_event")
@@ -350,6 +364,35 @@ def parse_replay(replay_path: str) -> dict:
 							players[voter_id - 1]["stats"].setdefault("votesGiven", 0)
 							players[voter_id - 1]["stats"]["votesGiven"] += 1
 
+				elif event_name == "LevelUp":
+					int_data = event.get("m_intData", [])
+					if len(int_data) >= 2:
+						tracker_pid = int_data[0].get("m_value", 0)
+						new_level = int_data[1].get("m_value", 0)
+						if new_level in _TALENT_TIER_LEVELS and 1 <= tracker_pid <= num_players:
+							team_id = players[tracker_pid - 1]["team"]
+							if new_level not in team_level_loops[team_id]:
+								team_level_loops[team_id][new_level] = event.get("_gameloop", 0)
+
+				elif event_name == "JungleCampCapture":
+					fixed_data = event.get("m_fixedData", [])
+					string_data = event.get("m_stringData", [])
+					if fixed_data and string_data:
+						# Team: 1=blue(team0), 2=red(team1), stored as fixed-point / 4096
+						raw_team = fixed_data[0].get("m_value", 0) // 4096
+						team_id = raw_team - 1  # 0 or 1
+						if team_id in (0, 1):
+							camp_type = _decode_bytes(string_data[0].get("m_value", b""))
+							game_loop = event.get("_gameloop", 0)
+							if camp_type == _BOSS_CAMP_TYPE:
+								if first_boss_loop is None or game_loop < first_boss_loop:
+									first_boss_team = team_id
+									first_boss_loop = game_loop
+							else:
+								if first_merc_loop is None or game_loop < first_merc_loop:
+									first_merc_team = team_id
+									first_merc_loop = game_loop
+
 	# Message events (chat messages, pings, disconnects)
 	message_content = archive.read_file("replay.message.events")
 	if message_content and hasattr(protocol, "decode_replay_message_events"):
@@ -426,6 +469,22 @@ def parse_replay(replay_path: str) -> dict:
 		victim_team = players[first_blood_victim_idx]["team"]
 		first_blood_team = 1 - victim_team
 
+	# Level lead: determine which team reached each talent tier first
+	first_to_level = {}
+	for level in sorted(_TALENT_TIER_LEVELS):
+		t0 = team_level_loops[0].get(level)
+		t1 = team_level_loops[1].get(level)
+		if t0 is not None and t1 is not None:
+			if t0 < t1:
+				first_to_level[str(level)] = 0
+			elif t1 < t0:
+				first_to_level[str(level)] = 1
+			# Tie (same gameloop): omit from results
+		elif t0 is not None:
+			first_to_level[str(level)] = 0
+		elif t1 is not None:
+			first_to_level[str(level)] = 1
+
 	return {
 		"map": map_name,
 		"timestamp": timestamp,
@@ -435,4 +494,7 @@ def parse_replay(replay_path: str) -> dict:
 		"randomSeed": random_seed,
 		"players": players,
 		"firstBloodTeam": first_blood_team,
+		"firstToLevel": first_to_level,
+		"firstBossTeam": first_boss_team,
+		"firstMercTeam": first_merc_team,
 	}

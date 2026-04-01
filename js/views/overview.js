@@ -120,56 +120,33 @@ var OverviewView = (function() {
 	function renderMetaStats(metaStats) {
 		var side = metaStats.teamSide;
 		var fb = metaStats.firstBlood;
+		var boss = metaStats.firstBoss;
+		var merc = metaStats.firstMerc;
 		var html = "";
 
+		// Match Factors table: team side, first blood, first boss, first merc
+		var factorRows = [];
 		if (side.left.games > 0 || side.right.games > 0) {
-			html += '<h2 class="section-title">Team Side</h2>' +
-				'<div class="table-wrap"><table>' +
-				'<thead><tr>' +
-				'<th class="no-sort">Side</th>' +
-				'<th class="no-sort">Games</th>' +
-				'<th class="no-sort">Wins</th>' +
-				'<th class="no-sort">Losses</th>' +
-				'<th class="no-sort">Win Rate</th>' +
-				'</tr></thead><tbody>';
-			var sides = [["left", "Left"], ["right", "Right"]];
-			for (var i = 0; i < sides.length; i++) {
-				var s = side[sides[i][0]];
-				html += '<tr>' +
-					'<td>' + sides[i][1] + '</td>' +
-					'<td class="num">' + s.games.toLocaleString() + '</td>' +
-					'<td class="num">' + s.wins.toLocaleString() + '</td>' +
-					'<td class="num">' + s.losses.toLocaleString() + '</td>' +
-					'<td class="num">' + winrateSpan(s.winrate) + '</td>' +
-					'</tr>';
-			}
-			html += '</tbody></table></div>';
+			factorRows.push(["Left Side", side.left]);
+			factorRows.push(["Right Side", side.right]);
 		}
-
 		if (fb.got.games > 0 || fb.gave.games > 0) {
-			html += '<h2 class="section-title">First Blood</h2>' +
-				'<div class="table-wrap"><table>' +
-				'<thead><tr>' +
-				'<th class="no-sort">First Blood</th>' +
-				'<th class="no-sort">Games</th>' +
-				'<th class="no-sort">Wins</th>' +
-				'<th class="no-sort">Losses</th>' +
-				'<th class="no-sort">Win Rate</th>' +
-				'</tr></thead><tbody>';
-			var fbKeys = [["got", "Got First Blood"], ["gave", "Gave First Blood"]];
-			for (var i = 0; i < fbKeys.length; i++) {
-				var f = fb[fbKeys[i][0]];
-				html += '<tr>' +
-					'<td>' + fbKeys[i][1] + '</td>' +
-					'<td class="num">' + f.games.toLocaleString() + '</td>' +
-					'<td class="num">' + f.wins.toLocaleString() + '</td>' +
-					'<td class="num">' + f.losses.toLocaleString() + '</td>' +
-					'<td class="num">' + winrateSpan(f.winrate) + '</td>' +
-					'</tr>';
-			}
-			html += '</tbody></table></div>';
+			factorRows.push(["Got First Blood", fb.got]);
+			factorRows.push(["Gave First Blood", fb.gave]);
+		}
+		if (boss.got.games > 0 || boss.gave.games > 0) {
+			factorRows.push(["Got First Boss", boss.got]);
+			factorRows.push(["Gave First Boss", boss.gave]);
+		}
+		if (merc.got.games > 0 || merc.gave.games > 0) {
+			factorRows.push(["Got First Merc", merc.got]);
+			factorRows.push(["Gave First Merc", merc.gave]);
+		}
+		if (factorRows.length > 0) {
+			html += renderMetaFactorTable("Match Factors", factorRows);
 		}
 
+		html += renderLevelLeadTable(metaStats.levelLead);
 		return html;
 	}
 

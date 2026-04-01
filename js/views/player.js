@@ -379,6 +379,71 @@ var PlayerView = (function() {
 		return html;
 	}
 
+	function filterMatchesForPlayer(matches) {
+		var result = [];
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				if (m.rosterPlayers[j].name === playerName) {
+					result.push(m);
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	function renderMatchFactorBoxes(metaStats) {
+		var side = metaStats.teamSide;
+		var fb = metaStats.firstBlood;
+		var html = '<h2 class="section-title">Match Factors</h2><div class="stat-row">';
+
+		if (side.left.games > 0) {
+			html += statBox("Left Side", winrateSpan(side.left.winrate) + '<div class="stat-sub">' + side.left.games.toLocaleString() + ' games</div>');
+		}
+		if (side.right.games > 0) {
+			html += statBox("Right Side", winrateSpan(side.right.winrate) + '<div class="stat-sub">' + side.right.games.toLocaleString() + ' games</div>');
+		}
+		if (fb.got.games > 0) {
+			html += statBox("Got First Blood", winrateSpan(fb.got.winrate) + '<div class="stat-sub">' + fb.got.games.toLocaleString() + ' games</div>');
+		}
+		if (fb.gave.games > 0) {
+			html += statBox("Gave First Blood", winrateSpan(fb.gave.winrate) + '<div class="stat-sub">' + fb.gave.games.toLocaleString() + ' games</div>');
+		}
+
+		html += '</div>';
+		return html;
+	}
+
+	function renderPlayerLevelLead(metaStats) {
+		var ll = metaStats.levelLead;
+		if (!ll) return "";
+
+		var tiers = ["4", "7", "10", "13", "16", "20"];
+		var hasData = false;
+		for (var i = 0; i < tiers.length; i++) {
+			if (ll[tiers[i]] && (ll[tiers[i]].got.games > 0 || ll[tiers[i]].gave.games > 0)) {
+				hasData = true;
+				break;
+			}
+		}
+		if (!hasData) return "";
+
+		// Stat boxes for first to 10 and first to 20
+		var html = '<div class="stat-row">';
+		if (ll["10"] && ll["10"].got.games > 0) {
+			html += statBox("First to 10", winrateSpan(ll["10"].got.winrate) + '<div class="stat-sub">' + ll["10"].got.games.toLocaleString() + ' games</div>');
+		}
+		if (ll["20"] && ll["20"].got.games > 0) {
+			html += statBox("First to 20", winrateSpan(ll["20"].got.winrate) + '<div class="stat-sub">' + ll["20"].got.games.toLocaleString() + ' games</div>');
+		}
+		html += '</div>';
+
+		// Full level lead table
+		html += renderLevelLeadTable(ll);
+		return html;
+	}
+
 	function renderContent() {
 		var app = document.getElementById("app");
 		var minGames = filters.minGames !== "" ? Number(filters.minGames) : 0;
@@ -437,6 +502,13 @@ var PlayerView = (function() {
 		html += '</div>';
 
 		html += renderRoleWinrates(heroes, partyFilter, minGames);
+
+		// Match factors and level lead
+		var playerMatches = filterMatchesForPlayer(MatchIndexUtils.filter(matchIndex, filters));
+		var metaStats = MatchIndexUtils.computeMetaStats(playerMatches);
+		html += renderMatchFactorBoxes(metaStats);
+		html += renderPlayerLevelLead(metaStats);
+
 		html += '<h2 class="section-title">Heroes</h2>';
 		html += heroTable.buildToggles();
 		html += heroTable.buildHTML();

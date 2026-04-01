@@ -253,37 +253,78 @@ var MatchIndexUtils = (function() {
 		return groups;
 	}
 
-	// Compute meta stats from filtered matches (team side, first blood)
+	// Compute meta stats from filtered matches (team side, first blood, first boss/merc, level lead)
 	function computeMetaStats(matches) {
 		var side = { left: { games: 0, wins: 0 }, right: { games: 0, wins: 0 } };
 		var firstBlood = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		var firstBoss = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		var firstMerc = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		var tiers = ["4", "7", "10", "13", "16", "20"];
+		var levelLead = {};
+		for (var t = 0; t < tiers.length; t++) {
+			levelLead[tiers[t]] = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		}
 
 		for (var i = 0; i < matches.length; i++) {
 			var m = matches[i];
+			var isWin = m.result === "win";
 
 			if (m.rosterSide) {
 				side[m.rosterSide].games++;
-				if (m.result === "win") side[m.rosterSide].wins++;
+				if (isWin) side[m.rosterSide].wins++;
 			}
 
 			if (m.rosterFirstBlood != null) {
 				var fbKey = m.rosterFirstBlood ? "got" : "gave";
 				firstBlood[fbKey].games++;
-				if (m.result === "win") firstBlood[fbKey].wins++;
+				if (isWin) firstBlood[fbKey].wins++;
+			}
+
+			if (m.rosterFirstBoss != null) {
+				var bKey = m.rosterFirstBoss ? "got" : "gave";
+				firstBoss[bKey].games++;
+				if (isWin) firstBoss[bKey].wins++;
+			}
+
+			if (m.rosterFirstMerc != null) {
+				var mKey = m.rosterFirstMerc ? "got" : "gave";
+				firstMerc[mKey].games++;
+				if (isWin) firstMerc[mKey].wins++;
+			}
+
+			if (m.rosterFirstToLevel) {
+				for (var t = 0; t < tiers.length; t++) {
+					var tier = tiers[t];
+					if (m.rosterFirstToLevel[tier] != null) {
+						var llKey = m.rosterFirstToLevel[tier] ? "got" : "gave";
+						levelLead[tier][llKey].games++;
+						if (isWin) levelLead[tier][llKey].wins++;
+					}
+				}
 			}
 		}
 
-		// Compute winrates
-		for (var s in side) {
-			side[s].losses = side[s].games - side[s].wins;
-			side[s].winrate = side[s].games > 0 ? side[s].wins / side[s].games : 0;
+		// Finalize all accumulators
+		function finalize(acc) {
+			acc.losses = acc.games - acc.wins;
+			acc.winrate = acc.games > 0 ? acc.wins / acc.games : 0;
 		}
-		for (var fb in firstBlood) {
-			firstBlood[fb].losses = firstBlood[fb].games - firstBlood[fb].wins;
-			firstBlood[fb].winrate = firstBlood[fb].games > 0 ? firstBlood[fb].wins / firstBlood[fb].games : 0;
+		for (var s in side) finalize(side[s]);
+		for (var k in firstBlood) finalize(firstBlood[k]);
+		for (var k in firstBoss) finalize(firstBoss[k]);
+		for (var k in firstMerc) finalize(firstMerc[k]);
+		for (var t = 0; t < tiers.length; t++) {
+			finalize(levelLead[tiers[t]].got);
+			finalize(levelLead[tiers[t]].gave);
 		}
 
-		return { teamSide: side, firstBlood: firstBlood };
+		return {
+			teamSide: side,
+			firstBlood: firstBlood,
+			firstBoss: firstBoss,
+			firstMerc: firstMerc,
+			levelLead: levelLead
+		};
 	}
 
 	// Compute party-size win rate breakdowns keyed by a grouping function.

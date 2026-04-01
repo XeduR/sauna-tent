@@ -85,6 +85,54 @@ function formatDateFinnish(isoTimestamp) {
 	return parts[2] + "/" + parts[1] + "/" + parts[0];
 }
 
+// Shared match factor / level lead rendering (used by overview, player, map pages)
+function renderMetaFactorTable(title, rows) {
+	var html = '<h2 class="section-title">' + title + '</h2>' +
+		'<div class="table-wrap"><table>' +
+		'<thead><tr>' +
+		'<th class="no-sort">Factor</th>' +
+		'<th class="no-sort">Games</th>' +
+		'<th class="no-sort">Wins</th>' +
+		'<th class="no-sort">Losses</th>' +
+		'<th class="no-sort">Win Rate</th>' +
+		'</tr></thead><tbody>';
+	for (var i = 0; i < rows.length; i++) {
+		var d = rows[i][1];
+		html += '<tr><td>' + rows[i][0] + '</td>' +
+			'<td class="num">' + d.games.toLocaleString() + '</td>' +
+			'<td class="num">' + d.wins.toLocaleString() + '</td>' +
+			'<td class="num">' + d.losses.toLocaleString() + '</td>' +
+			'<td class="num">' + winrateSpan(d.winrate) + '</td></tr>';
+	}
+	html += '</tbody></table></div>';
+	return html;
+}
+
+function renderLevelLeadTable(levelLead) {
+	if (!levelLead) return "";
+	var tiers = ["4", "7", "10", "13", "16", "20"];
+	var hasData = false;
+	for (var i = 0; i < tiers.length; i++) {
+		if (levelLead[tiers[i]] && (levelLead[tiers[i]].got.games > 0 || levelLead[tiers[i]].gave.games > 0)) {
+			hasData = true;
+			break;
+		}
+	}
+	if (!hasData) return "";
+
+	var rows = [];
+	for (var i = 0; i < tiers.length; i++) {
+		var tier = tiers[i];
+		var got = levelLead[tier] ? levelLead[tier].got : { games: 0, wins: 0, losses: 0, winrate: 0 };
+		var gave = levelLead[tier] ? levelLead[tier].gave : { games: 0, wins: 0, losses: 0, winrate: 0 };
+		if (got.games > 0 || gave.games > 0) {
+			rows.push(["First to " + tier, got]);
+			rows.push(["Behind at " + tier, gave]);
+		}
+	}
+	return renderMetaFactorTable("Level Lead", rows);
+}
+
 // Shared sortable table builder (used by player, hero, map, and main pages)
 function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, headerGroups) {
 	var sortKey = defaultSortKey || columns[0].key;

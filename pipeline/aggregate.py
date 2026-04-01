@@ -404,6 +404,11 @@ def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
 	# Meta stat trackers
 	meta_side = {"left": {"games": 0, "wins": 0}, "right": {"games": 0, "wins": 0}}
 	meta_first_blood = {"got": {"games": 0, "wins": 0}, "gave": {"games": 0, "wins": 0}}
+	meta_first_boss = {"got": {"games": 0, "wins": 0}, "gave": {"games": 0, "wins": 0}}
+	meta_first_merc = {"got": {"games": 0, "wins": 0}, "gave": {"games": 0, "wins": 0}}
+	# Level lead: per talent tier, track "got" (reached first) and "gave" (opponent reached first)
+	_level_tiers = ["4", "7", "10", "13", "16", "20"]
+	meta_level_lead = {t: {"got": {"games": 0, "wins": 0}, "gave": {"games": 0, "wins": 0}} for t in _level_tiers}
 
 	total_matches = 0
 	total_roster_appearances = 0
@@ -454,6 +459,28 @@ def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
 				meta_first_blood[fb_key]["games"] += 1
 				if match_result_for_meta == "win":
 					meta_first_blood[fb_key]["wins"] += 1
+
+			boss_team = match.get("firstBossTeam")
+			if boss_team is not None:
+				b_key = "got" if boss_team == primary_team else "gave"
+				meta_first_boss[b_key]["games"] += 1
+				if match_result_for_meta == "win":
+					meta_first_boss[b_key]["wins"] += 1
+
+			merc_team = match.get("firstMercTeam")
+			if merc_team is not None:
+				m_key = "got" if merc_team == primary_team else "gave"
+				meta_first_merc[m_key]["games"] += 1
+				if match_result_for_meta == "win":
+					meta_first_merc[m_key]["wins"] += 1
+
+			ftl = match.get("firstToLevel") or {}
+			for tier in _level_tiers:
+				if tier in ftl:
+					ll_key = "got" if ftl[tier] == primary_team else "gave"
+					meta_level_lead[tier][ll_key]["games"] += 1
+					if match_result_for_meta == "win":
+						meta_level_lead[tier][ll_key]["wins"] += 1
 
 		for player in match["players"]:
 			if not player.get("isRoster"):
@@ -749,22 +776,25 @@ def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
 		party_summary[str(size)] = party_size_stats[size]
 
 	# Meta stats: compute winrates
-	meta_stats = {"teamSide": {}, "firstBlood": {}}
-	for side in ("left", "right"):
-		s = meta_side[side]
-		meta_stats["teamSide"][side] = {
-			"games": s["games"],
-			"wins": s["wins"],
-			"losses": s["games"] - s["wins"],
-			"winrate": round(s["wins"] / max(s["games"], 1), 4),
+	def _meta_winrate(acc):
+		return {
+			"games": acc["games"],
+			"wins": acc["wins"],
+			"losses": acc["games"] - acc["wins"],
+			"winrate": round(acc["wins"] / max(acc["games"], 1), 4),
 		}
+
+	meta_stats = {"teamSide": {}, "firstBlood": {}, "firstBoss": {}, "firstMerc": {}, "levelLead": {}}
+	for side in ("left", "right"):
+		meta_stats["teamSide"][side] = _meta_winrate(meta_side[side])
 	for fb_key in ("got", "gave"):
-		s = meta_first_blood[fb_key]
-		meta_stats["firstBlood"][fb_key] = {
-			"games": s["games"],
-			"wins": s["wins"],
-			"losses": s["games"] - s["wins"],
-			"winrate": round(s["wins"] / max(s["games"], 1), 4),
+		meta_stats["firstBlood"][fb_key] = _meta_winrate(meta_first_blood[fb_key])
+		meta_stats["firstBoss"][fb_key] = _meta_winrate(meta_first_boss[fb_key])
+		meta_stats["firstMerc"][fb_key] = _meta_winrate(meta_first_merc[fb_key])
+	for tier in _level_tiers:
+		meta_stats["levelLead"][tier] = {
+			"got": _meta_winrate(meta_level_lead[tier]["got"]),
+			"gave": _meta_winrate(meta_level_lead[tier]["gave"]),
 		}
 
 	summary = {

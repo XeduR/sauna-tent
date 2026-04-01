@@ -98,6 +98,23 @@ def _build_match_index_entry(match: dict) -> dict:
 	if roster_got_first_blood is not None:
 		entry["rosterFirstBlood"] = roster_got_first_blood
 
+	# Level lead from roster perspective
+	first_to_level = match.get("firstToLevel")
+	if first_to_level and roster_team_id is not None:
+		roster_ftl = {}
+		for level, team_id in first_to_level.items():
+			roster_ftl[level] = team_id == roster_team_id
+		entry["rosterFirstToLevel"] = roster_ftl
+
+	# First boss/merc from roster perspective
+	first_boss = match.get("firstBossTeam")
+	if first_boss is not None and roster_team_id is not None:
+		entry["rosterFirstBoss"] = first_boss == roster_team_id
+
+	first_merc = match.get("firstMercTeam")
+	if first_merc is not None and roster_team_id is not None:
+		entry["rosterFirstMerc"] = first_merc == roster_team_id
+
 	return entry
 
 

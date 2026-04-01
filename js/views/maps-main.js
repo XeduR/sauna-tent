@@ -78,6 +78,83 @@ var MapsMainView = (function() {
 		html += table.buildToggles();
 		html += table.buildHTML();
 
+		// Overall match factors and level lead
+		var metaStats = MatchIndexUtils.computeMetaStats(filtered);
+		var factorRows = [];
+		var side = metaStats.teamSide;
+		var fb = metaStats.firstBlood;
+		var boss = metaStats.firstBoss;
+		var merc = metaStats.firstMerc;
+		if (side.left.games > 0 || side.right.games > 0) {
+			factorRows.push(["Left Side", side.left]);
+			factorRows.push(["Right Side", side.right]);
+		}
+		if (fb.got.games > 0 || fb.gave.games > 0) {
+			factorRows.push(["Got First Blood", fb.got]);
+			factorRows.push(["Gave First Blood", fb.gave]);
+		}
+		if (boss.got.games > 0 || boss.gave.games > 0) {
+			factorRows.push(["Got First Boss", boss.got]);
+			factorRows.push(["Gave First Boss", boss.gave]);
+		}
+		if (merc.got.games > 0 || merc.gave.games > 0) {
+			factorRows.push(["Got First Merc", merc.got]);
+			factorRows.push(["Gave First Merc", merc.gave]);
+		}
+		if (factorRows.length > 0) {
+			html += renderMetaFactorTable("Match Factors", factorRows);
+		}
+		html += renderLevelLeadTable(metaStats.levelLead);
+
+		// Per-map first capture win rates
+		var captureRows = [];
+		var mapNames = Object.keys(mapStats).sort();
+		for (var mi = 0; mi < mapNames.length; mi++) {
+			var mn = mapNames[mi];
+			if (mapStats[mn].games < minGames) continue;
+			if (searchTerm && mn.toLowerCase().indexOf(searchTerm) === -1) continue;
+
+			// Filter matches for this map and compute meta stats
+			var mapMatches = [];
+			for (var fi = 0; fi < filtered.length; fi++) {
+				if (filtered[fi].map === mn) mapMatches.push(filtered[fi]);
+			}
+			var ms = MatchIndexUtils.computeMetaStats(mapMatches);
+			captureRows.push({
+				map: mn,
+				bossGot: ms.firstBoss.got,
+				mercGot: ms.firstMerc.got,
+			});
+		}
+
+		var hasCapture = false;
+		for (var ci = 0; ci < captureRows.length; ci++) {
+			if (captureRows[ci].bossGot.games > 0 || captureRows[ci].mercGot.games > 0) {
+				hasCapture = true;
+				break;
+			}
+		}
+		if (hasCapture) {
+			html += '<h2 class="section-title">First Capture Win Rate</h2>' +
+				'<div class="table-wrap"><table>' +
+				'<thead><tr>' +
+				'<th class="no-sort">Map</th>' +
+				'<th class="no-sort">Boss</th>' +
+				'<th class="no-sort">Mercenary</th>' +
+				'</tr></thead><tbody>';
+			for (var ci = 0; ci < captureRows.length; ci++) {
+				var cr = captureRows[ci];
+				var bossCell = cr.bossGot.games > 0 ? winrateSpan(cr.bossGot.winrate) : '<span class="text-muted">-</span>';
+				var mercCell = cr.mercGot.games > 0 ? winrateSpan(cr.mercGot.winrate) : '<span class="text-muted">-</span>';
+				html += '<tr>' +
+					'<td><a href="' + appLink('/map/' + slugify(cr.map)) + '">' + escapeHtml(displayMapName(cr.map)) + '</a></td>' +
+					'<td class="num">' + bossCell + '</td>' +
+					'<td class="num">' + mercCell + '</td>' +
+					'</tr>';
+			}
+			html += '</tbody></table></div>';
+		}
+
 		app.innerHTML = html;
 		var onWrlChange = function(newWrl) {
 			currentWrl = newWrl;

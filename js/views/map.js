@@ -247,6 +247,39 @@ var MapView = (function() {
 		html += statBox("Avg Duration", formatDuration(o.averageDurationSeconds || o.avgDuration || 0));
 		html += '</div>';
 
+		// Match factors and level lead for this map
+		var mapMatches = [];
+		var filtered = MatchIndexUtils.filter(matchIndex, filters);
+		for (var mi = 0; mi < filtered.length; mi++) {
+			if (filtered[mi].map === mapName) mapMatches.push(filtered[mi]);
+		}
+		var metaStats = MatchIndexUtils.computeMetaStats(mapMatches);
+		var factorRows = [];
+		var side = metaStats.teamSide;
+		var fb = metaStats.firstBlood;
+		var boss = metaStats.firstBoss;
+		var merc = metaStats.firstMerc;
+		if (side.left.games > 0 || side.right.games > 0) {
+			factorRows.push(["Left Side", side.left]);
+			factorRows.push(["Right Side", side.right]);
+		}
+		if (fb.got.games > 0 || fb.gave.games > 0) {
+			factorRows.push(["Got First Blood", fb.got]);
+			factorRows.push(["Gave First Blood", fb.gave]);
+		}
+		if (boss.got.games > 0 || boss.gave.games > 0) {
+			factorRows.push(["Got First Boss", boss.got]);
+			factorRows.push(["Gave First Boss", boss.gave]);
+		}
+		if (merc.got.games > 0 || merc.gave.games > 0) {
+			factorRows.push(["Got First Merc", merc.got]);
+			factorRows.push(["Gave First Merc", merc.gave]);
+		}
+		if (factorRows.length > 0) {
+			html += renderMetaFactorTable("Match Factors", factorRows);
+		}
+		html += renderLevelLeadTable(metaStats.levelLead);
+
 		html += '<h2 class="section-title">Players</h2>';
 		html += playerTable.buildToggles();
 		html += playerTable.buildHTML();
