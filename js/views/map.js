@@ -158,7 +158,6 @@ var MapView = (function() {
 		var base = buildEntityRows(data, minGames);
 		for (var i = 0; i < base.length; i++) {
 			base[i].hero = base[i]._name;
-			base[i].role = "";
 			delete base[i]._name;
 		}
 		return base;
@@ -201,6 +200,7 @@ var MapView = (function() {
 			mode: true, modeOptions: modeOptions, partySize: true, dateFrom: true, dateTo: true, minGames: true
 		});
 
+		html += '<h2 class="section-title">Summary</h2>';
 		html += '<div class="stat-row">' +
 			statBox("Win Rate", winrateSpan(o.winrate)) +
 			statBox("Wins", o.wins.toLocaleString()) +

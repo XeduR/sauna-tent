@@ -45,16 +45,23 @@ var HeroesMainView = (function() {
 
 		var chart = TableConfig.CHART;
 
-		// Find top 10 heroes by total games
+		// Find top 10 heroes by spread-weighted score.
+		// Score = totalGames * (monthsActive / totalMonths).
+		// Penalizes heroes with all games concentrated in a single month.
 		var heroTotals = {};
+		var heroMonths = {};
 		for (var i = 0; i < labels.length; i++) {
 			var m = monthlyData.months[labels[i]];
 			for (var hero in m.heroes) {
 				heroTotals[hero] = (heroTotals[hero] || 0) + m.heroes[hero];
+				heroMonths[hero] = (heroMonths[hero] || 0) + 1;
 			}
 		}
+		var totalMonths = labels.length;
 		var topHeroes = Object.keys(heroTotals).sort(function(a, b) {
-			return heroTotals[b] - heroTotals[a];
+			var scoreA = heroTotals[a] * (heroMonths[a] / totalMonths);
+			var scoreB = heroTotals[b] * (heroMonths[b] / totalMonths);
+			return scoreB - scoreA;
 		}).slice(0, 10);
 
 		var datasets = [];

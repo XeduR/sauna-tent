@@ -10,6 +10,11 @@ from collections import defaultdict
 # Number of talent tiers in HotS (levels 1, 4, 7, 10, 13, 16, 20)
 _NUM_TALENT_TIERS = 7
 
+# Replay data sometimes contains UINT32 sentinel values (~4.295B) for stats
+# like damageSoaked and timeSpentDead. No legitimate single-game stat can
+# reach this range, so values above this threshold are treated as garbage.
+_SENTINEL_THRESHOLD = 4_000_000_000
+
 
 # Stats fields that should be summed across matches
 _SUM_STATS = [
@@ -65,7 +70,9 @@ def _accumulate_stats(
 
 	stats = player.get("stats", {})
 	for field in _SUM_STATS:
-		acc[field] += stats.get(field, 0)
+		val = stats.get(field, 0)
+		if val < _SENTINEL_THRESHOLD:
+			acc[field] += val
 
 
 def _finalize_stats(acc: dict) -> dict:
@@ -532,6 +539,8 @@ def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
 				if hero in excluded:
 					continue
 				val = stats.get(stat_key, 0)
+				if val >= _SENTINEL_THRESHOLD:
+					continue
 				entry = {**hof_entry, "value": val}
 				_push_hof_record(hof["stats"][stat_key]["Overall"], val, entry, _HOF_RECORDS_PER_CATEGORY)
 				if game_mode in hof["stats"][stat_key]:
@@ -553,6 +562,8 @@ def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
 			# Hall of fame: cumulative player records
 			for stat_key, _ in _HOF_CUMULATIVE_CATEGORIES:
 				val = stats.get(stat_key, 0)
+				if val >= _SENTINEL_THRESHOLD:
+					continue
 				hof["cumulative"][stat_key]["Overall"][roster_name]["value"] += val
 				hof["cumulative"][stat_key]["Overall"][roster_name]["games"] += 1
 				if game_mode in hof["cumulative"][stat_key]:

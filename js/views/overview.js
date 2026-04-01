@@ -7,10 +7,6 @@ var OverviewView = (function() {
 	var roster = null;
 	var summary = null;
 
-	function hasActiveFilters() {
-		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo;
-	}
-
 	function renderPlayerCards(playerStats) {
 		var html = '<h2 class="section-title">Players</h2><div class="card-grid">';
 		for (var i = 0; i < roster.players.length; i++) {
@@ -242,6 +238,7 @@ var OverviewView = (function() {
 
 		html += buildPageFilterBar(filters, { mode: true, partySize: true, dateFrom: true, dateTo: true });
 
+		html += '<h2 class="section-title">Summary</h2>';
 		html += '<div class="stat-row">' +
 			statBox("Total Games", t.games.toLocaleString()) +
 			statBox("Wins", t.wins.toLocaleString()) +

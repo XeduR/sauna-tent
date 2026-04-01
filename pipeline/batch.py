@@ -10,17 +10,16 @@ import sys
 import time
 
 from pipeline.run import load_config, process_single, PROJECT_ROOT, DEFAULT_CONFIG_PATH
+from pipeline.update_protocols import update_protocols
 from pipeline.aggregate import load_matches, aggregate_all
 from pipeline.output import write_output
-from remove_duplicates import deduplicate
-from remove_unwanted import remove_unwanted
+from remove_replays import remove_replays
 
 DEFAULT_MANIFEST_PATH = os.path.join(PROJECT_ROOT, "manifest.json")
 
 # Approximate processing rates (replays/second) for time estimation.
 # Based on observed throughput; actual rates vary by machine.
-_RATE_DEDUP = 12
-_RATE_UNWANTED = 98
+_RATE_SCAN = 10
 _RATE_PROCESS = 2.2
 _TIME_GENERATE = 15
 
@@ -43,12 +42,11 @@ def _estimate_step(count, rate):
 
 
 def _config_hash(config: dict) -> str:
-	"""Hash the extraction-relevant config fields.
+	"""Hash the roster config fields.
 
-	Changes to extraction params or roster trigger reprocessing.
+	Changes to roster trigger reprocessing.
 	"""
 	hashable = {
-		"extraction": config.get("extraction", {}),
 		"roster": config.get("roster", []),
 	}
 	raw = json.dumps(hashable, sort_keys=True, ensure_ascii=True)
@@ -124,6 +122,15 @@ def process_replays(
 
 	all_replays = _scan_replays(replay_dir)
 	total = len(all_replays)
+
+	# Purge manifest entries for replay files that no longer exist on disk
+	all_replay_set = set(os.path.relpath(p, PROJECT_ROOT) for p in all_replays)
+	stale_paths = [p for p in manifest["files"] if p not in all_replay_set]
+	if stale_paths:
+		for p in stale_paths:
+			del manifest["files"][p]
+		print(f"  Cleared {len(stale_paths)} stale manifest entries")
+
 	processed = 0
 	duplicates = 0
 	skipped = 0
@@ -186,6 +193,21 @@ def process_replays(
 			last_report = now
 
 	save_manifest(manifest, manifest_path)
+
+	# Remove match JSON files not referenced by any manifest entry
+	out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
+	matches_dir = os.path.join(out_dir, "matches")
+	if os.path.isdir(matches_dir):
+		known_ids = {e["matchId"] for e in manifest["files"].values() if e.get("matchId")}
+		orphaned = 0
+		for fname in os.listdir(matches_dir):
+			if not fname.endswith(".json") or fname == "index.json":
+				continue
+			if fname[:-5] not in known_ids:
+				os.remove(os.path.join(matches_dir, fname))
+				orphaned += 1
+		if orphaned:
+			print(f"  Removed {orphaned} orphaned match files")
 
 	elapsed = time.monotonic() - start_time
 	unique_matches = len({e["matchId"] for e in manifest["files"].values() if e.get("matchId")})
@@ -271,31 +293,33 @@ def main():
 
 	# Initial estimate based on replay count
 	initial_count = len(_scan_replays(replay_dir))
-	est_dedup = _estimate_step(initial_count, _RATE_DEDUP)
-	est_unwanted = _estimate_step(initial_count, _RATE_UNWANTED)
+	est_scan = _estimate_step(initial_count, _RATE_SCAN)
 	est_process = _estimate_step(initial_count, _RATE_PROCESS)
-	est_total = est_dedup + est_unwanted + est_process
+	est_total = est_scan + est_process
 	if args.generate:
 		est_total += _TIME_GENERATE
 
 	print(f"\nPipeline: {initial_count} replays, estimated ~{_format_time(est_total)}")
-	print(f"  Step 1: Deduplicate       ~{_format_time(est_dedup)}")
-	print(f"  Step 2: Filter unwanted   ~{_format_time(est_unwanted)}")
+	print(f"  Step 1: Update protocols  (network)")
+	print(f"  Step 2: Remove replays    ~{_format_time(est_scan)}")
 	print(f"  Step 3: Process replays   ~{_format_time(est_process)}")
 	if args.generate:
 		print(f"  Step 4: Generate output   ~{_format_time(_TIME_GENERATE)}")
 
-	# Step 1: Deduplicate
+	# Step 1: Update protocol files
 	step_start = time.monotonic()
-	print(f"\n[Step 1/{total_steps}] Deduplicating replays")
-	deduplicate(replay_dir)
+	print(f"\n[Step 1/{total_steps}] Updating heroprotocol")
+	try:
+		update_protocols()
+	except Exception as e:
+		print(f"  Update failed ({e}), continuing with existing protocols")
 	print(f"  Step 1 done in {_format_time(time.monotonic() - step_start)}"
 		  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
 
-	# Step 2: Filter unwanted
+	# Step 2: Remove unwanted replays (duplicates, wrong mode, etc.)
 	step_start = time.monotonic()
-	print(f"\n[Step 2/{total_steps}] Filtering unwanted replays")
-	remove_unwanted(replay_dir)
+	print(f"\n[Step 2/{total_steps}] Removing unwanted replays")
+	remove_replays(replay_dir)
 	print(f"  Step 2 done in {_format_time(time.monotonic() - step_start)}"
 		  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
 

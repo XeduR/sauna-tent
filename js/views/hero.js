@@ -268,6 +268,7 @@ var HeroView = (function() {
 			mapOptions: getAvailableMaps(), minGames: true
 		});
 
+		html += '<h2 class="section-title">Summary</h2>';
 		html += '<div class="stat-row">' +
 			statBox("Win Rate", winrateSpan(o.winrate)) +
 			statBox("Wins", o.wins.toLocaleString()) +

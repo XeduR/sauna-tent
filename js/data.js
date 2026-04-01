@@ -67,10 +67,6 @@ var Data = (function() {
 		});
 	}
 
-	function clearCache() {
-		Object.keys(cache).forEach(function(key) { delete cache[key]; });
-	}
-
 	return {
 		summary: summary,
 		roster: roster,
@@ -80,7 +76,6 @@ var Data = (function() {
 		matchIndex: matchIndex,
 		match: match,
 		hallOfFame: hallOfFame,
-		settings: settings,
-		clearCache: clearCache
+		settings: settings
 	};
 })();

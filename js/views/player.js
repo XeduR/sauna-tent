@@ -144,7 +144,6 @@ var PlayerView = (function() {
 
 	function buildHeroRows(heroes, minGames, useFiltered, partyFilter) {
 		var showAllPartyWr = !partyFilter && !useFiltered;
-		var partyLabels = { "1": "Solo", "2": "Duo", "3": "3S", "4": "4S", "5": "5S" };
 		var searchTerm = (filters.search || "").toLowerCase();
 		var rows = [];
 		var names = Object.keys(heroes);
@@ -397,6 +396,7 @@ var PlayerView = (function() {
 			search: true, searchPlaceholder: "e.g. Murky"
 		});
 
+		html += '<h2 class="section-title">Summary</h2>';
 		html += '<div class="stat-row">' +
 			statBox("Win Rate", winrateSpan(o.winrate)) +
 			statBox("Wins", o.wins.toLocaleString()) +

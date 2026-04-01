@@ -9,12 +9,5 @@
 		{"name": "Grezor", "toons": ["2-1-885944"]}
 	],
 	"replayDirectory": "replays",
-	"outputDirectory": "data",
-	"heroprotocolPath": "tools/heroprotocol",
-	"extraction": {
-		"details": true,
-		"trackerevents": true,
-		"attributeevents": true,
-		"header": true
-	}
+	"outputDirectory": "data"
 }

@@ -4,6 +4,10 @@
 # Processing manifest (local state, not served to client)
 manifest.json
 
+# Third-party tools fetched at runtime (keep README.md)
+tools/*
+!tools/README.md
+
 # Python
 __pycache__/
 *.pyc
