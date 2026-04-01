@@ -6,6 +6,8 @@ var OverviewView = (function() {
 	var matchIndex = null;
 	var roster = null;
 	var summary = null;
+	var heroChart = null;
+	var heroColors = null;
 
 	function renderPlayerCards(playerStats) {
 		var html = '<h2 class="section-title">Players</h2><div class="card-grid">';
@@ -214,6 +216,15 @@ var OverviewView = (function() {
 			'</div>';
 
 		html += renderPlayerCards(playerStats);
+
+		// Hero popularity chart
+		var monthlyData = MatchIndexUtils.computeMonthlyHeroStats(filtered);
+		if (monthlyData.sortedMonths.length >= 2) {
+			html += '<h2 class="section-title">Top 10 Hero Popularity Over Time</h2>' +
+				'<div class="text-muted" style="margin-bottom:0.5rem">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
+				'<div class="chart-container"><canvas id="overview-hero-pop-chart"></canvas></div>';
+		}
+
 		html += renderMostPlayedHeroes(heroStats);
 
 		// Team Compositions
@@ -245,7 +256,11 @@ var OverviewView = (function() {
 			html += renderGameModes(modeStats);
 		}
 
+		if (heroChart) { heroChart.destroy(); heroChart = null; }
 		app.innerHTML = html;
+		if (monthlyData.sortedMonths.length >= 2) {
+			heroChart = ChartUtils.createHeroPopularityChart("overview-hero-pop-chart", monthlyData, heroColors);
+		}
 		if (compTable) compTable.attachListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
 	}
@@ -255,10 +270,11 @@ var OverviewView = (function() {
 		app.innerHTML = '<div class="loading">Loading overview...</div>';
 
 		try {
-			var results = await Promise.all([Data.matchIndex(), Data.roster(), Data.summary(), Data.settings()]);
+			var results = await Promise.all([Data.matchIndex(), Data.roster(), Data.summary(), Data.settings(), Data.heroColors()]);
 			matchIndex = results[0];
 			roster = results[1];
 			summary = results[2];
+			heroColors = results[4];
 			readFiltersFromURL(filters, defaults);
 			renderContent();
 		} catch (err) {

@@ -405,6 +405,24 @@ var MatchIndexUtils = (function() {
 		return groups;
 	}
 
+	// Bucket hero play counts by month (YYYY-MM) for chart use
+	function computeMonthlyHeroStats(matches) {
+		var months = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			var month = m.timestamp.substring(0, 7);
+			if (!months[month]) {
+				months[month] = { total: 0, heroes: {} };
+			}
+			var md = months[month];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				md.total++;
+				md.heroes[m.rosterPlayers[j].hero] = (md.heroes[m.rosterPlayers[j].hero] || 0) + 1;
+			}
+		}
+		return { months: months, sortedMonths: Object.keys(months).sort() };
+	}
+
 	return {
 		filter: filter,
 		groupByPlayer: groupByPlayer,
@@ -416,6 +434,7 @@ var MatchIndexUtils = (function() {
 		computeMetaStats: computeMetaStats,
 		computeChatStats: computeChatStats,
 		computePartyBreakdowns: computePartyBreakdowns,
+		computeMonthlyHeroStats: computeMonthlyHeroStats,
 		totals: totals,
 	};
 })();

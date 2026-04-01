@@ -60,6 +60,10 @@ var Data = (function() {
 		return fetchJSON("hall-of-fame.json");
 	}
 
+	function heroColors() {
+		return fetchJSON("hero-colors.json");
+	}
+
 	function settings() {
 		return fetchJSON("settings.json").then(function(data) {
 			window.AppSettings = data;
@@ -76,6 +80,7 @@ var Data = (function() {
 		matchIndex: matchIndex,
 		match: match,
 		hallOfFame: hallOfFame,
+		heroColors: heroColors,
 		settings: settings
 	};
 })();

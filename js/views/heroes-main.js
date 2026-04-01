@@ -5,6 +5,7 @@ var HeroesMainView = (function() {
 	var currentMask = null;
 	var currentWrl = null;
 	var heroChart = null;
+	var heroColors = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
@@ -23,96 +24,6 @@ var HeroesMainView = (function() {
 			mapSet[matchIndex[i].map] = true;
 		}
 		return Object.keys(mapSet).sort();
-	}
-
-	function computeMonthlyStats(matches, heroRoles) {
-		var months = {};
-		for (var i = 0; i < matches.length; i++) {
-			var m = matches[i];
-			var month = m.timestamp.substring(0, 7);
-			if (!months[month]) {
-				months[month] = { total: 0, heroes: {}, roles: {} };
-			}
-			var md = months[month];
-			for (var j = 0; j < m.rosterPlayers.length; j++) {
-				var rp = m.rosterPlayers[j];
-				md.total++;
-				md.heroes[rp.hero] = (md.heroes[rp.hero] || 0) + 1;
-				var role = heroRoles[rp.hero] || "Unknown";
-				md.roles[role] = (md.roles[role] || 0) + 1;
-			}
-		}
-		return { months: months, sortedMonths: Object.keys(months).sort() };
-	}
-
-	function createHeroChart(canvasId, monthlyData) {
-		var labels = monthlyData.sortedMonths;
-		if (labels.length < 2) return null;
-
-		var chart = TableConfig.CHART;
-
-		// Find top 10 heroes by spread-weighted score.
-		// Score = totalGames * (monthsActive / totalMonths).
-		// Penalizes heroes with all games concentrated in a single month.
-		var heroTotals = {};
-		var heroMonths = {};
-		for (var i = 0; i < labels.length; i++) {
-			var m = monthlyData.months[labels[i]];
-			for (var hero in m.heroes) {
-				heroTotals[hero] = (heroTotals[hero] || 0) + m.heroes[hero];
-				heroMonths[hero] = (heroMonths[hero] || 0) + 1;
-			}
-		}
-		var totalMonths = labels.length;
-		var topHeroes = Object.keys(heroTotals).sort(function(a, b) {
-			var scoreA = heroTotals[a] * (heroMonths[a] / totalMonths);
-			var scoreB = heroTotals[b] * (heroMonths[b] / totalMonths);
-			return scoreB - scoreA;
-		}).slice(0, 10);
-
-		var datasets = [];
-		for (var i = 0; i < topHeroes.length; i++) {
-			var hero = topHeroes[i];
-			var data = [];
-			for (var j = 0; j < labels.length; j++) {
-				var m = monthlyData.months[labels[j]];
-				data.push(m.heroes[hero] || 0);
-			}
-			datasets.push({
-				label: hero,
-				data: data,
-				borderColor: chart.seriesColors[i],
-				backgroundColor: chart.seriesColors[i],
-				fill: false,
-				tension: 0.3,
-				borderWidth: 2,
-				pointRadius: 3
-			});
-		}
-
-		var ctx = document.getElementById(canvasId);
-		if (!ctx) return null;
-		return new Chart(ctx, {
-			type: "line",
-			data: { labels: labels, datasets: datasets },
-			options: {
-				responsive: true,
-				maintainAspectRatio: true,
-				scales: {
-					x: { ticks: { color: chart.textColor }, grid: { color: chart.gridColor } },
-					y: {
-						beginAtZero: true,
-						ticks: { color: chart.textColor },
-						grid: { color: chart.gridColor }
-					}
-				},
-				plugins: {
-					legend: { labels: { color: chart.textColor } },
-					tooltip: { mode: "index" }
-				},
-				interaction: { mode: "index", intersect: false }
-			}
-		});
 	}
 
 	function renderContent(matchIndex, summary, skipChart) {
@@ -194,9 +105,10 @@ var HeroesMainView = (function() {
 		}
 
 		// Popularity chart
-		var monthlyData = computeMonthlyStats(filtered, heroRoles);
+		var monthlyData = MatchIndexUtils.computeMonthlyHeroStats(filtered);
 		if (monthlyData.sortedMonths.length >= 2) {
 			html += '<h2 class="section-title">Top 10 Hero Popularity Over Time</h2>' +
+				'<div class="text-muted" style="margin-bottom:0.5rem">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
 				'<div class="chart-container"><canvas id="hero-pop-chart"></canvas></div>';
 		}
 
@@ -222,7 +134,7 @@ var HeroesMainView = (function() {
 			app.innerHTML = html;
 
 			if (monthlyData.sortedMonths.length >= 2) {
-				heroChart = createHeroChart("hero-pop-chart", monthlyData);
+				heroChart = ChartUtils.createHeroPopularityChart("hero-pop-chart", monthlyData, heroColors);
 			}
 
 			attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex, summary); });
@@ -250,7 +162,8 @@ var HeroesMainView = (function() {
 		currentMask = null;
 
 		try {
-			var results = await Promise.all([Data.matchIndex(), Data.summary(), Data.settings()]);
+			var results = await Promise.all([Data.matchIndex(), Data.summary(), Data.settings(), Data.heroColors()]);
+			heroColors = results[3];
 			defaults.minGames = String(AppSettings.minGamesDefault);
 			filters.minGames = defaults.minGames;
 			readFiltersFromURL(filters, defaults);
