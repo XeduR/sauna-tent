@@ -137,7 +137,8 @@ var StandardTable = (function() {
 	}
 
 	// Build toggle bar HTML
-	function buildToggles(mask, layoutKey, defaultMask) {
+	function buildToggles(mask, layoutKey, defaultMask, wrl) {
+		var layout = TableConfig.LAYOUTS[layoutKey];
 		var segments = TableConfig.SEGMENTS;
 		var html = '<div class="vf-toggle-bar" data-layout="' + layoutKey + '">';
 		for (var i = 0; i < segments.length; i++) {
@@ -148,6 +149,14 @@ var StandardTable = (function() {
 		}
 		if (mask !== defaultMask) {
 			html += '<button class="vf-reset">Reset columns</button>';
+		}
+		// WIN RATE layout toggle (only when layout has party data and winrate segment visible)
+		if (wrl != null && layout.hasPartyData && isVisible(mask, 1)) {
+			html += '<span class="vf-separator"></span>' +
+				'<button class="wrl-toggle' + (wrl === "full" ? ' vf-active' : '') +
+				'" data-wrl="full">WIN RATE (FULL)</button>' +
+				'<button class="wrl-toggle' + (wrl === "avg" ? ' vf-active' : '') +
+				'" data-wrl="avg">WIN RATE (AVG)</button>';
 		}
 		html += '</div>';
 		return html;
@@ -162,6 +171,7 @@ var StandardTable = (function() {
 		var layout = TableConfig.LAYOUTS[layoutKey];
 		var mask = options.mask != null ? options.mask : layout.defaultMask;
 		var partyContext = options.partyContext || null;
+		var wrl = options.wrl != null ? options.wrl : null;
 
 		var built = buildColumnsAndGroups(layout, mask, partyContext);
 
@@ -188,35 +198,49 @@ var StandardTable = (function() {
 		return {
 			buildHTML: table.buildHTML,
 			buildToggles: function() {
-				return buildToggles(mask, layoutKey, layout.defaultMask);
+				return buildToggles(mask, layoutKey, layout.defaultMask, wrl);
 			},
-			attachListeners: function(container, onMaskChange) {
+			attachListeners: function(container, onMaskChange, onWrlChange) {
 				table.attachListeners(container);
 
-				if (!onMaskChange) return;
+				if (!onMaskChange && !onWrlChange) return;
 
 				var toggleBar = container.querySelector('.vf-toggle-bar[data-layout="' + layoutKey + '"]');
 				if (!toggleBar) return;
 
-				var buttons = toggleBar.querySelectorAll('.vf-toggle');
-				for (var i = 0; i < buttons.length; i++) {
-					buttons[i].addEventListener('click', function() {
-						var bit = Number(this.getAttribute('data-bit'));
-						var newMask = mask ^ (1 << bit);
-						if (newMask === 0) return;
-						var scrollY = window.scrollY;
-						onMaskChange(newMask);
-						window.scrollTo(0, scrollY);
-					});
+				if (onMaskChange) {
+					var buttons = toggleBar.querySelectorAll('.vf-toggle');
+					for (var i = 0; i < buttons.length; i++) {
+						buttons[i].addEventListener('click', function() {
+							var bit = Number(this.getAttribute('data-bit'));
+							var newMask = mask ^ (1 << bit);
+							if (newMask === 0) return;
+							var scrollY = window.scrollY;
+							onMaskChange(newMask);
+							window.scrollTo(0, scrollY);
+						});
+					}
+
+					var resetBtn = toggleBar.querySelector('.vf-reset');
+					if (resetBtn) {
+						resetBtn.addEventListener('click', function() {
+							var scrollY = window.scrollY;
+							onMaskChange(layout.defaultMask);
+							window.scrollTo(0, scrollY);
+						});
+					}
 				}
 
-				var resetBtn = toggleBar.querySelector('.vf-reset');
-				if (resetBtn) {
-					resetBtn.addEventListener('click', function() {
-						var scrollY = window.scrollY;
-						onMaskChange(layout.defaultMask);
-						window.scrollTo(0, scrollY);
-					});
+				if (onWrlChange) {
+					var wrlButtons = toggleBar.querySelectorAll('.wrl-toggle');
+					for (var i = 0; i < wrlButtons.length; i++) {
+						wrlButtons[i].addEventListener('click', function() {
+							var newWrl = this.getAttribute('data-wrl');
+							var scrollY = window.scrollY;
+							onWrlChange(newWrl);
+							window.scrollTo(0, scrollY);
+						});
+					}
 				}
 			}
 		};
@@ -230,6 +254,37 @@ var StandardTable = (function() {
 			return isNaN(val) ? null : val;
 		}
 		return null;
+	}
+
+	// Read wrl param from URL (win rate layout: "full" or "avg")
+	function readWrlFromURL() {
+		var params = new URLSearchParams(window.location.search);
+		if (params.has("wrl")) {
+			return params.get("wrl") === "avg" ? "avg" : "full";
+		}
+		return "full";
+	}
+
+	// Write wrl param to URL (removes if "full" since that's the default)
+	function writeWrlToURL(wrl) {
+		var params = new URLSearchParams(window.location.search);
+		if (wrl === "full") {
+			params.delete("wrl");
+		} else {
+			params.set("wrl", wrl);
+		}
+		var qs = params.toString();
+		history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : ""));
+	}
+
+	// Add party-size winrates to a table row from a byPartySize object
+	function addPartyWinrates(row, byPartySize) {
+		var bp = byPartySize || {};
+		row.wrSolo = bp["1"] ? bp["1"].winrate : null;
+		row.wrDuo = bp["2"] ? bp["2"].winrate : null;
+		row.wr3s = bp["3"] ? bp["3"].winrate : null;
+		row.wr4s = bp["4"] ? bp["4"].winrate : null;
+		row.wr5s = bp["5"] ? bp["5"].winrate : null;
 	}
 
 	// Write vf param to URL (removes if equal to default)
@@ -248,6 +303,9 @@ var StandardTable = (function() {
 		create: standardTable,
 		FORMAT: FORMAT,
 		readMaskFromURL: readMaskFromURL,
-		writeMaskToURL: writeMaskToURL
+		writeMaskToURL: writeMaskToURL,
+		readWrlFromURL: readWrlFromURL,
+		writeWrlToURL: writeWrlToURL,
+		addPartyWinrates: addPartyWinrates
 	};
 })();

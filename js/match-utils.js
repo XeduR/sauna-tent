@@ -37,7 +37,8 @@ var MatchIndexUtils = (function() {
 			totalHeroDamage: 0, totalSiegeDamage: 0,
 			totalHealing: 0, totalSelfHealing: 0, totalDamageTaken: 0,
 			totalXpContribution: 0, totalMercCaptures: 0, totalTimeSpentDead: 0,
-			durationMin: null, durationMax: null, lastPlayed: null
+			durationMin: null, durationMax: null, lastPlayed: null,
+			byPartySize: {}
 		};
 	}
 
@@ -62,6 +63,13 @@ var MatchIndexUtils = (function() {
 		g.totalTimeSpentDead += rp.timeSpentDead || 0;
 	}
 
+	function _addParty(g, rp) {
+		var ps = String(rp.partySize || 1);
+		if (!g.byPartySize[ps]) g.byPartySize[ps] = { games: 0, wins: 0 };
+		g.byPartySize[ps].games++;
+		if (rp.result === "win") g.byPartySize[ps].wins++;
+	}
+
 	function _finalizeGroup(g) {
 		g.winrate = g.games > 0 ? g.wins / g.games : 0;
 		g.avgDuration = g.games > 0 ? g.totalDuration / g.games : 0;
@@ -83,6 +91,10 @@ var MatchIndexUtils = (function() {
 				timeSpentDead: Math.round(g.totalTimeSpentDead / n * 10) / 10
 			};
 		}
+		for (var ps in g.byPartySize) {
+			var pd = g.byPartySize[ps];
+			pd.winrate = pd.games > 0 ? pd.wins / pd.games : 0;
+		}
 	}
 
 	// Group filtered matches by player, returning stats per roster player
@@ -99,6 +111,7 @@ var MatchIndexUtils = (function() {
 				else g.losses++;
 				_addMatchDuration(g, m);
 				_addPlayerStats(g, rp);
+				_addParty(g, rp);
 			}
 		}
 		for (var name in groups) _finalizeGroup(groups[name]);
@@ -119,6 +132,7 @@ var MatchIndexUtils = (function() {
 				else g.losses++;
 				_addMatchDuration(g, m);
 				_addPlayerStats(g, rp);
+				_addParty(g, rp);
 			}
 		}
 		for (var hero in groups) _finalizeGroup(groups[hero]);
@@ -138,6 +152,7 @@ var MatchIndexUtils = (function() {
 				else g.losses++;
 				_addMatchDuration(g, m);
 				_addPlayerStats(g, m.rosterPlayers[j]);
+				_addParty(g, m.rosterPlayers[j]);
 			}
 		}
 		for (var map in groups) _finalizeGroup(groups[map]);
@@ -271,6 +286,32 @@ var MatchIndexUtils = (function() {
 		return { teamSide: side, firstBlood: firstBlood };
 	}
 
+	// Compute party-size win rate breakdowns keyed by a grouping function.
+	// groupKeyFn(match, rosterPlayer) returns the group key, or null to skip.
+	function computePartyBreakdowns(matches, groupKeyFn) {
+		var groups = {};
+		for (var i = 0; i < matches.length; i++) {
+			var m = matches[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				var key = groupKeyFn(m, rp);
+				if (key == null) continue;
+				if (!groups[key]) groups[key] = {};
+				var ps = String(rp.partySize || 1);
+				if (!groups[key][ps]) groups[key][ps] = { games: 0, wins: 0 };
+				groups[key][ps].games++;
+				if (rp.result === "win") groups[key][ps].wins++;
+			}
+		}
+		for (var key in groups) {
+			for (var ps in groups[key]) {
+				var pd = groups[key][ps];
+				pd.winrate = pd.games > 0 ? pd.wins / pd.games : 0;
+			}
+		}
+		return groups;
+	}
+
 	return {
 		filter: filter,
 		groupByPlayer: groupByPlayer,
@@ -280,6 +321,7 @@ var MatchIndexUtils = (function() {
 		groupByParty: groupByParty,
 		groupByStack: groupByStack,
 		computeMetaStats: computeMetaStats,
+		computePartyBreakdowns: computePartyBreakdowns,
 		totals: totals,
 	};
 })();

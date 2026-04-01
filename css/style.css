@@ -1238,7 +1238,8 @@ tfoot {
 	margin-bottom: 0.8rem;
 }
 
-.vf-toggle {
+.vf-toggle,
+.wrl-toggle {
 	padding: 0.3rem 0.7rem;
 	font-size: 0.78rem;
 	font-family: var(--font);
@@ -1254,15 +1255,24 @@ tfoot {
 	user-select: none;
 }
 
-.vf-toggle:hover {
+.vf-toggle:hover,
+.wrl-toggle:hover {
 	border-color: var(--accent);
 	color: var(--text);
 }
 
-.vf-toggle.vf-active {
+.vf-toggle.vf-active,
+.wrl-toggle.vf-active {
 	background: var(--accent-muted);
 	border-color: var(--accent);
 	color: var(--accent);
+}
+
+.vf-separator {
+	width: 1px;
+	align-self: stretch;
+	background: var(--border);
+	margin: 0 0.15rem;
 }
 
 .vf-reset {

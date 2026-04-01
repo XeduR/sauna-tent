@@ -3,11 +3,17 @@ var PlayersView = (function() {
 	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
 	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
 	var currentMask = null;
+	var currentWrl = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
 		var fromURL = StandardTable.readMaskFromURL();
 		return fromURL != null ? fromURL : TableConfig.LAYOUTS["players-main"].defaultMask;
+	}
+
+	function getWrl() {
+		if (currentWrl != null) return currentWrl;
+		return StandardTable.readWrlFromURL();
 	}
 
 	function buildPlayerRows(matchIndex, roster, filtered) {
@@ -44,6 +50,7 @@ var PlayersView = (function() {
 				durationAvg: ps.avgDuration,
 				lastPlayed: ps.lastPlayed
 			});
+			StandardTable.addPartyWinrates(rows[rows.length - 1], ps.byPartySize);
 		}
 		return rows;
 	}
@@ -80,19 +87,26 @@ var PlayersView = (function() {
 		}
 		html += '</div>';
 
+		var wrl = getWrl();
+		var partyContext = wrl === "full" ? { showAll: true } : null;
 		var rows = buildPlayerRows(matchIndex, roster, filtered);
-		var table = StandardTable.create("players-main", rows, { mask: mask });
+		var table = StandardTable.create("players-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		html += '<h2 class="section-title">Player Stats</h2>';
 		html += table.buildToggles();
 		html += table.buildHTML();
 
 		app.innerHTML = html;
+		var onWrlChange = function(newWrl) {
+			currentWrl = newWrl;
+			StandardTable.writeWrlToURL(newWrl);
+			renderContent(matchIndex, roster);
+		};
 		table.attachListeners(app, function(newMask) {
 			currentMask = newMask;
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["players-main"].defaultMask);
 			renderContent(matchIndex, roster);
-		});
+		}, onWrlChange);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex, roster); });
 	}
 
@@ -106,6 +120,7 @@ var PlayersView = (function() {
 			readFiltersFromURL(filters, defaults);
 			var fromURL = StandardTable.readMaskFromURL();
 			if (fromURL != null) currentMask = fromURL;
+			currentWrl = StandardTable.readWrlFromURL();
 			renderContent(results[0], results[1]);
 		} catch (err) {
 			app.innerHTML = '<div class="error">Failed to load player data.</div>';

@@ -7,12 +7,18 @@ var PlayerView = (function() {
 	var heroRoles = {};
 	var playerName = null;
 	var currentMask = null;
+	var currentWrl = null;
 	var recentMatchData = [];
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
 		var fromURL = StandardTable.readMaskFromURL();
 		return fromURL != null ? fromURL : TableConfig.LAYOUTS["player-heroes"].defaultMask;
+	}
+
+	function getWrl() {
+		if (currentWrl != null) return currentWrl;
+		return StandardTable.readWrlFromURL();
 	}
 
 	function hasDataFilters() {
@@ -47,7 +53,7 @@ var PlayerView = (function() {
 						totalKills: 0, totalDeaths: 0, totalAssists: 0, totalHeroDamage: 0, totalSiegeDamage: 0,
 						totalHealing: 0, totalSelfHealing: 0, totalDamageTaken: 0,
 						totalXpContribution: 0, totalMercCaptures: 0, totalTimeSpentDead: 0,
-						durationMin: null, durationMax: null, lastPlayed: null };
+						durationMin: null, durationMax: null, lastPlayed: null, byPartySize: {} };
 				}
 				var h = heroes[rp.hero];
 				h.games++;
@@ -68,6 +74,10 @@ var PlayerView = (function() {
 				if (h.durationMin === null || m.durationSeconds < h.durationMin) h.durationMin = m.durationSeconds;
 				if (h.durationMax === null || m.durationSeconds > h.durationMax) h.durationMax = m.durationSeconds;
 				if (h.lastPlayed === null || m.timestamp > h.lastPlayed) h.lastPlayed = m.timestamp;
+				var ps = String(rp.partySize || 1);
+				if (!h.byPartySize[ps]) h.byPartySize[ps] = { games: 0, wins: 0 };
+				h.byPartySize[ps].games++;
+				if (rp.result === "win") h.byPartySize[ps].wins++;
 			}
 		}
 		for (var hero in heroes) {
@@ -91,6 +101,10 @@ var PlayerView = (function() {
 					mercCaptures: Math.round(h.totalMercCaptures / h.games * 10) / 10,
 					timeSpentDead: Math.round(h.totalTimeSpentDead / h.games * 10) / 10,
 				};
+			}
+			for (var ps in h.byPartySize) {
+				var pd = h.byPartySize[ps];
+				pd.winrate = pd.games > 0 ? pd.wins / pd.games : 0;
 			}
 		}
 		return heroes;
@@ -142,8 +156,8 @@ var PlayerView = (function() {
 		return html;
 	}
 
-	function buildHeroRows(heroes, minGames, useFiltered, partyFilter) {
-		var showAllPartyWr = !partyFilter && !useFiltered;
+	function buildHeroRows(heroes, minGames, useFiltered, partyFilter, wrl) {
+		var showAllPartyWr = !partyFilter && wrl === "full";
 		var searchTerm = (filters.search || "").toLowerCase();
 		var rows = [];
 		var names = Object.keys(heroes);
@@ -225,7 +239,7 @@ var PlayerView = (function() {
 		return rows;
 	}
 
-	function buildMapRows(maps, minGames) {
+	function buildMapRows(maps, minGames, partyData) {
 		var rows = [];
 		var totalGames = 0;
 		var names = Object.keys(maps);
@@ -263,6 +277,9 @@ var PlayerView = (function() {
 				durationAvg: m.averageDurationSeconds,
 				lastPlayed: m.lastPlayed || null
 			});
+			if (partyData) {
+				StandardTable.addPartyWinrates(rows[rows.length - 1], partyData[name]);
+			}
 		}
 		return rows;
 	}
@@ -373,17 +390,20 @@ var PlayerView = (function() {
 
 		var o = aggregateHeroes(heroes, minGames, partyFilter);
 
+		var wrl = getWrl();
 		// Party context for the hero table's win rate segment
 		var partyLabels = { "1": "Solo", "2": "Duo", "3": "3S", "4": "4S", "5": "5S" };
-		var partyContext = null;
+		var heroPartyContext = null;
+		var heroWrl = wrl;
 		if (partyFilter) {
-			partyContext = { showAll: false, filterLabel: partyLabels[partyFilter] || "Avg" };
-		} else if (!useFiltered) {
-			partyContext = { showAll: true, filterLabel: null };
+			heroPartyContext = { showAll: false, filterLabel: partyLabels[partyFilter] || "Avg" };
+			heroWrl = null;
+		} else if (wrl === "full") {
+			heroPartyContext = { showAll: true, filterLabel: null };
 		}
 
-		var heroRows = buildHeroRows(heroes, minGames, useFiltered, partyFilter);
-		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: partyContext });
+		var heroRows = buildHeroRows(heroes, minGames, useFiltered, partyFilter, wrl);
+		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: heroPartyContext, wrl: heroWrl });
 
 		var html =
 			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + '</h1>' +
@@ -423,8 +443,12 @@ var PlayerView = (function() {
 
 		var mapTable = null;
 		if (!useFiltered) {
-			var mapRows = buildMapRows(playerData.maps, minGames);
-			mapTable = StandardTable.create("player-maps", mapRows, { mask: mask });
+			var mapPartyContext = wrl === "full" ? { showAll: true } : null;
+			var mapPartyData = MatchIndexUtils.computePartyBreakdowns(matchIndex, function(m, rp) {
+				return rp.name === playerName ? m.map : null;
+			});
+			var mapRows = buildMapRows(playerData.maps, minGames, mapPartyData);
+			mapTable = StandardTable.create("player-maps", mapRows, { mask: mask, partyContext: mapPartyContext, wrl: wrl });
 			html += '<h2 class="section-title">Maps</h2>';
 			html += mapTable.buildToggles();
 			html += mapTable.buildHTML();
@@ -442,9 +466,14 @@ var PlayerView = (function() {
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["player-heroes"].defaultMask);
 			renderContent();
 		};
-		heroTable.attachListeners(app, onMaskChange);
+		var onWrlChange = function(newWrl) {
+			currentWrl = newWrl;
+			StandardTable.writeWrlToURL(newWrl);
+			renderContent();
+		};
+		heroTable.attachListeners(app, onMaskChange, onWrlChange);
 		if (mapTable) {
-			mapTable.attachListeners(app, onMaskChange);
+			mapTable.attachListeners(app, onMaskChange, onWrlChange);
 		}
 		attachPageFilterListeners(app, filters, defaults, function() {
 			if (filters.map) {
@@ -476,6 +505,7 @@ var PlayerView = (function() {
 			readFiltersFromURL(filters, defaults);
 			var fromURL = StandardTable.readMaskFromURL();
 			if (fromURL != null) currentMask = fromURL;
+			currentWrl = StandardTable.readWrlFromURL();
 
 			// Load recent match files for talent build data
 			var recentCount = AppSettings.recentMatchesCount || 5;

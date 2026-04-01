@@ -162,21 +162,21 @@ var TableConfig = (function() {
 			defaultMask: MASK_MAIN,
 			tableId: "players-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"heroes-main": {
 			identity: "hero",
 			defaultMask: MASK_MAIN,
 			tableId: "heroes-main-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"maps-main": {
 			identity: "map",
 			defaultMask: MASK_MAIN,
 			tableId: "maps-main-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"player-heroes": {
 			identity: "hero",
@@ -190,28 +190,28 @@ var TableConfig = (function() {
 			defaultMask: MASK_DETAIL,
 			tableId: "map-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"hero-players": {
 			identity: "player",
 			defaultMask: MASK_DETAIL,
 			tableId: "player-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"map-players": {
 			identity: "player",
 			defaultMask: MASK_DETAIL,
 			tableId: "player-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		},
 		"map-heroes": {
 			identity: "heroNameOnly",
 			defaultMask: MASK_DETAIL,
 			tableId: "hero-table",
 			defaultSortKey: "games",
-			hasPartyData: false
+			hasPartyData: true
 		}
 	};
 

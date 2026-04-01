@@ -3,12 +3,18 @@ var HeroesMainView = (function() {
 	var filters = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
 	var defaults = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
 	var currentMask = null;
+	var currentWrl = null;
 	var heroChart = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
 		var fromURL = StandardTable.readMaskFromURL();
 		return fromURL != null ? fromURL : TableConfig.LAYOUTS["heroes-main"].defaultMask;
+	}
+
+	function getWrl() {
+		if (currentWrl != null) return currentWrl;
+		return StandardTable.readWrlFromURL();
 	}
 
 	function getAvailableMaps(matchIndex) {
@@ -158,7 +164,7 @@ var HeroesMainView = (function() {
 			var heroRole = heroRoles[hero] || "Unknown";
 			if (searchTerm && hero.toLowerCase().indexOf(searchTerm) === -1 && heroRole.toLowerCase().indexOf(searchTerm) === -1) continue;
 			var avg = hs.averages || null;
-			rows.push({
+			var row = {
 				hero: hero,
 				role: heroRole,
 				pickRate: totalGames > 0 ? hs.games / totalGames : 0,
@@ -182,7 +188,9 @@ var HeroesMainView = (function() {
 				durationMax: hs.durationMax,
 				durationAvg: hs.avgDuration,
 				lastPlayed: hs.lastPlayed
-			});
+			};
+			StandardTable.addPartyWinrates(row, hs.byPartySize);
+			rows.push(row);
 		}
 
 		// Popularity chart
@@ -192,7 +200,9 @@ var HeroesMainView = (function() {
 				'<div class="chart-container"><canvas id="hero-pop-chart"></canvas></div>';
 		}
 
-		var table = StandardTable.create("heroes-main", rows, { mask: mask });
+		var wrl = getWrl();
+		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var table = StandardTable.create("heroes-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		var tableHtml = '<div id="heroes-table-section">' +
 			'<h2 class="section-title">All Heroes</h2>' +
@@ -218,11 +228,16 @@ var HeroesMainView = (function() {
 			attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex, summary); });
 		}
 
+		var onWrlChange = function(newWrl) {
+			currentWrl = newWrl;
+			StandardTable.writeWrlToURL(newWrl);
+			renderContent(matchIndex, summary, true);
+		};
 		table.attachListeners(app, function(newMask) {
 			currentMask = newMask;
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["heroes-main"].defaultMask);
 			renderContent(matchIndex, summary, true);
-		});
+		}, onWrlChange);
 	}
 
 	async function render() {
@@ -237,6 +252,7 @@ var HeroesMainView = (function() {
 			readFiltersFromURL(filters, defaults);
 			var fromURL = StandardTable.readMaskFromURL();
 			if (fromURL != null) currentMask = fromURL;
+			currentWrl = StandardTable.readWrlFromURL();
 			renderContent(results[0], results[1]);
 		} catch (err) {
 			app.innerHTML = '<div class="error">Failed to load hero data.</div>';

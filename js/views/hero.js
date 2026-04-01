@@ -9,11 +9,17 @@ var HeroView = (function() {
 	var aramMaps = [];
 	var buildsTable = null;
 	var currentMask = null;
+	var currentWrl = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
 		var fromURL = StandardTable.readMaskFromURL();
 		return fromURL != null ? fromURL : TableConfig.LAYOUTS["hero-players"].defaultMask;
+	}
+
+	function getWrl() {
+		if (currentWrl != null) return currentWrl;
+		return StandardTable.readWrlFromURL();
 	}
 
 	function hasDataFilters() {
@@ -49,7 +55,7 @@ var HeroView = (function() {
 				totalKills: 0, totalDeaths: 0, totalAssists: 0, totalHeroDamage: 0, totalSiegeDamage: 0,
 				totalHealing: 0, totalSelfHealing: 0, totalDamageTaken: 0,
 				totalXpContribution: 0, totalMercCaptures: 0, totalTimeSpentDead: 0,
-				durationMin: null, durationMax: null, lastPlayed: null };
+				durationMin: null, durationMax: null, lastPlayed: null, byPartySize: {} };
 		};
 
 		var overall = initAccum();
@@ -85,6 +91,10 @@ var HeroView = (function() {
 					if (s.durationMin === null || m.durationSeconds < s.durationMin) s.durationMin = m.durationSeconds;
 					if (s.durationMax === null || m.durationSeconds > s.durationMax) s.durationMax = m.durationSeconds;
 					if (s.lastPlayed === null || m.timestamp > s.lastPlayed) s.lastPlayed = m.timestamp;
+					var ps = String(rp.partySize || 1);
+					if (!s.byPartySize[ps]) s.byPartySize[ps] = { games: 0, wins: 0 };
+					s.byPartySize[ps].games++;
+					if (rp.result === "win") s.byPartySize[ps].wins++;
 				}
 			}
 		}
@@ -110,6 +120,10 @@ var HeroView = (function() {
 					timeSpentDead: Math.round(s.totalTimeSpentDead / s.games * 10) / 10,
 				};
 			}
+			for (var ps in s.byPartySize) {
+				var pd = s.byPartySize[ps];
+				pd.winrate = pd.games > 0 ? pd.wins / pd.games : 0;
+			}
 		};
 
 		finalize(overall);
@@ -120,7 +134,7 @@ var HeroView = (function() {
 		return { overall: overall, playerStats: playerStats };
 	}
 
-	function buildPlayerRows(data, minGames) {
+	function buildPlayerRows(data, minGames, partyData) {
 		var rows = [];
 		var totalGames = 0;
 		for (var name in data) {
@@ -154,6 +168,7 @@ var HeroView = (function() {
 				durationAvg: p.averageDurationSeconds || p.avgDuration || null,
 				lastPlayed: p.lastPlayed || null
 			});
+			StandardTable.addPartyWinrates(rows[rows.length - 1], partyData ? partyData[name] : (p.byPartySize || null));
 		}
 		return rows;
 	}
@@ -247,16 +262,24 @@ var HeroView = (function() {
 		var useFiltered = hasDataFilters();
 		var mask = getMask();
 
+		var wrl = getWrl();
+		var partyContext = wrl === "full" ? { showAll: true } : null;
+
 		var players;
+		var partyData = null;
 		if (useFiltered) {
 			players = computeFiltered().playerStats;
 		} else {
 			players = heroData.players;
+			// Pre-computed data lacks byPartySize per player; compute from match index
+			partyData = MatchIndexUtils.computePartyBreakdowns(matchIndex, function(m, rp) {
+				return rp.hero === heroName ? rp.name : null;
+			});
 		}
 
 		var o = aggregateGroup(players, minGames);
-		var rows = buildPlayerRows(players, minGames);
-		var playerTable = StandardTable.create("hero-players", rows, { mask: mask });
+		var rows = buildPlayerRows(players, minGames, partyData);
+		var playerTable = StandardTable.create("hero-players", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		var html =
 			'<div class="page-header"><h1>' + escapeHtml(heroData.name) + '</h1>' +
@@ -299,11 +322,16 @@ var HeroView = (function() {
 		}
 
 		app.innerHTML = html;
+		var onWrlChange = function(newWrl) {
+			currentWrl = newWrl;
+			StandardTable.writeWrlToURL(newWrl);
+			renderContent();
+		};
 		playerTable.attachListeners(app, function(newMask) {
 			currentMask = newMask;
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["hero-players"].defaultMask);
 			renderContent();
-		});
+		}, onWrlChange);
 		if (buildsTable) buildsTable.attachListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() {
 			if (filters.map) {
@@ -335,6 +363,7 @@ var HeroView = (function() {
 			readFiltersFromURL(filters, defaults);
 			var fromURL = StandardTable.readMaskFromURL();
 			if (fromURL != null) currentMask = fromURL;
+			currentWrl = StandardTable.readWrlFromURL();
 			renderContent();
 		} catch (err) {
 			app.innerHTML = '<div class="error">Hero not found.</div>';

@@ -3,11 +3,17 @@ var MapsMainView = (function() {
 	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
 	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
 	var currentMask = null;
+	var currentWrl = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
 		var fromURL = StandardTable.readMaskFromURL();
 		return fromURL != null ? fromURL : TableConfig.LAYOUTS["maps-main"].defaultMask;
+	}
+
+	function getWrl() {
+		if (currentWrl != null) return currentWrl;
+		return StandardTable.readWrlFromURL();
 	}
 
 	function renderContent(matchIndex) {
@@ -34,7 +40,7 @@ var MapsMainView = (function() {
 			if (ms.games < minGames) continue;
 			if (searchTerm && map.toLowerCase().indexOf(searchTerm) === -1) continue;
 			var avg = ms.averages || null;
-			rows.push({
+			var row = {
 				map: map,
 				mapType: TableConfig.mapType(map),
 				mapTypeSortValue: TableConfig.mapTypeSortValue(map),
@@ -59,21 +65,30 @@ var MapsMainView = (function() {
 				durationMax: ms.durationMax,
 				durationAvg: ms.avgDuration,
 				lastPlayed: ms.lastPlayed
-			});
+			};
+			StandardTable.addPartyWinrates(row, ms.byPartySize);
+			rows.push(row);
 		}
 
-		var table = StandardTable.create("maps-main", rows, { mask: mask });
+		var wrl = getWrl();
+		var partyContext = wrl === "full" ? { showAll: true } : null;
+		var table = StandardTable.create("maps-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		html += '<h2 class="section-title">All Maps</h2>';
 		html += table.buildToggles();
 		html += table.buildHTML();
 
 		app.innerHTML = html;
+		var onWrlChange = function(newWrl) {
+			currentWrl = newWrl;
+			StandardTable.writeWrlToURL(newWrl);
+			renderContent(matchIndex);
+		};
 		table.attachListeners(app, function(newMask) {
 			currentMask = newMask;
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["maps-main"].defaultMask);
 			renderContent(matchIndex);
-		});
+		}, onWrlChange);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex); });
 	}
 
@@ -90,6 +105,7 @@ var MapsMainView = (function() {
 			readFiltersFromURL(filters, defaults);
 			var fromURL = StandardTable.readMaskFromURL();
 			if (fromURL != null) currentMask = fromURL;
+			currentWrl = StandardTable.readWrlFromURL();
 			renderContent(matchIndex);
 		} catch (err) {
 			app.innerHTML = '<div class="error">Failed to load map data.</div>';
