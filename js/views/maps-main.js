@@ -86,8 +86,8 @@ var MapsMainView = (function() {
 		var boss = metaStats.firstBoss;
 		var merc = metaStats.firstMerc;
 		if (side.left.games > 0 || side.right.games > 0) {
-			factorRows.push(["Left Side", side.left]);
-			factorRows.push(["Right Side", side.right]);
+			factorRows.push(["Spawned Left Side", side.left]);
+			factorRows.push(["Spawned Right Side", side.right]);
 		}
 		if (fb.got.games > 0 || fb.gave.games > 0) {
 			factorRows.push(["Got First Blood", fb.got]);

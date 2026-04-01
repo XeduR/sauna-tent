@@ -1,4 +1,4 @@
-// Overview page: team stats, player cards, most played heroes, game modes, party sizes
+// Overview page: team stats, player cards, most played heroes, game modes
 // Supports filtering by mode, party size, and date range via match index.
 var OverviewView = (function() {
 	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
@@ -60,13 +60,18 @@ var OverviewView = (function() {
 
 		var html = '<h2 class="section-title">Game Modes</h2>' +
 			'<div class="table-wrap"><table>' +
-			'<thead><tr>' +
-			'<th class="no-sort">Mode</th>' +
-			'<th class="no-sort">Games</th>' +
-			'<th class="no-sort">Wins</th>' +
-			'<th class="no-sort">Losses</th>' +
-			'<th class="no-sort">Win Rate</th>' +
-			'<th class="no-sort">Avg Duration</th>' +
+			'<thead><tr class="header-group-row">' +
+			'<th colspan="1" class="header-group">Mode</th>' +
+			'<th colspan="3" class="header-group">Games</th>' +
+			'<th colspan="1" class="header-group">Win Rate</th>' +
+			'<th colspan="1" class="header-group">Duration</th>' +
+			'</tr><tr>' +
+			'<th class="no-sort">Name</th>' +
+			'<th class="no-sort num">Total</th>' +
+			'<th class="no-sort num">Win</th>' +
+			'<th class="no-sort num">Loss</th>' +
+			'<th class="no-sort num">Avg</th>' +
+			'<th class="no-sort num">Avg</th>' +
 			'</tr></thead><tbody>';
 
 		for (var i = 0; i < keys.length; i++) {
@@ -85,38 +90,6 @@ var OverviewView = (function() {
 		return html;
 	}
 
-	function renderPartySizes(partyStats) {
-		var keys = Object.keys(partyStats);
-		keys.sort(function(a, b) { return Number(a) - Number(b); });
-
-		var html = '<h2 class="section-title">Party Size</h2>' +
-			'<div class="table-wrap"><table>' +
-			'<thead><tr>' +
-			'<th class="no-sort">Party</th>' +
-			'<th class="no-sort">Games</th>' +
-			'<th class="no-sort">Wins</th>' +
-			'<th class="no-sort">Losses</th>' +
-			'<th class="no-sort">Win Rate</th>' +
-			'<th class="no-sort">Avg Duration</th>' +
-			'</tr></thead><tbody>';
-
-		for (var i = 0; i < keys.length; i++) {
-			var key = keys[i];
-			var s = partyStats[key];
-			var label = PARTY_LABELS[Number(key)] || key + "-stack";
-			html += '<tr>' +
-				'<td>' + escapeHtml(label) + '</td>' +
-				'<td class="num">' + s.games.toLocaleString() + '</td>' +
-				'<td class="num">' + s.wins.toLocaleString() + '</td>' +
-				'<td class="num">' + s.losses.toLocaleString() + '</td>' +
-				'<td class="num">' + winrateSpan(s.winrate) + '</td>' +
-				'<td class="num">' + formatDuration(s.avgDuration) + '</td>' +
-				'</tr>';
-		}
-		html += '</tbody></table></div>';
-		return html;
-	}
-
 	function renderMetaStats(metaStats) {
 		var side = metaStats.teamSide;
 		var fb = metaStats.firstBlood;
@@ -127,8 +100,8 @@ var OverviewView = (function() {
 		// Match Factors table: team side, first blood, first boss, first merc
 		var factorRows = [];
 		if (side.left.games > 0 || side.right.games > 0) {
-			factorRows.push(["Left Side", side.left]);
-			factorRows.push(["Right Side", side.right]);
+			factorRows.push(["Spawned Left Side", side.left]);
+			factorRows.push(["Spawned Right Side", side.right]);
 		}
 		if (fb.got.games > 0 || fb.gave.games > 0) {
 			factorRows.push(["Got First Blood", fb.got]);
@@ -224,7 +197,6 @@ var OverviewView = (function() {
 		var playerStats = MatchIndexUtils.groupByPlayer(filtered);
 		var heroStats = MatchIndexUtils.groupByHero(filtered);
 		var modeStats = MatchIndexUtils.groupByMode(filtered);
-		var partyStats = MatchIndexUtils.groupByParty(filtered);
 
 		var html =
 			'<div class="page-header"><h1>Sauna Tent</h1>' +
@@ -249,16 +221,16 @@ var OverviewView = (function() {
 		var compTable = null;
 		if (compRows.length > 0) {
 			var compColumns = [
-				{ key: "roles", label: "Composition", noSort: true },
+				{ key: "roles", label: "Roles", noSort: true },
 				{ key: "games", label: "Total", className: "num", format: function(v) { return v.toLocaleString(); } },
 				{ key: "wins", label: "Win", className: "num", format: function(v) { return v.toLocaleString(); } },
 				{ key: "losses", label: "Loss", className: "num", format: function(v) { return v.toLocaleString(); } },
 				{ key: "winrate", label: "Win Rate", className: "num", format: function(v) { return winrateSpan(v); } },
 			];
 			var compHeaderGroups = [
-				{ label: "", span: 1 },
+				{ label: "Composition", span: 1 },
 				{ label: "Games", span: 3 },
-				{ label: "", span: 1 },
+				{ label: "Win Rate", span: 1 },
 			];
 			compTable = sortableTable("comp-table", compColumns, compRows, "games", true, compHeaderGroups);
 			html += '<h2 class="section-title">Team Compositions</h2>';
@@ -272,8 +244,6 @@ var OverviewView = (function() {
 		if (!filters.mode) {
 			html += renderGameModes(modeStats);
 		}
-
-		html += renderPartySizes(partyStats);
 
 		app.innerHTML = html;
 		if (compTable) compTable.attachListeners(app);

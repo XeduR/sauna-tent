@@ -89,12 +89,16 @@ function formatDateFinnish(isoTimestamp) {
 function renderMetaFactorTable(title, rows) {
 	var html = '<h2 class="section-title">' + title + '</h2>' +
 		'<div class="table-wrap"><table>' +
-		'<thead><tr>' +
-		'<th class="no-sort">Factor</th>' +
-		'<th class="no-sort">Games</th>' +
-		'<th class="no-sort">Wins</th>' +
-		'<th class="no-sort">Losses</th>' +
-		'<th class="no-sort">Win Rate</th>' +
+		'<thead><tr class="header-group-row">' +
+		'<th colspan="1" class="header-group">Factor</th>' +
+		'<th colspan="3" class="header-group">Games</th>' +
+		'<th colspan="1" class="header-group">Win Rate</th>' +
+		'</tr><tr>' +
+		'<th class="no-sort">Condition</th>' +
+		'<th class="no-sort num">Total</th>' +
+		'<th class="no-sort num">Win</th>' +
+		'<th class="no-sort num">Loss</th>' +
+		'<th class="no-sort num">Avg</th>' +
 		'</tr></thead><tbody>';
 	for (var i = 0; i < rows.length; i++) {
 		var d = rows[i][1];
