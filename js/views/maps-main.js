@@ -27,7 +27,7 @@ var MapsMainView = (function() {
 		var totalGames = filtered.length;
 
 		var html = '<div class="page-header"><h1>Maps</h1>' +
-			'<div class="subtitle">' + t.games.toLocaleString() + ' out of ' +
+			'<div class="subtitle">' + filtered.length.toLocaleString() + ' out of ' +
 			matchIndex.length.toLocaleString() + ' matches</div></div>';
 
 		html += buildPageFilterBar(filters, { mode: true, partySize: true, dateFrom: true, dateTo: true, minGames: true, search: true, searchPlaceholder: "e.g. Infernal" });

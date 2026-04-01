@@ -645,6 +645,11 @@ th.num {
 	min-width: 110px;
 }
 
+.filter-field select:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
 .filter-field select:focus,
 .filter-field input[type="date"]:focus {
 	outline: none;

@@ -449,8 +449,10 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 				filters.partySize = "5";
 				party.value = "5";
 				party.disabled = true;
+				party.title = "Custom games only support 5-stacks";
 			} else {
 				party.disabled = false;
+				party.title = "";
 			}
 		}
 		onChange();
@@ -460,6 +462,7 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 			filters.partySize = "5";
 			party.value = "5";
 			party.disabled = true;
+			party.title = "Custom games only support 5-stacks";
 		}
 		party.addEventListener("change", function() { filters.partySize = this.value; onChange(); });
 	}

@@ -283,7 +283,7 @@ var MatchesView = (function() {
 			filters.partySize = "5";
 			return '<div class="filter-field">' +
 				'<label>Party Size</label>' +
-				'<select id="filter-party" disabled><option value="5" selected>5-stack</option></select></div>';
+				'<select id="filter-party" disabled title="Custom games only support 5-stacks"><option value="5" selected>5-stack</option></select></div>';
 		}
 		var range = getPartyRange();
 		var options = [];
