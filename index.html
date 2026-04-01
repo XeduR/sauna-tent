@@ -7,11 +7,14 @@
 		// the parser reaches any resource references (<link>, <script src>).
 		// No static <base> in the HTML so the preload scanner resolves
 		// resources against the document URL, which is already correct.
-		// On GitHub Pages, 404.html redirects to the deployment root before
-		// index.html loads, so location.pathname is always the root here.
+		// On XAMPP, index.html is served directly for any sub-path via
+		// .htaccess rewrite. On GitHub Pages, 404.html redirects to the
+		// deployment root first. Either way, extract the project root from
+		// the pathname using segmentsToKeep (must match 404.html).
 		(function() {
-			var basePath = decodeURIComponent(location.pathname);
-			if (basePath.charAt(basePath.length - 1) !== '/') basePath += '/';
+			var segments = decodeURIComponent(location.pathname).split('/').filter(Boolean);
+			var segmentsToKeep = 1;
+			var basePath = '/' + segments.slice(0, segmentsToKeep).join('/') + '/';
 
 			var base = document.createElement('base');
 			base.setAttribute('href', basePath);
