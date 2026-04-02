@@ -1,3 +1,173 @@
 # Toxic keyword list for in-game chat detection.
 # One keyword per line. Case-insensitive substring matching.
 # Lines starting with # are comments.
+#
+# NB! Be careful with short strings, they match as substrings.
+# e.g. "ass" matches "assassin", "int" matches "into", etc.
+# Use longer/specific forms to avoid false positives.
+
+# Profanity
+fuck
+shit
+stfu
+gtfo
+bitch
+dick
+cock
+cunt
+piss
+whore
+bastard
+asshole
+dumbass
+jackass
+dipshit
+bullshit
+
+# Slurs and derogatory terms
+retard
+autist
+sperg
+cancer
+aids
+tumor
+
+# Direct insults
+idiot
+moron
+imbecile
+braindead
+brain dead
+brainless
+pathetic
+useless
+worthless
+incompetent
+degenerate
+subhuman
+loser
+dimwit
+clown
+
+# MOBA-specific toxicity
+noob
+newb
+n00b
+trash
+garbage
+dog
+dogshit
+feeder
+feeding
+inting
+thrower
+throwing
+uninstall
+delete the game
+delete game
+go next
+ff15
+ff20
+open mid
+worst player
+kill yourself
+kys
+neck yourself
+go die
+get cancer
+wrist
+afk
+
+# Hostile directives
+shut up
+shut the fuck
+go away
+get out
+leave the game
+stop playing
+never play
+quit the game
+
+# Passive-aggressive toxicity
+gg ez
+gg next
+ez game
+too easy
+enjoy your ban
+reported
+report this
+enjoy the loss
+
+# Slavic / Russian (latin transliterations common in EU servers)
+suka
+cyka
+blyat
+blyad
+pidar
+pidor
+pidoras
+nahui
+nahuy
+nahui
+naxui
+ebaniy
+eblan
+eblani
+debil
+dolboyeb
+dolboeb
+mudak
+mudila
+gandon
+idi nahui
+idi nahuy
+idi naxui
+poshel nahui
+poshel nahuy
+sosi
+zasranec
+pizdec
+pizda
+pizdet
+huyesos
+xuyesos
+urod
+tupoy
+loh
+lox
+ублюдок
+сука
+пидор
+пидорас
+дебил
+мудак
+нахуй
+ебань
+ёбаный
+ебанный
+ебланы
+еблан
+долбоёб
+долбоеб
+пиздец
+пизда
+урод
+тупой
+лох
+гандон
+засранец
+хуесос
+
+# Polish
+kurwa
+jebany
+jebac
+jebać
+spierdalaj
+pierdol
+chuj
+dupa
+szmata
+debil
+skurwysyn
+kurwo

@@ -4,12 +4,14 @@ Replay processing pipeline for the Sauna Tent dashboard. Parses `.StormReplay` f
 
 ## Modules
 
-- **parser.py**: Wraps heroprotocol to extract structured data from a single replay. Handles hero/map name resolution, game mode detection, talent extraction, score stats, death source classification, chat/ping/disconnect tracking, and first blood detection.
+- **parser.py**: Wraps heroprotocol to extract structured data from a single replay. Handles hero/map name resolution, game mode detection, talent extraction, score stats, death source classification, chat/ping/disconnect tracking, chat toxicity detection, first blood, first boss/mercenary capture, and level lead tracking.
 - **run.py**: Single-replay processor. Loads config, calls the parser, tags roster players by toon ID, detects party composition, generates a stable match ID, and writes the match JSON file.
 - **batch.py**: Batch processor. Scans the replay directory, processes new/changed files incrementally using a manifest, and orchestrates the full pipeline (deduplicate, filter, parse, aggregate, output).
 - **aggregate.py**: Reads all match JSON files and computes aggregate statistics across every combination of player, hero, map, game mode, and party size. Also tracks hall of fame records and talent builds.
 - **output.py**: Writes the final dashboard JSON files (summary, roster, per-player, per-hero, per-map, match index, hall of fame).
 - **herodata.py**: Static lookup tables mapping heroprotocol internal IDs to display names for heroes, maps, roles, and ARAM map identification.
+- **toxicity.py**: Loads `toxic_keywords.txt` and exposes `is_toxic(message)` for case-insensitive substring matching against chat messages. Keywords are loaded once and cached.
+- **toxic_keywords.txt**: One toxic keyword or phrase per line. Comments start with `#`. Edit this file to adjust toxicity detection without touching code.
 
 ## Dependencies
 
@@ -28,7 +30,7 @@ Each `.StormReplay` is an MPQ archive containing multiple data streams. The pars
 | `replay.initdata` | `randomSeed` for match fingerprinting |
 | `replay.attributes.events` | Game mode, hero levels, talent internal codes |
 | `replay.tracker.events` | Hero/map internal IDs, end-of-game score stats, talent tier choices, death sources |
-| `replay.message.events` | Chat messages, pings, disconnects/reconnects |
+| `replay.message.events` | Chat messages (with toxicity detection), pings, disconnects/reconnects |
 
 Hero and map names are resolved from tracker event internal IDs (always English regardless of client language) via lookup tables in `herodata.py`.
 
@@ -96,4 +98,4 @@ All written to the configured output directory (default: `data/`).
 | `heroes/{slug}.json` | Per-hero aggregate with player breakdown, builds, and tier pick rates |
 | `maps/{slug}.json` | Per-map aggregate with hero and player breakdowns |
 | `matches/{id}.json` | Full match data (one file per match, written during parsing) |
-| `matches/index.json` | Lightweight match index for the frontend match history and filtering |
+| `matches/index.json` | Lightweight match index with per-match meta stats (side, first blood, first boss/merc, level lead, chat toxicity classification) for frontend filtering |

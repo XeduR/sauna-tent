@@ -85,6 +85,21 @@ The batch command runs these steps in order:
 
 Any static file server works. The `.htaccess` handles SPA routing for Apache. The frontend fetches JSON from `data/` via relative paths.
 
+## Chat Toxicity Detection
+
+The pipeline detects toxic messages in team chat using keyword-based substring matching. The keyword list is in `pipeline/toxic_keywords.txt` (one keyword per line, case-insensitive). Edit this file to adjust what counts as toxic. No code changes needed.
+
+Toxicity data feeds into:
+
+- **Win rate correlation**: chat statistics tables on Overview and player pages (Storm League and ARAM only).
+- **Hall of Fame / Shame**: "Conversationalist" (clean chat rate) and "Most Toxic Conversationalist" (toxic chat rate) entries.
+
+## Game Assets
+
+Hero portraits, talent icons, and role icons are in `img/`. These are sourced from Blizzard game assets via the [Heroes Profile](https://github.com/Heroes-Profile/heroesprofile) repository and the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Talent display names are mapped in `data/talent-names.json`. Hero chart colors are defined in `data/hero-colors.json`.
+
+Game imagery is copyright Blizzard Entertainment.
+
 ## How It Works
 
 There is no backend. The entire dashboard is a static site served from GitHub Pages. All data processing happens in the Python pipeline before deployment, and all runtime filtering and aggregation happens in the browser. No server, no database, no API.
@@ -118,6 +133,13 @@ The dashboard uses two data paths:
 ```
 
 Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard.
+
+## Data Sources
+
+- **Replay parsing**: [heroprotocol](https://github.com/Blizzard/heroprotocol) by Blizzard Entertainment.
+- **Hero and talent images**: [Heroes Profile](https://github.com/Heroes-Profile/heroesprofile) repository (Blizzard game assets).
+- **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
+- **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).
 
 ## License
 
