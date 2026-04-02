@@ -515,6 +515,10 @@ var HallOfFameView = (function() {
 				html += renderCumulativeCard("Total All Chat", cumulative.chatMessagesAll, 'Friendly messages sent to other team, e.g. "gl & hf"');
 			}
 			html += renderAccidentalTeamChatsCard();
+			if (cumulative.chatGlhf) {
+				html += renderPercentCard("Sportsmanlike Start", cumulative.chatGlhf,
+					"Percentage of games where the player greeted with \"gl hf\"", "greetings");
+			}
 			if (cumulative.chatGamesClean) {
 				html += renderPercentCard("Conversationalist", cumulative.chatGamesClean,
 					"Percentage of games with chat and no toxic messages", "clean games");
@@ -550,6 +554,10 @@ var HallOfFameView = (function() {
 		if (cumulative.chatGamesToxic) {
 			html += renderPercentCard("Most Toxic Conversationalist", cumulative.chatGamesToxic,
 				"Percentage of games where the player sent a toxic message", "toxic games");
+		}
+		if (cumulative.chatOffensiveGg) {
+			html += renderPercentCard("Offensive GG", cumulative.chatOffensiveGg,
+				"Percentage of games with an early or premature \"gg\"", "offensive ggs");
 		}
 
 		if (hofData.stats.damageSoakedMin) {

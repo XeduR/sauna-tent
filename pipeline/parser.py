@@ -1,6 +1,7 @@
 # Core replay parser module. Wraps heroprotocol to extract structured data
 # from a single .StormReplay file.
 
+import re
 import sys
 import os
 from datetime import datetime, timezone
@@ -100,6 +101,19 @@ _DEATH_SOURCE_STAT_KEYS = {
 	"structure": "deathsByStructures",
 	"monster": "deathsByMonsters",
 }
+
+
+# Chat behaviour analysis: sportsmanlike greetings and offensive gg
+_CHAT_NORMALIZE_RE = re.compile(r"[^a-z0-9 &]")
+_GLHF_PATTERNS = frozenset({"gl", "hf", "gl hf", "gl & hf", "glhf"})
+_GG_PATTERNS = frozenset({"gg", "ggs"})
+_GLHF_THRESHOLD_LOOPS = 60 * _LOOPS_PER_SECOND
+_GG_EARLY_BUFFER_LOOPS = 15 * _LOOPS_PER_SECOND
+
+
+def _normalize_chat(text: str) -> str:
+	"""Normalize chat text for pattern matching: lowercase, strip non-alnum."""
+	return " ".join(_CHAT_NORMALIZE_RE.sub("", text.strip().lower()).split())
 
 
 def _classify_killer_unit(unit_type: str) -> str:
@@ -398,6 +412,7 @@ def parse_replay(replay_path: str) -> dict:
 	message_content = archive.read_file("replay.message.events")
 	if message_content and hasattr(protocol, "decode_replay_message_events"):
 		disconnected = set()
+		chat_records = []
 		for event in protocol.decode_replay_message_events(message_content):
 			event_name = event.get("_event", "")
 			userid = event.get("_userid")
@@ -421,6 +436,14 @@ def parse_replay(replay_path: str) -> dict:
 					if text and is_toxic(text):
 						players[player_idx]["stats"].setdefault("chatToxicMessages", 0)
 						players[player_idx]["stats"]["chatToxicMessages"] += 1
+
+					# Retain per-message metadata for behaviour analysis
+					if text:
+						chat_records.append((
+							event.get("_gameloop", 0),
+							player_idx,
+							text,
+						))
 
 			elif event_name.endswith(".SPingMessage"):
 				if player_idx is not None and 0 <= player_idx < num_players:
@@ -450,6 +473,49 @@ def parse_replay(replay_path: str) -> dict:
 				s["chatGamesClean"] = 1
 			if toxic_chat > 0:
 				s["chatGamesToxic"] = 1
+
+		# Chat behaviour: sportsmanlike greeting (glhf) in first 60 seconds
+		for gameloop, pi, text in chat_records:
+			if gameloop > _GLHF_THRESHOLD_LOOPS:
+				continue
+			if _normalize_chat(text) in _GLHF_PATTERNS:
+				players[pi]["stats"]["chatGlhf"] = 1
+
+		# Chat behaviour: offensive gg (too early or winners-say-first)
+		winning_team = None
+		losing_team = None
+		for p in players:
+			if p["result"] == "win":
+				winning_team = p["team"]
+			elif p["result"] == "loss":
+				losing_team = p["team"]
+			if winning_team is not None and losing_team is not None:
+				break
+
+		gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
+
+		# Find the losing team's first gg
+		loser_first_gg_loop = None
+		if losing_team is not None:
+			for gameloop, pi, text in sorted(chat_records, key=lambda r: r[0]):
+				if _normalize_chat(text) in _GG_PATTERNS and players[pi]["team"] == losing_team:
+					loser_first_gg_loop = gameloop
+					break
+
+		# Flag players who sent an offensive gg
+		for gameloop, pi, text in chat_records:
+			if _normalize_chat(text) not in _GG_PATTERNS:
+				continue
+			is_offensive = False
+			# Too early: more than 15 seconds before game end
+			if gameloop < gg_early_threshold:
+				is_offensive = True
+			# Winners first: winning team gg before losing team's first gg
+			if (winning_team is not None and players[pi]["team"] == winning_team
+					and loser_first_gg_loop is not None and gameloop < loser_first_gg_loop):
+				is_offensive = True
+			if is_offensive:
+				players[pi]["stats"]["chatOffensiveGg"] = 1
 
 	# Store death-by-source stats
 	for pi in range(num_players):

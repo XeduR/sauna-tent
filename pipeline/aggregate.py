@@ -253,6 +253,8 @@ _HOF_CUMULATIVE_CATEGORIES = [
 	("chatToxicMessages", "Total Toxic Messages"),
 	("chatGamesClean", "Conversationalist Games"),
 	("chatGamesToxic", "Toxic Games"),
+	("chatGlhf", "Sportsmanlike Greetings"),
+	("chatOffensiveGg", "Offensive GG"),
 	("timeOnFire", "Total Time on Fire"),
 ]
 

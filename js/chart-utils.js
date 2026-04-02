@@ -74,6 +74,7 @@ var ChartUtils = (function() {
 					legend: { display: false },
 					tooltip: {
 						mode: "index",
+						backgroundColor: "rgb(0, 0, 0)",
 						filter: function(item) { return item.raw != null; },
 						itemSort: function(a, b) { return b.raw - a.raw; }
 					}
