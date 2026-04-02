@@ -362,6 +362,7 @@ var PlayerView = (function() {
 					html += talentIconHtml(row.hero, t, choice, talentData);
 				}
 				html += '</span>';
+				html += talentCopyBtnHtml(v, row.hero);
 				return html;
 			}},
 			{ key: "map", label: "Map", format: function(v) {

@@ -90,6 +90,22 @@ function talentIconHtml(heroName, tierIndex, choice, talentData) {
 		'<img class="talent-icon" src="' + src + '" alt=""></span>';
 }
 
+function talentBuildString(talents, heroName) {
+	var code = "[T";
+	for (var t = 0; t < 7; t++) {
+		code += (talents[t] && talents[t] > 0) ? talents[t] : "0";
+	}
+	return code + "," + heroName + "]";
+}
+
+function talentCopyBtnHtml(talents, heroName) {
+	var str = talentBuildString(talents, heroName);
+	return '<button class="talent-copy-btn" data-copy="' + escapeHtml(str) + '" title="Copy build">' +
+		'<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">' +
+		'<rect x="5" y="5" width="9.5" height="9.5" rx="1.5"/>' +
+		'<path d="M2 10.5V2.5a.5.5 0 01.5-.5h8"/></svg></button>';
+}
+
 // Shared tooltip element, appended to body once
 var talentTooltip = null;
 
@@ -773,6 +789,18 @@ Router.add("/draft", function() { DraftView.render(); });
 populateNav();
 setupMobileNav();
 initTalentTooltip();
+
+document.addEventListener("click", function(e) {
+	var btn = e.target.closest(".talent-copy-btn");
+	if (!btn) return;
+	var text = btn.getAttribute("data-copy");
+	if (!text) return;
+	navigator.clipboard.writeText(text).then(function() {
+		btn.classList.add("copied");
+		setTimeout(function() { btn.classList.remove("copied"); }, 1500);
+	});
+});
+
 Router.start();
 
 // Auto-attach top scrollbars when #app content changes

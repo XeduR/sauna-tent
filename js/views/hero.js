@@ -211,6 +211,10 @@ var HeroView = (function() {
 			{ key: "t13", label: "T13", className: "talent-cell", noSort: true, format: fmtTalent(4) },
 			{ key: "t16", label: "T16", className: "talent-cell", noSort: true, format: fmtTalent(5) },
 			{ key: "t20", label: "T20", className: "talent-cell", noSort: true, format: fmtTalent(6) },
+			{ key: "copy", label: "", className: "talent-copy-cell", noSort: true, format: function(v, row) {
+				var talents = [row.t1, row.t4, row.t7, row.t10, row.t13, row.t16, row.t20];
+				return talentCopyBtnHtml(talents, heroName);
+			}},
 			{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
 			{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
 			{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
@@ -218,7 +222,7 @@ var HeroView = (function() {
 		];
 
 		var headerGroups = [
-			{ label: "Talents", span: 7 },
+			{ label: "Talents", span: 8 },
 			{ label: "Games", span: 3 },
 			{ label: "Win Rate", span: 1 }
 		];

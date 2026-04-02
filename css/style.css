@@ -1535,6 +1535,35 @@ tfoot {
 	letter-spacing: 0.02em;
 }
 
+/* Copy button for talent builds */
+.talent-copy-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: none;
+	color: var(--text-muted);
+	cursor: pointer;
+	padding: 2px;
+	margin-left: 6px;
+	border-radius: 3px;
+	vertical-align: middle;
+	transition: color 0.15s;
+}
+
+.talent-copy-btn:hover {
+	color: var(--accent);
+}
+
+.talent-copy-btn.copied {
+	color: var(--win);
+}
+
+.talent-copy-cell {
+	width: 1%;
+	padding-left: 0 !important;
+}
+
 .recent-matches-footer {
 	margin-top: 1rem;
 	text-align: center;

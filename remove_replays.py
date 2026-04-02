@@ -8,6 +8,7 @@ import os
 import sys
 import time
 from collections import Counter
+from datetime import datetime, timezone
 
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_PROJECT_ROOT, "tools", "heroprotocol"))
@@ -18,6 +19,7 @@ from pipeline.herodata import ARAM_MAP_IDS, ARAM_MAP_NAMES as ARAM_MAPS
 from replay_utils import find_replays
 
 ACCEPTED_MODES = frozenset({"StormLeague", "CustomDraft", "ARAM"})
+_FILETIME_EPOCH_DIFF = 116444736000000000
 
 # Game modes that map to the "unwanted_mode" category.
 _UNWANTED_MODE_REASONS = frozenset({
@@ -53,6 +55,7 @@ BRAWL_MAPS = frozenset({
 # Display labels for rejection categories, in presentation order.
 _CATEGORY_LABELS = {
 	"duplicate": "Duplicate replays",
+	"before_cutoff": "Before cutoff date",
 	"unwanted_mode": "Unwanted game mode",
 	"ai_detected": "AI players detected",
 	"incomplete": "Incomplete games",
@@ -119,6 +122,14 @@ def _load_roster_toons() -> frozenset[str]:
 	return frozenset(toons)
 
 
+def _load_cutoff_date() -> str | None:
+	"""Load cutoff date from pipeline.json. Returns ISO date string or None."""
+	config_path = os.path.join(_PROJECT_ROOT, "pipeline.json")
+	with open(config_path, "r", encoding="utf-8") as f:
+		config = json.load(f)
+	return config.get("cutoffDate")
+
+
 def _match_fingerprint(archive, protocol) -> str:
 	"""MD5 of sorted player IDs + randomSeed."""
 	details = protocol.decode_replay_details(archive.read_file("replay.details"))
@@ -133,11 +144,13 @@ def check_replay(
 	path: str,
 	roster_toons: frozenset[str],
 	seen_fingerprints: dict[str, str],
+	cutoff_date: str | None = None,
 ) -> tuple[bool, str, str]:
 	"""Check a replay against all rejection criteria.
 
 	Args:
 		seen_fingerprints: Maps fingerprint -> first path seen. Updated in place.
+		cutoff_date: ISO date string (YYYY-MM-DD). Replays before this date are rejected.
 
 	Returns (accepted, category, detail).
 	"""
@@ -179,6 +192,15 @@ def check_replay(
 		details = protocol.decode_replay_details(archive.read_file("replay.details"))
 	except Exception as e:
 		return (False, "unparseable", f"details decode failed: {e}")
+
+	# Cutoff date
+	if cutoff_date:
+		filetime = details.get("m_timeUTC", 0)
+		if filetime > 0:
+			unix_ts = (filetime - _FILETIME_EPOCH_DIFF) / 10_000_000
+			replay_date = datetime.fromtimestamp(unix_ts, tz=timezone.utc).strftime("%Y-%m-%d")
+			if replay_date < cutoff_date:
+				return (False, "before_cutoff", replay_date)
 
 	players = details["m_playerList"]
 
@@ -259,6 +281,7 @@ def scan_replays(replay_dir: str) -> tuple[
 	total = len(replays)
 
 	roster_toons = _load_roster_toons()
+	cutoff_date = _load_cutoff_date()
 	seen_fingerprints: dict[str, str] = {}
 	by_category: dict[str, list[tuple[str, str]]] = {}
 	accepted_modes: Counter = Counter()
@@ -266,7 +289,7 @@ def scan_replays(replay_dir: str) -> tuple[
 	last_report = start
 
 	for i, path in enumerate(replays):
-		accepted, category, detail = check_replay(path, roster_toons, seen_fingerprints)
+		accepted, category, detail = check_replay(path, roster_toons, seen_fingerprints, cutoff_date)
 		if accepted:
 			accepted_modes[category] += 1
 		else:
