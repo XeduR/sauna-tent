@@ -420,6 +420,9 @@ function aggregateGroup(entries, minGames) {
 	return o;
 }
 
+// Track season dropdown open state across re-renders
+var _seasonDropdownOpen = false;
+
 // Shared page filter bar builder
 function buildPageFilterBar(filters, options) {
 	var html = '<div class="filter-bar">';
@@ -445,6 +448,36 @@ function buildPageFilterBar(filters, options) {
 			html += '<option value="' + mo.value + '"' + (filters.mode === mo.value ? " selected" : "") + '>' + mo.label + '</option>';
 		}
 		html += '</select></div>';
+	}
+
+	if (options.mode && window.AppSeasons && filters.hasOwnProperty("seasons")) {
+		var seasons = window.AppSeasons;
+		var selectedSeasons = filters.seasons ? filters.seasons.split(",") : [];
+		var btnText = "All";
+		if (selectedSeasons.length === 1) {
+			for (var si = 0; si < seasons.length; si++) {
+				if (String(seasons[si].number) === selectedSeasons[0]) {
+					btnText = seasons[si].name;
+					break;
+				}
+			}
+		} else if (selectedSeasons.length > 1) {
+			btnText = selectedSeasons.length + " seasons";
+		}
+		var dropdownCls = "season-select-dropdown" + (_seasonDropdownOpen ? " open" : "");
+		html += '<div class="filter-field season-filter">' +
+			'<label>Season</label>' +
+			'<div class="season-select">' +
+			'<button type="button" class="season-select-btn" id="pf-season-btn">' + escapeHtml(btnText) + '</button>' +
+			'<div class="' + dropdownCls + '" id="pf-season-dropdown">';
+		for (var si = seasons.length - 1; si >= 0; si--) {
+			var s = seasons[si];
+			var checked = selectedSeasons.indexOf(String(s.number)) !== -1 ? " checked" : "";
+			html += '<label class="season-option">' +
+				'<input type="checkbox" value="' + s.number + '"' + checked + '> ' +
+				escapeHtml(s.name) + '</label>';
+		}
+		html += '</div></div></div>';
 	}
 
 	if (options.mapOptions) {
@@ -516,7 +549,8 @@ var FILTER_URL_KEYS = {
 	dateFrom: "df",
 	dateTo: "dt",
 	minGames: "mg",
-	search: "q"
+	search: "q",
+	seasons: "s"
 };
 
 function readFiltersFromURL(filters, defaults) {
@@ -546,6 +580,12 @@ function readFiltersFromURL(filters, defaults) {
 		if (params.has(urlKey)) {
 			filters[key] = params.get(urlKey);
 		}
+	}
+	// Enforce season/date mutual exclusivity
+	if (filters.hasOwnProperty("seasons") && filters.seasons) {
+		filters.mode = "StormLeague";
+		filters.dateFrom = "";
+		filters.dateTo = "";
 	}
 }
 
@@ -584,8 +624,16 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 	var map = container.querySelector("#pf-map");
 	var search = container.querySelector("#pf-search");
 
+	var seasonBtn = container.querySelector("#pf-season-btn");
+	var seasonDropdown = container.querySelector("#pf-season-dropdown");
+
 	if (mode) mode.addEventListener("change", function() {
 		filters.mode = this.value;
+		// Seasons only apply to Storm League
+		if (this.value !== "StormLeague" && filters.hasOwnProperty("seasons")) {
+			filters.seasons = "";
+			_seasonDropdownOpen = false;
+		}
 		if (party) {
 			if (this.value === "Custom") {
 				filters.partySize = "5";
@@ -608,8 +656,22 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 		}
 		party.addEventListener("change", function() { filters.partySize = this.value; onChange(); });
 	}
-	if (dateFrom) dateFrom.addEventListener("change", function() { filters.dateFrom = this.value; onChange(); });
-	if (dateTo) dateTo.addEventListener("change", function() { filters.dateTo = this.value; onChange(); });
+	if (dateFrom) dateFrom.addEventListener("change", function() {
+		filters.dateFrom = this.value;
+		if (this.value && filters.hasOwnProperty("seasons")) {
+			filters.seasons = "";
+			_seasonDropdownOpen = false;
+		}
+		onChange();
+	});
+	if (dateTo) dateTo.addEventListener("change", function() {
+		filters.dateTo = this.value;
+		if (this.value && filters.hasOwnProperty("seasons")) {
+			filters.seasons = "";
+			_seasonDropdownOpen = false;
+		}
+		onChange();
+	});
 	if (map) map.addEventListener("change", function() { filters.map = this.value; onChange(); });
 	if (search) search.addEventListener("input", function() {
 		var val = this.value;
@@ -646,8 +708,42 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 			}
 		});
 	}
+
+	// Season multi-select dropdown
+	if (seasonBtn && seasonDropdown) {
+		seasonBtn.addEventListener("click", function(e) {
+			e.stopPropagation();
+			_seasonDropdownOpen = !_seasonDropdownOpen;
+			seasonDropdown.classList.toggle("open", _seasonDropdownOpen);
+		});
+
+		seasonDropdown.addEventListener("click", function(e) {
+			e.stopPropagation();
+		});
+
+		var seasonCheckboxes = seasonDropdown.querySelectorAll('input[type="checkbox"]');
+		for (var sci = 0; sci < seasonCheckboxes.length; sci++) {
+			seasonCheckboxes[sci].addEventListener("change", function() {
+				var checked = seasonDropdown.querySelectorAll('input[type="checkbox"]:checked');
+				var selected = [];
+				for (var j = 0; j < checked.length; j++) {
+					selected.push(checked[j].value);
+				}
+				filters.seasons = selected.join(",");
+				if (filters.seasons) {
+					filters.mode = "StormLeague";
+					filters.dateFrom = "";
+					filters.dateTo = "";
+				}
+				_seasonDropdownOpen = true;
+				onChange();
+			});
+		}
+	}
+
 	if (reset) {
 		reset.addEventListener("click", function() {
+			_seasonDropdownOpen = false;
 			var keys = Object.keys(defaults);
 			for (var i = 0; i < keys.length; i++) {
 				filters[keys[i]] = defaults[keys[i]];
@@ -674,11 +770,17 @@ async function populateNav() {
 		// Nav population is non-critical
 	}
 
-	// Load settings early so AppSettings is available when views render
+	// Load settings and seasons early so they're available when views render
 	try {
 		await Data.settings();
 	} catch (err) {
 		// Non-critical; views will await Data.settings() independently
+	}
+
+	try {
+		window.AppSeasons = await Data.seasons();
+	} catch (err) {
+		// Non-critical; season filter won't render if unavailable
 	}
 
 	// Populate ARAM map lookup from summary
@@ -789,6 +891,15 @@ Router.add("/draft", function() { DraftView.render(); });
 populateNav();
 setupMobileNav();
 initTalentTooltip();
+
+// Close season dropdown when clicking outside
+document.addEventListener("click", function(e) {
+	if (_seasonDropdownOpen && !e.target.closest(".season-select")) {
+		_seasonDropdownOpen = false;
+		var dd = document.querySelector(".season-select-dropdown.open");
+		if (dd) dd.classList.remove("open");
+	}
+});
 
 document.addEventListener("click", function(e) {
 	var btn = e.target.closest(".talent-copy-btn");

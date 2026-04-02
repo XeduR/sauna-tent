@@ -21,7 +21,8 @@ var MatchesView = (function() {
 			result: "",
 			partySize: "",
 			dateFrom: "",
-			dateTo: ""
+			dateTo: "",
+			seasons: ""
 		};
 	}
 
@@ -88,6 +89,19 @@ var MatchesView = (function() {
 	}
 
 	function applyFilters() {
+		// Pre-compute season date ranges if season filter is active
+		var seasonRanges = null;
+		if (filters.seasons) {
+			var seasonNums = filters.seasons.split(",");
+			var allSeasons = window.AppSeasons || [];
+			seasonRanges = [];
+			for (var si = 0; si < allSeasons.length; si++) {
+				if (seasonNums.indexOf(String(allSeasons[si].number)) !== -1) {
+					seasonRanges.push(allSeasons[si]);
+				}
+			}
+		}
+
 		filtered = [];
 		for (var i = 0; i < allMatches.length; i++) {
 			var m = allMatches[i];
@@ -144,6 +158,19 @@ var MatchesView = (function() {
 				var matchDate = m.timestamp.substring(0, 10);
 				if (filters.dateFrom && matchDate < filters.dateFrom) continue;
 				if (filters.dateTo && matchDate > filters.dateTo) continue;
+			}
+
+			// Season filter
+			if (seasonRanges && seasonRanges.length > 0) {
+				var matchDate2 = m.timestamp.substring(0, 10);
+				var inSeason = false;
+				for (var sr = 0; sr < seasonRanges.length; sr++) {
+					if (matchDate2 >= seasonRanges[sr].start && matchDate2 < seasonRanges[sr].end) {
+						inSeason = true;
+						break;
+					}
+				}
+				if (!inSeason) continue;
 			}
 
 			filtered.push(m);
@@ -329,6 +356,37 @@ var MatchesView = (function() {
 			'<label for="filter-date-to">To</label>' +
 			'<input type="date" id="filter-date-to" value="' + (filters.dateTo || "") + '">' +
 			'</div>';
+
+		if (window.AppSeasons) {
+			var seasons = window.AppSeasons;
+			var selectedSeasons = filters.seasons ? filters.seasons.split(",") : [];
+			var btnText = "All";
+			if (selectedSeasons.length === 1) {
+				for (var si = 0; si < seasons.length; si++) {
+					if (String(seasons[si].number) === selectedSeasons[0]) {
+						btnText = seasons[si].name;
+						break;
+					}
+				}
+			} else if (selectedSeasons.length > 1) {
+				btnText = selectedSeasons.length + " seasons";
+			}
+			var dropdownCls = "season-select-dropdown" + (_seasonDropdownOpen ? " open" : "");
+			html += '<div class="filter-field season-filter">' +
+				'<label>Season</label>' +
+				'<div class="season-select">' +
+				'<button type="button" class="season-select-btn" id="filter-season-btn">' + escapeHtml(btnText) + '</button>' +
+				'<div class="' + dropdownCls + '" id="filter-season-dropdown">';
+			for (var si = seasons.length - 1; si >= 0; si--) {
+				var s = seasons[si];
+				var checked = selectedSeasons.indexOf(String(s.number)) !== -1 ? " checked" : "";
+				html += '<label class="season-option">' +
+					'<input type="checkbox" value="' + s.number + '"' + checked + '> ' +
+					escapeHtml(s.name) + '</label>';
+			}
+			html += '</div></div></div>';
+		}
+
 		html += '</div>';
 
 		var mapDisplayFn = function(v) { return escapeHtml(displayMapName(v)); };
@@ -646,6 +704,10 @@ var MatchesView = (function() {
 		if (modeEl) {
 			modeEl.addEventListener("change", function() {
 				filters.mode = this.value;
+				if (this.value !== "StormLeague") {
+					filters.seasons = "";
+					_seasonDropdownOpen = false;
+				}
 				onFilterChange(roster);
 			});
 		}
@@ -674,6 +736,10 @@ var MatchesView = (function() {
 		if (dateFrom) {
 			dateFrom.addEventListener("change", function() {
 				filters.dateFrom = this.value;
+				if (this.value) {
+					filters.seasons = "";
+					_seasonDropdownOpen = false;
+				}
 				applyFilters();
 				renderContent(roster);
 			});
@@ -681,9 +747,47 @@ var MatchesView = (function() {
 		if (dateTo) {
 			dateTo.addEventListener("change", function() {
 				filters.dateTo = this.value;
+				if (this.value) {
+					filters.seasons = "";
+					_seasonDropdownOpen = false;
+				}
 				applyFilters();
 				renderContent(roster);
 			});
+		}
+
+		// Season multi-select dropdown
+		var seasonBtn = document.getElementById("filter-season-btn");
+		var seasonDropdown = document.getElementById("filter-season-dropdown");
+		if (seasonBtn && seasonDropdown) {
+			seasonBtn.addEventListener("click", function(e) {
+				e.stopPropagation();
+				_seasonDropdownOpen = !_seasonDropdownOpen;
+				seasonDropdown.classList.toggle("open", _seasonDropdownOpen);
+			});
+
+			seasonDropdown.addEventListener("click", function(e) {
+				e.stopPropagation();
+			});
+
+			var seasonCheckboxes = seasonDropdown.querySelectorAll('input[type="checkbox"]');
+			for (var sci = 0; sci < seasonCheckboxes.length; sci++) {
+				seasonCheckboxes[sci].addEventListener("change", function() {
+					var checked = seasonDropdown.querySelectorAll('input[type="checkbox"]:checked');
+					var selected = [];
+					for (var j = 0; j < checked.length; j++) {
+						selected.push(checked[j].value);
+					}
+					filters.seasons = selected.join(",");
+					if (filters.seasons) {
+						filters.mode = "StormLeague";
+						filters.dateFrom = "";
+						filters.dateTo = "";
+					}
+					_seasonDropdownOpen = true;
+					onFilterChange(roster);
+				});
+			}
 		}
 
 		// Tag selector listeners
@@ -695,6 +799,7 @@ var MatchesView = (function() {
 		var resetBtn = document.getElementById("filter-reset");
 		if (resetBtn) {
 			resetBtn.addEventListener("click", function() {
+				_seasonDropdownOpen = false;
 				filters = defaultFilters();
 				applyFilters();
 				renderContent(roster);

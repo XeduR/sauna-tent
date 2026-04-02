@@ -1,7 +1,7 @@
 // Players main page: all roster players with filterable stats
 var PlayersView = (function() {
-	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
-	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", seasons: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", seasons: "" };
 	var currentMask = null;
 	var currentWrl = null;
 

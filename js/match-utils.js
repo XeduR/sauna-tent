@@ -5,6 +5,19 @@
 var MatchIndexUtils = (function() {
 	// Filter match index entries by criteria
 	function filter(matches, filters) {
+		// Pre-compute season date ranges if season filter is active
+		var seasonRanges = null;
+		if (filters.seasons) {
+			var seasonNums = filters.seasons.split(",");
+			var allSeasons = window.AppSeasons || [];
+			seasonRanges = [];
+			for (var si = 0; si < allSeasons.length; si++) {
+				if (seasonNums.indexOf(String(allSeasons[si].number)) !== -1) {
+					seasonRanges.push(allSeasons[si]);
+				}
+			}
+		}
+
 		var result = [];
 		for (var i = 0; i < matches.length; i++) {
 			var m = matches[i];
@@ -12,6 +25,19 @@ var MatchIndexUtils = (function() {
 			if (filters.map && m.map !== filters.map) continue;
 			if (filters.dateFrom && m.timestamp.substring(0, 10) < filters.dateFrom) continue;
 			if (filters.dateTo && m.timestamp.substring(0, 10) > filters.dateTo) continue;
+
+			if (seasonRanges && seasonRanges.length > 0) {
+				var matchDate = m.timestamp.substring(0, 10);
+				var inSeason = false;
+				for (var sr = 0; sr < seasonRanges.length; sr++) {
+					// End date is exclusive (marks start of next season)
+					if (matchDate >= seasonRanges[sr].start && matchDate < seasonRanges[sr].end) {
+						inSeason = true;
+						break;
+					}
+				}
+				if (!inSeason) continue;
+			}
 
 			if (filters.partySize) {
 				var ps = Number(filters.partySize);

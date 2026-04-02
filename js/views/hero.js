@@ -1,8 +1,8 @@
 // Hero page: overall stats, per-player breakdown, talent builds, tier pick rates
 // Supports filtering by mode, party size, date range, map, and min games.
 var HeroView = (function() {
-	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", map: "", minGames: "10" };
-	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", map: "", minGames: "10" };
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", map: "", minGames: "10", seasons: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", map: "", minGames: "10", seasons: "" };
 	var heroData = null;
 	var matchIndex = null;
 	var heroName = null;

@@ -666,6 +666,79 @@ th.num {
 	border-color: var(--accent);
 }
 
+/* Season multi-select dropdown */
+.season-filter {
+	position: relative;
+}
+
+.season-select {
+	position: relative;
+}
+
+.season-select-btn {
+	background: var(--bg);
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.4rem 0.6rem;
+	font-size: 0.85rem;
+	font-family: var(--font);
+	min-width: 110px;
+	cursor: pointer;
+	text-align: left;
+	transition: border-color 0.15s;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.season-select-btn:hover,
+.season-select-btn:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+.season-select-dropdown {
+	display: none;
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 0;
+	z-index: 100;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	max-height: 280px;
+	overflow-y: auto;
+	min-width: 180px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.season-select-dropdown.open {
+	display: flex;
+	flex-direction: column;
+}
+
+.season-option {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.35rem 0.6rem;
+	font-size: 0.85rem;
+	color: var(--text);
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.1s;
+}
+
+.season-option:hover {
+	background: var(--bg-card-hover);
+}
+
+.season-option input[type="checkbox"] {
+	accent-color: var(--accent);
+	cursor: pointer;
+}
+
 .filter-actions {
 	justify-content: flex-end;
 }
@@ -1369,6 +1442,10 @@ tfoot {
 
 	.filter-field select,
 	.filter-field input[type="date"] {
+		width: 100%;
+	}
+
+	.season-select-btn {
 		width: 100%;
 	}
 

@@ -1,7 +1,7 @@
 // Heroes main page: all heroes with filterable stats, sortable table
 var HeroesMainView = (function() {
-	var filters = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
-	var defaults = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
+	var filters = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "", seasons: "" };
+	var defaults = { mode: "", map: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "", seasons: "" };
 	var currentMask = null;
 	var currentWrl = null;
 	var heroChart = null;

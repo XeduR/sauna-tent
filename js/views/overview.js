@@ -1,8 +1,8 @@
 // Overview page: team stats, player cards, most played heroes, game modes
 // Supports filtering by mode, party size, and date range via match index.
 var OverviewView = (function() {
-	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
-	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "" };
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", seasons: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", seasons: "" };
 	var matchIndex = null;
 	var roster = null;
 	var summary = null;

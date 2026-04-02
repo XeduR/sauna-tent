@@ -1,7 +1,7 @@
 // Draft tool: hero selection with conditional winrate recommendations from match history
 var DraftView = (function() {
-	var filters = { mode: "", map: "", dateFrom: "", dateTo: "" };
-	var defaults = { mode: "", map: "", dateFrom: "", dateTo: "" };
+	var filters = { mode: "", map: "", dateFrom: "", dateTo: "", seasons: "" };
+	var defaults = { mode: "", map: "", dateFrom: "", dateTo: "", seasons: "" };
 	var rawMatchIndex = null;
 	var aramMaps = [];
 	var matchData = null;

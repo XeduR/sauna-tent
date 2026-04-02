@@ -1,8 +1,8 @@
 // Map page: overall stats, per-player breakdown, per-hero breakdown
 // Supports filtering by mode, party size, date range, and min games.
 var MapView = (function() {
-	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10" };
-	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10" };
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", seasons: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", seasons: "" };
 	var mapData = null;
 	var matchIndex = null;
 	var mapName = null;

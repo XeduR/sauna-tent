@@ -1,17 +1,39 @@
 // Hall of Fame page: top 5 lists for various records and achievements
 var HallOfFameView = (function() {
-	var filters = { mode: "", dateFrom: "", dateTo: "" };
-	var defaults = { mode: "", dateFrom: "", dateTo: "" };
+	var filters = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
+	var defaults = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
 	var hofData = null;
 	var matchIndex = null;
 
 	function filterByDate(records) {
-		if (!filters.dateFrom && !filters.dateTo) return records;
+		var hasDateFilter = filters.dateFrom || filters.dateTo;
+		var seasonRanges = null;
+		if (filters.seasons) {
+			var seasonNums = filters.seasons.split(",");
+			var allSeasons = window.AppSeasons || [];
+			seasonRanges = [];
+			for (var si = 0; si < allSeasons.length; si++) {
+				if (seasonNums.indexOf(String(allSeasons[si].number)) !== -1) {
+					seasonRanges.push(allSeasons[si]);
+				}
+			}
+		}
+		if (!hasDateFilter && (!seasonRanges || seasonRanges.length === 0)) return records;
 		var result = [];
 		for (var i = 0; i < records.length; i++) {
 			var ts = records[i].timestamp.substring(0, 10);
 			if (filters.dateFrom && ts < filters.dateFrom) continue;
 			if (filters.dateTo && ts > filters.dateTo) continue;
+			if (seasonRanges && seasonRanges.length > 0) {
+				var inSeason = false;
+				for (var sr = 0; sr < seasonRanges.length; sr++) {
+					if (ts >= seasonRanges[sr].start && ts < seasonRanges[sr].end) {
+						inSeason = true;
+						break;
+					}
+				}
+				if (!inSeason) continue;
+			}
 			result.push(records[i]);
 		}
 		return result;

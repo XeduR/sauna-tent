@@ -1,7 +1,7 @@
 // Maps main page: all maps with filterable stats, sortable table
 var MapsMainView = (function() {
-	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
-	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "" };
+	var filters = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "", seasons: "" };
+	var defaults = { mode: "", partySize: "", dateFrom: "", dateTo: "", minGames: "10", search: "", seasons: "" };
 	var currentMask = null;
 	var currentWrl = null;
 

@@ -72,6 +72,10 @@ var Data = (function() {
 		return fetchJSON("talent-descriptions.json");
 	}
 
+	function seasons() {
+		return fetchJSON("seasons.json");
+	}
+
 	function settings() {
 		return fetchJSON("settings.json").then(function(data) {
 			window.AppSettings = data;
@@ -91,6 +95,7 @@ var Data = (function() {
 		heroColors: heroColors,
 		talentNames: talentNames,
 		talentDescriptions: talentDescriptions,
+		seasons: seasons,
 		settings: settings
 	};
 })();
