@@ -35,7 +35,12 @@ var StandardTable = (function() {
 			return v == null ? '<span class="text-muted">-</span>' : escapeHtml(String(v));
 		},
 		heroLink: function(v) {
-			return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + escapeHtml(v) + '</a>';
+			return '<a href="' + appLink('/hero/' + slugify(v)) + '">' +
+				heroIconHtml(v) + escapeHtml(v) + '</a>';
+		},
+		roleIcon: function(v) {
+			if (v == null) return '<span class="text-muted">-</span>';
+			return roleIconHtml(v) + escapeHtml(String(v));
 		},
 		mapLink: function(v) {
 			return '<a href="' + appLink('/map/' + slugify(v)) + '">' + escapeHtml(displayMapName(v)) + '</a>';

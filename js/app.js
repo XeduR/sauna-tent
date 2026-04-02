@@ -37,6 +37,11 @@ function statBox(label, value) {
 		'</div><div class="value">' + value + '</div></div>';
 }
 
+function statBoxHtml(labelHtml, value) {
+	return '<div class="stat-box"><div class="label">' + labelHtml +
+		'</div><div class="value">' + value + '</div></div>';
+}
+
 function formatDuration(seconds) {
 	var total = Math.round(seconds);
 	var m = Math.floor(total / 60);
@@ -53,6 +58,84 @@ function formatNumber(n) {
 // Must match pipeline's slugify exactly: lowercase, spaces to dashes, strip apostrophes and dots
 function slugify(name) {
 	return name.toLowerCase().replace(/ /g, "-").replace(/'/g, "").replace(/\./g, "");
+}
+
+// Icon helpers
+function heroIconHtml(heroName, size) {
+	var slug = slugify(heroName);
+	var cls = size === "lg" ? "hero-icon-lg" : "hero-icon";
+	return '<img class="' + cls + '" src="img/hero/' + slug + '/avatar.png" alt="" title="' + escapeHtml(heroName) + '">';
+}
+
+function roleIconHtml(role) {
+	var file = role.toLowerCase().replace(/ /g, "-") + ".png";
+	return '<img class="role-icon" src="img/roles/' + file + '" alt="" title="' + escapeHtml(role) + '">';
+}
+
+var TALENT_TIERS = [1, 4, 7, 10, 13, 16, 20];
+
+function talentIconHtml(heroName, tierIndex, choice, talentData) {
+	if (!choice || choice === 0) return '<span class="text-muted">-</span>';
+	var slug = slugify(heroName);
+	var level = TALENT_TIERS[tierIndex];
+	var key = level + "_" + choice;
+	var src = "img/hero/" + slug + "/talent" + key + ".png";
+	var names = talentData && talentData.names ? talentData.names[slug] : null;
+	var descs = talentData && talentData.descriptions ? talentData.descriptions[slug] : null;
+	var name = names ? names[key] || "" : "";
+	var desc = descs ? descs[key] || "" : "";
+
+	return '<span class="talent-tip" data-tip-name="' + escapeHtml(name) +
+		'" data-tip-desc="' + escapeHtml(desc) + '">' +
+		'<img class="talent-icon" src="' + src + '" alt=""></span>';
+}
+
+// Shared tooltip element, appended to body once
+var talentTooltip = null;
+
+function initTalentTooltip() {
+	if (talentTooltip) return;
+	talentTooltip = document.createElement("div");
+	talentTooltip.className = "talent-tip-text";
+	talentTooltip.style.display = "none";
+	document.body.appendChild(talentTooltip);
+
+	document.addEventListener("mouseover", function(e) {
+		var tip = e.target.closest(".talent-tip");
+		if (!tip) return;
+		var name = tip.getAttribute("data-tip-name");
+		if (!name) return;
+		var desc = tip.getAttribute("data-tip-desc") || "";
+		talentTooltip.innerHTML = '<div class="talent-tip-name">' + name + '</div>' + desc;
+		talentTooltip.style.display = "block";
+		positionTooltip(tip);
+	});
+
+	document.addEventListener("mouseout", function(e) {
+		var tip = e.target.closest(".talent-tip");
+		if (!tip) return;
+		if (!tip.contains(e.relatedTarget)) {
+			talentTooltip.style.display = "none";
+		}
+	});
+}
+
+function positionTooltip(anchor) {
+	var rect = anchor.getBoundingClientRect();
+	var tipW = talentTooltip.offsetWidth;
+	var tipH = talentTooltip.offsetHeight;
+	var left = rect.left + rect.width / 2 - tipW / 2;
+	var top = rect.top - tipH - 6;
+
+	// Keep within viewport
+	if (left < 4) left = 4;
+	if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
+	if (top < 4) {
+		top = rect.bottom + 6;
+	}
+
+	talentTooltip.style.left = left + "px";
+	talentTooltip.style.top = top + "px";
 }
 
 var MODE_DISPLAY_NAMES = {
@@ -650,6 +733,7 @@ Router.add("/draft", function() { DraftView.render(); });
 // Init
 populateNav();
 setupMobileNav();
+initTalentTooltip();
 Router.start();
 
 // Auto-attach top scrollbars when #app content changes

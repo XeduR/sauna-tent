@@ -133,6 +133,7 @@ def process_replays(
 
 	processed = 0
 	duplicates = 0
+	no_roster = 0
 	skipped = 0
 	failed = 0
 	errors = []
@@ -160,13 +161,17 @@ def process_replays(
 			try:
 				match_data = process_single(replay_path, config, output_dir, pretty, seen_match_ids)
 				is_dup = match_data.get("isDuplicate", False)
+				has_roster = match_data.get("hasRoster", True)
 				manifest["files"][rel_path] = {
 					"contentHash": content_hash,
 					"matchId": match_data["matchId"],
 					"timestamp": match_data["timestamp"],
 					"duplicate": is_dup,
+					"noRoster": not has_roster,
 				}
-				if is_dup:
+				if not has_roster:
+					no_roster += 1
+				elif is_dup:
 					duplicates += 1
 				else:
 					processed += 1
@@ -177,7 +182,7 @@ def process_replays(
 		now = time.monotonic()
 		if now - last_report >= 5:
 			elapsed = now - start_time
-			done = processed + duplicates + skipped + failed
+			done = processed + duplicates + no_roster + skipped + failed
 			rate = done / elapsed if elapsed > 0 else 0
 			remaining = (total - done) / rate if rate > 0 else 0
 
@@ -198,7 +203,10 @@ def process_replays(
 	out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
 	matches_dir = os.path.join(out_dir, "matches")
 	if os.path.isdir(matches_dir):
-		known_ids = {e["matchId"] for e in manifest["files"].values() if e.get("matchId")}
+		known_ids = {
+			e["matchId"] for e in manifest["files"].values()
+			if e.get("matchId") and not e.get("noRoster")
+		}
 		orphaned = 0
 		for fname in os.listdir(matches_dir):
 			if not fname.endswith(".json") or fname == "index.json":
@@ -215,6 +223,7 @@ def process_replays(
 		"total": total,
 		"processed": processed,
 		"duplicates": duplicates,
+		"noRoster": no_roster,
 		"skipped": skipped,
 		"failed": failed,
 		"uniqueMatches": unique_matches,
@@ -222,8 +231,10 @@ def process_replays(
 		"errors": errors,
 	}
 
-	print(f"  Result: {processed} new, {duplicates} dupes, {skipped} skipped, "
-		  f"{failed} failed in {_format_time(elapsed)}")
+	print(f"  Result: {processed} new, {duplicates} dupes, "
+		  f"{skipped} skipped, {failed} failed in {_format_time(elapsed)}")
+	if no_roster:
+		print(f"  Skipped {no_roster} replays with no roster players")
 	print(f"  Unique matches: {unique_matches}")
 	if errors:
 		print(f"  Failed replays ({len(errors)}):")
@@ -254,7 +265,7 @@ def generate_output(config: dict, output_dir: str | None = None, pretty: bool = 
 
 	print("  Aggregating stats...", flush=True)
 	t1 = time.monotonic()
-	aggregates = aggregate_all(matches, config["roster"])
+	aggregates = aggregate_all(matches, config["roster"], config.get("cutoffDate"))
 	print(f"  Aggregated ({_format_time(time.monotonic() - t1)})")
 
 	print("  Writing output files...", flush=True)

@@ -473,9 +473,11 @@ th.num {
 }
 
 .hero-bar-name {
-	width: 120px;
+	width: 150px;
 	flex-shrink: 0;
 	font-size: 0.9rem;
+	display: inline-flex;
+	align-items: center;
 }
 
 .hero-bar-track {
@@ -543,7 +545,6 @@ th.num {
 }
 
 .tier-pick-label {
-	width: 64px;
 	flex-shrink: 0;
 	color: var(--text-muted);
 	font-size: 0.8rem;
@@ -1431,6 +1432,100 @@ tfoot {
 .footer-separator {
 	margin: 0 0.5rem;
 	color: var(--border);
+}
+
+/* Hero, role, and talent icons */
+.hero-icon {
+	width: 24px;
+	height: 24px;
+	border-radius: 3px;
+	vertical-align: middle;
+	margin-right: 0.35rem;
+	transition: filter 0.15s;
+}
+
+.hero-icon:hover {
+	filter: brightness(1.2);
+}
+
+.hero-icon-lg {
+	width: 48px;
+	height: 48px;
+	border-radius: 4px;
+	vertical-align: middle;
+	margin-right: 0.5rem;
+	transition: filter 0.15s;
+}
+
+.hero-icon-lg:hover {
+	filter: brightness(1.2);
+}
+
+.role-icon {
+	width: 18px;
+	height: 18px;
+	vertical-align: middle;
+	margin-right: 0.25rem;
+	opacity: 0.85;
+	transition: opacity 0.15s;
+}
+
+.role-icon:hover {
+	opacity: 1;
+}
+
+.talent-icon {
+	width: 28px;
+	height: 28px;
+	border-radius: 3px;
+	vertical-align: middle;
+	transition: filter 0.15s;
+	position: relative;
+}
+
+.talent-icon:hover {
+	filter: brightness(1.25);
+}
+
+/* Tooltip for talent icons */
+.talent-tip {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.talent-tip-text {
+	position: fixed;
+	background: var(--bg-nav);
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.5rem 0.65rem;
+	font-size: 0.8rem;
+	line-height: 1.4;
+	width: max-content;
+	max-width: 280px;
+	white-space: normal;
+	z-index: 1000;
+	pointer-events: none;
+}
+
+.talent-tip-text .talent-tip-name {
+	font-weight: 500;
+	color: var(--accent);
+	margin-bottom: 0.2rem;
+}
+
+/* Talent icon cells in tables */
+.talent-cell .talent-tip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.talent-build-icons {
+	display: inline-flex;
+	gap: 3px;
+	align-items: center;
 }
 
 /* Recent matches on player pages */

@@ -9,6 +9,7 @@ var PlayerView = (function() {
 	var currentMask = null;
 	var currentWrl = null;
 	var recentMatchData = [];
+	var talentData = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
@@ -145,11 +146,12 @@ var PlayerView = (function() {
 		for (var i = 0; i < roleOrder.length; i++) {
 			var role = roleOrder[i];
 			var rs = roleStats[role];
+			var label = roleIconHtml(role) + escapeHtml(role);
 			if (rs && rs.games > 0) {
 				var wr = rs.wins / rs.games;
-				html += statBox(role, winrateSpan(wr) + '<div class="stat-sub">' + rs.games.toLocaleString() + ' games</div>');
+				html += statBoxHtml(label, winrateSpan(wr) + '<div class="stat-sub">' + rs.games.toLocaleString() + ' games</div>');
 			} else {
-				html += statBox(role, '<span class="text-muted">-</span>');
+				html += statBoxHtml(label, '<span class="text-muted">-</span>');
 			}
 		}
 		html += '</div>';
@@ -355,14 +357,16 @@ var PlayerView = (function() {
 			var resultText = playerEntry.result === "win" ? "Victory" : "Defeat";
 
 			var talents = playerEntry.talentChoices || [];
-			var talentParts = [];
+			var talentIcons = '<span class="talent-build-icons">';
 			for (var t = 0; t < 7; t++) {
-				talentParts.push(talents[t] && talents[t] > 0 ? String(talents[t]) : "-");
+				var choice = talents[t] && talents[t] > 0 ? talents[t] : 0;
+				talentIcons += talentIconHtml(playerEntry.hero, t, choice, talentData);
 			}
+			talentIcons += '</span>';
 
 			html += '<tr>' +
-				'<td><a href="' + appLink('/hero/' + slugify(playerEntry.hero)) + '">' + escapeHtml(playerEntry.hero) + '</a></td>' +
-				'<td class="talent-build">' + escapeHtml(talentParts.join("/")) + '</td>' +
+				'<td><a href="' + appLink('/hero/' + slugify(playerEntry.hero)) + '">' + heroIconHtml(playerEntry.hero) + escapeHtml(playerEntry.hero) + '</a></td>' +
+				'<td class="talent-build">' + talentIcons + '</td>' +
 				'<td><a href="' + appLink('/map/' + slugify(match.map)) + '">' + escapeHtml(displayMapName(match.map)) + '</a></td>' +
 				'<td>' + escapeHtml(displayModeName(match.gameMode)) + '</td>' +
 				'<td class="num ' + resultClass + '">' + resultText + '</td>' +
@@ -580,11 +584,12 @@ var PlayerView = (function() {
 		}
 
 		try {
-			var results = await Promise.all([Data.player(slug), Data.matchIndex(), Data.summary(), Data.settings()]);
+			var results = await Promise.all([Data.player(slug), Data.matchIndex(), Data.summary(), Data.settings(), Data.talentNames(), Data.talentDescriptions()]);
 			playerData = results[0];
 			matchIndex = results[1];
 			heroRoles = results[2].heroRoles || {};
 			playerName = playerData.name;
+			talentData = { names: results[4], descriptions: results[5] };
 			defaults.minGames = String(AppSettings.minGamesDefault);
 			filters.minGames = defaults.minGames;
 			readFiltersFromURL(filters, defaults);

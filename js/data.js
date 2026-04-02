@@ -64,6 +64,14 @@ var Data = (function() {
 		return fetchJSON("hero-colors.json");
 	}
 
+	function talentNames() {
+		return fetchJSON("talent-names.json");
+	}
+
+	function talentDescriptions() {
+		return fetchJSON("talent-descriptions.json");
+	}
+
 	function settings() {
 		return fetchJSON("settings.json").then(function(data) {
 			window.AppSettings = data;
@@ -81,6 +89,8 @@ var Data = (function() {
 		match: match,
 		hallOfFame: hallOfFame,
 		heroColors: heroColors,
+		talentNames: talentNames,
+		talentDescriptions: talentDescriptions,
 		settings: settings
 	};
 })();

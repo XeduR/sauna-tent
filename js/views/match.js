@@ -1,5 +1,6 @@
 // Match detail page: full 10-player scoreboard with stats, talents, team composition
 var MatchView = (function() {
+	var talentData = null;
 	// Key stats to show in the scoreboard columns
 	var STAT_COLS = [
 		{ key: "kills", label: "K" },
@@ -35,11 +36,10 @@ var MatchView = (function() {
 		var choices = player.talentChoices || [];
 		for (var t = 0; t < 7; t++) {
 			var choice = t < choices.length ? choices[t] : null;
-			// Choice 0 means no pick at that tier (game ended before reaching it)
 			if (choice === null || choice === 0) {
-				html += '<td class="talent-cell">-</td>';
+				html += '<td class="talent-cell"><span class="text-muted">-</span></td>';
 			} else {
-				html += '<td class="talent-cell">' + choice + '</td>';
+				html += '<td class="talent-cell">' + talentIconHtml(player.hero, t, choice, talentData) + '</td>';
 			}
 		}
 		return html;
@@ -86,9 +86,9 @@ var MatchView = (function() {
 				nameHtml = '<strong>' + nameHtml + '</strong>';
 			}
 
-			// Hero name: link to hero page
+			// Hero name: link to hero page with avatar
 			var heroSlug = slugify(p.hero);
-			var heroHtml = '<a href="' + appLink('/hero/' + heroSlug) + '">' + escapeHtml(p.hero) + '</a>';
+			var heroHtml = '<a href="' + appLink('/hero/' + heroSlug) + '">' + heroIconHtml(p.hero) + escapeHtml(p.hero) + '</a>';
 
 			// Party indicator
 			if (p.partySize && p.partySize > 1) {
@@ -146,9 +146,10 @@ var MatchView = (function() {
 		app.innerHTML = '<div class="loading">Loading match...</div>';
 
 		try {
-			var results = await Promise.all([Data.match(id), Data.roster()]);
+			var results = await Promise.all([Data.match(id), Data.roster(), Data.talentNames(), Data.talentDescriptions()]);
 			var data = results[0];
 			var roster = results[1];
+			talentData = { names: results[2], descriptions: results[3] };
 
 			// Build roster name to slug lookup
 			var rosterLookup = {};

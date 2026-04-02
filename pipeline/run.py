@@ -53,7 +53,7 @@ def process_single(
 		seen_match_ids: If provided, duplicate matches (same ID already in set)
 			are tagged but not written to disk. The set is updated in place.
 
-	Returns the parsed match data dict. Includes "isDuplicate" flag.
+	Returns the parsed match data dict with isDuplicate and hasRoster flags.
 	"""
 	replay_path = os.path.abspath(replay_path)
 	match_data = parse_replay(replay_path)
@@ -91,18 +91,20 @@ def process_single(
 
 	# Deduplication: skip writing if this match was already processed
 	is_duplicate = seen_match_ids is not None and match_id in seen_match_ids
+	has_roster = any(p.get("isRoster") for p in match_data["players"])
 	match_data["isDuplicate"] = is_duplicate
+	match_data["hasRoster"] = has_roster
 
 	if seen_match_ids is not None:
 		seen_match_ids.add(match_id)
 
-	if not is_duplicate:
+	if not is_duplicate and has_roster:
 		out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
 		matches_dir = os.path.join(out_dir, "matches")
 		os.makedirs(matches_dir, exist_ok=True)
 
 		# Strip runtime-only fields before writing
-		output_data = {k: v for k, v in match_data.items() if k != "isDuplicate"}
+		output_data = {k: v for k, v in match_data.items() if k not in ("isDuplicate", "hasRoster")}
 		output_path = os.path.join(matches_dir, f"{match_id}.json")
 		indent = 2 if pretty else None
 		with open(output_path, "w", encoding="utf-8") as f:

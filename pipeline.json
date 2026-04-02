@@ -8,6 +8,7 @@
 		{"name": "Antss", "toons": ["2-1-198475"]},
 		{"name": "Grezor", "toons": ["2-1-885944"]}
 	],
+	"cutoffDate": "2017-01-01",
 	"replayDirectory": "replays",
 	"outputDirectory": "data"
 }

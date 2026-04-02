@@ -70,7 +70,7 @@ var HallOfFameView = (function() {
 					'<div class="hof-entry-main">' +
 					'<span class="hof-value">' + value + '</span>' +
 					'<a href="' + appLink('/player/' + slugify(r.playerName)) + '">' + escapeHtml(r.playerName) + '</a>' +
-					' on <a href="' + appLink('/hero/' + slugify(r.hero)) + '">' + escapeHtml(r.hero) + '</a>' +
+					' on <a href="' + appLink('/hero/' + slugify(r.hero)) + '">' + heroIconHtml(r.hero) + escapeHtml(r.hero) + '</a>' +
 					'</div>' +
 					'<div class="hof-entry-meta">' +
 					'<a href="' + appLink('/match/' + r.matchId) + '">' + escapeHtml(displayMapName(r.map)) + '</a>' +

@@ -131,7 +131,7 @@ var TableConfig = (function() {
 			topLabel: "HERO",
 			columns: [
 				{ key: "hero", label: "Name", format: "heroLink" },
-				{ key: "role", label: "Role", format: "text" }
+				{ key: "role", label: "Role", format: "roleIcon" }
 			]
 		},
 		heroNameOnly: {

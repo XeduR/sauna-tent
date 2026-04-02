@@ -47,7 +47,7 @@ var OverviewView = (function() {
 			var heroSlug = slugify(h.hero);
 			var pct = (h.games / maxGames * 100).toFixed(1);
 			html += '<a href="' + appLink('/hero/' + heroSlug) + '" class="hero-bar-row">' +
-				'<span class="hero-bar-name">' + escapeHtml(h.hero) + '</span>' +
+				'<span class="hero-bar-name">' + heroIconHtml(h.hero) + escapeHtml(h.hero) + '</span>' +
 				'<span class="hero-bar-track"><span class="hero-bar-fill" style="width:' + pct + '%"></span></span>' +
 				'<span class="hero-bar-count">' + h.games.toLocaleString() + '</span>' +
 				'</a>';

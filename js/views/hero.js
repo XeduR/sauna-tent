@@ -10,6 +10,7 @@ var HeroView = (function() {
 	var buildsTable = null;
 	var currentMask = null;
 	var currentWrl = null;
+	var talentData = null;
 
 	function getMask() {
 		if (currentMask != null) return currentMask;
@@ -196,16 +197,20 @@ var HeroView = (function() {
 			});
 		}
 
-		function fmtTalent(v) { return '<span class="talent-val">' + (v === 0 ? '-' : v) + '</span>'; }
+		function fmtTalent(tierIdx) {
+			return function(v) {
+				return talentIconHtml(heroName, tierIdx, v, talentData);
+			};
+		}
 
 		var columns = [
-			{ key: "t1", label: "T1", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t4", label: "T4", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t7", label: "T7", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t10", label: "T10", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t13", label: "T13", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t16", label: "T16", className: "talent-cell", noSort: true, format: fmtTalent },
-			{ key: "t20", label: "T20", className: "talent-cell", noSort: true, format: fmtTalent },
+			{ key: "t1", label: "T1", className: "talent-cell", noSort: true, format: fmtTalent(0) },
+			{ key: "t4", label: "T4", className: "talent-cell", noSort: true, format: fmtTalent(1) },
+			{ key: "t7", label: "T7", className: "talent-cell", noSort: true, format: fmtTalent(2) },
+			{ key: "t10", label: "T10", className: "talent-cell", noSort: true, format: fmtTalent(3) },
+			{ key: "t13", label: "T13", className: "talent-cell", noSort: true, format: fmtTalent(4) },
+			{ key: "t16", label: "T16", className: "talent-cell", noSort: true, format: fmtTalent(5) },
+			{ key: "t20", label: "T20", className: "talent-cell", noSort: true, format: fmtTalent(6) },
 			{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
 			{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
 			{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
@@ -239,7 +244,7 @@ var HeroView = (function() {
 				var pick = sorted[c];
 				var barWidth = Math.round(pick.pickrate * 100);
 				html += '<div class="tier-pick-row">' +
-					'<div class="tier-pick-label">Choice ' + pick.choice + '</div>' +
+					'<div class="tier-pick-label">' + talentIconHtml(heroName, t, pick.choice, talentData) + '</div>' +
 					'<div class="tier-pick-bar-track">' +
 					'<div class="tier-pick-bar-fill" style="width:' + barWidth + '%"></div>' +
 					'</div>' +
@@ -282,7 +287,7 @@ var HeroView = (function() {
 		var playerTable = StandardTable.create("hero-players", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
 		var html =
-			'<div class="page-header"><h1>' + escapeHtml(heroData.name) + '</h1>' +
+			'<div class="page-header"><h1>' + heroIconHtml(heroData.name, "lg") + escapeHtml(heroData.name) + '</h1>' +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
 			heroData.overall.games.toLocaleString() + ' games</div></div>';
 
@@ -357,11 +362,12 @@ var HeroView = (function() {
 		}
 
 		try {
-			var results = await Promise.all([Data.hero(slug), Data.matchIndex(), Data.summary(), Data.settings()]);
+			var results = await Promise.all([Data.hero(slug), Data.matchIndex(), Data.summary(), Data.settings(), Data.talentNames(), Data.talentDescriptions()]);
 			heroData = results[0];
 			matchIndex = results[1];
 			heroName = heroData.name;
 			aramMaps = results[2].aramMaps || [];
+			talentData = { names: results[4], descriptions: results[5] };
 			defaults.minGames = String(AppSettings.minGamesDefault);
 			filters.minGames = defaults.minGames;
 			readFiltersFromURL(filters, defaults);

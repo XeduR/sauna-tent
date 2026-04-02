@@ -324,7 +324,7 @@ var DraftView = (function() {
 				var cls = e.games < AppSettings.draft.lowConfidenceThreshold ? ' draft-low-conf' : '';
 				html += '<div class="draft-rec-entry' + cls + '">' +
 					'<span class="draft-rec-rank">' + (i + 1) + '</span>' +
-					'<a href="' + appLink('/hero/' + slugify(e.hero)) + '">' + escapeHtml(e.hero) + '</a> ' +
+					'<a href="' + appLink('/hero/' + slugify(e.hero)) + '">' + heroIconHtml(e.hero) + escapeHtml(e.hero) + '</a> ' +
 					winrateSpan(e.winrate) +
 					' <span class="text-muted">(' + e.games + ' games)</span>' +
 					'<button class="draft-add-btn" data-hero="' + escapeHtml(e.hero) + '" data-side="' + side + '">+Add</button>' +
@@ -385,7 +385,7 @@ var DraftView = (function() {
 				var hero = combo.heroes[i];
 				var ph = combo.perHero[hero];
 				html += '<tr>' +
-					'<td><a href="' + appLink('/hero/' + slugify(hero)) + '">' + escapeHtml(hero) + '</a></td>' +
+					'<td><a href="' + appLink('/hero/' + slugify(hero)) + '">' + heroIconHtml(hero) + escapeHtml(hero) + '</a></td>' +
 					'<td class="num">' + ph.avgKills.toFixed(1) + '</td>' +
 					'<td class="num">' + ph.avgDeaths.toFixed(1) + '</td>' +
 					'<td class="num">' + ph.avgAssists.toFixed(1) + '</td>' +

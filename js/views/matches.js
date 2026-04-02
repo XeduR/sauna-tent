@@ -405,7 +405,7 @@ var MatchesView = (function() {
 				var playerHref = appLink('/player/' + slugify(rp.name));
 				var heroHref = appLink('/hero/' + slugify(rp.hero));
 				playerParts.push('<a href="' + playerHref + '">' + escapeHtml(rp.name) + '</a>' +
-					' <a href="' + heroHref + '" class="hero-name">' + escapeHtml(rp.hero) + '</a>');
+					' <a href="' + heroHref + '" class="hero-name">' + heroIconHtml(rp.hero) + escapeHtml(rp.hero) + '</a>');
 				if (rp.partySize > maxParty) maxParty = rp.partySize;
 			}
 

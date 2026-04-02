@@ -357,16 +357,24 @@ def load_matches(matches_dir: str) -> list[dict]:
 	return matches
 
 
-def aggregate_all(matches: list[dict], roster: list[dict]) -> dict:
+def aggregate_all(matches: list[dict], roster: list[dict], cutoff_date: str | None = None) -> dict:
 	"""Compute all aggregates from match data.
 
 	Args:
 		matches: List of parsed match dicts (from match JSON files).
 		roster: Roster list from pipeline.json config.
+		cutoff_date: ISO date string (e.g. "2017-01-01"). Matches before this are excluded.
 
 	Returns:
 		Dict with keys: players, heroes, maps, summary.
 	"""
+	if cutoff_date:
+		before_count = len(matches)
+		matches = [m for m in matches if m.get("timestamp", "") >= cutoff_date]
+		excluded = before_count - len(matches)
+		if excluded:
+			print(f"  Cutoff {cutoff_date}: excluded {excluded} matches, {len(matches)} remaining")
+
 	roster_names = {m["name"] for m in roster}
 
 	# Accumulators

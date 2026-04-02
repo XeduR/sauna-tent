@@ -57,11 +57,12 @@ var HeroesMainView = (function() {
 		for (var i = 0; i < roleOrder.length; i++) {
 			var role = roleOrder[i];
 			var rs = roleStats[role];
+			var label = roleIconHtml(role) + escapeHtml(role);
 			if (rs && rs.games > 0) {
 				var wr = rs.wins / rs.games;
-				html += statBox(role, winrateSpan(wr) + '<div class="stat-sub">' + rs.games.toLocaleString() + ' games</div>');
+				html += statBoxHtml(label, winrateSpan(wr) + '<div class="stat-sub">' + rs.games.toLocaleString() + ' games</div>');
 			} else {
-				html += statBox(role, '<span class="text-muted">-</span>');
+				html += statBoxHtml(label, '<span class="text-muted">-</span>');
 			}
 		}
 		html += '</div>';

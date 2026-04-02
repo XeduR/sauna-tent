@@ -257,9 +257,11 @@ def write_output(
 	# matches/index.json - lightweight match list from existing match files
 	matches_dir = os.path.join(output_dir, "matches")
 	matches = load_matches(matches_dir)
+	cutoff_date = config.get("cutoffDate")
 	index_entries = [
 		_build_match_index_entry(m) for m in matches
 		if m.get("gameMode") != "CustomStandard"
+		and (not cutoff_date or m.get("timestamp", "") >= cutoff_date)
 	]
 	# Sort newest first for the match history view
 	index_entries.sort(key=lambda e: e["timestamp"], reverse=True)
