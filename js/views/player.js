@@ -255,8 +255,7 @@ var PlayerView = (function() {
 			var avg = m.averages || {};
 			rows.push({
 				map: name,
-				mapType: TableConfig.mapType(name),
-				mapTypeSortValue: TableConfig.mapTypeSortValue(name),
+				mapType: TableConfig.mapTypeSortValue(name),
 				pickRate: totalGames > 0 ? m.games / totalGames : 0,
 				games: m.games,
 				wins: m.wins,
@@ -287,61 +286,47 @@ var PlayerView = (function() {
 	}
 
 	function renderPartySize(partySize) {
-		var keys = Object.keys(partySize);
-		keys.sort(function(a, b) { return Number(a) - Number(b); });
-
-		var html = '<h2 class="section-title">Party Size</h2>' +
-			'<div class="table-wrap"><table>' +
-			'<thead><tr>' +
-			'<th class="no-sort">Party</th>' +
-			'<th class="no-sort num">Games</th>' +
-			'<th class="no-sort num">Wins</th>' +
-			'<th class="no-sort num">Losses</th>' +
-			'<th class="no-sort num">Win Rate</th>' +
-			'<th class="no-sort num">Avg K</th>' +
-			'<th class="no-sort num">Avg D</th>' +
-			'<th class="no-sort num">Avg A</th>' +
-			'<th class="no-sort num">KDA</th>' +
-			'<th class="no-sort num">Avg Duration</th>' +
-			'</tr></thead><tbody>';
-
-		for (var i = 0; i < keys.length; i++) {
-			var key = keys[i];
+		var rows = [];
+		for (var key in partySize) {
 			var s = partySize[key];
-			var label = PARTY_LABELS[Number(key)] || key + "-stack";
-			html += '<tr>' +
-				'<td>' + escapeHtml(label) + '</td>' +
-				'<td class="num">' + s.games.toLocaleString() + '</td>' +
-				'<td class="num">' + s.wins.toLocaleString() + '</td>' +
-				'<td class="num">' + s.losses.toLocaleString() + '</td>' +
-				'<td class="num">' + StandardTable.FORMAT.wr(s.winrate) + '</td>' +
-				'<td class="num">' + StandardTable.FORMAT.dec(s.averages.kills) + '</td>' +
-				'<td class="num">' + StandardTable.FORMAT.dec(s.averages.deaths) + '</td>' +
-				'<td class="num">' + StandardTable.FORMAT.dec(s.averages.assists) + '</td>' +
-				'<td class="num">' + StandardTable.FORMAT.kda(s.averages.kda) + '</td>' +
-				'<td class="num">' + formatDuration(s.averageDurationSeconds) + '</td>' +
-				'</tr>';
+			var avg = s.averages || {};
+			rows.push({
+				party: PARTY_LABELS[Number(key)] || key + "-stack",
+				partyNum: Number(key),
+				games: s.games,
+				wins: s.wins,
+				losses: s.games - s.wins,
+				winrate: s.winrate,
+				avgKills: avg.kills != null ? avg.kills : null,
+				avgDeaths: avg.deaths != null ? avg.deaths : null,
+				avgAssists: avg.assists != null ? avg.assists : null,
+				kda: avg.kda != null ? avg.kda : null,
+				avgDuration: s.averageDurationSeconds || null
+			});
 		}
-		html += '</tbody></table></div>';
-		return html;
+
+		var columns = [
+			{ key: "partyNum", label: "Party", format: function(v, row) { return escapeHtml(row.party); } },
+			{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "winrate", label: "Win Rate", className: "num", format: StandardTable.FORMAT.wr },
+			{ key: "avgKills", label: "Avg K", className: "num", format: StandardTable.FORMAT.dec },
+			{ key: "avgDeaths", label: "Avg D", className: "num", format: StandardTable.FORMAT.dec },
+			{ key: "avgAssists", label: "Avg A", className: "num", format: StandardTable.FORMAT.dec },
+			{ key: "kda", label: "KDA", className: "num", format: StandardTable.FORMAT.kda },
+			{ key: "avgDuration", label: "Avg Duration", className: "num", format: StandardTable.FORMAT.dur }
+		];
+
+		var table = sortableTable("party-size-table", columns, rows, "partyNum", false);
+		registerSortableTable(table);
+		return '<h2 class="section-title">Party Size</h2>' + table.buildHTML();
 	}
 
 	function renderRecentMatches() {
 		if (!recentMatchData || recentMatchData.length === 0) return '';
 
-		var html = '<h2 class="section-title">Recent Matches</h2>' +
-			'<div class="table-wrap"><table id="recent-matches-table">' +
-			'<thead><tr>' +
-			'<th class="no-sort">Hero</th>' +
-			'<th class="no-sort">Talents</th>' +
-			'<th class="no-sort">Map</th>' +
-			'<th class="no-sort">Mode</th>' +
-			'<th class="no-sort num">Result</th>' +
-			'<th class="no-sort num">Duration</th>' +
-			'<th class="no-sort">Date</th>' +
-			'<th class="no-sort">Match</th>' +
-			'</tr></thead><tbody>';
-
+		var rows = [];
 		for (var i = 0; i < recentMatchData.length; i++) {
 			var match = recentMatchData[i];
 			var playerEntry = null;
@@ -352,35 +337,61 @@ var PlayerView = (function() {
 				}
 			}
 			if (!playerEntry) continue;
-
-			var resultClass = playerEntry.result === "win" ? "win" : "loss";
-			var resultText = playerEntry.result === "win" ? "Victory" : "Defeat";
-
-			var talents = playerEntry.talentChoices || [];
-			var talentIcons = '<span class="talent-build-icons">';
-			for (var t = 0; t < 7; t++) {
-				var choice = talents[t] && talents[t] > 0 ? talents[t] : 0;
-				talentIcons += talentIconHtml(playerEntry.hero, t, choice, talentData);
-			}
-			talentIcons += '</span>';
-
-			html += '<tr>' +
-				'<td><a href="' + appLink('/hero/' + slugify(playerEntry.hero)) + '">' + heroIconHtml(playerEntry.hero) + escapeHtml(playerEntry.hero) + '</a></td>' +
-				'<td class="talent-build">' + talentIcons + '</td>' +
-				'<td><a href="' + appLink('/map/' + slugify(match.map)) + '">' + escapeHtml(displayMapName(match.map)) + '</a></td>' +
-				'<td>' + escapeHtml(displayModeName(match.gameMode)) + '</td>' +
-				'<td class="num ' + resultClass + '">' + resultText + '</td>' +
-				'<td class="num">' + formatDuration(match.durationSeconds) + '</td>' +
-				'<td>' + formatDateFinnish(match.timestamp) + '</td>' +
-				'<td><a href="' + appLink('/match/' + match.matchId) + '">Details</a></td>' +
-				'</tr>';
+			rows.push({
+				hero: playerEntry.hero,
+				talents: playerEntry.talentChoices || [],
+				map: match.map,
+				mode: match.gameMode,
+				result: playerEntry.result,
+				duration: match.durationSeconds,
+				date: match.timestamp,
+				matchId: match.matchId
+			});
 		}
 
-		html += '</tbody></table></div>';
-		html += '<div class="recent-matches-footer">' +
+		if (rows.length === 0) return '';
+
+		var columns = [
+			{ key: "hero", label: "Hero", format: function(v) {
+				return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + heroIconHtml(v) + escapeHtml(v) + '</a>';
+			}},
+			{ key: "talents", label: "Talents", noSort: true, className: "talent-build", format: function(v, row) {
+				var html = '<span class="talent-build-icons">';
+				for (var t = 0; t < 7; t++) {
+					var choice = v[t] && v[t] > 0 ? v[t] : 0;
+					html += talentIconHtml(row.hero, t, choice, talentData);
+				}
+				html += '</span>';
+				return html;
+			}},
+			{ key: "map", label: "Map", format: function(v) {
+				return '<a href="' + appLink('/map/' + slugify(v)) + '">' + escapeHtml(displayMapName(v)) + '</a>';
+			}},
+			{ key: "mode", label: "Mode", format: function(v) {
+				return escapeHtml(displayModeName(v));
+			}},
+			{ key: "result", label: "Result", className: "num", format: function(v) {
+				var cls = v === "win" ? "win" : "loss";
+				var text = v === "win" ? "Victory" : "Defeat";
+				return '<span class="' + cls + '">' + text + '</span>';
+			}},
+			{ key: "duration", label: "Duration", className: "num", format: function(v) {
+				return formatDuration(v);
+			}},
+			{ key: "date", label: "Date", format: function(v) {
+				return formatDateFinnish(v);
+			}},
+			{ key: "matchId", label: "Match", noSort: true, format: function(v) {
+				return '<a href="' + appLink('/match/' + v) + '">Details</a>';
+			}}
+		];
+
+		var table = sortableTable("recent-matches-table", columns, rows, "date", true);
+		registerSortableTable(table);
+		return '<h2 class="section-title">Recent Matches</h2>' + table.buildHTML() +
+			'<div class="recent-matches-footer">' +
 			'<a href="' + appLink('/matches') + '?pi=' + encodeURIComponent(playerName) + '" class="btn">View match history</a>' +
 			'</div>';
-		return html;
 	}
 
 	function filterMatchesForPlayer(matches) {
@@ -564,6 +575,7 @@ var PlayerView = (function() {
 		if (mapTable) {
 			mapTable.attachListeners(app, onMaskChange, onWrlChange);
 		}
+		attachAllSortableListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() {
 			if (filters.map) {
 				var validMaps = getAvailableMaps();

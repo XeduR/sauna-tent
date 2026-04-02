@@ -42,6 +42,11 @@ var StandardTable = (function() {
 			if (v == null) return '<span class="text-muted">-</span>';
 			return roleIconHtml(v) + escapeHtml(String(v));
 		},
+		mapType: function(v) {
+			if (v == null) return '<span class="text-muted">-</span>';
+			if (v === 1) return "ARAM";
+			return v + "-lane";
+		},
 		mapLink: function(v) {
 			return '<a href="' + appLink('/map/' + slugify(v)) + '">' + escapeHtml(displayMapName(v)) + '</a>';
 		},

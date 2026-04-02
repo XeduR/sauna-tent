@@ -168,31 +168,57 @@ function formatDateFinnish(isoTimestamp) {
 	return parts[2] + "/" + parts[1] + "/" + parts[0];
 }
 
-// Shared match factor / level lead rendering (used by overview, player, map pages)
-function renderMetaFactorTable(title, rows) {
-	var html = '<h2 class="section-title">' + title + '</h2>' +
-		'<div class="table-wrap"><table>' +
-		'<thead><tr class="header-group-row">' +
-		'<th colspan="1" class="header-group">Factor</th>' +
-		'<th colspan="3" class="header-group">Games</th>' +
-		'<th colspan="1" class="header-group">Win Rate</th>' +
-		'</tr><tr>' +
-		'<th class="no-sort">Condition</th>' +
-		'<th class="no-sort num">Total</th>' +
-		'<th class="no-sort num">Win</th>' +
-		'<th class="no-sort num">Loss</th>' +
-		'<th class="no-sort num">Avg</th>' +
-		'</tr></thead><tbody>';
-	for (var i = 0; i < rows.length; i++) {
-		var d = rows[i][1];
-		html += '<tr><td>' + rows[i][0] + '</td>' +
-			'<td class="num">' + d.games.toLocaleString() + '</td>' +
-			'<td class="num">' + d.wins.toLocaleString() + '</td>' +
-			'<td class="num">' + d.losses.toLocaleString() + '</td>' +
-			'<td class="num">' + winrateSpan(d.winrate) + '</td></tr>';
+// Registry for sortable tables created by shared render functions.
+// Views call attachAllSortableListeners(container) after setting innerHTML.
+var _sortableTables = [];
+var _metaTableCounter = 0;
+
+function registerSortableTable(table) {
+	_sortableTables.push(table);
+}
+
+function attachAllSortableListeners(container) {
+	for (var i = 0; i < _sortableTables.length; i++) {
+		_sortableTables[i].attachListeners(container);
 	}
-	html += '</tbody></table></div>';
-	return html;
+	_sortableTables = [];
+	_metaTableCounter = 0;
+}
+
+// Shared match factor / level lead rendering (used by overview, player, map pages)
+function renderMetaFactorTable(title, dataRows) {
+	_metaTableCounter++;
+	var tableId = "meta-table-" + _metaTableCounter;
+
+	var rows = [];
+	for (var i = 0; i < dataRows.length; i++) {
+		var d = dataRows[i][1];
+		rows.push({
+			condition: dataRows[i][0],
+			games: d.games,
+			wins: d.wins,
+			losses: d.games - d.wins,
+			winrate: d.winrate
+		});
+	}
+
+	var fmtNum = function(v) { return v.toLocaleString(); };
+	var columns = [
+		{ key: "condition", label: "Condition" },
+		{ key: "games", label: "Total", className: "num", format: fmtNum },
+		{ key: "wins", label: "Win", className: "num", format: fmtNum },
+		{ key: "losses", label: "Loss", className: "num", format: fmtNum },
+		{ key: "winrate", label: "Avg", className: "num", format: function(v) { return winrateSpan(v); } }
+	];
+	var headerGroups = [
+		{ label: "Factor", span: 1 },
+		{ label: "Games", span: 3 },
+		{ label: "Win Rate", span: 1 }
+	];
+
+	var table = sortableTable(tableId, columns, rows, "games", true, headerGroups);
+	registerSortableTable(table);
+	return '<h2 class="section-title">' + title + '</h2>' + table.buildHTML();
 }
 
 function renderLevelLeadTable(levelLead) {
@@ -221,7 +247,10 @@ function renderLevelLeadTable(levelLead) {
 }
 
 // Shared sortable table builder (used by player, hero, map, and main pages)
-function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, headerGroups) {
+function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, headerGroups, options) {
+	options = options || {};
+	var rowClassFn = options.rowClass || null;
+	var tfootHtml = options.tfoot || "";
 	var sortKey = defaultSortKey || columns[0].key;
 	var sortDesc = defaultDesc !== undefined ? defaultDesc : true;
 
@@ -248,7 +277,14 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 			var colOffset = 0;
 			for (var g = 0; g < headerGroups.length; g++) {
 				var grp = headerGroups[g];
+				var allNoSort = true;
+				if (grp.label) {
+					for (var si = colOffset; si < colOffset + grp.span && si < columns.length; si++) {
+						if (!columns[si].noSort) { allNoSort = false; break; }
+					}
+				}
 				var cls = grp.label ? "header-group" : "header-group-empty";
+				if (grp.label && allNoSort) cls += " no-sort";
 				var firstColAttr = "";
 				if (grp.label) {
 					for (var ci = colOffset; ci < colOffset + grp.span && ci < columns.length; ci++) {
@@ -275,7 +311,8 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 		}
 		html += '</tr></thead><tbody>';
 		for (var r = 0; r < rows.length; r++) {
-			html += '<tr>';
+			var trCls = rowClassFn ? rowClassFn(rows[r]) : "";
+			html += '<tr' + (trCls ? ' class="' + trCls + '"' : '') + '>';
 			for (var c = 0; c < columns.length; c++) {
 				var col = columns[c];
 				var val = rows[r][col.key];
@@ -288,7 +325,9 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 		if (rows.length === 0) {
 			html += '<tr><td colspan="' + columns.length + '" class="text-muted" style="text-align:center;padding:1.5rem;">No results.</td></tr>';
 		}
-		html += '</tbody></table></div>';
+		html += '</tbody>';
+		if (tfootHtml) html += tfootHtml;
+		html += '</table></div>';
 		return html;
 	}
 

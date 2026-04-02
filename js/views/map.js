@@ -306,6 +306,7 @@ var MapView = (function() {
 		};
 		playerTable.attachListeners(app, onMaskChange, onWrlChange);
 		heroTable.attachListeners(app, onMaskChange, onWrlChange);
+		attachAllSortableListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
 	}
 

@@ -57,39 +57,38 @@ var OverviewView = (function() {
 	}
 
 	function renderGameModes(modeStats) {
-		var keys = Object.keys(modeStats);
-		keys.sort(function(a, b) { return modeStats[b].games - modeStats[a].games; });
-
-		var html = '<h2 class="section-title">Game Modes</h2>' +
-			'<div class="table-wrap"><table>' +
-			'<thead><tr class="header-group-row">' +
-			'<th colspan="1" class="header-group">Mode</th>' +
-			'<th colspan="3" class="header-group">Games</th>' +
-			'<th colspan="1" class="header-group">Win Rate</th>' +
-			'<th colspan="1" class="header-group">Duration</th>' +
-			'</tr><tr>' +
-			'<th class="no-sort">Name</th>' +
-			'<th class="no-sort num">Total</th>' +
-			'<th class="no-sort num">Win</th>' +
-			'<th class="no-sort num">Loss</th>' +
-			'<th class="no-sort num">Avg</th>' +
-			'<th class="no-sort num">Avg</th>' +
-			'</tr></thead><tbody>';
-
-		for (var i = 0; i < keys.length; i++) {
-			var mode = keys[i];
+		var rows = [];
+		for (var mode in modeStats) {
 			var m = modeStats[mode];
-			html += '<tr>' +
-				'<td>' + escapeHtml(displayModeName(mode)) + '</td>' +
-				'<td class="num">' + m.games.toLocaleString() + '</td>' +
-				'<td class="num">' + m.wins.toLocaleString() + '</td>' +
-				'<td class="num">' + m.losses.toLocaleString() + '</td>' +
-				'<td class="num">' + winrateSpan(m.winrate) + '</td>' +
-				'<td class="num">' + formatDuration(m.avgDuration) + '</td>' +
-				'</tr>';
+			rows.push({
+				name: displayModeName(mode),
+				games: m.games,
+				wins: m.wins,
+				losses: m.losses,
+				winrate: m.winrate,
+				avgDuration: m.avgDuration
+			});
 		}
-		html += '</tbody></table></div>';
-		return html;
+
+		var fmtNum = function(v) { return v.toLocaleString(); };
+		var columns = [
+			{ key: "name", label: "Name" },
+			{ key: "games", label: "Total", className: "num", format: fmtNum },
+			{ key: "wins", label: "Win", className: "num", format: fmtNum },
+			{ key: "losses", label: "Loss", className: "num", format: fmtNum },
+			{ key: "winrate", label: "Avg", className: "num", format: function(v) { return winrateSpan(v); } },
+			{ key: "avgDuration", label: "Avg", className: "num", format: function(v) { return formatDuration(v); } }
+		];
+		var headerGroups = [
+			{ label: "Mode", span: 1 },
+			{ label: "Games", span: 3 },
+			{ label: "Win Rate", span: 1 },
+			{ label: "Duration", span: 1 }
+		];
+
+		var table = sortableTable("game-modes-table", columns, rows, "games", true, headerGroups);
+		registerSortableTable(table);
+		return '<h2 class="section-title">Game Modes</h2>' + table.buildHTML();
 	}
 
 	function renderMetaStats(metaStats) {
@@ -232,7 +231,14 @@ var OverviewView = (function() {
 		var compTable = null;
 		if (compRows.length > 0) {
 			var compColumns = [
-				{ key: "roles", label: "Roles", noSort: true },
+				{ key: "roles", label: "Roles", noSort: true, format: function(v) {
+					var parts = v.split(", ");
+					var html = "";
+					for (var i = 0; i < parts.length; i++) {
+						html += roleIconHtml(parts[i]);
+					}
+					return html;
+				}},
 				{ key: "games", label: "Total", className: "num", format: function(v) { return v.toLocaleString(); } },
 				{ key: "wins", label: "Win", className: "num", format: function(v) { return v.toLocaleString(); } },
 				{ key: "losses", label: "Loss", className: "num", format: function(v) { return v.toLocaleString(); } },
@@ -262,6 +268,7 @@ var OverviewView = (function() {
 			heroChart = ChartUtils.createHeroPopularityChart("overview-hero-pop-chart", monthlyData, heroColors);
 		}
 		if (compTable) compTable.attachListeners(app);
+		attachAllSortableListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
 	}
 

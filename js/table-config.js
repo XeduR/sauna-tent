@@ -144,7 +144,7 @@ var TableConfig = (function() {
 			topLabel: "MAP",
 			columns: [
 				{ key: "map", label: "Name", format: "mapLink" },
-				{ key: "mapType", label: "Type", format: "text" }
+				{ key: "mapType", label: "Type", format: "mapType" }
 			]
 		},
 		player: {

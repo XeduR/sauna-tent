@@ -217,7 +217,12 @@ var HeroView = (function() {
 			{ key: "winrate", label: "Win Rate", className: "num", format: StandardTable.FORMAT.wr },
 		];
 
-		buildsTable = sortableTable("builds-table", columns, rows, "games", true);
+		var headerGroups = [
+			{ label: "Talents", span: 7 },
+			{ label: "Games", span: 3 },
+			{ label: "Win Rate", span: 1 }
+		];
+		buildsTable = sortableTable("builds-table", columns, rows, "games", true, headerGroups);
 		return '<h2 class="section-title">Popular Builds</h2>' + buildsTable.buildHTML();
 	}
 

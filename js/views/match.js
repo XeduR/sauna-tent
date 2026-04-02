@@ -31,18 +31,18 @@ var MatchView = (function() {
 		return String(value);
 	}
 
-	function buildTalentCells(player) {
-		var html = "";
-		var choices = player.talentChoices || [];
-		for (var t = 0; t < 7; t++) {
-			var choice = t < choices.length ? choices[t] : null;
-			if (choice === null || choice === 0) {
-				html += '<td class="talent-cell"><span class="text-muted">-</span></td>';
-			} else {
-				html += '<td class="talent-cell">' + talentIconHtml(player.hero, t, choice, talentData) + '</td>';
-			}
-		}
-		return html;
+	function fmtStat(key) {
+		return function(v) {
+			if (v == null) return "-";
+			return formatStatValue(key, v);
+		};
+	}
+
+	function fmtTalent(tierIdx) {
+		return function(v, row) {
+			if (!v || v === 0) return '<span class="text-muted">-</span>';
+			return talentIconHtml(row.hero, tierIdx, v, talentData);
+		};
 	}
 
 	function buildTeamTable(players, teamIndex, rosterLookup) {
@@ -50,68 +50,68 @@ var MatchView = (function() {
 		var resultClass = teamResult === "win" ? "win" : (teamResult === "loss" ? "loss" : "");
 		var resultLabel = teamResult === "win" ? "Victory" : (teamResult === "loss" ? "Defeat" : teamResult);
 
-		var html = '<div class="section-title">Team ' + (teamIndex + 1) +
+		var titleHtml = '<div class="section-title">Team ' + (teamIndex + 1) +
 			' <span class="' + resultClass + '">' + escapeHtml(resultLabel) + '</span></div>';
 
-		html += '<div class="table-wrap"><table><thead><tr>' +
-			'<th class="no-sort">Player</th>' +
-			'<th class="no-sort">Hero</th>';
-
-		for (var c = 0; c < STAT_COLS.length; c++) {
-			html += '<th class="no-sort">' + STAT_COLS[c].label + '</th>';
-		}
-
-		// Talent tier headers
 		var tierLevels = [1, 4, 7, 10, 13, 16, 20];
-		for (var t = 0; t < tierLevels.length; t++) {
-			html += '<th class="no-sort talent-cell">T' + tierLevels[t] + '</th>';
-		}
-
-		html += '</tr></thead><tbody>';
-
+		var rows = [];
 		for (var i = 0; i < players.length; i++) {
 			var p = players[i];
 			var s = p.stats || {};
-			var isRoster = p.isRoster;
-
-			// Player name: link to player page if roster, otherwise plain text
-			var nameHtml;
-			if (isRoster && p.rosterName && rosterLookup[p.rosterName]) {
-				nameHtml = '<a href="' + appLink('/player/' + rosterLookup[p.rosterName]) + '">' +
-					escapeHtml(p.name) + '</a>';
-			} else {
-				nameHtml = escapeHtml(p.name);
-			}
-			if (isRoster) {
-				nameHtml = '<strong>' + nameHtml + '</strong>';
-			}
-
-			// Hero name: link to hero page with avatar
-			var heroSlug = slugify(p.hero);
-			var heroHtml = '<a href="' + appLink('/hero/' + heroSlug) + '">' + heroIconHtml(p.hero) + escapeHtml(p.hero) + '</a>';
-
-			// Party indicator
-			if (p.partySize && p.partySize > 1) {
-				nameHtml += ' <span class="text-muted party-badge">' + p.partySize + '-stack</span>';
-			}
-
-			html += '<tr class="' + (isRoster ? "roster-player-row" : "") + '">';
-			html += '<td>' + nameHtml + '</td>';
-			html += '<td>' + heroHtml + '</td>';
-
+			var row = {
+				name: p.name,
+				hero: p.hero,
+				isRoster: !!p.isRoster,
+				rosterSlug: (p.isRoster && p.rosterName && rosterLookup[p.rosterName]) ? rosterLookup[p.rosterName] : null,
+				partySize: p.partySize || 0
+			};
 			for (var c = 0; c < STAT_COLS.length; c++) {
-				var val = s[STAT_COLS[c].key];
-				var display = val !== undefined ? formatStatValue(STAT_COLS[c].key, val) : "-";
-				html += '<td class="num">' + display + '</td>';
+				row[STAT_COLS[c].key] = s[STAT_COLS[c].key] != null ? s[STAT_COLS[c].key] : null;
 			}
-
-			html += buildTalentCells(p);
-			html += '</tr>';
+			var choices = p.talentChoices || [];
+			for (var t = 0; t < 7; t++) {
+				row["t" + tierLevels[t]] = t < choices.length ? choices[t] : 0;
+			}
+			rows.push(row);
 		}
 
-		html += '</tbody>';
+		var columns = [
+			{ key: "name", label: "Player", format: function(v, row) {
+				var html;
+				if (row.rosterSlug) {
+					html = '<a href="' + appLink('/player/' + row.rosterSlug) + '">' + escapeHtml(v) + '</a>';
+				} else {
+					html = escapeHtml(v);
+				}
+				if (row.isRoster) html = '<strong>' + html + '</strong>';
+				if (row.partySize > 1) html += ' <span class="text-muted party-badge">' + row.partySize + '-stack</span>';
+				return html;
+			}},
+			{ key: "hero", label: "Hero", format: function(v) {
+				return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + heroIconHtml(v) + escapeHtml(v) + '</a>';
+			}}
+		];
 
-		// Team totals row
+		for (var c = 0; c < STAT_COLS.length; c++) {
+			columns.push({
+				key: STAT_COLS[c].key,
+				label: STAT_COLS[c].label,
+				className: "num",
+				format: fmtStat(STAT_COLS[c].key)
+			});
+		}
+
+		for (var t = 0; t < tierLevels.length; t++) {
+			columns.push({
+				key: "t" + tierLevels[t],
+				label: "T" + tierLevels[t],
+				className: "talent-cell",
+				noSort: true,
+				format: fmtTalent(t)
+			});
+		}
+
+		// Team totals footer
 		var totals = {};
 		for (var c = 0; c < STAT_COLS.length; c++) {
 			totals[STAT_COLS[c].key] = 0;
@@ -120,25 +120,28 @@ var MatchView = (function() {
 			var s = players[i].stats || {};
 			for (var c = 0; c < STAT_COLS.length; c++) {
 				var key = STAT_COLS[c].key;
-				if (key === "kda") continue; // Compute separately
+				if (key === "kda") continue;
 				totals[key] += s[key] || 0;
 			}
 		}
-		// KDA for team total
 		totals.kda = totals.deaths > 0 ? (totals.kills + totals.assists) / totals.deaths : totals.kills + totals.assists;
 
-		html += '<tfoot><tr class="team-total-row"><td colspan="2"><strong>Total</strong></td>';
+		var tfootHtml = '<tfoot><tr class="team-total-row"><td colspan="2"><strong>Total</strong></td>';
 		for (var c = 0; c < STAT_COLS.length; c++) {
-			html += '<td class="num"><strong>' + formatStatValue(STAT_COLS[c].key, totals[STAT_COLS[c].key]) + '</strong></td>';
+			tfootHtml += '<td class="num"><strong>' + formatStatValue(STAT_COLS[c].key, totals[STAT_COLS[c].key]) + '</strong></td>';
 		}
-		// Empty talent cells for totals row
 		for (var t = 0; t < 7; t++) {
-			html += '<td></td>';
+			tfootHtml += '<td></td>';
 		}
-		html += '</tr></tfoot>';
+		tfootHtml += '</tr></tfoot>';
 
-		html += '</table></div>';
-		return html;
+		var tableId = "team-" + teamIndex + "-table";
+		var table = sortableTable(tableId, columns, rows, "name", false, null, {
+			rowClass: function(row) { return row.isRoster ? "roster-player-row" : ""; },
+			tfoot: tfootHtml
+		});
+		registerSortableTable(table);
+		return titleHtml + table.buildHTML();
 	}
 
 	async function render(id) {
@@ -223,6 +226,7 @@ var MatchView = (function() {
 				'</div>';
 
 			app.innerHTML = html;
+			attachAllSortableListeners(app);
 		} catch (err) {
 			app.innerHTML = '<div class="error">Match not found.</div>';
 		}

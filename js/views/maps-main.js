@@ -42,8 +42,7 @@ var MapsMainView = (function() {
 			var avg = ms.averages || null;
 			var row = {
 				map: map,
-				mapType: TableConfig.mapType(map),
-				mapTypeSortValue: TableConfig.mapTypeSortValue(map),
+				mapType: TableConfig.mapTypeSortValue(map),
 				pickRate: totalGames > 0 ? ms.games / totalGames : 0,
 				games: ms.games,
 				wins: ms.wins,
@@ -135,24 +134,25 @@ var MapsMainView = (function() {
 			}
 		}
 		if (hasCapture) {
-			html += '<h2 class="section-title">First Capture Win Rate</h2>' +
-				'<div class="table-wrap"><table>' +
-				'<thead><tr>' +
-				'<th class="no-sort">Map</th>' +
-				'<th class="no-sort">Boss</th>' +
-				'<th class="no-sort">Mercenary</th>' +
-				'</tr></thead><tbody>';
+			var capRows = [];
 			for (var ci = 0; ci < captureRows.length; ci++) {
 				var cr = captureRows[ci];
-				var bossCell = cr.bossGot.games > 0 ? winrateSpan(cr.bossGot.winrate) : '<span class="text-muted">-</span>';
-				var mercCell = cr.mercGot.games > 0 ? winrateSpan(cr.mercGot.winrate) : '<span class="text-muted">-</span>';
-				html += '<tr>' +
-					'<td><a href="' + appLink('/map/' + slugify(cr.map)) + '">' + escapeHtml(displayMapName(cr.map)) + '</a></td>' +
-					'<td class="num">' + bossCell + '</td>' +
-					'<td class="num">' + mercCell + '</td>' +
-					'</tr>';
+				capRows.push({
+					map: cr.map,
+					bossWr: cr.bossGot.games > 0 ? cr.bossGot.winrate : null,
+					mercWr: cr.mercGot.games > 0 ? cr.mercGot.winrate : null
+				});
 			}
-			html += '</tbody></table></div>';
+			var capColumns = [
+				{ key: "map", label: "Map", format: function(v) {
+					return '<a href="' + appLink('/map/' + slugify(v)) + '">' + escapeHtml(displayMapName(v)) + '</a>';
+				}},
+				{ key: "bossWr", label: "Boss", className: "num", format: StandardTable.FORMAT.wr },
+				{ key: "mercWr", label: "Mercenary", className: "num", format: StandardTable.FORMAT.wr }
+			];
+			var capTable = sortableTable("capture-wr-table", capColumns, capRows, "map", false);
+			registerSortableTable(capTable);
+			html += '<h2 class="section-title">First Capture Win Rate</h2>' + capTable.buildHTML();
 		}
 
 		app.innerHTML = html;
@@ -170,6 +170,7 @@ var MapsMainView = (function() {
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["maps-main"].defaultMask);
 			renderContent(matchIndex);
 		}, onWrlChange);
+		attachAllSortableListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex); });
 	}
 
