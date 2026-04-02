@@ -585,6 +585,55 @@ function setupMobileNav() {
 	}
 }
 
+// Attach synced horizontal scrollbar above each data table
+function attachTopScrollbars() {
+	var wraps = document.querySelectorAll('.table-wrap');
+	for (var i = 0; i < wraps.length; i++) {
+		(function(wrap) {
+			if (wrap.hasAttribute('data-scroll-synced')) return;
+
+			var table = wrap.querySelector('table');
+			if (!table) return;
+
+			// Remove stale dummy left behind by outerHTML sort re-renders
+			var prev = wrap.previousElementSibling;
+			if (prev && prev.classList.contains('table-scroll-top')) {
+				prev.remove();
+			}
+
+			var dummy = document.createElement('div');
+			dummy.className = 'table-scroll-top';
+			var inner = document.createElement('div');
+			dummy.appendChild(inner);
+			wrap.parentNode.insertBefore(dummy, wrap);
+			inner.style.width = table.scrollWidth + 'px';
+			wrap.setAttribute('data-scroll-synced', '');
+
+			var syncing = false;
+			dummy.addEventListener('scroll', function() {
+				if (!syncing) {
+					syncing = true;
+					wrap.scrollLeft = dummy.scrollLeft;
+					syncing = false;
+				}
+			});
+			wrap.addEventListener('scroll', function() {
+				if (!syncing) {
+					syncing = true;
+					dummy.scrollLeft = wrap.scrollLeft;
+					syncing = false;
+				}
+			});
+
+			if (window.ResizeObserver) {
+				new ResizeObserver(function() {
+					inner.style.width = table.scrollWidth + 'px';
+				}).observe(table);
+			}
+		})(wraps[i]);
+	}
+}
+
 // Register routes
 Router.add("/", function() { OverviewView.render(); });
 Router.add("/players", function() { PlayersView.render(); });
@@ -602,3 +651,19 @@ Router.add("/draft", function() { DraftView.render(); });
 populateNav();
 setupMobileNav();
 Router.start();
+
+// Auto-attach top scrollbars when #app content changes
+(function() {
+	var pending = false;
+	var app = document.getElementById('app');
+	if (!app) return;
+
+	new MutationObserver(function() {
+		if (pending) return;
+		pending = true;
+		requestAnimationFrame(function() {
+			pending = false;
+			attachTopScrollbars();
+		});
+	}).observe(app, { childList: true, subtree: true });
+})();

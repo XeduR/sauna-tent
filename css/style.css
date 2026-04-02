@@ -280,6 +280,15 @@ a.nav-brand:hover {
 }
 
 /* Tables */
+.table-scroll-top {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.table-scroll-top > div {
+	height: 1px;
+}
+
 .table-wrap {
 	overflow-x: auto;
 	margin-bottom: 1.5rem;
