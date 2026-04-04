@@ -23,7 +23,10 @@ var PlayerView = (function() {
 	}
 
 	function hasDataFilters() {
-		return filters.mode || filters.map || filters.dateFrom || filters.dateTo;
+		// Baseline player data excludes alt games, so disabling the global
+		// No alts filter forces a client-side recompute from the match index.
+		return filters.mode || filters.map || filters.dateFrom || filters.dateTo
+			|| !GlobalFilters.getNoAlts();
 	}
 
 	function getAvailableMaps() {
@@ -494,8 +497,9 @@ var PlayerView = (function() {
 		var heroRows = buildHeroRows(heroes, minGames, useFiltered, partyFilter, wrl);
 		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: heroPartyContext, wrl: wrl });
 
+		var altBadge = playerData.isAlt ? ' <span class="nav-alt-tag">alt</span>' : '';
 		var html =
-			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + '</h1>' +
+			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + altBadge + '</h1>' +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
 			playerData.overall.games.toLocaleString() + ' games</div></div>';
 
@@ -595,10 +599,14 @@ var PlayerView = (function() {
 		for (var i = 0; i < keys.length; i++) {
 			filters[keys[i]] = defaults[keys[i]];
 		}
+		delete filters.noAlts;
 
 		try {
 			var results = await Promise.all([Data.player(slug), Data.matchIndex(), Data.summary(), Data.settings(), Data.talentNames(), Data.talentDescriptions()]);
 			playerData = results[0];
+			// Alt players' own games always have hasAlt=true; override the global
+			// no-alts filter on this view so their stats aren't blanked out.
+			if (playerData.isAlt) filters.noAlts = false;
 			matchIndex = results[1];
 			heroRoles = results[2].heroRoles || {};
 			playerName = playerData.name;

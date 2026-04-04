@@ -62,11 +62,16 @@ def process_single(
 	match_data["matchId"] = match_id
 	match_data["replayFile"] = os.path.basename(replay_path)
 
-	# Tag roster players by toon ID (region-realmId-profileId)
+	# Tag roster and alt players by toon ID (region-realmId-profileId)
 	toon_to_roster = {}
 	for member in config.get("roster", []):
 		for toon_str in member.get("toons", []):
 			toon_to_roster[toon_str] = member["name"]
+
+	toon_to_alt = {}
+	for member in config.get("alts", []):
+		for toon_str in member.get("toons", []):
+			toon_to_alt[toon_str] = member["name"]
 
 	for player in match_data["players"]:
 		t = player["toon"]
@@ -75,36 +80,45 @@ def process_single(
 		player["isRoster"] = roster_name is not None
 		if roster_name:
 			player["rosterName"] = roster_name
+		alt_name = toon_to_alt.get(toon_key)
+		player["isAlt"] = alt_name is not None
+		if alt_name:
+			player["altName"] = alt_name
 
-	# Party detection: tag roster players with party size and teammates
-	roster_by_team = {}
+	# Party detection: includes both roster and alt players (loose Sauna Tent membership).
+	# partyMembers lists teammates by their roster/alt name (excluding self).
+	sauna_by_team = {}
 	for player in match_data["players"]:
-		if player.get("isRoster"):
+		if player.get("isRoster") or player.get("isAlt"):
 			team = player["team"]
-			roster_by_team.setdefault(team, []).append(player["rosterName"])
+			name = player.get("rosterName") or player.get("altName")
+			sauna_by_team.setdefault(team, []).append(name)
 
 	for player in match_data["players"]:
-		if player.get("isRoster"):
-			teammates = roster_by_team[player["team"]]
+		if player.get("isRoster") or player.get("isAlt"):
+			teammates = sauna_by_team[player["team"]]
+			own_name = player.get("rosterName") or player.get("altName")
 			player["partySize"] = len(teammates)
-			player["partyMembers"] = [n for n in teammates if n != player["rosterName"]]
+			player["partyMembers"] = [n for n in teammates if n != own_name]
 
 	# Deduplication: skip writing if this match was already processed
 	is_duplicate = seen_match_ids is not None and match_id in seen_match_ids
 	has_roster = any(p.get("isRoster") for p in match_data["players"])
+	has_alt = any(p.get("isAlt") for p in match_data["players"])
 	match_data["isDuplicate"] = is_duplicate
 	match_data["hasRoster"] = has_roster
+	match_data["hasAlt"] = has_alt
 
 	if seen_match_ids is not None:
 		seen_match_ids.add(match_id)
 
-	if not is_duplicate and has_roster:
+	if not is_duplicate and (has_roster or has_alt):
 		out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
 		matches_dir = os.path.join(out_dir, "matches")
 		os.makedirs(matches_dir, exist_ok=True)
 
 		# Strip runtime-only fields before writing
-		output_data = {k: v for k, v in match_data.items() if k not in ("isDuplicate", "hasRoster")}
+		output_data = {k: v for k, v in match_data.items() if k not in ("isDuplicate", "hasRoster", "hasAlt")}
 		output_path = os.path.join(matches_dir, f"{match_id}.json")
 		indent = 2 if pretty else None
 		with open(output_path, "w", encoding="utf-8") as f:
@@ -140,8 +154,9 @@ def main():
 	map_name = match_data["map"]
 	mode = match_data["gameMode"]
 	roster_count = sum(1 for p in match_data["players"] if p["isRoster"])
+	alt_count = sum(1 for p in match_data["players"] if p["isAlt"])
 	status = "Duplicate" if match_data.get("isDuplicate") else "Processed"
-	print(f"{status}: {match_id} [{map_name}, {mode}, {roster_count} roster players]")
+	print(f"{status}: {match_id} [{map_name}, {mode}, {roster_count} roster, {alt_count} alt]")
 
 
 if __name__ == "__main__":

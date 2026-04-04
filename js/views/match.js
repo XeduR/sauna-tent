@@ -58,11 +58,21 @@ var MatchView = (function() {
 		for (var i = 0; i < players.length; i++) {
 			var p = players[i];
 			var s = p.stats || {};
+			var displayName = p.name;
+			var slug = null;
+			if (p.isRoster && p.rosterName && rosterLookup[p.rosterName]) {
+				displayName = p.rosterName;
+				slug = rosterLookup[p.rosterName];
+			} else if (p.isAlt && p.altName && rosterLookup[p.altName]) {
+				displayName = p.altName;
+				slug = rosterLookup[p.altName];
+			}
 			var row = {
-				name: p.name,
+				name: displayName,
 				hero: p.hero,
 				isRoster: !!p.isRoster,
-				rosterSlug: (p.isRoster && p.rosterName && rosterLookup[p.rosterName]) ? rosterLookup[p.rosterName] : null,
+				isAlt: !!p.isAlt,
+				rosterSlug: slug,
 				partySize: p.partySize || 0
 			};
 			for (var c = 0; c < STAT_COLS.length; c++) {
@@ -84,6 +94,7 @@ var MatchView = (function() {
 					html = escapeHtml(v);
 				}
 				if (row.isRoster) html = '<strong>' + html + '</strong>';
+				else if (row.isAlt) html += ' <span class="nav-alt-tag">alt</span>';
 				if (row.partySize > 1) html += ' <span class="text-muted party-badge">' + row.partySize + '-stack</span>';
 				return html;
 			}},
@@ -216,10 +227,15 @@ var MatchView = (function() {
 			var roster = results[1];
 			talentData = { names: results[2], descriptions: results[3] };
 
-			// Build roster name to slug lookup
+			// Build roster name to slug lookup (includes alts for clickable links)
 			var rosterLookup = {};
 			for (var i = 0; i < roster.players.length; i++) {
 				rosterLookup[roster.players[i].name] = roster.players[i].slug;
+			}
+			if (roster.alts) {
+				for (var ai = 0; ai < roster.alts.length; ai++) {
+					rosterLookup[roster.alts[ai].name] = roster.alts[ai].slug;
+				}
 			}
 
 			// Split players into teams
@@ -231,23 +247,42 @@ var MatchView = (function() {
 				}
 			}
 
-			// Determine which team the roster is on (for display order)
+			// Determine which team the roster is on (for display order);
+			// falls back to alt if the match has no true roster members.
 			var rosterTeam = 0;
+			var found = false;
 			for (var i = 0; i < data.players.length; i++) {
 				if (data.players[i].isRoster) {
 					rosterTeam = data.players[i].team;
+					found = true;
 					break;
+				}
+			}
+			if (!found) {
+				for (var i = 0; i < data.players.length; i++) {
+					if (data.players[i].isAlt) {
+						rosterTeam = data.players[i].team;
+						break;
+					}
 				}
 			}
 			// Show roster team first
 			var teamOrder = rosterTeam === 1 ? [1, 0] : [0, 1];
 
-			// Match header
+			// Match header (roster perspective, falling back to alt)
 			var resultText = "";
 			for (var i = 0; i < data.players.length; i++) {
 				if (data.players[i].isRoster) {
 					resultText = data.players[i].result === "win" ? "Victory" : "Defeat";
 					break;
+				}
+			}
+			if (!resultText) {
+				for (var i = 0; i < data.players.length; i++) {
+					if (data.players[i].isAlt) {
+						resultText = data.players[i].result === "win" ? "Victory" : "Defeat";
+						break;
+					}
 				}
 			}
 			// If no roster players, show the game result without bias

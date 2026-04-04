@@ -16,6 +16,52 @@ var PlayersView = (function() {
 		return StandardTable.readWrlFromURL();
 	}
 
+	function renderPlayerCard(p, ps, isAlt) {
+		var cls = isAlt ? 'card player-card player-card-alt' : 'card player-card';
+		var altBadge = isAlt ? '<span class="nav-alt-tag">alt</span>' : '';
+		return '<a href="' + appLink('/player/' + p.slug) + '" class="' + cls + '">' +
+			'<div class="player-card-name">' + escapeHtml(p.name) + altBadge + '</div>' +
+			'<div class="player-card-stats">' +
+			'<span>' + ps.games.toLocaleString() + ' games</span>' +
+			winrateSpan(ps.winrate) +
+			'</div>' +
+			'<div class="player-card-bar">' +
+			'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
+			'</div>' +
+			'</a>';
+	}
+
+	function pushPlayerRow(rows, p, ps, totalGames, isAlt) {
+		var avg = ps.averages || null;
+		rows.push({
+			player: p.name,
+			slug: p.slug,
+			isAlt: isAlt,
+			games: ps.games,
+			pickRate: totalGames > 0 ? ps.games / totalGames : 0,
+			wins: ps.wins,
+			losses: ps.losses,
+			winrate: ps.winrate,
+			kills: avg ? avg.kills : null,
+			deaths: avg ? avg.deaths : null,
+			assists: avg ? avg.assists : null,
+			kda: avg ? avg.kda : null,
+			heroDamage: avg ? avg.heroDamage : null,
+			siegeDamage: avg ? avg.siegeDamage : null,
+			healing: avg ? avg.healing : null,
+			selfHealing: avg ? avg.selfHealing : null,
+			damageTaken: avg ? avg.damageTaken : null,
+			xpContribution: avg ? avg.xpContribution : null,
+			mercCaptures: avg ? avg.mercCaptures : null,
+			timeSpentDead: avg ? avg.timeSpentDead : null,
+			durationMin: ps.durationMin,
+			durationMax: ps.durationMax,
+			durationAvg: ps.avgDuration,
+			lastPlayed: ps.lastPlayed
+		});
+		StandardTable.addPartyWinrates(rows[rows.length - 1], ps.byPartySize);
+	}
+
 	function buildPlayerRows(matchIndex, roster, filtered) {
 		var stats = MatchIndexUtils.groupByPlayer(filtered);
 		var totalGames = filtered.length;
@@ -24,33 +70,16 @@ var PlayersView = (function() {
 			var p = roster.players[i];
 			var ps = stats[p.name];
 			if (!ps || ps.games === 0) continue;
-			var avg = ps.averages || null;
-			rows.push({
-				player: p.name,
-				slug: p.slug,
-				games: ps.games,
-				pickRate: totalGames > 0 ? ps.games / totalGames : 0,
-				wins: ps.wins,
-				losses: ps.losses,
-				winrate: ps.winrate,
-				kills: avg ? avg.kills : null,
-				deaths: avg ? avg.deaths : null,
-				assists: avg ? avg.assists : null,
-				kda: avg ? avg.kda : null,
-				heroDamage: avg ? avg.heroDamage : null,
-				siegeDamage: avg ? avg.siegeDamage : null,
-				healing: avg ? avg.healing : null,
-				selfHealing: avg ? avg.selfHealing : null,
-				damageTaken: avg ? avg.damageTaken : null,
-				xpContribution: avg ? avg.xpContribution : null,
-				mercCaptures: avg ? avg.mercCaptures : null,
-				timeSpentDead: avg ? avg.timeSpentDead : null,
-				durationMin: ps.durationMin,
-				durationMax: ps.durationMax,
-				durationAvg: ps.avgDuration,
-				lastPlayed: ps.lastPlayed
-			});
-			StandardTable.addPartyWinrates(rows[rows.length - 1], ps.byPartySize);
+			pushPlayerRow(rows, p, ps, totalGames, false);
+		}
+		var showAlts = window.GlobalFilters && !window.GlobalFilters.getNoAlts();
+		if (showAlts && roster.alts) {
+			for (var ai = 0; ai < roster.alts.length; ai++) {
+				var a = roster.alts[ai];
+				var as = stats[a.name];
+				if (!as || as.games === 0) continue;
+				pushPlayerRow(rows, a, as, totalGames, true);
+			}
 		}
 		return rows;
 	}
@@ -74,16 +103,16 @@ var PlayersView = (function() {
 			var p = roster.players[i];
 			var ps = stats[p.name];
 			if (!ps || ps.games === 0) continue;
-			html += '<a href="' + appLink('/player/' + p.slug) + '" class="card player-card">' +
-				'<div class="player-card-name">' + escapeHtml(p.name) + '</div>' +
-				'<div class="player-card-stats">' +
-				'<span>' + ps.games.toLocaleString() + ' games</span>' +
-				winrateSpan(ps.winrate) +
-				'</div>' +
-				'<div class="player-card-bar">' +
-				'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
-				'</div>' +
-				'</a>';
+			html += renderPlayerCard(p, ps, false);
+		}
+		var showAlts = window.GlobalFilters && !window.GlobalFilters.getNoAlts();
+		if (showAlts && roster.alts) {
+			for (var ai = 0; ai < roster.alts.length; ai++) {
+				var a = roster.alts[ai];
+				var as = stats[a.name];
+				if (!as || as.games === 0) continue;
+				html += renderPlayerCard(a, as, true);
+			}
 		}
 		html += '</div>';
 

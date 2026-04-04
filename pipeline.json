@@ -8,6 +8,16 @@
 		{"name": "Antss", "toons": ["2-1-198475"]},
 		{"name": "Grezor", "toons": ["2-1-885944"]}
 	],
+	"alts": [
+		{"name": "Engine (alt)", "toons": ["2-1-11162430"]},
+		{"name": "Manlius", "toons": ["2-1-10603445"]},
+		{"name": "Mou", "toons": ["2-1-12117830"]},
+		{"name": "GtC", "toons": ["2-1-10144314"]},
+		{"name": "FatIllidan", "toons": ["2-1-14154987"]},
+		{"name": "Iskijä", "toons": ["2-1-14191859"]},
+		{"name": "Öljyparoni", "toons": ["2-1-12597069"]},
+		{"name": "DrunkKitten", "toons": ["2-1-12901680"]}
+	],
 	"cutoffDate": "2017-01-01",
 	"replayDirectory": "replays",
 	"outputDirectory": "data"

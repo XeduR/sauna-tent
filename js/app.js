@@ -1,5 +1,23 @@
 // Shared utility functions and app initialization
 
+// Global filter state: applies to every view via MatchIndexUtils and
+// each view's hasDataFilters() check. Persists in localStorage.
+var GlobalFilters = (function() {
+	var KEY = "sauna-tent-no-alts";
+	var stored = localStorage.getItem(KEY);
+	var noAlts = stored === null ? true : stored === "true";
+
+	function getNoAlts() { return noAlts; }
+
+	function setNoAlts(val) {
+		noAlts = !!val;
+		localStorage.setItem(KEY, String(noAlts));
+	}
+
+	return { getNoAlts: getNoAlts, setNoAlts: setNoAlts };
+})();
+window.GlobalFilters = GlobalFilters;
+
 function escapeHtml(str) {
 	var div = document.createElement("div");
 	div.textContent = str;
@@ -776,19 +794,45 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 	}
 }
 
+// Cached roster data for nav rebuilds when the global No alts toggle changes.
+var _navRosterCache = null;
+
+function renderPlayersNavMenu() {
+	var playersMenu = document.getElementById("nav-players-menu");
+	if (!playersMenu || !_navRosterCache) return;
+	playersMenu.innerHTML = "";
+	var players = _navRosterCache.players || [];
+	for (var i = 0; i < players.length; i++) {
+		var p = players[i];
+		var li = document.createElement("li");
+		li.innerHTML = '<a href="' + appLink('/player/' + p.slug) + '">' + escapeHtml(p.name) + '</a>';
+		playersMenu.appendChild(li);
+	}
+	// Alts appear only when the No alts filter is disabled.
+	if (!GlobalFilters.getNoAlts()) {
+		var alts = _navRosterCache.alts || [];
+		if (alts.length > 0 && players.length > 0) {
+			var sep = document.createElement("li");
+			sep.className = "nav-dropdown-separator";
+			sep.setAttribute("aria-hidden", "true");
+			playersMenu.appendChild(sep);
+		}
+		for (var j = 0; j < alts.length; j++) {
+			var a = alts[j];
+			var li2 = document.createElement("li");
+			li2.innerHTML = '<a href="' + appLink('/player/' + a.slug) + '">' + escapeHtml(a.name) + ' <span class="nav-alt-tag">alt</span></a>';
+			playersMenu.appendChild(li2);
+		}
+	}
+}
+
 // Populate nav dropdown menus from roster/data
 async function populateNav() {
-	var roster, summary;
+	var summary;
 
 	try {
-		roster = await Data.roster();
-		var playersMenu = document.getElementById("nav-players-menu");
-		for (var i = 0; i < roster.players.length; i++) {
-			var p = roster.players[i];
-			var li = document.createElement("li");
-			li.innerHTML = '<a href="' + appLink('/player/' + p.slug) + '">' + escapeHtml(p.name) + '</a>';
-			playersMenu.appendChild(li);
-		}
+		_navRosterCache = await Data.roster();
+		renderPlayersNavMenu();
 	} catch (err) {
 		// Nav population is non-critical
 	}
@@ -817,6 +861,20 @@ async function populateNav() {
 	} catch (err) {
 		// Non-critical
 	}
+}
+
+// Global "No alts" toggle in the nav bar. Persists via localStorage and
+// triggers a full re-render of the current view so baseline / extended
+// datasets switch cleanly.
+function setupGlobalNoAltsToggle() {
+	var toggle = document.getElementById("global-no-alts-toggle");
+	if (!toggle) return;
+	toggle.checked = GlobalFilters.getNoAlts();
+	toggle.addEventListener("change", function() {
+		GlobalFilters.setNoAlts(this.checked);
+		renderPlayersNavMenu();
+		Router.refresh();
+	});
 }
 
 // Mobile nav toggle
@@ -913,6 +971,7 @@ Router.add("/draft", function() { DraftView.render(); });
 // Init
 populateNav();
 setupMobileNav();
+setupGlobalNoAltsToggle();
 initTalentTooltip();
 
 // Close season dropdown when clicking outside

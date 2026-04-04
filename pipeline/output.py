@@ -20,28 +20,43 @@ def _build_match_index_entry(match: dict) -> dict:
 	"""Build a lightweight index entry for a match.
 
 	Contains only the fields needed for match history list/filtering.
+
+	`rosterPlayers` includes both true roster members and alt players (loose
+	Sauna Tent membership); each entry has an `isAlt` flag to distinguish.
+	`hasAlt` on the top-level entry allows fast filtering.
 	"""
 	roster_players = []
+	has_alt = False
 	for p in match.get("players", []):
-		if p.get("isRoster"):
-			s = p.get("stats", {})
-			roster_players.append({
-				"name": p.get("rosterName", p["name"]),
-				"hero": p["hero"],
-				"result": p["result"],
-				"partySize": p.get("partySize", 1),
-				"kills": s.get("kills", 0),
-				"deaths": s.get("deaths", 0),
-				"assists": s.get("assists", 0),
-				"heroDamage": s.get("heroDamage", 0),
-				"siegeDamage": s.get("siegeDamage", 0),
-				"healing": s.get("healing", 0),
-				"selfHealing": s.get("selfHealing", 0),
-				"damageTaken": s.get("damageTaken", 0),
-				"xpContribution": s.get("xpContribution", 0),
-				"mercCaptures": s.get("mercCaptures", 0),
-				"timeSpentDead": s.get("timeSpentDead", 0),
-			})
+		is_roster = p.get("isRoster", False)
+		is_alt = p.get("isAlt", False)
+		if not (is_roster or is_alt):
+			continue
+		if is_alt:
+			has_alt = True
+		s = p.get("stats", {})
+		display_name = (
+			p.get("rosterName") if is_roster
+			else p.get("altName", p["name"])
+		)
+		roster_players.append({
+			"name": display_name,
+			"hero": p["hero"],
+			"result": p["result"],
+			"partySize": p.get("partySize", 1),
+			"isAlt": is_alt,
+			"kills": s.get("kills", 0),
+			"deaths": s.get("deaths", 0),
+			"assists": s.get("assists", 0),
+			"heroDamage": s.get("heroDamage", 0),
+			"siegeDamage": s.get("siegeDamage", 0),
+			"healing": s.get("healing", 0),
+			"selfHealing": s.get("selfHealing", 0),
+			"damageTaken": s.get("damageTaken", 0),
+			"xpContribution": s.get("xpContribution", 0),
+			"mercCaptures": s.get("mercCaptures", 0),
+			"timeSpentDead": s.get("timeSpentDead", 0),
+		})
 
 	# All 10 players as hero/team pairs for team comp display
 	teams = {0: [], 1: []}
@@ -51,9 +66,10 @@ def _build_match_index_entry(match: dict) -> dict:
 			"hero": p["hero"],
 			"name": p["name"],
 			"isRoster": p.get("isRoster", False),
+			"isAlt": p.get("isAlt", False),
 		})
 
-	# Determine match result from roster perspective (first roster player's result)
+	# Determine match result from roster-or-alt perspective (first listed player's result)
 	result = "unknown"
 	roster_team_id = None
 	if roster_players:
@@ -64,11 +80,16 @@ def _build_match_index_entry(match: dict) -> dict:
 	if raw_mode == "CustomDraft":
 		raw_mode = "Custom"
 
-	# Determine roster team ID (team with roster players) for meta stats
+	# Determine primary team ID (roster preferred; falls back to alt if pure-alt match)
 	for p in match.get("players", []):
 		if p.get("isRoster"):
 			roster_team_id = p["team"]
 			break
+	if roster_team_id is None:
+		for p in match.get("players", []):
+			if p.get("isAlt"):
+				roster_team_id = p["team"]
+				break
 
 	# Team side: team 0 = left, team 1 = right in HotS
 	roster_side = None
@@ -90,6 +111,7 @@ def _build_match_index_entry(match: dict) -> dict:
 		"result": result,
 		"rosterPlayers": roster_players,
 		"teams": teams,
+		"hasAlt": has_alt,
 	}
 
 	# Only include meta fields when data is available (backward compat with old match files)
@@ -216,8 +238,10 @@ def write_output(
 		_write_json(aggregates["hallOfFame"], os.path.join(output_dir, "hall-of-fame.json"), pretty)
 		counts["hallOfFame"] = 1
 
-	# roster.json - player list with slugs for frontend navigation
+	# roster.json - player list with slugs for frontend navigation.
+	# Includes alts (loose Sauna Tent members) alongside the true roster.
 	roster = config["roster"]
+	alts = config.get("alts", [])
 	team_name = config.get("team", "Unknown")
 	roster_data = {
 		"team": team_name,
@@ -225,17 +249,34 @@ def write_output(
 			{"name": entry["name"], "slug": slugify(entry["name"])}
 			for entry in roster
 		],
+		"alts": [
+			{"name": entry["name"], "slug": slugify(entry["name"])}
+			for entry in alts
+		],
 	}
 	_write_json(roster_data, os.path.join(output_dir, "roster.json"), pretty)
 	counts["roster"] = 1
 
-	# players/{name}.json - keyed by roster name (already URL-safe lowercase names)
+	# players/{slug}.json - one file per roster member and per alt member.
+	# Baseline roster stats exclude matches with alts present.
 	players_dir = os.path.join(output_dir, "players")
 	for name, data in aggregates["players"].items():
 		slug = slugify(name)
 		player_data = {
 			"name": name,
 			"slug": slug,
+			"isAlt": False,
+			**data,
+		}
+		_write_json(player_data, os.path.join(players_dir, f"{slug}.json"), pretty)
+		counts["players"] += 1
+
+	for name, data in aggregates.get("alts", {}).items():
+		slug = slugify(name)
+		player_data = {
+			"name": name,
+			"slug": slug,
+			"isAlt": True,
 			**data,
 		}
 		_write_json(player_data, os.path.join(players_dir, f"{slug}.json"), pretty)

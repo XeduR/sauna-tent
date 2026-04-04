@@ -9,22 +9,37 @@ var OverviewView = (function() {
 	var heroChart = null;
 	var heroColors = null;
 
+	function renderPlayerCard(p, ps, isAlt) {
+		var cls = isAlt ? 'card player-card player-card-alt' : 'card player-card';
+		var altBadge = isAlt ? '<span class="nav-alt-tag">alt</span>' : '';
+		return '<a href="' + appLink('/player/' + p.slug) + '" class="' + cls + '">' +
+			'<div class="player-card-name">' + escapeHtml(p.name) + altBadge + '</div>' +
+			'<div class="player-card-stats">' +
+			'<span>' + ps.games.toLocaleString() + ' games</span>' +
+			winrateSpan(ps.winrate) +
+			'</div>' +
+			'<div class="player-card-bar">' +
+			'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
+			'</div>' +
+			'</a>';
+	}
+
 	function renderPlayerCards(playerStats) {
 		var html = '<h2 class="section-title">Players</h2><div class="card-grid">';
 		for (var i = 0; i < roster.players.length; i++) {
 			var p = roster.players[i];
 			var ps = playerStats[p.name];
 			if (!ps || ps.games === 0) continue;
-			html += '<a href="' + appLink('/player/' + p.slug) + '" class="card player-card">' +
-				'<div class="player-card-name">' + escapeHtml(p.name) + '</div>' +
-				'<div class="player-card-stats">' +
-				'<span>' + ps.games.toLocaleString() + ' games</span>' +
-				winrateSpan(ps.winrate) +
-				'</div>' +
-				'<div class="player-card-bar">' +
-				'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
-				'</div>' +
-				'</a>';
+			html += renderPlayerCard(p, ps, false);
+		}
+		var showAlts = window.GlobalFilters && !window.GlobalFilters.getNoAlts();
+		if (showAlts && roster.alts) {
+			for (var ai = 0; ai < roster.alts.length; ai++) {
+				var a = roster.alts[ai];
+				var as = playerStats[a.name];
+				if (!as || as.games === 0) continue;
+				html += renderPlayerCard(a, as, true);
+			}
 		}
 		html += '</div>';
 		return html;

@@ -105,7 +105,14 @@ def _finalize_stats(acc: dict) -> dict:
 
 def slugify(name: str) -> str:
 	"""Convert a display name to a URL-safe slug."""
-	return name.lower().replace(" ", "-").replace("'", "").replace(".", "")
+	return (
+		name.lower()
+		.replace(" ", "-")
+		.replace("'", "")
+		.replace(".", "")
+		.replace("(", "")
+		.replace(")", "")
+	)
 
 
 def _new_build_accumulator() -> dict:
@@ -359,17 +366,28 @@ def load_matches(matches_dir: str) -> list[dict]:
 	return matches
 
 
-def aggregate_all(matches: list[dict], roster: list[dict], cutoff_date: str | None = None) -> dict:
+def aggregate_all(
+	matches: list[dict],
+	roster: list[dict],
+	cutoff_date: str | None = None,
+	alts: list[dict] | None = None,
+) -> dict:
 	"""Compute all aggregates from match data.
 
 	Args:
 		matches: List of parsed match dicts (from match JSON files).
 		roster: Roster list from pipeline.json config.
 		cutoff_date: ISO date string (e.g. "2017-01-01"). Matches before this are excluded.
+		alts: Alt player list from pipeline.json config (loose Sauna Tent members).
 
 	Returns:
-		Dict with keys: players, heroes, maps, summary.
+		Dict with keys: players, alts, heroes, maps, summary, hallOfFame.
+
+	Baseline stats (players/heroes/maps/summary/HoF) are computed from matches with
+	NO alt players present, matching the default "No alts" filter state. Alt player
+	stats are computed separately from the full match set.
 	"""
+	alts = alts or []
 	if cutoff_date:
 		before_count = len(matches)
 		matches = [m for m in matches if m.get("timestamp", "") >= cutoff_date]
@@ -377,7 +395,18 @@ def aggregate_all(matches: list[dict], roster: list[dict], cutoff_date: str | No
 		if excluded:
 			print(f"  Cutoff {cutoff_date}: excluded {excluded} matches, {len(matches)} remaining")
 
+	# Baseline: exclude matches that contain any alt player. Matches the default
+	# "No alts" filter state that roster pre-computed data is built from.
+	baseline_matches = [
+		m for m in matches
+		if not any(p.get("isAlt") for p in m["players"])
+	]
+	alt_excluded = len(matches) - len(baseline_matches)
+	if alt_excluded:
+		print(f"  Alt games: {alt_excluded} matches excluded from baseline, {len(baseline_matches)} remaining")
+
 	roster_names = {m["name"] for m in roster}
+	alt_names = {m["name"] for m in alts}
 
 	# Accumulators
 	# player_stats[rosterName] -> overall stats
@@ -427,7 +456,7 @@ def aggregate_all(matches: list[dict], roster: list[dict], cutoff_date: str | No
 	total_roster_appearances = 0
 	match_wins = 0
 
-	for match in matches:
+	for match in baseline_matches:
 		map_name = match["map"]
 		duration = match["durationSeconds"]
 		timestamp = match.get("timestamp")
@@ -830,10 +859,85 @@ def aggregate_all(matches: list[dict], roster: list[dict], cutoff_date: str | No
 		"metaStats": meta_stats,
 	}
 
+	# Alt players: aggregated from the full match set (not baseline-filtered).
+	# These are the games each alt actually played, which by definition contain
+	# at least themselves. Used when the "No alts" filter is toggled off.
+	alts_out = _aggregate_alt_players(matches, alt_names)
+
 	return {
 		"players": players_out,
+		"alts": alts_out,
 		"heroes": heroes_out,
 		"maps": maps_out,
 		"summary": summary,
 		"hallOfFame": _finalize_hof(hof),
 	}
+
+
+def _aggregate_alt_players(matches: list[dict], alt_names: set) -> dict:
+	"""Compute per-alt player stats from matches they appeared in.
+
+	Mirrors the roster player output shape (overall / heroes / maps / partySize)
+	but without builds, HoF tracking, or meta stats.
+	"""
+	if not alt_names:
+		return {}
+
+	alt_stats = {name: _new_stat_accumulator() for name in alt_names}
+	alt_hero_stats = defaultdict(lambda: defaultdict(_new_stat_accumulator))
+	alt_map_stats = defaultdict(lambda: defaultdict(_new_stat_accumulator))
+	alt_party_stats = defaultdict(lambda: defaultdict(_new_stat_accumulator))
+
+	for match in matches:
+		game_mode = match.get("gameMode", "Unknown")
+		if game_mode == "CustomStandard":
+			continue
+		if game_mode == "CustomDraft":
+			game_mode = "Custom"
+
+		map_name = match["map"]
+		duration = match["durationSeconds"]
+		timestamp = match.get("timestamp")
+
+		for player in match["players"]:
+			if not player.get("isAlt"):
+				continue
+			name = player.get("altName")
+			if not name or name not in alt_names:
+				continue
+
+			hero = player["hero"]
+			result = player["result"]
+			party_size = player.get("partySize", 1)
+
+			_accumulate_stats(alt_stats[name], player, duration, result, timestamp)
+			_accumulate_stats(alt_hero_stats[name][hero], player, duration, result, timestamp)
+			_accumulate_stats(alt_map_stats[name][map_name], player, duration, result, timestamp)
+			_accumulate_stats(alt_party_stats[name][party_size], player, duration, result, timestamp)
+
+	for name in alt_stats:
+		_finalize_stats(alt_stats[name])
+	for name in alt_hero_stats:
+		for hero in alt_hero_stats[name]:
+			_finalize_stats(alt_hero_stats[name][hero])
+	for name in alt_map_stats:
+		for m_name in alt_map_stats[name]:
+			_finalize_stats(alt_map_stats[name][m_name])
+	for name in alt_party_stats:
+		for size in alt_party_stats[name]:
+			_finalize_stats(alt_party_stats[name][size])
+
+	alts_out = {}
+	for name in sorted(alt_names):
+		hero_breakdown = {hero: stats for hero, stats in sorted(alt_hero_stats[name].items())}
+		map_breakdown = {m: stats for m, stats in sorted(alt_map_stats[name].items())}
+		party_breakdown = {str(size): alt_party_stats[name][size] for size in sorted(alt_party_stats[name].keys())}
+
+		alts_out[name] = {
+			"overall": alt_stats[name],
+			"heroes": hero_breakdown,
+			"maps": map_breakdown,
+			"partySize": party_breakdown,
+		}
+
+	return alts_out

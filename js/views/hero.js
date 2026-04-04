@@ -24,7 +24,10 @@ var HeroView = (function() {
 	}
 
 	function hasDataFilters() {
-		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo || filters.map;
+		// Baseline hero data excludes alt games, so disabling the global
+		// No alts filter forces a client-side recompute from the match index.
+		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo || filters.map
+			|| !GlobalFilters.getNoAlts();
 	}
 
 	function getAvailableMaps() {

@@ -116,6 +116,7 @@ var Router = (function() {
 		add: add,
 		start: start,
 		navigate: navigate,
+		refresh: resolve,
 		basePath: basePath
 	};
 })();

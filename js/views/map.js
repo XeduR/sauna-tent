@@ -21,7 +21,10 @@ var MapView = (function() {
 	}
 
 	function hasDataFilters() {
-		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo;
+		// Baseline map data excludes alt games, so disabling the global
+		// No alts filter forces a client-side recompute from the match index.
+		return filters.mode || filters.partySize || filters.dateFrom || filters.dateTo
+			|| !GlobalFilters.getNoAlts();
 	}
 
 	// Compute stats from match index when data filters are active

@@ -3,8 +3,19 @@
 // stats from the cached match index rather than pre-computed aggregates.
 
 var MatchIndexUtils = (function() {
-	// Filter match index entries by criteria
+	// Filter match index entries by criteria.
+	// `filters.noAlts` excludes matches containing alt players. When undefined,
+	// the global toggle (window.GlobalFilters) provides the default.
 	function filter(matches, filters) {
+		var noAlts;
+		if (filters.noAlts !== undefined) {
+			noAlts = filters.noAlts;
+		} else if (window.GlobalFilters) {
+			noAlts = window.GlobalFilters.getNoAlts();
+		} else {
+			noAlts = true;
+		}
+
 		// Pre-compute season date ranges if season filter is active
 		var seasonRanges = null;
 		if (filters.seasons) {
@@ -21,6 +32,7 @@ var MatchIndexUtils = (function() {
 		var result = [];
 		for (var i = 0; i < matches.length; i++) {
 			var m = matches[i];
+			if (noAlts && m.hasAlt) continue;
 			if (filters.mode && m.gameMode !== filters.mode) continue;
 			if (filters.map && m.map !== filters.map) continue;
 			if (filters.dateFrom && m.timestamp.substring(0, 10) < filters.dateFrom) continue;

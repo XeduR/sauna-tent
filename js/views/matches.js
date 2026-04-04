@@ -102,9 +102,14 @@ var MatchesView = (function() {
 			}
 		}
 
+		var noAlts = window.GlobalFilters ? window.GlobalFilters.getNoAlts() : true;
+
 		filtered = [];
 		for (var i = 0; i < allMatches.length; i++) {
 			var m = allMatches[i];
+
+			// Global no-alts filter
+			if (noAlts && m.hasAlt) continue;
 
 			// Player include: ALL must be present
 			if (filters.players.include.length > 0) {
@@ -244,6 +249,18 @@ var MatchesView = (function() {
 			else if (filters.players.exclude.indexOf(name) !== -1) state = "exclude";
 			html += '<button class="player-toggle" data-player="' + escapeHtml(name) +
 				'" data-state="' + state + '">' + escapeHtml(name) + '</button>';
+		}
+		var showAlts = window.GlobalFilters && !window.GlobalFilters.getNoAlts();
+		if (showAlts && roster.alts) {
+			for (var ai = 0; ai < roster.alts.length; ai++) {
+				var altName = roster.alts[ai].name;
+				var altState = "neutral";
+				if (filters.players.include.indexOf(altName) !== -1) altState = "include";
+				else if (filters.players.exclude.indexOf(altName) !== -1) altState = "exclude";
+				html += '<button class="player-toggle player-toggle-alt" data-player="' + escapeHtml(altName) +
+					'" data-state="' + altState + '">' + escapeHtml(altName) +
+					' <span class="nav-alt-tag">alt</span></button>';
+			}
 		}
 		html += '</div></div>';
 		return html;

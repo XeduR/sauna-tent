@@ -42,12 +42,13 @@ def _estimate_step(count, rate):
 
 
 def _config_hash(config: dict) -> str:
-	"""Hash the roster config fields.
+	"""Hash the roster + alts config fields.
 
-	Changes to roster trigger reprocessing.
+	Changes to roster or alts trigger reprocessing.
 	"""
 	hashable = {
 		"roster": config.get("roster", []),
+		"alts": config.get("alts", []),
 	}
 	raw = json.dumps(hashable, sort_keys=True, ensure_ascii=True)
 	return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -133,7 +134,7 @@ def process_replays(
 
 	processed = 0
 	duplicates = 0
-	no_roster = 0
+	no_sauna = 0
 	skipped = 0
 	failed = 0
 	errors = []
@@ -162,15 +163,17 @@ def process_replays(
 				match_data = process_single(replay_path, config, output_dir, pretty, seen_match_ids)
 				is_dup = match_data.get("isDuplicate", False)
 				has_roster = match_data.get("hasRoster", True)
+				has_alt = match_data.get("hasAlt", False)
+				has_sauna = has_roster or has_alt
 				manifest["files"][rel_path] = {
 					"contentHash": content_hash,
 					"matchId": match_data["matchId"],
 					"timestamp": match_data["timestamp"],
 					"duplicate": is_dup,
-					"noRoster": not has_roster,
+					"noSauna": not has_sauna,
 				}
-				if not has_roster:
-					no_roster += 1
+				if not has_sauna:
+					no_sauna += 1
 				elif is_dup:
 					duplicates += 1
 				else:
@@ -182,7 +185,7 @@ def process_replays(
 		now = time.monotonic()
 		if now - last_report >= 5:
 			elapsed = now - start_time
-			done = processed + duplicates + no_roster + skipped + failed
+			done = processed + duplicates + no_sauna + skipped + failed
 			rate = done / elapsed if elapsed > 0 else 0
 			remaining = (total - done) / rate if rate > 0 else 0
 
@@ -205,7 +208,7 @@ def process_replays(
 	if os.path.isdir(matches_dir):
 		known_ids = {
 			e["matchId"] for e in manifest["files"].values()
-			if e.get("matchId") and not e.get("noRoster")
+			if e.get("matchId") and not e.get("noSauna")
 		}
 		orphaned = 0
 		for fname in os.listdir(matches_dir):
@@ -223,7 +226,7 @@ def process_replays(
 		"total": total,
 		"processed": processed,
 		"duplicates": duplicates,
-		"noRoster": no_roster,
+		"noSauna": no_sauna,
 		"skipped": skipped,
 		"failed": failed,
 		"uniqueMatches": unique_matches,
@@ -233,8 +236,8 @@ def process_replays(
 
 	print(f"  Result: {processed} new, {duplicates} dupes, "
 		  f"{skipped} skipped, {failed} failed in {_format_time(elapsed)}")
-	if no_roster:
-		print(f"  Skipped {no_roster} replays with no roster players")
+	if no_sauna:
+		print(f"  Skipped {no_sauna} replays with no Sauna Tent players (roster or alt)")
 	print(f"  Unique matches: {unique_matches}")
 	if errors:
 		print(f"  Failed replays ({len(errors)}):")
@@ -265,7 +268,12 @@ def generate_output(config: dict, output_dir: str | None = None, pretty: bool = 
 
 	print("  Aggregating stats...", flush=True)
 	t1 = time.monotonic()
-	aggregates = aggregate_all(matches, config["roster"], config.get("cutoffDate"))
+	aggregates = aggregate_all(
+		matches,
+		config["roster"],
+		config.get("cutoffDate"),
+		alts=config.get("alts", []),
+	)
 	print(f"  Aggregated ({_format_time(time.monotonic() - t1)})")
 
 	print("  Writing output files...", flush=True)
