@@ -22,6 +22,10 @@ A static analytics dashboard for the Heroes of the Storm team "Sauna Tent". Pars
 
 Toon IDs are in `region-realmId-profileId` format (e.g. `2-1-8623376` for EU). Find them by parsing any replay containing the player.
 
+### Data cutoff
+
+Replays from before 7 December 2021 are excluded. This is the start date of Storm League 2022 Season 1.
+
 ## Usage
 
 ### Adding new replays (typical use)

@@ -798,9 +798,6 @@ th.num {
 }
 
 .btn-reset {
-	position: absolute;
-	top: 0.75rem;
-	right: 0.75rem;
 	background: rgba(255, 68, 68, 0.06);
 	color: #c07070;
 	border: 1px solid rgba(255, 68, 68, 0.25);
@@ -811,6 +808,10 @@ th.num {
 	border-radius: var(--radius);
 	cursor: pointer;
 	transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.filter-bar > .btn-reset {
+	align-self: flex-end;
 }
 
 .btn-reset:hover {
@@ -1226,10 +1227,6 @@ tfoot {
 	justify-content: space-between;
 }
 
-.draft-clear {
-	position: static;
-}
-
 .draft-column-title {
 	font-size: 1.1rem;
 	font-weight: 400;
@@ -1593,11 +1590,6 @@ tfoot {
 		grid-template-columns: 1fr;
 	}
 
-	.btn-reset {
-		position: static;
-		align-self: flex-end;
-	}
-
 	.filter-bar {
 		overflow: hidden;
 	}
@@ -1771,6 +1763,8 @@ tfoot {
 
 /* Popularity charts */
 .chart-container {
+	position: relative;
+	aspect-ratio: 2 / 1;
 	background: var(--bg-card);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);

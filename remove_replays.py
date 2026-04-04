@@ -59,7 +59,7 @@ _CATEGORY_LABELS = {
 	"unwanted_mode": "Unwanted game mode",
 	"ai_detected": "AI players detected",
 	"incomplete": "Incomplete games",
-	"no_roster_player": "No roster player",
+	"no_sauna_player": "No Sauna Tent player",
 	"custom_no_5stack": "Custom without 5-stack",
 	"unparseable": "Failed to parse",
 }
@@ -110,13 +110,20 @@ def _extract_tracker_map_id(archive, protocol) -> str | None:
 	return None
 
 
-def _load_roster_toons() -> frozenset[str]:
-	"""Load roster toon IDs from pipeline.json."""
+def _load_sauna_toons() -> frozenset[str]:
+	"""Load roster and alt toon IDs from pipeline.json.
+
+	Alts are loose Sauna Tent membership; games containing only alts are still
+	legitimate Sauna Tent games and must not be rejected here.
+	"""
 	config_path = os.path.join(_PROJECT_ROOT, "pipeline.json")
 	with open(config_path, "r", encoding="utf-8") as f:
 		config = json.load(f)
 	toons = set()
 	for entry in config["roster"]:
+		for toon in entry.get("toons", []):
+			toons.add(toon)
+	for entry in config.get("alts", []):
 		for toon in entry.get("toons", []):
 			toons.add(toon)
 	return frozenset(toons)
@@ -142,7 +149,7 @@ def _match_fingerprint(archive, protocol) -> str:
 
 def check_replay(
 	path: str,
-	roster_toons: frozenset[str],
+	sauna_toons: frozenset[str],
 	seen_fingerprints: dict[str, str],
 	cutoff_date: str | None = None,
 ) -> tuple[bool, str, str]:
@@ -246,23 +253,24 @@ def check_replay(
 	if mode not in ACCEPTED_MODES:
 		return (False, "unwanted_mode", f"{mode.lower()}: {map_name}")
 
-	# Roster presence
-	roster_by_team: dict[int, int] = {}
+	# Sauna Tent presence (roster OR alt). Alt-only games are legitimate.
+	sauna_by_team: dict[int, int] = {}
 	for p in players:
 		t = p.get("m_toon", {})
 		toon_key = f"{t.get('m_region')}-{t.get('m_realm')}-{t.get('m_id')}"
-		if toon_key in roster_toons:
+		if toon_key in sauna_toons:
 			team = p.get("m_teamId", -1)
-			roster_by_team[team] = roster_by_team.get(team, 0) + 1
+			sauna_by_team[team] = sauna_by_team.get(team, 0) + 1
 
-	if not roster_by_team:
-		return (False, "no_roster_player", map_name)
+	if not sauna_by_team:
+		return (False, "no_sauna_player", map_name)
 
-	# Custom games require a full 5-stack
+	# Custom games require a full 5-stack. Alts count toward the stack to match
+	# the party-detection rule in pipeline/run.py.
 	if mode in ("CustomDraft", "CustomStandard"):
-		max_on_team = max(roster_by_team.values())
+		max_on_team = max(sauna_by_team.values())
 		if max_on_team < 5:
-			return (False, "custom_no_5stack", f"{map_name} (max {max_on_team} roster on one team)")
+			return (False, "custom_no_5stack", f"{map_name} (max {max_on_team} Sauna Tent on one team)")
 
 	return (True, mode, "ok")
 
@@ -280,7 +288,7 @@ def scan_replays(replay_dir: str) -> tuple[
 	replays = find_replays(replay_dir)
 	total = len(replays)
 
-	roster_toons = _load_roster_toons()
+	sauna_toons = _load_sauna_toons()
 	cutoff_date = _load_cutoff_date()
 	seen_fingerprints: dict[str, str] = {}
 	by_category: dict[str, list[tuple[str, str]]] = {}
@@ -289,7 +297,7 @@ def scan_replays(replay_dir: str) -> tuple[
 	last_report = start
 
 	for i, path in enumerate(replays):
-		accepted, category, detail = check_replay(path, roster_toons, seen_fingerprints, cutoff_date)
+		accepted, category, detail = check_replay(path, sauna_toons, seen_fingerprints, cutoff_date)
 		if accepted:
 			accepted_modes[category] += 1
 		else:

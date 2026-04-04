@@ -16,9 +16,11 @@
 		{"name": "FatIllidan", "toons": ["2-1-14154987"]},
 		{"name": "Iskijä", "toons": ["2-1-14191859"]},
 		{"name": "Öljyparoni", "toons": ["2-1-12597069"]},
-		{"name": "DrunkKitten", "toons": ["2-1-12901680"]}
+		{"name": "DrunkKitten", "toons": ["2-1-12901680"]},
+		{"name": "lestgo", "toons": ["2-1-11664968"]},
+		{"name": "Möyhentäjä", "toons": ["2-1-14192130"]}
 	],
-	"cutoffDate": "2017-01-01",
+	"cutoffDate": "2021-12-07",
 	"replayDirectory": "replays",
 	"outputDirectory": "data"
 }

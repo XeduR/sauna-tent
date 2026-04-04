@@ -42,13 +42,14 @@ def _estimate_step(count, rate):
 
 
 def _config_hash(config: dict) -> str:
-	"""Hash the roster + alts config fields.
+	"""Hash the roster + alts + cutoffDate config fields.
 
-	Changes to roster or alts trigger reprocessing.
+	Changes to roster, alts, or the cutoff date trigger reprocessing.
 	"""
 	hashable = {
 		"roster": config.get("roster", []),
 		"alts": config.get("alts", []),
+		"cutoffDate": config.get("cutoffDate"),
 	}
 	raw = json.dumps(hashable, sort_keys=True, ensure_ascii=True)
 	return hashlib.sha256(raw.encode()).hexdigest()[:16]

@@ -61,7 +61,7 @@ var ChartUtils = (function() {
 			data: { labels: labels, datasets: datasets },
 			options: {
 				responsive: true,
-				maintainAspectRatio: true,
+				maintainAspectRatio: false,
 				scales: {
 					x: { ticks: { color: chart.textColor }, grid: { color: chart.gridColor } },
 					y: {
