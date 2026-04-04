@@ -155,34 +155,28 @@ var MatchView = (function() {
 		return titleHtml + table.buildHTML();
 	}
 
-	function buildDraftSection(draft, teamOrder) {
+	function buildDraftSection(draft) {
 		if (!draft || draft.length === 0) return "";
 
-		// Split draft entries by team, preserving event order
+		// Number bans and picks globally in event order so Ban #1/Pick #1 identify
+		// the first ban/pick across the whole draft, not per-team.
 		var byTeam = { 0: [], 1: [] };
+		var banNum = 0;
+		var pickNum = 0;
+		var firstPickTeam = null;
 		for (var i = 0; i < draft.length; i++) {
 			var d = draft[i];
-			if (d.team === 0 || d.team === 1) {
-				byTeam[d.team].push(d);
+			if (d.team !== 0 && d.team !== 1) continue;
+			var label;
+			if (d.type === "ban") {
+				banNum++;
+				label = "Ban #" + banNum;
+			} else {
+				pickNum++;
+				label = "Pick #" + pickNum;
+				if (firstPickTeam === null) firstPickTeam = d.team;
 			}
-		}
-
-		// Number bans and picks separately per team
-		function labelEntries(entries) {
-			var banNum = 0;
-			var pickNum = 0;
-			var labeled = [];
-			for (var i = 0; i < entries.length; i++) {
-				var e = entries[i];
-				if (e.type === "ban") {
-					banNum++;
-					labeled.push({ type: e.type, hero: e.hero, label: "Ban #" + banNum });
-				} else {
-					pickNum++;
-					labeled.push({ type: e.type, hero: e.hero, label: "Pick #" + pickNum });
-				}
-			}
-			return labeled;
+			byTeam[d.team].push({ type: d.type, hero: d.hero, label: label });
 		}
 
 		function buildEntry(entry) {
@@ -193,25 +187,26 @@ var MatchView = (function() {
 				'</div>';
 		}
 
-		function buildTeamDraft(entries) {
-			var html = "";
-			for (var i = 0; i < entries.length; i++) {
-				html += buildEntry(entries[i]);
+		function buildTeamRow(teamIdx) {
+			var entries = byTeam[teamIdx];
+			var labelHtml = "Team " + (teamIdx + 1);
+			if (teamIdx === firstPickTeam) {
+				labelHtml += ' <span class="draft-first-pick">(first pick)</span>';
 			}
-			return html;
+			var entriesHtml = "";
+			for (var i = 0; i < entries.length; i++) {
+				entriesHtml += buildEntry(entries[i]);
+			}
+			return '<div class="draft-team-row">' +
+				'<div class="draft-team-label">' + labelHtml + '</div>' +
+				'<div class="draft-team">' + entriesHtml + '</div>' +
+				'</div>';
 		}
-
-		var team1 = labelEntries(byTeam[teamOrder[0]]);
-		var team2 = labelEntries(byTeam[teamOrder[1]]);
-
-		// Team 2 entries are reversed (right-to-left visual order)
-		team2.reverse();
 
 		var html = '<div class="section-title">Draft</div>';
 		html += '<div class="draft-section">';
-		html += '<div class="draft-team">' + buildTeamDraft(team1) + '</div>';
-		html += '<div class="draft-vs">vs</div>';
-		html += '<div class="draft-team draft-team-reversed">' + buildTeamDraft(team2) + '</div>';
+		html += buildTeamRow(0);
+		html += buildTeamRow(1);
 		html += '</div>';
 
 		return html;
@@ -312,7 +307,7 @@ var MatchView = (function() {
 			html += '</div>';
 
 			// Draft order (non-ARAM draft modes only)
-			html += buildDraftSection(data.draft, teamOrder);
+			html += buildDraftSection(data.draft);
 
 			// Team scoreboards
 			for (var t = 0; t < teamOrder.length; t++) {
