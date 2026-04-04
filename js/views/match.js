@@ -144,6 +144,68 @@ var MatchView = (function() {
 		return titleHtml + table.buildHTML();
 	}
 
+	function buildDraftSection(draft, teamOrder) {
+		if (!draft || draft.length === 0) return "";
+
+		// Split draft entries by team, preserving event order
+		var byTeam = { 0: [], 1: [] };
+		for (var i = 0; i < draft.length; i++) {
+			var d = draft[i];
+			if (d.team === 0 || d.team === 1) {
+				byTeam[d.team].push(d);
+			}
+		}
+
+		// Number bans and picks separately per team
+		function labelEntries(entries) {
+			var banNum = 0;
+			var pickNum = 0;
+			var labeled = [];
+			for (var i = 0; i < entries.length; i++) {
+				var e = entries[i];
+				if (e.type === "ban") {
+					banNum++;
+					labeled.push({ type: e.type, hero: e.hero, label: "Ban #" + banNum });
+				} else {
+					pickNum++;
+					labeled.push({ type: e.type, hero: e.hero, label: "Pick #" + pickNum });
+				}
+			}
+			return labeled;
+		}
+
+		function buildEntry(entry) {
+			var cls = "draft-entry" + (entry.type === "ban" ? " draft-ban" : "");
+			return '<div class="' + cls + '">' +
+				heroIconHtml(entry.hero, "lg") +
+				'<span class="draft-label">' + entry.label + '</span>' +
+				'</div>';
+		}
+
+		function buildTeamDraft(entries) {
+			var html = "";
+			for (var i = 0; i < entries.length; i++) {
+				html += buildEntry(entries[i]);
+			}
+			return html;
+		}
+
+		var team1 = labelEntries(byTeam[teamOrder[0]]);
+		var team2 = labelEntries(byTeam[teamOrder[1]]);
+
+		// Team 2 entries are reversed (right-to-left visual order)
+		team2.reverse();
+
+		var html = '<div class="section-title">Draft</div>';
+		html += '<div class="draft-section">';
+		html += '<div class="draft-team">' + buildTeamDraft(team1) + '</div>';
+		html += '<div class="draft-vs">vs</div>';
+		html += '<div class="draft-team draft-team-reversed">' + buildTeamDraft(team2) + '</div>';
+		html += '</div>';
+
+		return html;
+	}
+
 	async function render(id) {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading match...</div>';
@@ -213,6 +275,9 @@ var MatchView = (function() {
 			html += statBox("Duration", formatDuration(data.durationSeconds));
 			html += statBox("Date", formatDateFinnish(data.timestamp));
 			html += '</div>';
+
+			// Draft order (non-ARAM draft modes only)
+			html += buildDraftSection(data.draft, teamOrder);
 
 			// Team scoreboards
 			for (var t = 0; t < teamOrder.length; t++) {

@@ -201,8 +201,10 @@ function attachAllSortableListeners(container) {
 	_metaTableCounter = 0;
 }
 
-// Shared match factor / level lead rendering (used by overview, player, map pages)
-function renderMetaFactorTable(title, dataRows) {
+// Shared match factor / level lead rendering (used by overview, player, map pages).
+// conditionSortFn, when provided, takes a condition string and returns a numeric
+// sort value so callers can override the default alphabetic sort.
+function renderMetaFactorTable(title, dataRows, conditionSortFn) {
 	_metaTableCounter++;
 	var tableId = "meta-table-" + _metaTableCounter;
 
@@ -219,8 +221,12 @@ function renderMetaFactorTable(title, dataRows) {
 	}
 
 	var fmtNum = function(v) { return v.toLocaleString(); };
+	var conditionCol = { key: "condition", label: "Condition" };
+	if (conditionSortFn) {
+		conditionCol.sortValue = function(row) { return conditionSortFn(row.condition); };
+	}
 	var columns = [
-		{ key: "condition", label: "Condition" },
+		conditionCol,
 		{ key: "games", label: "Total", className: "num", format: fmtNum },
 		{ key: "wins", label: "Win", className: "num", format: fmtNum },
 		{ key: "losses", label: "Loss", className: "num", format: fmtNum },
@@ -232,7 +238,7 @@ function renderMetaFactorTable(title, dataRows) {
 		{ label: "Win Rate", span: 1 }
 	];
 
-	var table = sortableTable(tableId, columns, rows, "games", true, headerGroups);
+	var table = sortableTable(tableId, columns, rows, "condition", false, headerGroups);
 	registerSortableTable(table);
 	return '<h2 class="section-title">' + title + '</h2>' + table.buildHTML();
 }
@@ -249,6 +255,16 @@ function renderLevelLeadTable(levelLead) {
 	}
 	if (!hasData) return "";
 
+	// Custom sort order: all "First to" tiers ascending, then all "Behind at" tiers ascending
+	var conditionOrder = {};
+	for (var i = 0; i < tiers.length; i++) {
+		conditionOrder["First to " + tiers[i]] = i;
+		conditionOrder["Behind at " + tiers[i]] = tiers.length + i;
+	}
+	var conditionSortFn = function(cond) {
+		return conditionOrder[cond] != null ? conditionOrder[cond] : 999;
+	};
+
 	var rows = [];
 	for (var i = 0; i < tiers.length; i++) {
 		var tier = tiers[i];
@@ -259,7 +275,7 @@ function renderLevelLeadTable(levelLead) {
 			rows.push(["Behind at " + tier, gave]);
 		}
 	}
-	return renderMetaFactorTable("Level Lead", rows);
+	return renderMetaFactorTable("Level Lead", rows, conditionSortFn);
 }
 
 // Shared sortable table builder (used by player, hero, map, and main pages)
@@ -271,9 +287,16 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 	var sortDesc = defaultDesc !== undefined ? defaultDesc : true;
 
 	function sortRows() {
+		var sortCol = null;
+		for (var ci = 0; ci < columns.length; ci++) {
+			if (columns[ci].key === sortKey) { sortCol = columns[ci]; break; }
+		}
+		var getVal = (sortCol && sortCol.sortValue)
+			? sortCol.sortValue
+			: function(row) { return row[sortKey]; };
 		rows.sort(function(a, b) {
-			var va = a[sortKey];
-			var vb = b[sortKey];
+			var va = getVal(a);
+			var vb = getVal(b);
 			if (typeof va === "string") {
 				va = va.toLowerCase();
 				vb = vb.toLowerCase();

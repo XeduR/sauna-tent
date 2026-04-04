@@ -274,6 +274,8 @@ def parse_replay(replay_path: str) -> dict:
 	# Level lead: first gameloop each team reaches a talent tier level
 	# team_level_loops[team_id][level] = first gameloop
 	team_level_loops = {0: {}, 1: {}}
+	# Draft order: bans and picks in event order (empty for non-draft modes)
+	draft_order = []
 	# First boss/merc capture: team ID (0 or 1) or None
 	first_boss_team = None
 	first_boss_loop = None
@@ -408,6 +410,23 @@ def parse_replay(replay_path: str) -> dict:
 									first_merc_team = team_id
 									first_merc_loop = game_loop
 
+			elif event_type == "NNet.Replay.Tracker.SHeroBannedEvent":
+				hero_id = _decode_bytes(event.get("m_hero", b""))
+				# m_controllingTeam is 1-indexed (1=team0, 2=team1)
+				team = event.get("m_controllingTeam", 0) - 1
+				if team in (0, 1):
+					draft_order.append({"type": "ban", "hero": hero_id, "team": team})
+
+			elif event_type == "NNet.Replay.Tracker.SHeroPickedEvent":
+				hero_id = _decode_bytes(event.get("m_hero", b""))
+				player_id = event.get("m_controllingPlayer", 0)
+				if 0 <= player_id < num_players:
+					draft_order.append({
+						"type": "pick",
+						"hero": hero_id,
+						"team": players[player_id]["team"],
+					})
+
 	# Message events (chat messages, pings, disconnects)
 	message_content = archive.read_file("replay.message.events")
 	if message_content and hasattr(protocol, "decode_replay_message_events"):
@@ -531,6 +550,10 @@ def parse_replay(replay_path: str) -> dict:
 		if internal_id:
 			p["hero"] = HERO_NAMES.get(internal_id, internal_id)
 
+	# Resolve draft hero names from tracker data (same mapping as played heroes)
+	for entry in draft_order:
+		entry["hero"] = HERO_NAMES.get(entry["hero"], entry["hero"])
+
 	# Resolve map name from tracker data (language-independent)
 	if tracker_map_id:
 		map_name = MAP_NAMES.get(tracker_map_id, tracker_map_id)
@@ -581,4 +604,5 @@ def parse_replay(replay_path: str) -> dict:
 		"firstToLevel": first_to_level,
 		"firstBossTeam": first_boss_team,
 		"firstMercTeam": first_merc_team,
+		"draft": draft_order,
 	}

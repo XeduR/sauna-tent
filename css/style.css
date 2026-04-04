@@ -1378,6 +1378,70 @@ tfoot {
 	border-color: var(--loss);
 }
 
+/* Match draft section */
+.draft-section {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+}
+
+.draft-team {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.draft-vs {
+	font-size: 1rem;
+	font-weight: 400;
+	color: var(--text-muted);
+	padding: 0 0.25rem;
+	align-self: center;
+}
+
+.draft-entry {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.5rem;
+	min-width: 64px;
+}
+
+.draft-entry .hero-icon-lg {
+	margin-right: 0;
+}
+
+.draft-ban {
+	border-color: rgba(255, 68, 68, 0.3);
+	background: rgba(255, 68, 68, 0.06);
+}
+
+.draft-ban .hero-icon-lg {
+	filter: grayscale(0.6);
+}
+
+.draft-ban:hover .hero-icon-lg {
+	filter: grayscale(0.3) brightness(1.2);
+}
+
+.draft-label {
+	font-size: 0.7rem;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	white-space: nowrap;
+}
+
+.draft-ban .draft-label {
+	color: rgba(255, 68, 68, 0.7);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
 	html {

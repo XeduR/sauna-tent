@@ -285,6 +285,8 @@ var MatchIndexUtils = (function() {
 		var firstBlood = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
 		var firstBoss = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
 		var firstMerc = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		// Heroes Lounge: Custom games only - firstPick means roster drafted first, mapPick means roster chose the map instead
+		var loungePick = { mapPick: { games: 0, wins: 0 }, firstPick: { games: 0, wins: 0 } };
 		var tiers = ["4", "7", "10", "13", "16", "20"];
 		var levelLead = {};
 		for (var t = 0; t < tiers.length; t++) {
@@ -318,6 +320,12 @@ var MatchIndexUtils = (function() {
 				if (isWin) firstMerc[mKey].wins++;
 			}
 
+			if (m.rosterFirstPick != null) {
+				var lpKey = m.rosterFirstPick ? "firstPick" : "mapPick";
+				loungePick[lpKey].games++;
+				if (isWin) loungePick[lpKey].wins++;
+			}
+
 			if (m.rosterFirstToLevel) {
 				for (var t = 0; t < tiers.length; t++) {
 					var tier = tiers[t];
@@ -339,6 +347,7 @@ var MatchIndexUtils = (function() {
 		for (var k in firstBlood) finalize(firstBlood[k]);
 		for (var k in firstBoss) finalize(firstBoss[k]);
 		for (var k in firstMerc) finalize(firstMerc[k]);
+		for (var k in loungePick) finalize(loungePick[k]);
 		for (var t = 0; t < tiers.length; t++) {
 			finalize(levelLead[tiers[t]].got);
 			finalize(levelLead[tiers[t]].gave);
@@ -349,6 +358,7 @@ var MatchIndexUtils = (function() {
 			firstBlood: firstBlood,
 			firstBoss: firstBoss,
 			firstMerc: firstMerc,
+			loungePick: loungePick,
 			levelLead: levelLead
 		};
 	}

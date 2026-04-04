@@ -100,6 +100,13 @@ var MapsMainView = (function() {
 			factorRows.push(["Got First Merc", merc.got]);
 			factorRows.push(["Gave First Merc", merc.gave]);
 		}
+		var lp = metaStats.loungePick;
+		if (lp.mapPick.games > 0) {
+			factorRows.push(["Lounge: map pick", lp.mapPick]);
+		}
+		if (lp.firstPick.games > 0) {
+			factorRows.push(["Lounge: first pick", lp.firstPick]);
+		}
 		if (factorRows.length > 0) {
 			html += renderMetaFactorTable("Match Factors", factorRows);
 		}

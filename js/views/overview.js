@@ -86,7 +86,7 @@ var OverviewView = (function() {
 			{ label: "Duration", span: 1 }
 		];
 
-		var table = sortableTable("game-modes-table", columns, rows, "games", true, headerGroups);
+		var table = sortableTable("game-modes-table", columns, rows, "name", false, headerGroups);
 		registerSortableTable(table);
 		return '<h2 class="section-title">Game Modes</h2>' + table.buildHTML();
 	}
@@ -115,6 +115,13 @@ var OverviewView = (function() {
 		if (merc.got.games > 0 || merc.gave.games > 0) {
 			factorRows.push(["Got First Merc", merc.got]);
 			factorRows.push(["Gave First Merc", merc.gave]);
+		}
+		var lp = metaStats.loungePick;
+		if (lp.mapPick.games > 0) {
+			factorRows.push(["Lounge: map pick", lp.mapPick]);
+		}
+		if (lp.firstPick.games > 0) {
+			factorRows.push(["Lounge: first pick", lp.firstPick]);
 		}
 		if (factorRows.length > 0) {
 			html += renderMetaFactorTable("Match Factors", factorRows);

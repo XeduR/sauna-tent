@@ -115,6 +115,15 @@ def _build_match_index_entry(match: dict) -> dict:
 	if first_merc is not None and roster_team_id is not None:
 		entry["rosterFirstMerc"] = first_merc == roster_team_id
 
+	# Heroes Lounge: first-pick team for Custom games (the other team picks the map)
+	if raw_mode == "Custom" and roster_team_id is not None:
+		for d in match.get("draft", []):
+			if d.get("type") == "pick":
+				first_pick_team = d.get("team")
+				if first_pick_team in (0, 1):
+					entry["rosterFirstPick"] = first_pick_team == roster_team_id
+				break
+
 	# Chat toxicity classification for the roster team
 	# Examines all players on the roster's team (not just roster members)
 	if roster_team_id is not None:
