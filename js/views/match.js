@@ -45,13 +45,19 @@ var MatchView = (function() {
 		};
 	}
 
-	function buildTeamTable(players, teamIndex, rosterLookup) {
+	function buildTeamTable(players, teamIndex, rosterLookup, teamLevels) {
 		var teamResult = players.length > 0 ? players[0].result : "unknown";
 		var resultClass = teamResult === "win" ? "win" : (teamResult === "loss" ? "loss" : "");
 		var resultLabel = teamResult === "win" ? "Victory" : (teamResult === "loss" ? "Defeat" : teamResult);
 
+		var levelHtml = "";
+		if (teamLevels && teamLevels[String(teamIndex)]) {
+			levelHtml = " (level " + teamLevels[String(teamIndex)] + ")";
+		}
+
 		var titleHtml = '<div class="section-title">Team ' + (teamIndex + 1) +
-			' <span class="' + resultClass + '">' + escapeHtml(resultLabel) + '</span></div>';
+			' <span class="' + resultClass + '">' + escapeHtml(resultLabel) + '</span>' +
+			escapeHtml(levelHtml) + '</div>';
 
 		var tierLevels = [1, 4, 7, 10, 13, 16, 20];
 		var rows = [];
@@ -148,7 +154,7 @@ var MatchView = (function() {
 
 		var tableId = "team-" + teamIndex + "-table";
 		var table = sortableTable(tableId, columns, rows, "name", false, null, {
-			rowClass: function(row) { return row.isRoster ? "roster-player-row" : ""; },
+			rowClass: function(row) { return (row.isRoster || row.isAlt) ? "roster-player-row" : ""; },
 			tfoot: tfootHtml
 		});
 		registerSortableTable(table);
@@ -312,7 +318,7 @@ var MatchView = (function() {
 			// Team scoreboards
 			for (var t = 0; t < teamOrder.length; t++) {
 				var idx = teamOrder[t];
-				html += buildTeamTable(teams[idx], idx, rosterLookup);
+				html += buildTeamTable(teams[idx], idx, rosterLookup, data.teamLevels);
 			}
 
 			// Back to match history link

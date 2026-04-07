@@ -274,6 +274,8 @@ def parse_replay(replay_path: str) -> dict:
 	# Level lead: first gameloop each team reaches a talent tier level
 	# team_level_loops[team_id][level] = first gameloop
 	team_level_loops = {0: {}, 1: {}}
+	# Final team levels: highest level reached by each team
+	team_max_level = {0: 0, 1: 0}
 	# Draft order: bans and picks in event order (empty for non-draft modes)
 	draft_order = []
 	# First boss/merc capture: team ID (0 or 1) or None
@@ -386,10 +388,13 @@ def parse_replay(replay_path: str) -> dict:
 					if len(int_data) >= 2:
 						tracker_pid = int_data[0].get("m_value", 0)
 						new_level = int_data[1].get("m_value", 0)
-						if new_level in _TALENT_TIER_LEVELS and 1 <= tracker_pid <= num_players:
+						if 1 <= tracker_pid <= num_players:
 							team_id = players[tracker_pid - 1]["team"]
-							if new_level not in team_level_loops[team_id]:
-								team_level_loops[team_id][new_level] = event.get("_gameloop", 0)
+							if new_level > team_max_level[team_id]:
+								team_max_level[team_id] = new_level
+							if new_level in _TALENT_TIER_LEVELS:
+								if new_level not in team_level_loops[team_id]:
+									team_level_loops[team_id][new_level] = event.get("_gameloop", 0)
 
 				elif event_name == "JungleCampCapture":
 					fixed_data = event.get("m_fixedData", [])
@@ -592,6 +597,11 @@ def parse_replay(replay_path: str) -> dict:
 		elif t1 is not None:
 			first_to_level[str(level)] = 1
 
+	# Final team levels (omit if both are 0, which means no LevelUp events fired)
+	team_levels = None
+	if team_max_level[0] > 0 or team_max_level[1] > 0:
+		team_levels = {str(k): v for k, v in team_max_level.items()}
+
 	return {
 		"map": map_name,
 		"timestamp": timestamp,
@@ -602,6 +612,7 @@ def parse_replay(replay_path: str) -> dict:
 		"players": players,
 		"firstBloodTeam": first_blood_team,
 		"firstToLevel": first_to_level,
+		"teamLevels": team_levels,
 		"firstBossTeam": first_boss_team,
 		"firstMercTeam": first_merc_team,
 		"draft": draft_order,

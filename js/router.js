@@ -63,6 +63,7 @@ var Router = (function() {
 		else if (path.indexOf("/match") === 0) section = "matches";
 		else if (path === "/hall-of-fame") section = "hall-of-fame";
 		else if (path === "/draft") section = "draft";
+		else if (path === "/combos") section = "combos";
 
 		var active = document.querySelector('.nav-link[data-route="' + section + '"]');
 		if (active) active.classList.add("active");

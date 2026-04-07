@@ -56,6 +56,7 @@ def _build_match_index_entry(match: dict) -> dict:
 			"xpContribution": s.get("xpContribution", 0),
 			"mercCaptures": s.get("mercCaptures", 0),
 			"timeSpentDead": s.get("timeSpentDead", 0),
+			"talentChoices": p.get("talentChoices", []),
 		})
 
 	# All 10 players as hero/team pairs for team comp display

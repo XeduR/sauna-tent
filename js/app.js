@@ -992,6 +992,7 @@ Router.add("/matches", function() { MatchesView.render(); });
 Router.add("/match/:id", function(id) { MatchView.render(id); });
 Router.add("/hall-of-fame", function() { HallOfFameView.render(); });
 Router.add("/draft", function() { DraftView.render(); });
+Router.add("/combos", function() { CombosView.render(); });
 
 // Init
 populateNav();

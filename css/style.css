@@ -1236,6 +1236,112 @@ tfoot {
 	margin-top: 0.15rem;
 }
 
+/* Combos Tool */
+.combo-layout {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.combo-team-section {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.combo-talent-cards {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.combo-hero-card {
+	padding: 0.8rem 1rem;
+}
+
+.combo-hero-card-header {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.6rem;
+	font-size: 0.95rem;
+	font-weight: 400;
+}
+
+.combo-hero-card-header .btn-reset {
+	margin-left: auto;
+}
+
+.combo-talent-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+
+.combo-talent-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.combo-tier-label {
+	flex-shrink: 0;
+	width: 2rem;
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	text-align: right;
+}
+
+.combo-talent-options {
+	display: flex;
+	gap: 0.3rem;
+}
+
+.combo-talent-btn {
+	background: none;
+	border: 2px solid transparent;
+	border-radius: 5px;
+	padding: 2px;
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.15s, border-color 0.15s;
+}
+
+.combo-talent-btn:hover {
+	opacity: 1;
+}
+
+.combo-talent-btn.selected {
+	border-color: var(--accent);
+	opacity: 1;
+}
+
+.combo-talent-btn.unavailable {
+	opacity: 0.25;
+	filter: grayscale(1);
+	cursor: not-allowed;
+}
+
+.combo-results {
+	margin-top: 0.5rem;
+}
+
+.combo-prompt {
+	padding: 2rem 0;
+	text-align: center;
+}
+
+.combo-matches-table {
+	width: 100%;
+}
+
+.combo-matches-table th,
+.combo-matches-table td {
+	padding: 0.4rem 0.6rem;
+	text-align: left;
+	font-size: 0.85rem;
+}
+
 /* Draft Tool */
 .draft-layout {
 	display: grid;
@@ -1281,6 +1387,11 @@ tfoot {
 .draft-hero-select:focus {
 	outline: none;
 	border-color: var(--accent);
+}
+
+.draft-hero-select:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
 }
 
 .draft-recs {
