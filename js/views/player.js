@@ -498,8 +498,19 @@ var PlayerView = (function() {
 		var heroTable = StandardTable.create("player-heroes", heroRows, { mask: mask, partyContext: heroPartyContext, wrl: wrl });
 
 		var altBadge = playerData.isAlt ? ' <span class="nav-alt-tag">alt</span>' : '';
+		var profileLink = '';
+		if (playerData.heroesProfile) {
+			profileLink = '<div class="subtitle"><a href="' + escapeHtml(playerData.heroesProfile) + '" target="_blank" rel="nofollow noopener" class="external-link">'
+				+ 'Heroes Profile'
+				+ '<svg class="external-link-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">'
+				+ '<path d="M4.5 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h8a.5.5 0 00.5-.5V7.5"/>'
+				+ '<path d="M7 1.5h3.5V5"/>'
+				+ '<path d="M5 7L10.5 1.5"/>'
+				+ '</svg></a></div>';
+		}
 		var html =
 			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + altBadge + '</h1>' +
+			profileLink +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
 			playerData.overall.games.toLocaleString() + ' games</div></div>';
 

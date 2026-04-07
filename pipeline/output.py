@@ -257,6 +257,12 @@ def write_output(
 	_write_json(roster_data, os.path.join(output_dir, "roster.json"), pretty)
 	counts["roster"] = 1
 
+	# Build name-to-profile lookup for player JSON files.
+	profile_lookup = {}
+	for entry in roster + alts:
+		if entry.get("heroesProfile"):
+			profile_lookup[entry["name"]] = entry["heroesProfile"]
+
 	# players/{slug}.json - one file per roster member and per alt member.
 	# Baseline roster stats exclude matches with alts present.
 	players_dir = os.path.join(output_dir, "players")
@@ -268,6 +274,8 @@ def write_output(
 			"isAlt": False,
 			**data,
 		}
+		if name in profile_lookup:
+			player_data["heroesProfile"] = profile_lookup[name]
 		_write_json(player_data, os.path.join(players_dir, f"{slug}.json"), pretty)
 		counts["players"] += 1
 
@@ -279,6 +287,8 @@ def write_output(
 			"isAlt": True,
 			**data,
 		}
+		if name in profile_lookup:
+			player_data["heroesProfile"] = profile_lookup[name]
 		_write_json(player_data, os.path.join(players_dir, f"{slug}.json"), pretty)
 		counts["players"] += 1
 

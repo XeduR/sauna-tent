@@ -7,6 +7,8 @@ import json
 import os
 from collections import defaultdict
 
+from pipeline.herodata import FEMALE_HEROES
+
 # Number of talent tiers in HotS (levels 1, 4, 7, 10, 13, 16, 20)
 _NUM_TALENT_TIERS = 7
 
@@ -263,6 +265,14 @@ _HOF_CUMULATIVE_CATEGORIES = [
 	("chatGlhf", "Sportsmanlike Greetings"),
 	("chatOffensiveGg", "Offensive GG"),
 	("timeOnFire", "Total Time on Fire"),
+	("regenGlobes", "A Game of Globes"),
+]
+
+# Derived cumulative categories with non-standard accumulation logic
+# (flag-based or hero-attribute-based, not simple stat sums)
+_HOF_DERIVED_CUMULATIVE = [
+	("hasMultikill", "Multi-kill Percentage"),
+	("femaleHero", "Gender Equality"),
 ]
 
 
@@ -276,7 +286,7 @@ def _new_hof_tracker() -> dict:
 		tracker["stats_min"][out_key] = {mode: [] for mode in modes}
 	for length_key in ["shortest", "longest", "shortestWon", "shortestLost", "longestWon", "longestLost"]:
 		tracker["games"][length_key] = {mode: [] for mode in modes}
-	for stat_key, _ in _HOF_CUMULATIVE_CATEGORIES:
+	for stat_key, _ in _HOF_CUMULATIVE_CATEGORIES + _HOF_DERIVED_CUMULATIVE:
 		tracker["cumulative"][stat_key] = {
 			mode: defaultdict(lambda: {"value": 0, "games": 0})
 			for mode in modes
@@ -330,8 +340,8 @@ def _finalize_hof(tracker: dict) -> dict:
 				records = sorted(heap, key=lambda x: -x[0])
 			out["games"][length_key][mode] = [r[2] for r in records]
 
-	# Cumulative player records
-	for stat_key, label in _HOF_CUMULATIVE_CATEGORIES:
+	# Cumulative player records (standard sums and derived flags)
+	for stat_key, label in _HOF_CUMULATIVE_CATEGORIES + _HOF_DERIVED_CUMULATIVE:
 		out["cumulative"][stat_key] = {"label": label}
 		for mode, player_data in tracker["cumulative"][stat_key].items():
 			records = []
@@ -638,6 +648,21 @@ def aggregate_all(
 				if game_mode in hof["cumulative"][stat_key]:
 					hof["cumulative"][stat_key][game_mode][roster_name]["value"] += val
 					hof["cumulative"][stat_key][game_mode][roster_name]["games"] += 1
+
+			# Hall of fame: derived cumulative records (flag-based)
+			mk_val = 1 if stats.get("multikill", 0) > 0 else 0
+			hof["cumulative"]["hasMultikill"]["Overall"][roster_name]["value"] += mk_val
+			hof["cumulative"]["hasMultikill"]["Overall"][roster_name]["games"] += 1
+			if game_mode in hof["cumulative"]["hasMultikill"]:
+				hof["cumulative"]["hasMultikill"][game_mode][roster_name]["value"] += mk_val
+				hof["cumulative"]["hasMultikill"][game_mode][roster_name]["games"] += 1
+
+			fem_val = 1 if hero in FEMALE_HEROES else 0
+			hof["cumulative"]["femaleHero"]["Overall"][roster_name]["value"] += fem_val
+			hof["cumulative"]["femaleHero"]["Overall"][roster_name]["games"] += 1
+			if game_mode in hof["cumulative"]["femaleHero"]:
+				hof["cumulative"]["femaleHero"][game_mode][roster_name]["value"] += fem_val
+				hof["cumulative"]["femaleHero"][game_mode][roster_name]["games"] += 1
 
 		# Hall of fame: game duration records (once per match, not per player)
 		# Determine match result from roster perspective

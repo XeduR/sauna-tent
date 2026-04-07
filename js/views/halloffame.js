@@ -577,6 +577,15 @@ var HallOfFameView = (function() {
 		html += '<h3 class="section-title">Player Records</h3><div class="hof-grid">';
 		html += renderFunStats(filtered);
 		html += renderAvgTimeOnFireCard();
+		if (cumulative.regenGlobes) {
+			html += renderCumulativeCard("A Game of Globes", cumulative.regenGlobes, "Total number of globes collected");
+		}
+		if (cumulative.hasMultikill) {
+			html += renderPercentCard("Multi-kill Percentage", cumulative.hasMultikill, "Percentage of games with multikills", "multikill games");
+		}
+		if (cumulative.femaleHero) {
+			html += renderPercentCard("Gender Equality", cumulative.femaleHero, "Percentage of games played with female characters", "female hero games");
+		}
 		html += '</div>';
 
 		// Hall of Shame

@@ -221,6 +221,15 @@ HERO_ROLES: dict[str, str] = {
 	"Zul'jin": "Ranged Assassin",
 }
 
+# Heroes with female gender identity (display names matching HERO_ROLES keys)
+FEMALE_HEROES: frozenset[str] = frozenset({
+	"Alexstrasza", "Ana", "Auriel", "Brightwing", "Cassia", "Chromie",
+	"D.Va", "Jaina", "Johanna", "Kerrigan", "Li Li", "Li-Ming",
+	"Lt. Morales", "Lunara", "Maiev", "Mei", "Nova", "Orphea",
+	"Qhira", "Sgt. Hammer", "Sonya", "Sylvanas", "Tracer", "Tyrande",
+	"Valeera", "Valla", "Whitemane", "Yrel", "Zagara", "Zarya",
+})
+
 # ARAM-exclusive map internal IDs (for mode detection without localized names)
 ARAM_MAP_IDS = frozenset({"LostCavern", "IndustrialDistrict", "SilverCity", "BraxisOutpost"})
 

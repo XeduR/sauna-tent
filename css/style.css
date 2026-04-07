@@ -302,6 +302,22 @@ a.nav-brand:hover {
 	margin-top: 0.2rem;
 }
 
+.external-link {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+.external-link:hover {
+	color: var(--accent-hover);
+}
+
+.external-link-icon {
+	margin-left: 0.3rem;
+	vertical-align: middle;
+	position: relative;
+	top: -1px;
+}
+
 /* Stat boxes */
 .stat-row {
 	display: flex;

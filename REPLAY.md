@@ -679,6 +679,7 @@ Observers appear in `m_playerList` but NOT in tracker events (no PlayerInit). Th
 1. **No health/mana over time**: no periodic HP or mana snapshots exist in replay data.
 2. **No ability cooldown tracking**: only activation (SCmdEvent) is recorded, not cooldown state.
 3. **Ability IDs are build-dependent**: `m_abilLink` values change between game builds. No stable mapping exists.
+4. **No talent quest or mastery progress**: replay files do not record quest stack counts, quest completion status, or mastery talent completion. No tracker event, score result, attribute, or game event carries this data. This matches the in-game behavior where talent quest progress is not shown in the end-of-game stats screen either. Which talents are quest or mastery types can be identified from the `TalentChosen` internal names ("Quest" or "Mastery" in the `PurchaseName`), but whether they were completed during the match cannot be determined.
 4. **Position sampling is coarse**: SUnitPositionsEvent fires every ~15 seconds and only for units that dealt or took damage recently.
 5. **Observer ID misalignment**: observers in `m_playerList` can shift player indices. Must cross-reference via ToonHandle.
 6. **heroprotocol --json output**: one JSON object per line, not a valid JSON array. Requires line-by-line parsing.

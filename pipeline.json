@@ -1,24 +1,24 @@
 {
 	"team": "Sauna Tent",
 	"roster": [
-		{"name": "XeduR", "toons": ["2-1-8623376"]},
-		{"name": "invertebrate", "toons": ["2-1-51092"]},
-		{"name": "Engine", "toons": ["2-1-1157874"]},
-		{"name": "quuood", "toons": ["2-1-1404485"]},
-		{"name": "Antss", "toons": ["2-1-198475"]},
-		{"name": "Grezor", "toons": ["2-1-885944"]}
+		{"name": "XeduR", "toons": ["2-1-8623376"], "heroesProfile": "https://www.heroesprofile.com/Player/XeduR/8623376/2"},
+		{"name": "invertebrate", "toons": ["2-1-51092"], "heroesProfile": "https://www.heroesprofile.com/Player/invertebrate/51092/2"},
+		{"name": "Engine", "toons": ["2-1-1157874"], "heroesProfile": "https://www.heroesprofile.com/Player/Engine/1157874/2"},
+		{"name": "quuood", "toons": ["2-1-1404485"], "heroesProfile": "https://www.heroesprofile.com/Player/quuood/1404485/2"},
+		{"name": "Antss", "toons": ["2-1-198475"], "heroesProfile": "https://www.heroesprofile.com/Player/Antss/198475/2"},
+		{"name": "Grezor", "toons": ["2-1-885944"], "heroesProfile": "https://www.heroesprofile.com/Player/Grezor/885944/2"}
 	],
 	"alts": [
-		{"name": "Engine (alt)", "toons": ["2-1-11162430"]},
-		{"name": "Manlius", "toons": ["2-1-10603445"]},
-		{"name": "Mou", "toons": ["2-1-12117830"]},
-		{"name": "GtC", "toons": ["2-1-10144314"]},
-		{"name": "FatIllidan", "toons": ["2-1-14154987"]},
-		{"name": "Iskijä", "toons": ["2-1-14191859"]},
-		{"name": "Öljyparoni", "toons": ["2-1-12597069"]},
-		{"name": "DrunkKitten", "toons": ["2-1-12901680"]},
-		{"name": "lestgo", "toons": ["2-1-11664968"]},
-		{"name": "Möyhentäjä", "toons": ["2-1-14192130"]}
+		{"name": "Engine (alt)", "toons": ["2-1-11162430"], "heroesProfile": "https://www.heroesprofile.com/Player/Engine/11162430/2"},
+		{"name": "Manlius", "toons": ["2-1-10603445"], "heroesProfile": "https://www.heroesprofile.com/Player/Manlius/10603445/2"},
+		{"name": "Mou", "toons": ["2-1-12117830"], "heroesProfile": "https://www.heroesprofile.com/Player/Mou/12117830/2"},
+		{"name": "GtC", "toons": ["2-1-10144314"], "heroesProfile": "https://www.heroesprofile.com/Player/GtC/10144314/2"},
+		{"name": "FatIllidan", "toons": ["2-1-14154987"], "heroesProfile": "https://www.heroesprofile.com/Player/FatIllidan/14154987/2"},
+		{"name": "Iskijä", "toons": ["2-1-14191859"], "heroesProfile": "https://www.heroesprofile.com/Player/Iskijä/14191859/2"},
+		{"name": "Öljyparoni", "toons": ["2-1-12597069"], "heroesProfile": "https://www.heroesprofile.com/Player/Öljyparoni/12597069/2"},
+		{"name": "DrunkKitten", "toons": ["2-1-12901680"], "heroesProfile": "https://www.heroesprofile.com/Player/DrunkKitten/12901680/2"},
+		{"name": "lestgo", "toons": ["2-1-11664968"], "heroesProfile": "https://www.heroesprofile.com/Player/lestgo/11664968/2"},
+		{"name": "Möyhentäjä", "toons": ["2-1-14192130"], "heroesProfile": "https://www.heroesprofile.com/Player/Möyhentäjä/14192130/2"}
 	],
 	"cutoffDate": "2021-12-07",
 	"replayDirectory": "replays",
