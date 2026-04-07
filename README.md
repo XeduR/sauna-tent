@@ -131,12 +131,16 @@ The dashboard uses two data paths:
   "roster": [
     {"name": "PlayerName", "toons": ["2-1-12345"]}
   ],
+  "alts": [
+    {"name": "AltName", "toons": ["2-1-67890"]}
+  ],
+  "cutoffDate": "2021-12-07",
   "replayDirectory": "replays",
   "outputDirectory": "data"
 }
 ```
 
-Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard.
+Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date.
 
 ## Data Sources
 

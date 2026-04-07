@@ -140,7 +140,12 @@ function initTalentTooltip() {
 		var name = tip.getAttribute("data-tip-name");
 		if (!name) return;
 		var desc = tip.getAttribute("data-tip-desc") || "";
-		talentTooltip.innerHTML = '<div class="talent-tip-name">' + name + '</div>' + desc;
+		var nameEl = document.createElement("div");
+		nameEl.className = "talent-tip-name";
+		nameEl.textContent = name;
+		talentTooltip.innerHTML = "";
+		talentTooltip.appendChild(nameEl);
+		if (desc) talentTooltip.insertAdjacentHTML("beforeend", desc);
 		talentTooltip.style.display = "block";
 		positionTooltip(tip);
 	});
@@ -947,7 +952,7 @@ function attachTopScrollbars() {
 			var inner = document.createElement('div');
 			dummy.appendChild(inner);
 			wrap.parentNode.insertBefore(dummy, wrap);
-			inner.style.width = table.scrollWidth + 'px';
+			inner.style.setProperty('--scroll-width', table.scrollWidth + 'px');
 			wrap.setAttribute('data-scroll-synced', '');
 
 			var syncing = false;
@@ -968,7 +973,7 @@ function attachTopScrollbars() {
 
 			if (window.ResizeObserver) {
 				new ResizeObserver(function() {
-					inner.style.width = table.scrollWidth + 'px';
+					inner.style.setProperty('--scroll-width', table.scrollWidth + 'px');
 				}).observe(table);
 			}
 		})(wraps[i]);

@@ -10,20 +10,21 @@
 	<!-- OG/Twitter: absolute URLs required by spec. Update when deployment domain changes. -->
 	<meta property="og:title" content="Sauna Tent">
 	<meta property="og:description" content="Heroes of the Storm replay analytics dashboard for Sauna Tent.">
-	<meta property="og:image" content="https://xedur.github.io/sauna-tent/img/sauna-tent-logo.png">
+	<meta property="og:image" content="https://xedur.github.io/sauna-tent/img/og-card.png">
 	<meta property="og:url" content="https://xedur.github.io/sauna-tent/">
 	<meta property="og:type" content="website">
-	<meta name="twitter:card" content="summary">
+	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="Sauna Tent">
 	<meta name="twitter:description" content="Heroes of the Storm replay analytics dashboard for Sauna Tent.">
-	<meta name="twitter:image" content="https://xedur.github.io/sauna-tent/img/sauna-tent-logo.png">
+	<meta name="twitter:image" content="https://xedur.github.io/sauna-tent/img/og-card.png">
 	<script>
 		// GitHub Pages SPA workaround: preserve the requested path and redirect
 		// to the deployment root where index.html and the router can resolve it.
 		// segmentsToKeep: 1 for project sites (user.github.io/repo-name/),
 		// 0 for user/org sites and custom domains (user.github.io/).
 		var segmentsToKeep = 1;
-		var root = '/' + location.pathname.split('/').slice(1, segmentsToKeep + 1).join('/');
+		var segments = decodeURIComponent(location.pathname).split('/').filter(Boolean);
+		var root = '/' + segments.slice(0, segmentsToKeep).join('/');
 		if (root.charAt(root.length - 1) !== '/') root += '/';
 		sessionStorage.setItem('spa-redirect', location.pathname + location.search + location.hash);
 		location.replace(root);

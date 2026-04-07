@@ -642,7 +642,6 @@ var MatchesView = (function() {
 				var id = this.getAttribute("data-match-id");
 				Router.navigate("/match/" + id);
 			});
-			rows[i].style.cursor = "pointer";
 		}
 
 		// Player toggle buttons

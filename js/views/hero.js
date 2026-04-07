@@ -31,9 +31,15 @@ var HeroView = (function() {
 	}
 
 	function getAvailableMaps() {
+		// Apply all active filters except map itself to determine valid maps
+		var maplessFilters = {};
+		for (var key in filters) maplessFilters[key] = filters[key];
+		maplessFilters.map = "";
+		var subset = MatchIndexUtils.filter(matchIndex, maplessFilters);
+
 		var mapSet = {};
-		for (var i = 0; i < matchIndex.length; i++) {
-			var m = matchIndex[i];
+		for (var i = 0; i < subset.length; i++) {
+			var m = subset[i];
 			for (var j = 0; j < m.rosterPlayers.length; j++) {
 				if (m.rosterPlayers[j].hero === heroName) {
 					mapSet[m.map] = true;
@@ -41,14 +47,7 @@ var HeroView = (function() {
 				}
 			}
 		}
-		var maps = Object.keys(mapSet).sort();
-		if (filters.mode === "ARAM") {
-			return maps.filter(function(m) { return aramMaps.indexOf(m) !== -1; });
-		}
-		if (filters.mode === "StormLeague") {
-			return maps.filter(function(m) { return aramMaps.indexOf(m) === -1; });
-		}
-		return maps;
+		return Object.keys(mapSet).sort();
 	}
 
 	// Compute stats from match index when data filters are active
