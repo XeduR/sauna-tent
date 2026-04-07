@@ -112,7 +112,7 @@ var Router = (function() {
 			if (decoded.indexOf(basePath) === 0) {
 				e.preventDefault();
 				var path = decoded.substring(basePath.length) || "/";
-				navigate(path);
+				navigate(path + resolved.search);
 			}
 		});
 
