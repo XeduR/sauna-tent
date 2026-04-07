@@ -109,7 +109,7 @@ var HeroesMainView = (function() {
 		var monthlyData = MatchIndexUtils.computeMonthlyHeroStats(filtered);
 		if (monthlyData.sortedMonths.length >= 2) {
 			html += '<h2 class="section-title">Top 10 Hero Popularity Over Time</h2>' +
-				'<div class="text-muted" style="margin-bottom:0.5rem">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
+				'<div class="text-muted chart-desc">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
 				'<div class="chart-container"><canvas id="hero-pop-chart"></canvas></div>';
 		}
 

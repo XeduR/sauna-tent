@@ -24,7 +24,12 @@ var Router = (function() {
 		return path || "/";
 	}
 
+	var resolving = false;
+
 	function resolve() {
+		if (resolving) return;
+		resolving = true;
+
 		var path = getPath();
 
 		for (var i = 0; i < routes.length; i++) {
@@ -34,10 +39,12 @@ var Router = (function() {
 				routes[i].handler.apply(null, params);
 				updateActiveNav(path);
 				window.scrollTo(0, 0);
+				resolving = false;
 				return;
 			}
 		}
 
+		resolving = false;
 		// No route matched, navigate to root
 		navigate("/");
 	}

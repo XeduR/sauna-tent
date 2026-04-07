@@ -19,7 +19,7 @@ var OverviewView = (function() {
 			winrateSpan(ps.winrate) +
 			'</div>' +
 			'<div class="player-card-bar">' +
-			'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
+			'<div class="player-card-bar-fill" style="--bar-width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
 			'</div>' +
 			'</a>';
 	}
@@ -63,7 +63,7 @@ var OverviewView = (function() {
 			var pct = (h.games / maxGames * 100).toFixed(1);
 			html += '<a href="' + appLink('/hero/' + heroSlug) + '" class="hero-bar-row">' +
 				'<span class="hero-bar-name">' + heroIconHtml(h.hero) + escapeHtml(h.hero) + '</span>' +
-				'<span class="hero-bar-track"><span class="hero-bar-fill" style="width:' + pct + '%"></span></span>' +
+				'<span class="hero-bar-track"><span class="hero-bar-fill" style="--bar-width:' + pct + '%"></span></span>' +
 				'<span class="hero-bar-count">' + h.games.toLocaleString() + '</span>' +
 				'</a>';
 		}
@@ -242,7 +242,7 @@ var OverviewView = (function() {
 		var monthlyData = MatchIndexUtils.computeMonthlyHeroStats(filtered);
 		if (monthlyData.sortedMonths.length >= 2) {
 			html += '<h2 class="section-title">Top 10 Hero Popularity Over Time</h2>' +
-				'<div class="text-muted" style="margin-bottom:0.5rem">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
+				'<div class="text-muted chart-desc">Lines appear only for months where a hero ranks in the top 10. Gaps mean the hero dropped out that month.</div>' +
 				'<div class="chart-container"><canvas id="overview-hero-pop-chart"></canvas></div>';
 		}
 

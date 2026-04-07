@@ -257,7 +257,7 @@ var HeroView = (function() {
 				html += '<div class="tier-pick-row">' +
 					'<div class="tier-pick-label">' + talentIconHtml(heroName, t, pick.choice, talentData) + '</div>' +
 					'<div class="tier-pick-bar-track">' +
-					'<div class="tier-pick-bar-fill" style="width:' + barWidth + '%"></div>' +
+					'<div class="tier-pick-bar-fill" style="--bar-width:' + barWidth + '%"></div>' +
 					'</div>' +
 					'<div class="tier-pick-stats">' +
 					'<span class="tier-pick-rate">' + (pick.pickrate * 100).toFixed(1) + '%</span>' +

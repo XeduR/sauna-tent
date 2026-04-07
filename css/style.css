@@ -35,9 +35,10 @@
 	--text-muted: #8B90A0;
 	--accent: #E87A3A;
 	--accent-hover: #F0944E;
-	--accent-muted: rgba(232, 122, 58, 0.15);
+	--accent-muted: color-mix(in srgb, var(--accent) 15%, transparent);
 	--win: #3ddc84;
 	--loss: #f44;
+	--loss-muted: #cc7b7b;
 	--font: 'Inter', sans-serif;
 	--font-mono: "Fira Code", "Consolas", monospace;
 	--radius: 4px;
@@ -454,6 +455,7 @@ th.num {
 
 .winrate {
 	font-weight: 400;
+	color: var(--wr-color);
 }
 
 /* Section headers */
@@ -505,6 +507,7 @@ th.num {
 
 .player-card-bar-fill {
 	height: 100%;
+	width: var(--bar-width);
 	background: var(--accent);
 	border-radius: 2px;
 }
@@ -551,6 +554,7 @@ th.num {
 .hero-bar-fill {
 	display: block;
 	height: 100%;
+	width: var(--bar-width);
 	background: var(--accent);
 	border-radius: 3px;
 	min-width: 2px;
@@ -569,7 +573,7 @@ th.num {
 	font-family: var(--font-mono);
 	font-size: 0.85rem;
 	color: var(--accent);
-	text-align: center !important;
+	text-align: center;
 }
 
 /* Tier pick rates */
@@ -620,6 +624,7 @@ th.num {
 
 .tier-pick-bar-fill {
 	height: 100%;
+	width: var(--bar-width);
 	background: var(--accent);
 	border-radius: 3px;
 	min-width: 1px;
@@ -801,14 +806,10 @@ th.num {
 	cursor: pointer;
 }
 
-.filter-actions {
-	justify-content: flex-end;
-}
-
 .btn-reset {
-	background: rgba(255, 68, 68, 0.06);
-	color: #c07070;
-	border: 1px solid rgba(255, 68, 68, 0.25);
+	background: color-mix(in srgb, var(--loss) 6%, transparent);
+	color: var(--loss-muted);
+	border: 1px solid color-mix(in srgb, var(--loss) 25%, transparent);
 	padding: 0.45rem 1rem;
 	font-size: 0.9rem;
 	font-family: var(--font);
@@ -823,7 +824,7 @@ th.num {
 }
 
 .btn-reset:hover {
-	background: rgba(255, 68, 68, 0.1);
+	background: color-mix(in srgb, var(--loss) 10%, transparent);
 	color: var(--loss);
 	border-color: var(--loss);
 }
@@ -895,11 +896,11 @@ th.num {
 
 /* Match detail */
 .roster-player-row {
-	background: rgba(232, 122, 58, 0.06);
+	background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
 .roster-player-row:hover {
-	background: rgba(232, 122, 58, 0.12);
+	background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .party-badge {
@@ -979,13 +980,13 @@ tfoot {
 .player-toggle[data-state="include"] {
 	border-color: var(--win);
 	color: var(--win);
-	background: rgba(61, 220, 132, 0.1);
+	background: color-mix(in srgb, var(--win) 10%, transparent);
 }
 
 .player-toggle[data-state="exclude"] {
 	border-color: var(--loss);
 	color: var(--loss);
-	background: rgba(255, 68, 68, 0.1);
+	background: color-mix(in srgb, var(--loss) 10%, transparent);
 }
 
 /* Tag selector (heroes, maps) */
@@ -1040,23 +1041,23 @@ tfoot {
 }
 
 .tag-btn-include {
-	background: rgba(61, 220, 132, 0.1);
+	background: color-mix(in srgb, var(--win) 10%, transparent);
 	color: var(--win);
 	border-color: var(--win);
 }
 
 .tag-btn-include:hover {
-	background: rgba(61, 220, 132, 0.2);
+	background: color-mix(in srgb, var(--win) 20%, transparent);
 }
 
 .tag-btn-exclude {
-	background: rgba(255, 68, 68, 0.1);
+	background: color-mix(in srgb, var(--loss) 10%, transparent);
 	color: var(--loss);
 	border-color: var(--loss);
 }
 
 .tag-btn-exclude:hover {
-	background: rgba(255, 68, 68, 0.2);
+	background: color-mix(in srgb, var(--loss) 20%, transparent);
 }
 
 .tag-list {
@@ -1088,15 +1089,15 @@ tfoot {
 }
 
 .tag-include {
-	background: rgba(61, 220, 132, 0.12);
+	background: color-mix(in srgb, var(--win) 12%, transparent);
 	color: var(--win);
-	border: 1px solid rgba(61, 220, 132, 0.3);
+	border: 1px solid color-mix(in srgb, var(--win) 30%, transparent);
 }
 
 .tag-exclude {
-	background: rgba(255, 68, 68, 0.12);
+	background: color-mix(in srgb, var(--loss) 12%, transparent);
 	color: var(--loss);
-	border: 1px solid rgba(255, 68, 68, 0.3);
+	border: 1px solid color-mix(in srgb, var(--loss) 30%, transparent);
 }
 
 .tag-remove {
@@ -1424,10 +1425,10 @@ tfoot {
 	font-family: var(--font);
 	font-weight: 400;
 	letter-spacing: 0.03em;
-	border: 1px solid rgba(255, 68, 68, 0.25);
+	border: 1px solid color-mix(in srgb, var(--loss) 25%, transparent);
 	border-radius: var(--radius);
-	background: rgba(255, 68, 68, 0.06);
-	color: #c07070;
+	background: color-mix(in srgb, var(--loss) 6%, transparent);
+	color: var(--loss-muted);
 	cursor: pointer;
 	transition: border-color 0.15s, color 0.15s, background 0.15s;
 	user-select: none;
@@ -1435,7 +1436,7 @@ tfoot {
 }
 
 .vf-reset:hover {
-	background: rgba(255, 68, 68, 0.1);
+	background: color-mix(in srgb, var(--loss) 10%, transparent);
 	color: var(--loss);
 	border-color: var(--loss);
 }
@@ -1492,8 +1493,8 @@ tfoot {
 }
 
 .draft-ban {
-	border-color: rgba(255, 68, 68, 0.3);
-	background: rgba(255, 68, 68, 0.06);
+	border-color: color-mix(in srgb, var(--loss) 30%, transparent);
+	background: color-mix(in srgb, var(--loss) 6%, transparent);
 }
 
 .draft-ban .hero-icon-lg {
@@ -1513,7 +1514,7 @@ tfoot {
 }
 
 .draft-ban .draft-label {
-	color: rgba(255, 68, 68, 0.7);
+	color: color-mix(in srgb, var(--loss) 70%, transparent);
 }
 
 /* Responsive: desktop enhancements (mobile-first) */
@@ -1633,6 +1634,10 @@ tfoot {
 .footer-separator {
 	margin: 0 0.5rem;
 	color: var(--border);
+}
+
+.footer-blizzard {
+	font-size: 0.8rem;
 }
 
 /* Hero, role, and talent icons */
@@ -1762,12 +1767,30 @@ tfoot {
 
 .talent-copy-cell {
 	width: 1%;
-	padding-left: 0 !important;
+	padding-left: 0;
 }
 
 .recent-matches-footer {
 	margin-top: 1rem;
 	text-align: center;
+}
+
+/* Utility classes */
+.table-empty {
+	text-align: center;
+	padding: 1.5rem;
+}
+
+.chart-desc {
+	margin-bottom: 0.5rem;
+}
+
+.hof-filter-note {
+	font-size: 0.85em;
+}
+
+.back-link {
+	margin-top: 1.5rem;
 }
 
 /* Popularity charts */

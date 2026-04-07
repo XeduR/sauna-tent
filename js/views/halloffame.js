@@ -90,7 +90,7 @@ var HallOfFameView = (function() {
 				html += '<div class="hof-entry">' +
 					'<span class="hof-rank">' + (i + 1) + '</span>' +
 					'<div class="hof-entry-main">' +
-					'<span class="hof-value">' + value + '</span>' +
+					'<span class="hof-value">' + escapeHtml(String(value)) + '</span>' +
 					'<a href="' + appLink('/player/' + slugify(r.playerName)) + '">' + escapeHtml(r.playerName) + '</a>' +
 					' on <a href="' + appLink('/hero/' + slugify(r.hero)) + '">' + heroIconHtml(r.hero) + escapeHtml(r.hero) + '</a>' +
 					'</div>' +
@@ -192,7 +192,7 @@ var HallOfFameView = (function() {
 			descHtml(description);
 
 		if (hasDateFilter) {
-			html += '<div class="text-muted" style="font-size:0.85em;">Lifetime total (not affected by date filter)</div>';
+			html += '<div class="text-muted hof-filter-note">Lifetime total (not affected by date filter)</div>';
 		}
 
 		if (top.length === 0) {

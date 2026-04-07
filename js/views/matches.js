@@ -452,7 +452,7 @@ var MatchesView = (function() {
 		}
 
 		if (page.length === 0) {
-			html += '<tr><td colspan="8" class="text-muted" style="text-align:center;padding:2rem;">No matches found</td></tr>';
+			html += '<tr><td colspan="8" class="text-muted table-empty">No matches found</td></tr>';
 		}
 
 		html += '</tbody></table></div>';

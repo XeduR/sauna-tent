@@ -26,6 +26,10 @@ Toon IDs are in `region-realmId-profileId` format (e.g. `2-1-8623376` for EU). F
 
 Replays from before 7 December 2021 are excluded. This is the start date of Storm League 2022 Season 1.
 
+### Custom game inclusion
+
+Custom games require a full 5-stack of roster players on one team. Games with fewer roster players are excluded during replay processing. See `pipeline/README.md` for all acceptance criteria.
+
 ## Usage
 
 ### Adding new replays (typical use)
@@ -87,7 +91,11 @@ The batch command runs these steps in order:
 
 ### Serving the dashboard
 
-Any static file server works. The `.htaccess` handles SPA routing for Apache. The frontend fetches JSON from `data/` via relative paths.
+Any static file server works. The frontend fetches JSON from `data/` via relative paths.
+
+**Local development (XAMPP)**: Point the project directory into XAMPP's `htdocs`. The `.htaccess` rewrites all non-file paths to `index.html` for SPA routing. No additional setup needed.
+
+**GitHub Pages**: The `404.html` redirect handles SPA routing by saving the requested path to `sessionStorage` and redirecting to the deployment root, where `index.html` restores the path via `history.replaceState`.
 
 ## Chat Toxicity Detection
 

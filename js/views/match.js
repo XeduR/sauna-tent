@@ -25,7 +25,7 @@ var MatchView = (function() {
 	}
 
 	function formatStatValue(key, value) {
-		if (key === "kda") return value.toFixed(2);
+		if (key === "kda") return value === Infinity ? "Perfect" : value.toFixed(2);
 		if (key === "timeSpentDead") return formatDuration(value);
 		if (typeof value === "number") return formatNumber(value);
 		return String(value);
@@ -135,7 +135,7 @@ var MatchView = (function() {
 				totals[key] += s[key] || 0;
 			}
 		}
-		totals.kda = totals.deaths > 0 ? (totals.kills + totals.assists) / totals.deaths : totals.kills + totals.assists;
+		totals.kda = totals.deaths > 0 ? (totals.kills + totals.assists) / totals.deaths : Infinity;
 
 		var tfootHtml = '<tfoot><tr class="team-total-row"><td colspan="2"><strong>Total</strong></td>';
 		for (var c = 0; c < STAT_COLS.length; c++) {
@@ -316,7 +316,7 @@ var MatchView = (function() {
 			}
 
 			// Back to match history link
-			html += '<div style="margin-top:1.5rem;">' +
+			html += '<div class="back-link">' +
 				'<a href="' + appLink('/matches') + '">Back to Match History</a>' +
 				'</div>';
 

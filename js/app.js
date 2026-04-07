@@ -47,7 +47,7 @@ function winrateColor(rate) {
 }
 
 function winrateSpan(rate) {
-	return '<span class="winrate" style="color:' + winrateColor(rate) + '">' + formatWinrate(rate) + '</span>';
+	return '<span class="winrate" style="--wr-color:' + winrateColor(rate) + '">' + formatWinrate(rate) + '</span>';
 }
 
 function statBox(label, value) {
@@ -388,7 +388,7 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 			html += '</tr>';
 		}
 		if (rows.length === 0) {
-			html += '<tr><td colspan="' + columns.length + '" class="text-muted" style="text-align:center;padding:1.5rem;">No results.</td></tr>';
+			html += '<tr><td colspan="' + columns.length + '" class="text-muted table-empty">No results.</td></tr>';
 		}
 		html += '</tbody>';
 		if (tfootHtml) html += tfootHtml;

@@ -26,7 +26,7 @@ var PlayersView = (function() {
 			winrateSpan(ps.winrate) +
 			'</div>' +
 			'<div class="player-card-bar">' +
-			'<div class="player-card-bar-fill" style="width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
+			'<div class="player-card-bar-fill" style="--bar-width:' + (ps.winrate * 100).toFixed(1) + '%"></div>' +
 			'</div>' +
 			'</a>';
 	}

@@ -11,3 +11,16 @@ tools/*
 # Python
 __pycache__/
 *.pyc
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+
+# Scratch
+.scratch/
