@@ -85,7 +85,9 @@ def load_manifest(manifest_path: str) -> dict:
 
 def save_manifest(manifest: dict, manifest_path: str) -> None:
 	"""Write the manifest to disk."""
-	os.makedirs(os.path.dirname(manifest_path), exist_ok=True)
+	parent = os.path.dirname(manifest_path)
+	if parent:
+		os.makedirs(parent, exist_ok=True)
 	with open(manifest_path, "w", encoding="utf-8") as f:
 		json.dump(manifest, f, indent=2, ensure_ascii=False)
 

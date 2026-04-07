@@ -325,6 +325,11 @@ var MatchesView = (function() {
 			'<input type="date" id="filter-date-to" value="' + (filters.dateTo || "") + '">' +
 			'</div>';
 
+		// Matches builds its own season dropdown instead of using the shared
+		// buildPageFilterBar because it combines season/date/result/party into
+		// a single filter bar with custom layout and match-specific logic.
+		// _seasonDropdownOpen is a global declared in app.js, shared by design
+		// so the dropdown state persists across view re-renders.
 		if (window.AppSeasons) {
 			var seasons = window.AppSeasons;
 			var selectedSeasons = filters.seasons ? filters.seasons.split(",") : [];

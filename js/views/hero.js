@@ -331,6 +331,7 @@ var HeroView = (function() {
 		html += playerTable.buildToggles();
 		html += playerTable.buildHTML();
 		if (o.games > 0) {
+			// Builds are pre-computed in the pipeline; not filterable client-side
 			html += renderBuilds(heroData.builds);
 			html += renderTierPicks(heroData.builds.tierPicks);
 		} else {

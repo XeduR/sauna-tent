@@ -145,7 +145,7 @@ function initTalentTooltip() {
 		nameEl.textContent = name;
 		talentTooltip.innerHTML = "";
 		talentTooltip.appendChild(nameEl);
-		if (desc) talentTooltip.insertAdjacentHTML("beforeend", desc);
+		if (desc) talentTooltip.appendChild(document.createTextNode(desc));
 		talentTooltip.style.display = "block";
 		positionTooltip(tip);
 	});

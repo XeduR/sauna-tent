@@ -17,6 +17,13 @@ def _check_dependencies():
 		return
 
 	names = ", ".join(missing)
+
+	if not sys.stdin.isatty():
+		raise ImportError(
+			f"Required packages not installed: {names}. "
+			f"Install with: pip install {' '.join(missing)}"
+		)
+
 	answer = input(f"Required packages not installed: {names}. Install them? [y/n]: ").strip().lower()
 	if answer == "y":
 		subprocess.check_call([sys.executable, "-m", "pip", "install"] + missing)

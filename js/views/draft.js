@@ -527,6 +527,7 @@ var DraftView = (function() {
 			resetBtn.addEventListener('click', function() {
 				allyPicks = ["", "", "", "", ""];
 				opponentPicks = ["", "", "", "", ""];
+				renderContent();
 			});
 		}
 	}

@@ -4,8 +4,10 @@
 import json
 import os
 
-from pipeline.aggregate import slugify, load_matches
-from pipeline.herodata import ARAM_MAP_NAMES, HERO_ROLES
+from pipeline.aggregate import (
+	slugify, load_matches, HOF_INDEX_STAT_KEYS, HOF_SENTINEL_THRESHOLD,
+)
+from pipeline.herodata import ARAM_MAP_NAMES, FEMALE_HEROES, HERO_ROLES
 
 
 def _write_json(data: dict | list, path: str, pretty: bool = False) -> None:
@@ -19,7 +21,10 @@ def _write_json(data: dict | list, path: str, pretty: bool = False) -> None:
 def _build_match_index_entry(match: dict) -> dict:
 	"""Build a lightweight index entry for a match.
 
-	Contains only the fields needed for match history list/filtering.
+	Contains fields for match history display, filtering, and client-side
+	aggregation. Each rosterPlayer entry includes a `hof` dict with non-zero
+	Hall of Fame stat values so the frontend can compute cumulative stats
+	from any filtered subset of matches.
 
 	`rosterPlayers` includes both true roster members and alt players (loose
 	Sauna Tent membership); each entry has an `isAlt` flag to distinguish.
@@ -39,7 +44,18 @@ def _build_match_index_entry(match: dict) -> dict:
 			p.get("rosterName") if is_roster
 			else p.get("altName", p["name"])
 		)
-		roster_players.append({
+		# HoF cumulative stats (only non-zero to keep index compact)
+		hof = {}
+		for key in HOF_INDEX_STAT_KEYS:
+			val = s.get(key, 0)
+			if 0 < val < HOF_SENTINEL_THRESHOLD:
+				hof[key] = val
+		if s.get("multikill", 0) > 0:
+			hof["hasMultikill"] = 1
+		if p["hero"] in FEMALE_HEROES:
+			hof["femaleHero"] = 1
+
+		rp = {
 			"name": display_name,
 			"hero": p["hero"],
 			"result": p["result"],
@@ -57,7 +73,10 @@ def _build_match_index_entry(match: dict) -> dict:
 			"mercCaptures": s.get("mercCaptures", 0),
 			"timeSpentDead": s.get("timeSpentDead", 0),
 			"talentChoices": p.get("talentChoices", []),
-		})
+		}
+		if hof:
+			rp["hof"] = hof
+		roster_players.append(rp)
 
 	# All 10 players as hero/team pairs for team comp display
 	teams = {0: [], 1: []}

@@ -181,19 +181,74 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	function renderCumulativeCard(title, data, description) {
-		var mode = getMode();
-		var records = (data && data[mode]) ? data[mode] : [];
+	// Aggregate cumulative HoF stats from filtered match index entries.
+	// All cumulative cards are computed here so they respect date/season filters.
+	function aggregateCumulative(filtered, mode) {
+		var games = {};
+		var stats = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var match = filtered[i];
+			if (match.hasAlt) continue;
+			if (mode !== "Overall" && match.gameMode !== mode) continue;
+			for (var j = 0; j < match.rosterPlayers.length; j++) {
+				var rp = match.rosterPlayers[j];
+				if (rp.isAlt) continue;
+				if (!games[rp.name]) {
+					games[rp.name] = 0;
+					stats[rp.name] = {};
+				}
+				games[rp.name]++;
+				var hof = rp.hof;
+				if (hof) {
+					for (var key in hof) {
+						stats[rp.name][key] = (stats[rp.name][key] || 0) + hof[key];
+					}
+				}
+			}
+		}
+		return { games: games, stats: stats };
+	}
+
+	// Sorted records by total value descending
+	function cumTopByValue(cum, key) {
+		var records = [];
+		for (var name in cum.games) {
+			var val = cum.stats[name][key] || 0;
+			if (val > 0) {
+				records.push({ playerName: name, value: val, games: cum.games[name] });
+			}
+		}
+		records.sort(function(a, b) { return b.value - a.value || b.games - a.games; });
+		return records;
+	}
+
+	// Sorted records by value/games percentage descending
+	function cumTopByPercent(cum, key) {
+		var records = [];
+		for (var name in cum.games) {
+			var val = cum.stats[name][key] || 0;
+			var g = cum.games[name];
+			if (g > 0 && val > 0) {
+				records.push({ playerName: name, pct: val / g, value: val, games: g });
+			}
+		}
+		records.sort(function(a, b) { return b.pct - a.pct; });
+		return records;
+	}
+
+	function hasCumStat(cum, key) {
+		for (var name in cum.stats) {
+			if (cum.stats[name][key] > 0) return true;
+		}
+		return false;
+	}
+
+	function renderCumulativeCard(title, records, description) {
 		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
-		var hasDateFilter = filters.dateFrom || filters.dateTo;
 
 		var html = '<div class="hof-card card">' +
 			'<div class="hof-card-title">' + escapeHtml(title) + '</div>' +
 			descHtml(description);
-
-		if (hasDateFilter) {
-			html += '<div class="text-muted hof-filter-note">Lifetime total (not affected by date filter)</div>';
-		}
 
 		if (top.length === 0) {
 			html += '<div class="text-muted">No records</div>';
@@ -212,52 +267,8 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	function renderMvpPercentCard(data, description) {
-		var mode = getMode();
-		var records = (data && data[mode]) ? data[mode] : [];
-		var entries = [];
-		for (var i = 0; i < records.length; i++) {
-			var r = records[i];
-			if (r.games > 0) {
-				entries.push({ playerName: r.playerName, pct: r.value / r.games, value: r.value, games: r.games });
-			}
-		}
-		entries.sort(function(a, b) { return b.pct - a.pct; });
-		var top = entries.slice(0, AppSettings.hallOfFame.topEntries);
-
-		var html = '<div class="hof-card card">' +
-			'<div class="hof-card-title">MVP Percentage</div>' +
-			descHtml(description);
-
-		if (top.length === 0) {
-			html += '<div class="text-muted">No records</div>';
-		} else {
-			html += '<div class="hof-list">';
-			for (var i = 0; i < top.length; i++) {
-				var e = top[i];
-				html += '<div class="hof-entry"><span class="hof-rank">' + (i + 1) + '</span>' +
-					'<div class="hof-entry-main"><span class="hof-value">' + (e.pct * 100).toFixed(1) + '%</span> ' +
-					'<a href="' + appLink('/player/' + slugify(e.playerName)) + '">' + escapeHtml(e.playerName) + '</a>' +
-					' <span class="text-muted">(' + e.value + ' MVPs in ' + e.games + ' games)</span></div></div>';
-			}
-			html += '</div>';
-		}
-		html += '</div>';
-		return html;
-	}
-
-	function renderPercentCard(title, data, description, detailLabel) {
-		var mode = getMode();
-		var records = (data && data[mode]) ? data[mode] : [];
-		var entries = [];
-		for (var i = 0; i < records.length; i++) {
-			var r = records[i];
-			if (r.games > 0 && r.value > 0) {
-				entries.push({ playerName: r.playerName, pct: r.value / r.games, value: r.value, games: r.games });
-			}
-		}
-		entries.sort(function(a, b) { return b.pct - a.pct; });
-		var top = entries.slice(0, AppSettings.hallOfFame.topEntries);
+	function renderPercentCard(title, records, description, detailLabel) {
+		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
 
 		var html = '<div class="hof-card card">' +
 			'<div class="hof-card-title">' + escapeHtml(title) + '</div>' +
@@ -280,44 +291,15 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	function renderMostScaredCard() {
-		var mode = getMode();
-		var deathSources = ["deathsByMinions", "deathsByMercs", "deathsByStructures", "deathsByMonsters"];
-		var cumulative = hofData.cumulative || {};
-		var playerDeaths = {};
-
-		for (var i = 0; i < deathSources.length; i++) {
-			var source = cumulative[deathSources[i]];
-			var records = (source && source[mode]) ? source[mode] : [];
-			for (var j = 0; j < records.length; j++) {
-				var r = records[j];
-				if (!playerDeaths[r.playerName]) {
-					playerDeaths[r.playerName] = { total: 0, games: r.games };
-				}
-				playerDeaths[r.playerName].total += r.value;
-			}
-		}
-
-		// Seed players with zero PvE deaths who don't appear in any cumulative record
-		var seededGames = {};
-		for (var mi = 0; mi < matchIndex.length; mi++) {
-			var match = matchIndex[mi];
-			if (match.hasAlt) continue;
-			if (mode !== "Overall" && match.gameMode !== mode) continue;
-			for (var pi = 0; pi < match.rosterPlayers.length; pi++) {
-				var pName = match.rosterPlayers[pi].name;
-				if (!playerDeaths[pName]) {
-					seededGames[pName] = (seededGames[pName] || 0) + 1;
-				}
-			}
-		}
-		for (var name in seededGames) {
-			playerDeaths[name] = { total: 0, games: seededGames[name] };
-		}
-
+	function renderMostScaredCard(cum) {
+		var deathKeys = ["deathsByMinions", "deathsByMercs", "deathsByStructures", "deathsByMonsters"];
 		var entries = [];
-		for (var name in playerDeaths) {
-			entries.push({ playerName: name, total: playerDeaths[name].total, games: playerDeaths[name].games });
+		for (var name in cum.games) {
+			var total = 0;
+			for (var k = 0; k < deathKeys.length; k++) {
+				total += cum.stats[name][deathKeys[k]] || 0;
+			}
+			entries.push({ playerName: name, total: total, games: cum.games[name] });
 		}
 		entries.sort(function(a, b) { return a.total - b.total; });
 		var top = entries.slice(0, AppSettings.hallOfFame.topEntries);
@@ -343,45 +325,13 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	function renderAccidentalTeamChatsCard() {
-		var cumulative = hofData.cumulative || {};
-		var data = cumulative.chatMessagesTeam;
-		var records = (data && data["Custom"]) ? data["Custom"] : [];
-		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
-
-		var html = '<div class="hof-card card">' +
-			'<div class="hof-card-title">Accidental Team Chats</div>' +
-			descHtml("Team chat in Custom games (probably meant for all chat)");
-
-		if (top.length === 0) {
-			html += '<div class="text-muted">No records</div>';
-		} else {
-			html += '<div class="hof-list">';
-			for (var i = 0; i < top.length; i++) {
-				var r = top[i];
-				html += '<div class="hof-entry"><span class="hof-rank">' + (i + 1) + '</span>' +
-					'<div class="hof-entry-main"><span class="hof-value">' + r.value.toLocaleString() + '</span> ' +
-					'<a href="' + appLink('/player/' + slugify(r.playerName)) + '">' + escapeHtml(r.playerName) + '</a>' +
-					' <span class="text-muted">(' + r.games + ' games)</span></div></div>';
-			}
-			html += '</div>';
-		}
-		html += '</div>';
-		return html;
-	}
-
-	function renderAvgTimeOnFireCard() {
-		var mode = getMode();
-		var cumulative = hofData.cumulative || {};
-		var data = cumulative.timeOnFire;
-		if (!data) return '';
-		var records = data[mode] || [];
-
+	function renderAvgTimeOnFireCard(cum) {
 		var entries = [];
-		for (var i = 0; i < records.length; i++) {
-			var r = records[i];
-			if (r.games > 0) {
-				entries.push({ playerName: r.playerName, avg: r.value / r.games, total: r.value, games: r.games });
+		for (var name in cum.games) {
+			var val = cum.stats[name].timeOnFire || 0;
+			var g = cum.games[name];
+			if (g > 0 && val > 0) {
+				entries.push({ playerName: name, avg: val / g, total: val, games: g });
 			}
 		}
 		entries.sort(function(a, b) { return b.avg - a.avg; });
@@ -487,7 +437,8 @@ var HallOfFameView = (function() {
 		var app = document.getElementById("app");
 		var mode = getMode();
 		var filtered = MatchIndexUtils.filter(matchIndex, filters);
-		var cumulative = hofData.cumulative || {};
+		var cum = aggregateCumulative(filtered, mode);
+		var cumCustom = aggregateCumulative(filtered, "Custom");
 
 		var html = '<div class="page-header"><h1>Hall of Fame and Shame</h1>' +
 			'<div class="subtitle">Records and achievements</div></div>';
@@ -527,46 +478,47 @@ var HallOfFameView = (function() {
 		}
 		html += '</div>';
 
-		if (cumulative.hasAward) {
+		if (hasCumStat(cum, "hasAward")) {
 			html += '<h3 class="section-title">Awards</h3><div class="hof-grid">';
-			html += renderCumulativeCard("Most End-of-Match Awards", cumulative.hasAward, "Total post-game awards across all games");
-			html += renderMvpPercentCard(cumulative.awardMVP, "Percentage of games awarded MVP");
+			html += renderCumulativeCard("Most End-of-Match Awards", cumTopByValue(cum, "hasAward"), "Total post-game awards across all games");
+			html += renderPercentCard("MVP Percentage", cumTopByPercent(cum, "awardMVP"), "Percentage of games awarded MVP", "MVPs");
 			html += '</div>';
 		}
 
-		var hasSocialData = hofData.stats.chatMessages || cumulative.chatMessages ||
-			hofData.stats.votesReceived || cumulative.votesReceived;
+		var hasSocialData = hofData.stats.chatMessages || hasCumStat(cum, "chatMessages") ||
+			hofData.stats.votesReceived || hasCumStat(cum, "votesReceived");
 		if (hasSocialData) {
 			html += '<h3 class="section-title">Social</h3><div class="hof-grid">';
 			if (hofData.stats.chatMessages) {
 				html += renderStatCard(hofData.stats.chatMessages, (hofData.stats.chatMessages[mode] || []), STAT_DESC.chatMessages);
 			}
-			if (cumulative.chatMessagesTeam) {
-				html += renderCumulativeCard("Total Messages (Team Chat)", cumulative.chatMessagesTeam, "Chat messages sent to own team. You know what for.");
+			if (hasCumStat(cum, "chatMessagesTeam")) {
+				html += renderCumulativeCard("Total Messages (Team Chat)", cumTopByValue(cum, "chatMessagesTeam"), "Chat messages sent to own team. You know what for.");
 			}
 			if (hofData.stats.pings) {
 				html += renderStatCard(hofData.stats.pings, (hofData.stats.pings[mode] || []), STAT_DESC.pings);
 			}
-			if (cumulative.pings) {
-				html += renderCumulativeCard("Total Pings", cumulative.pings, "Pings sent across all games");
+			if (hasCumStat(cum, "pings")) {
+				html += renderCumulativeCard("Total Pings", cumTopByValue(cum, "pings"), "Pings sent across all games");
 			}
-			if (cumulative.chatMessagesAll) {
-				html += renderCumulativeCard("Total All Chat", cumulative.chatMessagesAll, 'Friendly messages sent to other team, e.g. "gl & hf"');
+			if (hasCumStat(cum, "chatMessagesAll")) {
+				html += renderCumulativeCard("Total All Chat", cumTopByValue(cum, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf"');
 			}
-			html += renderAccidentalTeamChatsCard();
-			if (cumulative.chatGlhf) {
-				html += renderPercentCard("Sportsmanlike Start", cumulative.chatGlhf,
+			html += renderCumulativeCard("Accidental Team Chats", cumTopByValue(cumCustom, "chatMessagesTeam"),
+				"Team chat in Custom games (probably meant for all chat)");
+			if (hasCumStat(cum, "chatGlhf")) {
+				html += renderPercentCard("Sportsmanlike Start", cumTopByPercent(cum, "chatGlhf"),
 					"Percentage of games where the player greeted with \"gl hf\"", "greetings");
 			}
-			if (cumulative.chatGamesClean) {
-				html += renderPercentCard("Conversationalist", cumulative.chatGamesClean,
+			if (hasCumStat(cum, "chatGamesClean")) {
+				html += renderPercentCard("Conversationalist", cumTopByPercent(cum, "chatGamesClean"),
 					"Percentage of games with chat and no toxic messages", "clean games");
 			}
-			if (cumulative.votesGiven) {
-				html += renderCumulativeCard("Total Votes Given", cumulative.votesGiven, "Post-game votes given to other players");
+			if (hasCumStat(cum, "votesGiven")) {
+				html += renderCumulativeCard("Total Votes Given", cumTopByValue(cum, "votesGiven"), "Post-game votes given to other players");
 			}
-			if (cumulative.votesReceived) {
-				html += renderCumulativeCard("Total Votes Received", cumulative.votesReceived, "Post-game votes received from others");
+			if (hasCumStat(cum, "votesReceived")) {
+				html += renderCumulativeCard("Total Votes Received", cumTopByValue(cum, "votesReceived"), "Post-game votes received from others");
 			}
 			if (hofData.stats.votesReceived) {
 				html += renderStatCard(hofData.stats.votesReceived, (hofData.stats.votesReceived[mode] || []), STAT_DESC.votesReceived);
@@ -576,15 +528,15 @@ var HallOfFameView = (function() {
 
 		html += '<h3 class="section-title">Player Records</h3><div class="hof-grid">';
 		html += renderFunStats(filtered);
-		html += renderAvgTimeOnFireCard();
-		if (cumulative.regenGlobes) {
-			html += renderCumulativeCard("A Game of Globes", cumulative.regenGlobes, "Total number of globes collected");
+		html += renderAvgTimeOnFireCard(cum);
+		if (hasCumStat(cum, "regenGlobes")) {
+			html += renderCumulativeCard("A Game of Globes", cumTopByValue(cum, "regenGlobes"), "Total number of globes collected");
 		}
-		if (cumulative.hasMultikill) {
-			html += renderPercentCard("Multi-kill Percentage", cumulative.hasMultikill, "Percentage of games with multikills", "multikill games");
+		if (hasCumStat(cum, "hasMultikill")) {
+			html += renderPercentCard("Multi-kill Percentage", cumTopByPercent(cum, "hasMultikill"), "Percentage of games with multikills", "multikill games");
 		}
-		if (cumulative.femaleHero) {
-			html += renderPercentCard("Gender Equality", cumulative.femaleHero, "Percentage of games played with female characters", "female hero games");
+		if (hasCumStat(cum, "femaleHero")) {
+			html += renderPercentCard("Gender Equality", cumTopByPercent(cum, "femaleHero"), "Percentage of games played with female characters", "female hero games");
 		}
 		html += '</div>';
 
@@ -599,12 +551,12 @@ var HallOfFameView = (function() {
 			html += renderStatCard(display, records, STAT_DESC[snarkyKeys[i]]);
 		}
 
-		if (cumulative.chatGamesToxic) {
-			html += renderPercentCard("Most Toxic Conversationalist", cumulative.chatGamesToxic,
+		if (hasCumStat(cum, "chatGamesToxic")) {
+			html += renderPercentCard("Most Toxic Conversationalist", cumTopByPercent(cum, "chatGamesToxic"),
 				"Percentage of games where the player sent a toxic message", "toxic games");
 		}
-		if (cumulative.chatOffensiveGg) {
-			html += renderPercentCard("Offensive GG", cumulative.chatOffensiveGg,
+		if (hasCumStat(cum, "chatOffensiveGg")) {
+			html += renderPercentCard("Offensive GG", cumTopByPercent(cum, "chatOffensiveGg"),
 				"Percentage of games with an early or premature \"gg\"", "offensive ggs");
 		}
 
@@ -634,12 +586,12 @@ var HallOfFameView = (function() {
 		};
 		for (var i = 0; i < deathSourceKeys.length; i++) {
 			var key = deathSourceKeys[i];
-			if (cumulative[key]) {
-				html += renderCumulativeCard(deathCumulativeLabels[key], cumulative[key], "Lifetime " + deathCumulativeLabels[key].toLowerCase());
+			if (hasCumStat(cum, key)) {
+				html += renderCumulativeCard(deathCumulativeLabels[key], cumTopByValue(cum, key), "Total " + deathCumulativeLabels[key].toLowerCase());
 			}
 		}
 
-		html += renderMostScaredCard();
+		html += renderMostScaredCard(cum);
 
 		if (hofData.games.shortestLost) {
 			html += renderGameCard("Shortest Games Lost", hofData.games.shortestLost[mode] || [], "Fastest defeat");
@@ -652,8 +604,8 @@ var HallOfFameView = (function() {
 			html += renderGameCard("Longest Games", hofData.games.longest[mode] || [], "Longest match by duration");
 		}
 
-		if (cumulative.disconnectedAtEnd) {
-			html += renderCumulativeCard("Rage Quits", cumulative.disconnectedAtEnd, "Games left without returning");
+		if (hasCumStat(cum, "disconnectedAtEnd")) {
+			html += renderCumulativeCard("Rage Quits", cumTopByValue(cum, "disconnectedAtEnd"), "Games left without returning");
 		}
 		html += '</div>';
 

@@ -300,6 +300,9 @@ var MapView = (function() {
 
 		app.innerHTML = html;
 
+		// Both tables share a single mask/wrl so column visibility stays in sync.
+		// Both layouts use the same MASK_DETAIL default, so "map-players" is used
+		// as the canonical key for URL persistence.
 		var onMaskChange = function(newMask) {
 			currentMask = newMask;
 			StandardTable.writeMaskToURL(newMask, TableConfig.LAYOUTS["map-players"].defaultMask);
