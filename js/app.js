@@ -315,6 +315,9 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 		rows.sort(function(a, b) {
 			var va = getVal(a);
 			var vb = getVal(b);
+			if (va == null && vb == null) return 0;
+			if (va == null) return 1;
+			if (vb == null) return -1;
 			if (typeof va === "string") {
 				va = va.toLowerCase();
 				vb = vb.toLowerCase();
@@ -903,6 +906,23 @@ function setupMobileNav() {
 				links.classList.remove("open");
 			}
 		});
+	}
+
+	// Update aria-expanded on dropdown focus/blur for screen readers
+	for (var i = 0; i < dropdownToggles.length; i++) {
+		(function(toggle) {
+			var dropdown = toggle.closest(".nav-dropdown");
+			if (!dropdown) return;
+
+			dropdown.addEventListener("focusin", function() {
+				toggle.setAttribute("aria-expanded", "true");
+			});
+			dropdown.addEventListener("focusout", function(e) {
+				if (!dropdown.contains(e.relatedTarget)) {
+					toggle.setAttribute("aria-expanded", "false");
+				}
+			});
+		})(dropdownToggles[i]);
 	}
 }
 

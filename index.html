@@ -30,6 +30,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Sauna Tent</title>
 	<meta name="description" content="Heroes of the Storm replay analytics dashboard for Sauna Tent.">
+	<meta name="robots" content="noindex, nofollow">
+	<link rel="canonical" href="https://xedur.github.io/sauna-tent/">
 	<!-- OG/Twitter: absolute URLs required by spec. Update when deployment domain changes. -->
 	<meta property="og:title" content="Sauna Tent">
 	<meta property="og:description" content="Heroes of the Storm replay analytics dashboard for Sauna Tent.">
@@ -52,7 +54,7 @@
 		<ul class="nav-links">
 			<li><a href="./" class="nav-link" data-route="overview">Overview</a></li>
 			<li class="nav-dropdown">
-				<a href="players" class="nav-link nav-dropdown-toggle" data-route="players">Players</a>
+				<a href="players" class="nav-link nav-dropdown-toggle" data-route="players" aria-haspopup="true" aria-expanded="false" aria-controls="nav-players-menu">Players</a>
 				<ul class="nav-dropdown-menu" id="nav-players-menu"></ul>
 			</li>
 			<li><a href="heroes" class="nav-link" data-route="heroes">Heroes</a></li>

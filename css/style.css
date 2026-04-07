@@ -45,7 +45,7 @@
 }
 
 html {
-	font-size: 14px;
+	font-size: 87.5%;
 }
 
 body {
@@ -232,6 +232,7 @@ a.nav-brand:hover {
 }
 
 .nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu,
 .nav-dropdown.open .nav-dropdown-menu {
 	display: block;
 }
@@ -1445,7 +1446,7 @@ tfoot {
 
 .draft-team-label {
 	font-size: 0.95rem;
-	font-weight: 600;
+	font-weight: 500;
 	color: var(--text);
 	letter-spacing: 0.03em;
 }
@@ -1508,7 +1509,7 @@ tfoot {
 /* Responsive */
 @media (max-width: 768px) {
 	html {
-		font-size: 13px;
+		font-size: 81.25%;
 	}
 
 	.nav-links {
@@ -1544,7 +1545,8 @@ tfoot {
 		padding-left: 1rem;
 	}
 
-	.nav-dropdown:hover .nav-dropdown-menu {
+	.nav-dropdown:hover .nav-dropdown-menu,
+	.nav-dropdown:focus-within .nav-dropdown-menu {
 		display: none;
 	}
 
@@ -1603,7 +1605,7 @@ tfoot {
 	}
 
 	.filter-bar {
-		overflow: hidden;
+		overflow: visible;
 	}
 
 	.filter-field input[type="date"] {

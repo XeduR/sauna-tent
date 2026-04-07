@@ -298,6 +298,23 @@ var HallOfFameView = (function() {
 			}
 		}
 
+		// Seed players with zero PvE deaths who don't appear in any cumulative record
+		var seededGames = {};
+		for (var mi = 0; mi < matchIndex.length; mi++) {
+			var match = matchIndex[mi];
+			if (match.hasAlt) continue;
+			if (mode !== "Overall" && match.gameMode !== mode) continue;
+			for (var pi = 0; pi < match.rosterPlayers.length; pi++) {
+				var pName = match.rosterPlayers[pi].name;
+				if (!playerDeaths[pName]) {
+					seededGames[pName] = (seededGames[pName] || 0) + 1;
+				}
+			}
+		}
+		for (var name in seededGames) {
+			playerDeaths[name] = { total: 0, games: seededGames[name] };
+		}
+
 		var entries = [];
 		for (var name in playerDeaths) {
 			entries.push({ playerName: name, total: playerDeaths[name].total, games: playerDeaths[name].games });

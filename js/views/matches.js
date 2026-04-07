@@ -56,13 +56,6 @@ var MatchesView = (function() {
 		return false;
 	}
 
-	function matchHasPartySize(m, size) {
-		for (var j = 0; j < m.rosterPlayers.length; j++) {
-			if (m.rosterPlayers[j].partySize === size) return true;
-		}
-		return false;
-	}
-
 	function getRosterTeamId(m) {
 		for (var t in m.teams) {
 			for (var j = 0; j < m.teams[t].length; j++) {
@@ -89,27 +82,11 @@ var MatchesView = (function() {
 	}
 
 	function applyFilters() {
-		// Pre-compute season date ranges if season filter is active
-		var seasonRanges = null;
-		if (filters.seasons) {
-			var seasonNums = filters.seasons.split(",");
-			var allSeasons = window.AppSeasons || [];
-			seasonRanges = [];
-			for (var si = 0; si < allSeasons.length; si++) {
-				if (seasonNums.indexOf(String(allSeasons[si].number)) !== -1) {
-					seasonRanges.push(allSeasons[si]);
-				}
-			}
-		}
-
-		var noAlts = window.GlobalFilters ? window.GlobalFilters.getNoAlts() : true;
+		var base = MatchIndexUtils.filter(allMatches, filters);
 
 		filtered = [];
-		for (var i = 0; i < allMatches.length; i++) {
-			var m = allMatches[i];
-
-			// Global no-alts filter
-			if (noAlts && m.hasAlt) continue;
+		for (var i = 0; i < base.length; i++) {
+			var m = base[i];
 
 			// Player include: ALL must be present
 			if (filters.players.include.length > 0) {
@@ -149,34 +126,8 @@ var MatchesView = (function() {
 			if (filters.maps.include.length > 0 && filters.maps.include.indexOf(m.map) === -1) continue;
 			if (filters.maps.exclude.length > 0 && filters.maps.exclude.indexOf(m.map) !== -1) continue;
 
-			// Mode (single value)
-			if (filters.mode && m.gameMode !== filters.mode) continue;
-
 			// Result
 			if (filters.result && m.result !== filters.result) continue;
-
-			// Party size
-			if (filters.partySize && !matchHasPartySize(m, Number(filters.partySize))) continue;
-
-			// Date range
-			if (filters.dateFrom || filters.dateTo) {
-				var matchDate = m.timestamp.substring(0, 10);
-				if (filters.dateFrom && matchDate < filters.dateFrom) continue;
-				if (filters.dateTo && matchDate > filters.dateTo) continue;
-			}
-
-			// Season filter
-			if (seasonRanges && seasonRanges.length > 0) {
-				var matchDate2 = m.timestamp.substring(0, 10);
-				var inSeason = false;
-				for (var sr = 0; sr < seasonRanges.length; sr++) {
-					if (matchDate2 >= seasonRanges[sr].start && matchDate2 < seasonRanges[sr].end) {
-						inSeason = true;
-						break;
-					}
-				}
-				if (!inSeason) continue;
-			}
 
 			filtered.push(m);
 		}
