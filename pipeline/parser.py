@@ -71,9 +71,6 @@ _TALENT_TIER_LEVELS = frozenset({4, 7, 10, 13, 16, 20})
 # JungleCampCapture camp type classification
 _BOSS_CAMP_TYPE = "Boss Camp"
 
-# Attribute IDs for talent internal codes (per-player scope, IDs 4032-4038)
-_TALENT_ATTR_IDS = [4032, 4033, 4034, 4035, 4036, 4037, 4038]
-
 # Game mode detection from global attribute scope
 # 3009: matchmaking type, 4010: lobby mode
 # Amm+stan can be QM or ARAM (distinguished by map after tracker parsing)
@@ -157,22 +154,9 @@ def _extract_score_value(values_list: list, player_index: int) -> int | None:
 
 def _detect_game_mode(global_scope: dict) -> str:
 	"""Detect game mode from global attribute scope."""
-	matchmaking = global_scope.get(3009, [{}])[0].get("value", b"").strip()
-	lobby = global_scope.get(4010, [{}])[0].get("value", b"").strip()
+	matchmaking = (global_scope.get(3009) or [{}])[0].get("value", b"").strip()
+	lobby = (global_scope.get(4010) or [{}])[0].get("value", b"").strip()
 	return _GAME_MODE_MAP.get((matchmaking, lobby), "Unknown")
-
-
-def _extract_talents_from_attributes(player_scope: dict) -> list[str]:
-	"""Extract talent internal codes from attribute events for a player.
-
-	Returns list of 7 talent codes (or empty strings for unpicked tiers).
-	"""
-	talents = []
-	for attr_id in _TALENT_ATTR_IDS:
-		attr_list = player_scope.get(attr_id, [{}])
-		code = _decode_bytes(attr_list[0].get("value", b"")).strip()
-		talents.append(code)
-	return talents
 
 
 def parse_replay(replay_path: str) -> dict:
@@ -231,17 +215,45 @@ def parse_replay(replay_path: str) -> dict:
 	global_scope = scopes.get(16, {})
 	game_mode = _detect_game_mode(global_scope)
 
-	# Build player list from details
+	# Parse initdata slots for lobby user ID mapping.
+	# Message events identify players by m_userId (lobby slot ID), which is
+	# not the same as the m_playerList index or tracker player ID. Build a
+	# toon handle -> user ID map so we can cross-reference later.
+	lobby_slots = initdata["m_syncLobbyState"]["m_lobbyState"]["m_slots"]
+	toon_to_user_id = {}
+	for slot in lobby_slots:
+		uid = slot.get("m_userId")
+		if uid is None:
+			continue
+		toon_handle = _decode_bytes(slot.get("m_toonHandle", b"")).strip()
+		if not toon_handle:
+			continue
+		# Format: "region-Hero-realm-profileId" (e.g. "2-Hero-1-12345678")
+		parts = toon_handle.split("-")
+		if len(parts) >= 4:
+			try:
+				toon_to_user_id[(int(parts[0]), int(parts[2]), int(parts[3]))] = uid
+			except (ValueError, IndexError):
+				pass
+
+	# Build player list from details, filtering observers.
+	# Observers appear in m_playerList but not in tracker events, which
+	# causes ID misalignment if not excluded here.
 	player_list = details["m_playerList"]
-	num_players = len(player_list)
 	players = []
+	user_id_to_idx = {}  # lobby m_userId -> players[] index
+	wssi_to_idx = {}  # Working Set Slot ID -> players[] index
 
-	for i, p in enumerate(player_list):
+	for orig_idx, p in enumerate(player_list):
+		if p.get("m_observe", 0):
+			continue
+
+		player_idx = len(players)
 		toon = p.get("m_toon", {})
-		# Attribute scopes use 1-indexed player IDs
-		player_scope = scopes.get(i + 1, {})
+		# Attribute scopes use 1-indexed m_playerList position (not filtered index)
+		player_scope = scopes.get(orig_idx + 1, {})
 
-		hero_level_attr = player_scope.get(4008, [{}])[0].get("value", b"")
+		hero_level_attr = (player_scope.get(4008) or [{}])[0].get("value", b"")
 		hero_level_str = _decode_bytes(hero_level_attr).strip()
 		hero_level = int(hero_level_str) if hero_level_str.isdigit() else None
 
@@ -256,11 +268,23 @@ def parse_replay(replay_path: str) -> dict:
 				"profileId": toon.get("m_id"),
 			},
 			"heroLevel": hero_level,
-			"talentCodes": _extract_talents_from_attributes(player_scope),
 			"talentChoices": [],  # Filled from score results below
 			"stats": {},
 		}
 		players.append(player_data)
+
+		# Working Set Slot ID -> players[] index (for draft pick events)
+		wssi = p.get("m_workingSetSlotId")
+		if wssi is not None:
+			wssi_to_idx[wssi] = player_idx
+
+		# Lobby user ID -> players[] index (for message events)
+		toon_key = (toon.get("m_region"), toon.get("m_realm"), toon.get("m_id"))
+		uid = toon_to_user_id.get(toon_key)
+		if uid is not None:
+			user_id_to_idx[uid] = player_idx
+
+	num_players = len(players)
 
 	# Tracker events (hero identification, map ID, score results, death sources)
 	tracker_content = archive.read_file("replay.tracker.events")
@@ -269,7 +293,8 @@ def parse_replay(replay_path: str) -> dict:
 	hero_tags = {}  # (tag_index, tag_recycle) -> player_index (0-based)
 	death_sources = [{} for _ in range(num_players)]
 	tracker_map_id = None
-	first_blood_loop = None  # gameloop of first hero death
+	gates_open_loop = None  # gameloop of GatesOpen event (game time 0:00)
+	first_blood_loop = None  # gameloop of first hero death (post-gates only)
 	first_blood_victim_idx = None  # player index (0-based) of first hero to die
 	# Level lead: first gameloop each team reaches a talent tier level
 	# team_level_loops[team_id][level] = first gameloop
@@ -283,7 +308,7 @@ def parse_replay(replay_path: str) -> dict:
 	first_boss_loop = None
 	first_merc_team = None
 	first_merc_loop = None
-	if hasattr(protocol, "decode_replay_tracker_events"):
+	if tracker_content and hasattr(protocol, "decode_replay_tracker_events"):
 		for event in protocol.decode_replay_tracker_events(tracker_content):
 			event_type = event.get("_event")
 
@@ -306,11 +331,12 @@ def parse_replay(replay_path: str) -> dict:
 				tag = (event.get("m_unitTagIndex"), event.get("m_unitTagRecycle"))
 				if tag[0] is not None and tag[1] is not None and tag in hero_tags:
 					pi = hero_tags[tag]
-					# First blood: first hero death in the match
+					# First blood: first hero death after gates open
 					game_loop = event.get("_gameloop", 0)
-					if first_blood_loop is None or game_loop < first_blood_loop:
-						first_blood_loop = game_loop
-						first_blood_victim_idx = pi
+					if gates_open_loop is not None and game_loop >= gates_open_loop:
+						if first_blood_loop is None or game_loop < first_blood_loop:
+							first_blood_loop = game_loop
+							first_blood_victim_idx = pi
 
 					killer_pid = event.get("m_killerPlayerId", 0)
 					if killer_pid == 0 or killer_pid > num_players:
@@ -365,7 +391,10 @@ def parse_replay(replay_path: str) -> dict:
 			elif event_type == "NNet.Replay.Tracker.SStatGameEvent":
 				event_name = _decode_bytes(event.get("m_eventName", b""))
 
-				if event_name == "EndOfGameTalentChoices" and tracker_map_id is None:
+				if event_name == "GatesOpen" and gates_open_loop is None:
+					gates_open_loop = event.get("_gameloop", 0)
+
+				elif event_name == "EndOfGameTalentChoices" and tracker_map_id is None:
 					for item in event.get("m_stringData", []):
 						if _decode_bytes(item["m_key"]) == "Map":
 							tracker_map_id = _decode_bytes(item["m_value"])
@@ -424,12 +453,14 @@ def parse_replay(replay_path: str) -> dict:
 
 			elif event_type == "NNet.Replay.Tracker.SHeroPickedEvent":
 				hero_id = _decode_bytes(event.get("m_hero", b""))
-				player_id = event.get("m_controllingPlayer", 0)
-				if 0 <= player_id < num_players:
+				# m_controllingPlayer is a Working Set Slot ID, not a direct index
+				wssi = event.get("m_controllingPlayer", 0)
+				pick_idx = wssi_to_idx.get(wssi)
+				if pick_idx is not None:
 					draft_order.append({
 						"type": "pick",
 						"hero": hero_id,
-						"team": players[player_id]["team"],
+						"team": players[pick_idx]["team"],
 					})
 
 	# Message events (chat messages, pings, disconnects)
@@ -440,13 +471,17 @@ def parse_replay(replay_path: str) -> dict:
 		for event in protocol.decode_replay_message_events(message_content):
 			event_name = event.get("_event", "")
 			userid = event.get("_userid")
-			player_idx = userid.get("m_userId") if userid else None
+			raw_uid = userid.get("m_userId") if userid else None
+			player_idx = user_id_to_idx.get(raw_uid) if raw_uid is not None else None
 
 			if event_name.endswith(".SChatMessage"):
 				if player_idx is not None and 0 <= player_idx < num_players:
+					recipient = event.get("m_recipient", -1)
+					# Skip observer-only messages (recipient 4)
+					if recipient == 4:
+						continue
 					players[player_idx]["stats"].setdefault("chatMessages", 0)
 					players[player_idx]["stats"]["chatMessages"] += 1
-					recipient = event.get("m_recipient", 1)
 					if recipient == 0:
 						players[player_idx]["stats"].setdefault("chatMessagesAll", 0)
 						players[player_idx]["stats"]["chatMessagesAll"] += 1
@@ -579,7 +614,8 @@ def parse_replay(replay_path: str) -> dict:
 	first_blood_team = None
 	if first_blood_victim_idx is not None and first_blood_victim_idx < num_players:
 		victim_team = players[first_blood_victim_idx]["team"]
-		first_blood_team = 1 - victim_team
+		if victim_team in (0, 1):
+			first_blood_team = 1 - victim_team
 
 	# Level lead: determine which team reached each talent tier first
 	first_to_level = {}

@@ -62,7 +62,7 @@ Only replays meeting all of the following are processed:
 - **All human**: Every player has `m_control == 2` (no AI).
 - **Complete**: All players have a win or loss result (no disconnects before end).
 - **Roster presence**: At least one roster player is in the match.
-- **Custom games**: Require a full 5-stack of roster players on one team.
+- **Custom games**: Require at least 3 roster players in the match. No alt players allowed.
 
 CustomStandard matches are parsed but excluded from aggregation. CustomDraft is remapped to "Custom" in output.
 
