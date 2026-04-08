@@ -1680,8 +1680,7 @@ tfoot {
 		min-width: 160px;
 	}
 
-	.nav-dropdown:hover .nav-dropdown-menu,
-	.nav-dropdown:focus-within .nav-dropdown-menu {
+	.nav-dropdown.open .nav-dropdown-menu {
 		display: block;
 	}
 

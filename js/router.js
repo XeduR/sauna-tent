@@ -50,6 +50,11 @@ var Router = (function() {
 	}
 
 	function updateActiveNav(path) {
+		var openDropdowns = document.querySelectorAll(".nav-dropdown.open");
+		for (var i = 0; i < openDropdowns.length; i++) {
+			openDropdowns[i].classList.remove("open");
+		}
+
 		var links = document.querySelectorAll(".nav-link");
 		for (var i = 0; i < links.length; i++) {
 			links[i].classList.remove("active");

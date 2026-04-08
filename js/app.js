@@ -914,17 +914,27 @@ function setupMobileNav() {
 		});
 	}
 
-	// Update aria-expanded on dropdown focus/blur for screen readers
+	// Toggle dropdown on hover and keyboard focus
 	for (var i = 0; i < dropdownToggles.length; i++) {
 		(function(toggle) {
 			var dropdown = toggle.closest(".nav-dropdown");
 			if (!dropdown) return;
 
+			dropdown.addEventListener("mouseenter", function() {
+				dropdown.classList.add("open");
+				toggle.setAttribute("aria-expanded", "true");
+			});
+			dropdown.addEventListener("mouseleave", function() {
+				dropdown.classList.remove("open");
+				toggle.setAttribute("aria-expanded", "false");
+			});
 			dropdown.addEventListener("focusin", function() {
+				dropdown.classList.add("open");
 				toggle.setAttribute("aria-expanded", "true");
 			});
 			dropdown.addEventListener("focusout", function(e) {
 				if (!dropdown.contains(e.relatedTarget)) {
+					dropdown.classList.remove("open");
 					toggle.setAttribute("aria-expanded", "false");
 				}
 			});
