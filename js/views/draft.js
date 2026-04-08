@@ -251,6 +251,43 @@ var DraftView = (function() {
 		return combo;
 	}
 
+	// Count games per hero for a draft dropdown slot, given all other picks on both sides.
+	// Returns { heroName: gameCount } or null if no constraints exist.
+	function computeDraftComboCounts(side, excludeSlot) {
+		var allyConstraints = [];
+		var oppConstraints = [];
+		for (var i = 0; i < 5; i++) {
+			if (side === "ally" && i === excludeSlot) continue;
+			if (allyPicks[i]) allyConstraints.push(allyPicks[i]);
+		}
+		for (var i = 0; i < 5; i++) {
+			if (side === "opponent" && i === excludeSlot) continue;
+			if (opponentPicks[i]) oppConstraints.push(opponentPicks[i]);
+		}
+		if (allyConstraints.length === 0 && oppConstraints.length === 0) return null;
+
+		var counts = {};
+		for (var i = 0; i < matchData.length; i++) {
+			var m = matchData[i];
+			var allyOk = true;
+			for (var a = 0; a < allyConstraints.length; a++) {
+				if (!m.rosterHeroes[allyConstraints[a]]) { allyOk = false; break; }
+			}
+			if (!allyOk) continue;
+			var oppOk = true;
+			for (var o = 0; o < oppConstraints.length; o++) {
+				if (!m.opponentHeroes[oppConstraints[o]]) { oppOk = false; break; }
+			}
+			if (!oppOk) continue;
+
+			var heroSet = (side === "ally") ? m.rosterHeroes : m.opponentHeroes;
+			for (var hero in heroSet) {
+				counts[hero] = (counts[hero] || 0) + 1;
+			}
+		}
+		return counts;
+	}
+
 	function availableHeroes(currentValue) {
 		var picked = {};
 		for (var i = 0; i < allyPicks.length; i++) {
@@ -297,15 +334,56 @@ var DraftView = (function() {
 		history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : ""));
 	}
 
-	function renderHeroSelect(id, value) {
+	function renderHeroSelect(id, value, comboCounts) {
 		var options = availableHeroes(value);
-		var html = '<select id="' + id + '" class="draft-hero-select">' +
-			'<option value="">-- Select Hero --</option>';
-		for (var i = 0; i < options.length; i++) {
-			var h = options[i];
-			html += '<option value="' + escapeHtml(h) + '"' +
-				(h === value ? ' selected' : '') + '>' + escapeHtml(h) + '</option>';
+
+		var hasAnyGames = false;
+		if (comboCounts) {
+			for (var i = 0; i < options.length; i++) {
+				if (comboCounts[options[i]] > 0) { hasAnyGames = true; break; }
+			}
 		}
+
+		var disabled = comboCounts && !hasAnyGames && !value;
+		var html = '<select id="' + id + '" class="draft-hero-select"' +
+			(disabled ? ' disabled' : '') + '>' +
+			'<option value="">-- Select Hero --</option>';
+
+		if (comboCounts) {
+			var withGames = [];
+			var noGames = [];
+			for (var i = 0; i < options.length; i++) {
+				// Keep the currently selected hero in the selectable group
+				if (options[i] === value || (comboCounts[options[i]] || 0) > 0) {
+					withGames.push(options[i]);
+				} else {
+					noGames.push(options[i]);
+				}
+			}
+
+			for (var i = 0; i < withGames.length; i++) {
+				var h = withGames[i];
+				var count = comboCounts[h] || 0;
+				html += '<option value="' + escapeHtml(h) + '"' +
+					(h === value ? ' selected' : '') + '>' +
+					escapeHtml(h) + ' (' + count + ' games)</option>';
+			}
+			if (withGames.length > 0 && noGames.length > 0) {
+				html += '<option disabled>---</option>';
+			}
+			for (var i = 0; i < noGames.length; i++) {
+				var h = noGames[i];
+				html += '<option value="' + escapeHtml(h) + '" disabled>' +
+					escapeHtml(h) + ' (0 games)</option>';
+			}
+		} else {
+			for (var i = 0; i < options.length; i++) {
+				var h = options[i];
+				html += '<option value="' + escapeHtml(h) + '"' +
+					(h === value ? ' selected' : '') + '>' + escapeHtml(h) + '</option>';
+			}
+		}
+
 		html += '</select>';
 		return html;
 	}
@@ -432,7 +510,7 @@ var DraftView = (function() {
 			'</div>' +
 			'<div class="draft-picks">';
 		for (var i = 0; i < 5; i++) {
-			html += renderHeroSelect('ally-' + i, allyPicks[i]);
+			html += renderHeroSelect('ally-' + i, allyPicks[i], computeDraftComboCounts("ally", i));
 		}
 		html += '</div>';
 		html += renderComboPanel(allyCombo, "ally");
@@ -449,7 +527,7 @@ var DraftView = (function() {
 			'</div>' +
 			'<div class="draft-picks">';
 		for (var i = 0; i < 5; i++) {
-			html += renderHeroSelect('opp-' + i, opponentPicks[i]);
+			html += renderHeroSelect('opp-' + i, opponentPicks[i], computeDraftComboCounts("opponent", i));
 		}
 		html += '</div>';
 		html += renderComboPanel(oppCombo, "opponent");
