@@ -137,6 +137,84 @@ var HeroView = (function() {
 		return { overall: overall, playerStats: playerStats };
 	}
 
+	// Recompute build and tier pick stats from match index when filters are active
+	function computeFilteredBuilds(filtered, hero) {
+		var builds = {};
+		var tierPicks = [];
+		for (var t = 0; t < 7; t++) tierPicks.push({});
+
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.hero !== hero) continue;
+				var tc = rp.talentChoices;
+				if (!tc || tc.length === 0) continue;
+
+				var choices = [];
+				var hasAny = false;
+				for (var t = 0; t < 7; t++) {
+					var v = (t < tc.length && tc[t]) ? tc[t] : 0;
+					choices.push(v);
+					if (v > 0) hasAny = true;
+				}
+				if (!hasAny) continue;
+
+				var isWin = rp.result === "win";
+
+				var key = choices.join(",");
+				if (!builds[key]) builds[key] = { games: 0, wins: 0 };
+				builds[key].games++;
+				if (isWin) builds[key].wins++;
+
+				for (var t = 0; t < 7; t++) {
+					if (choices[t] > 0) {
+						var c = choices[t];
+						if (!tierPicks[t][c]) tierPicks[t][c] = { games: 0, wins: 0 };
+						tierPicks[t][c].games++;
+						if (isWin) tierPicks[t][c].wins++;
+					}
+				}
+			}
+		}
+
+		var buildList = [];
+		for (var key in builds) {
+			var b = builds[key];
+			var talents = key.split(",").map(Number);
+			buildList.push({
+				talents: talents,
+				games: b.games,
+				wins: b.wins,
+				losses: b.games - b.wins,
+				winrate: b.games > 0 ? Math.round(b.wins / b.games * 10000) / 10000 : 0,
+			});
+		}
+		buildList.sort(function(a, b) { return b.games - a.games; });
+
+		var tierPicksOut = [];
+		for (var t = 0; t < 7; t++) {
+			var tierTotal = 0;
+			for (var c in tierPicks[t]) tierTotal += tierPicks[t][c].games;
+			var tierList = [];
+			for (var c in tierPicks[t]) {
+				var tp = tierPicks[t][c];
+				tierList.push({
+					choice: Number(c),
+					games: tp.games,
+					wins: tp.wins,
+					losses: tp.games - tp.wins,
+					winrate: tp.games > 0 ? Math.round(tp.wins / tp.games * 10000) / 10000 : 0,
+					pickrate: tierTotal > 0 ? tp.games / tierTotal : 0,
+				});
+			}
+			tierList.sort(function(a, b) { return a.choice - b.choice; });
+			tierPicksOut.push(tierList);
+		}
+
+		return { builds: buildList, tierPicks: tierPicksOut };
+	}
+
 	function buildPlayerRows(data, minGames, partyData) {
 		var rows = [];
 		var totalGames = 0;
@@ -331,9 +409,16 @@ var HeroView = (function() {
 		html += playerTable.buildToggles();
 		html += playerTable.buildHTML();
 		if (o.games > 0) {
-			// Builds are pre-computed in the pipeline; not filterable client-side
-			html += renderBuilds(heroData.builds);
-			html += renderTierPicks(heroData.builds.tierPicks);
+			var buildsData;
+			if (useFiltered) {
+				buildsData = computeFilteredBuilds(
+					MatchIndexUtils.filter(matchIndex, filters), heroName
+				);
+			} else {
+				buildsData = heroData.builds;
+			}
+			html += renderBuilds(buildsData);
+			html += renderTierPicks(buildsData.tierPicks);
 		} else {
 			buildsTable = null;
 		}

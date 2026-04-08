@@ -43,6 +43,116 @@ var PlayerView = (function() {
 		return Object.keys(mapSet).sort();
 	}
 
+	// Recompute map stats from match index when filters are active
+	function computeFilteredMaps() {
+		var filtered = MatchIndexUtils.filter(matchIndex, filters);
+		var maps = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.name !== playerName) continue;
+				if (!maps[m.map]) {
+					maps[m.map] = { games: 0, wins: 0, losses: 0, totalDuration: 0,
+						totalKills: 0, totalDeaths: 0, totalAssists: 0, totalHeroDamage: 0, totalSiegeDamage: 0,
+						totalHealing: 0, totalSelfHealing: 0, totalDamageTaken: 0,
+						totalXpContribution: 0, totalMercCaptures: 0, totalTimeSpentDead: 0,
+						durationMin: null, durationMax: null, lastPlayed: null, byPartySize: {} };
+				}
+				var s = maps[m.map];
+				s.games++;
+				if (rp.result === "win") s.wins++;
+				else s.losses++;
+				s.totalDuration += m.durationSeconds;
+				s.totalKills += rp.kills || 0;
+				s.totalDeaths += rp.deaths || 0;
+				s.totalAssists += rp.assists || 0;
+				s.totalHeroDamage += rp.heroDamage || 0;
+				s.totalSiegeDamage += rp.siegeDamage || 0;
+				s.totalHealing += rp.healing || 0;
+				s.totalSelfHealing += rp.selfHealing || 0;
+				s.totalDamageTaken += rp.damageTaken || 0;
+				s.totalXpContribution += rp.xpContribution || 0;
+				s.totalMercCaptures += rp.mercCaptures || 0;
+				s.totalTimeSpentDead += rp.timeSpentDead || 0;
+				if (s.durationMin === null || m.durationSeconds < s.durationMin) s.durationMin = m.durationSeconds;
+				if (s.durationMax === null || m.durationSeconds > s.durationMax) s.durationMax = m.durationSeconds;
+				if (s.lastPlayed === null || m.timestamp > s.lastPlayed) s.lastPlayed = m.timestamp;
+				var ps = String(rp.partySize || 1);
+				if (!s.byPartySize[ps]) s.byPartySize[ps] = { games: 0, wins: 0 };
+				s.byPartySize[ps].games++;
+				if (rp.result === "win") s.byPartySize[ps].wins++;
+			}
+		}
+		for (var mapName in maps) {
+			var s = maps[mapName];
+			s.winrate = s.games > 0 ? s.wins / s.games : 0;
+			if (s.games > 0) {
+				s.averageDurationSeconds = s.totalDuration / s.games;
+				var deaths = Math.max(s.totalDeaths, 1);
+				s.averages = {
+					kills: Math.round(s.totalKills / s.games * 10) / 10,
+					deaths: Math.round(s.totalDeaths / s.games * 10) / 10,
+					assists: Math.round(s.totalAssists / s.games * 10) / 10,
+					kda: Math.round((s.totalKills + s.totalAssists) / deaths * 100) / 100,
+					heroDamage: Math.round(s.totalHeroDamage / s.games),
+					siegeDamage: Math.round(s.totalSiegeDamage / s.games),
+					healing: Math.round(s.totalHealing / s.games),
+					selfHealing: Math.round(s.totalSelfHealing / s.games),
+					damageTaken: Math.round(s.totalDamageTaken / s.games),
+					xpContribution: Math.round(s.totalXpContribution / s.games),
+					mercCaptures: Math.round(s.totalMercCaptures / s.games * 10) / 10,
+					timeSpentDead: Math.round(s.totalTimeSpentDead / s.games * 10) / 10,
+				};
+			}
+			for (var ps in s.byPartySize) {
+				var pd = s.byPartySize[ps];
+				pd.winrate = pd.games > 0 ? pd.wins / pd.games : 0;
+			}
+		}
+		return maps;
+	}
+
+	// Recompute party size stats from match index when filters are active
+	function computeFilteredPartySize() {
+		var filtered = MatchIndexUtils.filter(matchIndex, filters);
+		var parties = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.name !== playerName) continue;
+				var ps = String(rp.partySize || 1);
+				if (!parties[ps]) {
+					parties[ps] = { games: 0, wins: 0, totalDuration: 0,
+						totalKills: 0, totalDeaths: 0, totalAssists: 0 };
+				}
+				var s = parties[ps];
+				s.games++;
+				if (rp.result === "win") s.wins++;
+				s.totalDuration += m.durationSeconds;
+				s.totalKills += rp.kills || 0;
+				s.totalDeaths += rp.deaths || 0;
+				s.totalAssists += rp.assists || 0;
+			}
+		}
+		for (var ps in parties) {
+			var s = parties[ps];
+			s.winrate = s.games > 0 ? s.wins / s.games : 0;
+			if (s.games > 0) {
+				s.averageDurationSeconds = s.totalDuration / s.games;
+				var deaths = Math.max(s.totalDeaths, 1);
+				s.averages = {
+					kills: Math.round(s.totalKills / s.games * 10) / 10,
+					deaths: Math.round(s.totalDeaths / s.games * 10) / 10,
+					assists: Math.round(s.totalAssists / s.games * 10) / 10,
+					kda: Math.round((s.totalKills + s.totalAssists) / deaths * 100) / 100,
+				};
+			}
+		}
+		return parties;
+	}
+
 	// Recompute hero stats from match index when filters are active
 	function computeFilteredHeroes() {
 		var filtered = MatchIndexUtils.filter(matchIndex, filters);
@@ -553,22 +663,28 @@ var PlayerView = (function() {
 		html += heroTable.buildToggles();
 		html += heroTable.buildHTML();
 
-		var mapTable = null;
-		if (!useFiltered) {
-			var mapPartyContext = wrl === "full" ? { showAll: true, filterPartySize: null } : null;
-			var mapPartyData = MatchIndexUtils.computePartyBreakdowns(matchIndex, function(m, rp) {
+		var mapData, mapPartyData;
+		if (useFiltered) {
+			mapData = computeFilteredMaps();
+			mapPartyData = {};
+			for (var mn in mapData) {
+				mapPartyData[mn] = mapData[mn].byPartySize;
+			}
+		} else {
+			mapData = playerData.maps;
+			mapPartyData = MatchIndexUtils.computePartyBreakdowns(matchIndex, function(m, rp) {
 				return rp.name === playerName ? m.map : null;
 			});
-			var mapRows = buildMapRows(playerData.maps, minGames, mapPartyData);
-			mapTable = StandardTable.create("player-maps", mapRows, { mask: mask, partyContext: mapPartyContext, wrl: wrl });
-			html += '<h2 class="section-title">Maps</h2>';
-			html += mapTable.buildToggles();
-			html += mapTable.buildHTML();
 		}
+		var mapPartyContext = wrl === "full" ? { showAll: true, filterPartySize: null } : null;
+		var mapRows = buildMapRows(mapData, minGames, mapPartyData);
+		var mapTable = StandardTable.create("player-maps", mapRows, { mask: mask, partyContext: mapPartyContext, wrl: wrl });
+		html += '<h2 class="section-title">Maps</h2>';
+		html += mapTable.buildToggles();
+		html += mapTable.buildHTML();
 
-		if (!useFiltered) {
-			html += renderPartySize(playerData.partySize);
-		}
+		var partySizeData = useFiltered ? computeFilteredPartySize() : playerData.partySize;
+		html += renderPartySize(partySizeData);
 
 		html += renderRecentMatches();
 

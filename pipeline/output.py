@@ -69,6 +69,7 @@ def _build_match_index_entry(match: dict) -> dict:
 			"healing": s.get("healing", 0),
 			"selfHealing": s.get("selfHealing", 0),
 			"damageTaken": s.get("damageTaken", 0),
+			"damageSoaked": s.get("damageSoaked", 0),
 			"xpContribution": s.get("xpContribution", 0),
 			"mercCaptures": s.get("mercCaptures", 0),
 			"timeSpentDead": s.get("timeSpentDead", 0),

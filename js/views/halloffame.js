@@ -5,40 +5,6 @@ var HallOfFameView = (function() {
 	var hofData = null;
 	var matchIndex = null;
 
-	function filterByDate(records) {
-		var hasDateFilter = filters.dateFrom || filters.dateTo;
-		var seasonRanges = null;
-		if (filters.seasons) {
-			var seasonNums = filters.seasons.split(",");
-			var allSeasons = window.AppSeasons || [];
-			seasonRanges = [];
-			for (var si = 0; si < allSeasons.length; si++) {
-				if (seasonNums.indexOf(String(allSeasons[si].number)) !== -1) {
-					seasonRanges.push(allSeasons[si]);
-				}
-			}
-		}
-		if (!hasDateFilter && (!seasonRanges || seasonRanges.length === 0)) return records;
-		var result = [];
-		for (var i = 0; i < records.length; i++) {
-			var ts = records[i].timestamp.substring(0, 10);
-			if (filters.dateFrom && ts < filters.dateFrom) continue;
-			if (filters.dateTo && ts > filters.dateTo) continue;
-			if (seasonRanges && seasonRanges.length > 0) {
-				var inSeason = false;
-				for (var sr = 0; sr < seasonRanges.length; sr++) {
-					if (ts >= seasonRanges[sr].start && ts < seasonRanges[sr].end) {
-						inSeason = true;
-						break;
-					}
-				}
-				if (!inSeason) continue;
-			}
-			result.push(records[i]);
-		}
-		return result;
-	}
-
 	function getMode() {
 		return filters.mode || "Overall";
 	}
@@ -47,6 +13,55 @@ var HallOfFameView = (function() {
 		if (!text) return "";
 		return '<div class="hof-card-desc">' + escapeHtml(text) + '</div>';
 	}
+
+	// Maps HoF stat keys to their source in match index rosterPlayer entries.
+	// "top" = top-level field on rp, "hof" = inside rp.hof dict.
+	var SINGLE_GAME_STATS = {
+		heroDamage:         { src: "top" },
+		siegeDamage:        { src: "top" },
+		healing:            { src: "top" },
+		damageSoaked:       { src: "top" },
+		kills:              { src: "top" },
+		xpContribution:     { src: "top" },
+		deaths:             { src: "top" },
+		timeSpentDead:      { src: "top" },
+		chatMessages:       { src: "hof" },
+		pings:              { src: "hof" },
+		disconnects:        { src: "hof" },
+		votesReceived:      { src: "hof" },
+		deathsByMinions:    { src: "hof" },
+		deathsByMercs:      { src: "hof" },
+		deathsByStructures: { src: "hof" },
+		deathsByMonsters:   { src: "hof" },
+	};
+
+	// Heroes excluded from specific stat categories (mirrors _HOF_HERO_EXCLUSIONS in aggregate.py)
+	var HOF_HERO_EXCLUSIONS = {
+		damageSoaked:    { "Gall": true },
+		damageSoakedMin: { "Gall": true, "Abathur": true },
+		deaths:          { "Abathur": true, "Gall": true },
+	};
+
+	// Labels for stat cards (mirrors pipeline labels)
+	var STAT_LABELS = {
+		heroDamage:         "Most Hero Damage",
+		siegeDamage:        "Most Siege Damage",
+		healing:            "Most Healing",
+		damageSoaked:       "Most Damage Taken",
+		kills:              "Most Kills",
+		xpContribution:     "Most XP Contribution",
+		deaths:             "The Feeder Award",
+		timeSpentDead:      "Time Spent Dead",
+		chatMessages:       "Most Messages (Single Game)",
+		pings:              "Most Pings (Single Game)",
+		disconnects:        "Most Disconnects (Single Game)",
+		votesReceived:      "Most Votes (Single Game)",
+		deathsByMinions:    "Killed by Minions",
+		deathsByMercs:      "Killed by Mercs",
+		deathsByStructures: "Killed by Structures",
+		deathsByMonsters:   "Killed by Monsters",
+		damageSoakedMin:    "Least Damage Taken",
+	};
 
 	// Descriptions for stat categories
 	var STAT_DESC = {
@@ -69,9 +84,83 @@ var HallOfFameView = (function() {
 		deathsByMonsters: "Deaths to bosses, map objectives, and monsters",
 	};
 
+	// Compute top-N single-game records for a stat from filtered matches.
+	// invert=true means lowest value wins (for damageSoakedMin).
+	function computeSingleGameRecords(filtered, statKey, topN, invert) {
+		var excluded = HOF_HERO_EXCLUSIONS[statKey] || {};
+		var srcKey = statKey === "damageSoakedMin" ? "damageSoaked" : statKey;
+		var srcSpec = SINGLE_GAME_STATS[srcKey];
+		if (!srcSpec) return [];
+
+		var records = [];
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.isAlt) continue;
+				if (excluded[rp.hero]) continue;
+
+				var val;
+				if (srcSpec.src === "top") {
+					val = rp[srcKey] || 0;
+				} else {
+					val = (rp.hof && rp.hof[srcKey]) ? rp.hof[srcKey] : 0;
+				}
+
+				if (val <= 0) continue;
+
+				records.push({
+					value: val,
+					playerName: rp.name,
+					hero: rp.hero,
+					map: m.map,
+					gameMode: m.gameMode,
+					matchId: m.matchId,
+					timestamp: m.timestamp,
+					durationSeconds: m.durationSeconds,
+				});
+			}
+		}
+
+		if (invert) {
+			records.sort(function(a, b) { return a.value - b.value; });
+		} else {
+			records.sort(function(a, b) { return b.value - a.value; });
+		}
+		return records.slice(0, topN);
+	}
+
+	// Compute top-N game duration records from filtered matches.
+	// resultFilter: "win", "loss", or null (any result).
+	// shortest: true = shortest first, false = longest first.
+	function computeGameDurationRecords(filtered, topN, resultFilter, shortest) {
+		var records = [];
+		var seen = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			if (seen[m.matchId]) continue;
+			seen[m.matchId] = true;
+			if (resultFilter && m.result !== resultFilter) continue;
+			records.push({
+				map: m.map,
+				gameMode: m.gameMode,
+				matchId: m.matchId,
+				timestamp: m.timestamp,
+				durationSeconds: m.durationSeconds,
+				result: m.result,
+			});
+		}
+		if (shortest) {
+			records.sort(function(a, b) { return a.durationSeconds - b.durationSeconds; });
+		} else {
+			records.sort(function(a, b) { return b.durationSeconds - a.durationSeconds; });
+		}
+		return records.slice(0, topN);
+	}
+
 	function renderStatCard(category, records, description) {
 		var label = category.label || category;
-		var top = filterByDate(records).slice(0, AppSettings.hallOfFame.topEntries);
+		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
 
 		var html = '<div class="hof-card card">' +
 			'<div class="hof-card-title">' + escapeHtml(label) + '</div>' +
@@ -107,7 +196,7 @@ var HallOfFameView = (function() {
 	}
 
 	function renderGameCard(title, records, description) {
-		var top = filterByDate(records).slice(0, AppSettings.hallOfFame.topEntries);
+		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
 
 		var html = '<div class="hof-card card">' +
 			'<div class="hof-card-title">' + escapeHtml(title) + '</div>' +
@@ -438,7 +527,13 @@ var HallOfFameView = (function() {
 		var mode = getMode();
 		var filtered = MatchIndexUtils.filter(matchIndex, filters);
 		var cum = aggregateCumulative(filtered, mode);
-		var cumCustom = aggregateCumulative(filtered, "Custom");
+		// Accidental Team Chats is always about Custom games regardless of mode filter.
+		// Filter with mode cleared so date/season still apply but mode doesn't blank it.
+		var customFilters = {};
+		for (var key in filters) customFilters[key] = filters[key];
+		customFilters.mode = "";
+		var filteredForCustom = MatchIndexUtils.filter(matchIndex, customFilters);
+		var cumCustom = aggregateCumulative(filteredForCustom, "Custom");
 
 		var html = '<div class="page-header"><h1>Hall of Fame and Shame</h1>' +
 			'<div class="subtitle">Records and achievements</div></div>';
@@ -463,19 +558,15 @@ var HallOfFameView = (function() {
 		html += renderStackCard("Best 5-Stacks", stacks5, smg.full, "Highest winrate full teams");
 		html += '</div>';
 
+		var topN = AppSettings.hallOfFame.topEntries;
 		html += '<h3 class="section-title">Single-Game Records</h3><div class="hof-grid">';
 		var statKeys = ["heroDamage", "siegeDamage", "healing", "damageSoaked", "kills", "xpContribution"];
 		for (var i = 0; i < statKeys.length; i++) {
-			var cat = hofData.stats[statKeys[i]];
-			var records = cat[mode] || [];
-			html += renderStatCard(cat, records, STAT_DESC[statKeys[i]]);
+			var records = computeSingleGameRecords(filtered, statKeys[i], topN, false);
+			html += renderStatCard({ label: STAT_LABELS[statKeys[i]] }, records, STAT_DESC[statKeys[i]]);
 		}
-		if (hofData.games.shortestWon) {
-			html += renderGameCard("Shortest Games Won", hofData.games.shortestWon[mode] || [], "Fastest victory");
-		}
-		if (hofData.games.longestWon) {
-			html += renderGameCard("Longest Games Won", hofData.games.longestWon[mode] || [], "Longest match ending in victory");
-		}
+		html += renderGameCard("Shortest Games Won", computeGameDurationRecords(filtered, topN, "win", true), "Fastest victory");
+		html += renderGameCard("Longest Games Won", computeGameDurationRecords(filtered, topN, "win", false), "Longest match ending in victory");
 		html += '</div>';
 
 		if (hasCumStat(cum, "hasAward")) {
@@ -485,19 +576,15 @@ var HallOfFameView = (function() {
 			html += '</div>';
 		}
 
-		var hasSocialData = hofData.stats.chatMessages || hasCumStat(cum, "chatMessages") ||
-			hofData.stats.votesReceived || hasCumStat(cum, "votesReceived");
+		var hasSocialData = SINGLE_GAME_STATS.chatMessages || hasCumStat(cum, "chatMessages") ||
+			SINGLE_GAME_STATS.votesReceived || hasCumStat(cum, "votesReceived");
 		if (hasSocialData) {
 			html += '<h3 class="section-title">Social</h3><div class="hof-grid">';
-			if (hofData.stats.chatMessages) {
-				html += renderStatCard(hofData.stats.chatMessages, (hofData.stats.chatMessages[mode] || []), STAT_DESC.chatMessages);
-			}
+			html += renderStatCard({ label: STAT_LABELS.chatMessages }, computeSingleGameRecords(filtered, "chatMessages", topN, false), STAT_DESC.chatMessages);
 			if (hasCumStat(cum, "chatMessagesTeam")) {
 				html += renderCumulativeCard("Total Messages (Team Chat)", cumTopByValue(cum, "chatMessagesTeam"), "Chat messages sent to own team. You know what for.");
 			}
-			if (hofData.stats.pings) {
-				html += renderStatCard(hofData.stats.pings, (hofData.stats.pings[mode] || []), STAT_DESC.pings);
-			}
+			html += renderStatCard({ label: STAT_LABELS.pings }, computeSingleGameRecords(filtered, "pings", topN, false), STAT_DESC.pings);
 			if (hasCumStat(cum, "pings")) {
 				html += renderCumulativeCard("Total Pings", cumTopByValue(cum, "pings"), "Pings sent across all games");
 			}
@@ -520,9 +607,7 @@ var HallOfFameView = (function() {
 			if (hasCumStat(cum, "votesReceived")) {
 				html += renderCumulativeCard("Total Votes Received", cumTopByValue(cum, "votesReceived"), "Post-game votes received from others");
 			}
-			if (hofData.stats.votesReceived) {
-				html += renderStatCard(hofData.stats.votesReceived, (hofData.stats.votesReceived[mode] || []), STAT_DESC.votesReceived);
-			}
+			html += renderStatCard({ label: STAT_LABELS.votesReceived }, computeSingleGameRecords(filtered, "votesReceived", topN, false), STAT_DESC.votesReceived);
 			html += '</div>';
 		}
 
@@ -543,12 +628,9 @@ var HallOfFameView = (function() {
 		// Hall of Shame
 		html += '<h2 class="section-title">Hall of Shame</h2><div class="hof-grid">';
 		var snarkyKeys = ["deaths", "timeSpentDead"];
-		var snarkyLabels = { deaths: "The Feeder Award", timeSpentDead: "Time Spent Dead" };
 		for (var i = 0; i < snarkyKeys.length; i++) {
-			var cat = hofData.stats[snarkyKeys[i]];
-			var records = cat[mode] || [];
-			var display = { label: snarkyLabels[snarkyKeys[i]] };
-			html += renderStatCard(display, records, STAT_DESC[snarkyKeys[i]]);
+			var records = computeSingleGameRecords(filtered, snarkyKeys[i], topN, false);
+			html += renderStatCard({ label: STAT_LABELS[snarkyKeys[i]] }, records, STAT_DESC[snarkyKeys[i]]);
 		}
 
 		if (hasCumStat(cum, "chatGamesToxic")) {
@@ -560,23 +642,12 @@ var HallOfFameView = (function() {
 				"Percentage of games with an early or premature \"gg\"", "offensive ggs");
 		}
 
-		if (hofData.stats.damageSoakedMin) {
-			var minRecords = hofData.stats.damageSoakedMin[mode] || [];
-			html += renderStatCard({ label: "Least Damage Taken" }, minRecords, STAT_DESC.damageSoakedMin);
-		}
+		html += renderStatCard({ label: STAT_LABELS.damageSoakedMin }, computeSingleGameRecords(filtered, "damageSoakedMin", topN, true), STAT_DESC.damageSoakedMin);
 
 		var deathSourceKeys = ["deathsByMinions", "deathsByMercs", "deathsByStructures", "deathsByMonsters"];
-		var deathSourceLabels = {
-			deathsByMinions: "Killed by Minions",
-			deathsByMercs: "Killed by Mercs",
-			deathsByStructures: "Killed by Structures",
-			deathsByMonsters: "Killed by Monsters",
-		};
 		for (var i = 0; i < deathSourceKeys.length; i++) {
 			var key = deathSourceKeys[i];
-			if (hofData.stats[key]) {
-				html += renderStatCard({ label: deathSourceLabels[key] }, (hofData.stats[key][mode] || []), STAT_DESC[key]);
-			}
+			html += renderStatCard({ label: STAT_LABELS[key] }, computeSingleGameRecords(filtered, key, topN, false), STAT_DESC[key]);
 		}
 		var deathCumulativeLabels = {
 			deathsByMinions: "Total Deaths to Minions",
@@ -593,15 +664,14 @@ var HallOfFameView = (function() {
 
 		html += renderMostScaredCard(cum);
 
-		if (hofData.games.shortestLost) {
-			html += renderGameCard("Shortest Games Lost", hofData.games.shortestLost[mode] || [], "Fastest defeat");
-		}
-		if (hofData.games.longestLost) {
-			html += renderGameCard("Longest Games Lost", hofData.games.longestLost[mode] || [], "Longest match ending in defeat");
-		}
-		if (!hofData.games.shortestLost && !hofData.games.longestLost) {
-			html += renderGameCard("Shortest Games", hofData.games.shortest[mode] || [], "Shortest match by duration");
-			html += renderGameCard("Longest Games", hofData.games.longest[mode] || [], "Longest match by duration");
+		var shortestLost = computeGameDurationRecords(filtered, topN, "loss", true);
+		var longestLost = computeGameDurationRecords(filtered, topN, "loss", false);
+		if (shortestLost.length > 0 || longestLost.length > 0) {
+			html += renderGameCard("Shortest Games Lost", shortestLost, "Fastest defeat");
+			html += renderGameCard("Longest Games Lost", longestLost, "Longest match ending in defeat");
+		} else {
+			html += renderGameCard("Shortest Games", computeGameDurationRecords(filtered, topN, null, true), "Shortest match by duration");
+			html += renderGameCard("Longest Games", computeGameDurationRecords(filtered, topN, null, false), "Longest match by duration");
 		}
 
 		if (hasCumStat(cum, "disconnectedAtEnd")) {
