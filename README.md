@@ -112,6 +112,10 @@ Hero portraits, talent icons, and role icons are in `img/`. These are sourced fr
 
 Game imagery is copyright Blizzard Entertainment.
 
+### Talent data freshness
+
+Talent names, descriptions, and icons always reflect the latest game patch at the time the pipeline was last run. When a hero receives a talent rework in a new patch, old match results will display the updated talent information rather than what was available when those games were played. This is an accepted limitation. Maintaining version-specific talent mappings for every patch is not practical, and community tools (e.g. Heroes Profile) follow the same approach.
+
 ## How It Works
 
 There is no backend. The entire dashboard is a static site served from GitHub Pages. All data processing happens in the Python pipeline before deployment, and all runtime filtering and aggregation happens in the browser. No server, no database, no API.
