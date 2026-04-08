@@ -29,7 +29,7 @@ _SUM_STATS = [
 	"teamfightHeroDamage", "teamfightDamageTaken", "teamfightHealing",
 	"physicalDamage", "spellDamage",
 	"minionKills", "regenGlobes",
-	"hasAward", "awardMVP", "awardMapSpecific", "awardInternal",
+	"hasAward", "awardMVP",
 	"chatMessages", "pings",
 	"disconnects", "disconnectedAtEnd",
 	"votesReceived", "votesGiven",
@@ -249,8 +249,6 @@ _HOF_RECORDS_PER_CATEGORY = 20
 _HOF_CUMULATIVE_CATEGORIES = [
 	("hasAward", "Most End-of-Match Awards"),
 	("awardMVP", "Most MVP Awards"),
-	("awardMapSpecific", "Most Map-Specific Awards"),
-	("awardInternal", "Most Internal Awards"),
 	("chatMessages", "Total Messages"),
 	("pings", "Total Pings"),
 	("disconnects", "Total Disconnects"),
@@ -263,7 +261,6 @@ _HOF_CUMULATIVE_CATEGORIES = [
 	("deathsByMonsters", "Total Deaths to Monsters"),
 	("chatMessagesAll", "Total All Chat"),
 	("chatMessagesTeam", "Total Team Chat"),
-	("chatToxicMessages", "Total Toxic Messages"),
 	("chatGamesClean", "Conversationalist Games"),
 	("chatGamesToxic", "Toxic Games"),
 	("chatGlhf", "Sportsmanlike Greetings"),
@@ -275,13 +272,12 @@ _HOF_CUMULATIVE_CATEGORIES = [
 # Derived cumulative categories with non-standard accumulation logic
 # (flag-based or hero-attribute-based, not simple stat sums)
 _HOF_DERIVED_CUMULATIVE = [
-	("hasMultikill", "Multi-kill Percentage"),
 	("femaleHero", "Gender Equality"),
 ]
 
 # Stat keys written to match index rosterPlayers so the frontend can
 # re-aggregate cumulative HoF stats from date-filtered matches.
-# Derived categories (hasMultikill, femaleHero) are computed in output.py's _build_match_index_entry.
+# Derived categories (femaleHero) are computed in output.py's _build_match_index_entry.
 HOF_INDEX_STAT_KEYS: list[str] = [key for key, _ in _HOF_CUMULATIVE_CATEGORIES]
 
 # Sentinel threshold re-exported for output.py to skip garbage stat values
@@ -662,13 +658,6 @@ def aggregate_all(
 					hof["cumulative"][stat_key][game_mode][roster_name]["games"] += 1
 
 			# Hall of fame: derived cumulative records (flag-based)
-			mk_val = 1 if stats.get("multikill", 0) > 0 else 0
-			hof["cumulative"]["hasMultikill"]["Overall"][roster_name]["value"] += mk_val
-			hof["cumulative"]["hasMultikill"]["Overall"][roster_name]["games"] += 1
-			if game_mode in hof["cumulative"]["hasMultikill"]:
-				hof["cumulative"]["hasMultikill"][game_mode][roster_name]["value"] += mk_val
-				hof["cumulative"]["hasMultikill"][game_mode][roster_name]["games"] += 1
-
 			fem_val = 1 if hero in FEMALE_HEROES else 0
 			hof["cumulative"]["femaleHero"]["Overall"][roster_name]["value"] += fem_val
 			hof["cumulative"]["femaleHero"]["Overall"][roster_name]["games"] += 1

@@ -540,41 +540,43 @@ def parse_replay(replay_path: str) -> dict:
 			if _normalize_chat(text) in _GLHF_PATTERNS:
 				players[pi]["stats"]["chatGlhf"] = 1
 
-		# Chat behaviour: offensive gg (too early or winners-say-first)
-		winning_team = None
-		losing_team = None
-		for p in players:
-			if p["result"] == "win":
-				winning_team = p["team"]
-			elif p["result"] == "loss":
-				losing_team = p["team"]
-			if winning_team is not None and losing_team is not None:
-				break
-
-		gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
-
-		# Find the losing team's first gg
-		loser_first_gg_loop = None
-		if losing_team is not None:
-			for gameloop, pi, text in sorted(chat_records, key=lambda r: r[0]):
-				if _normalize_chat(text) in _GG_PATTERNS and players[pi]["team"] == losing_team:
-					loser_first_gg_loop = gameloop
+		# Chat behaviour: offensive gg (too early or winners-say-first).
+		# Only relevant in Custom games where all-chat is available.
+		if game_mode == "Custom":
+			winning_team = None
+			losing_team = None
+			for p in players:
+				if p["result"] == "win":
+					winning_team = p["team"]
+				elif p["result"] == "loss":
+					losing_team = p["team"]
+				if winning_team is not None and losing_team is not None:
 					break
 
-		# Flag players who sent an offensive gg
-		for gameloop, pi, text in chat_records:
-			if _normalize_chat(text) not in _GG_PATTERNS:
-				continue
-			is_offensive = False
-			# Too early: more than 15 seconds before game end
-			if gameloop < gg_early_threshold:
-				is_offensive = True
-			# Winners first: winning team gg before losing team's first gg
-			if (winning_team is not None and players[pi]["team"] == winning_team
-					and loser_first_gg_loop is not None and gameloop < loser_first_gg_loop):
-				is_offensive = True
-			if is_offensive:
-				players[pi]["stats"]["chatOffensiveGg"] = 1
+			gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
+
+			# Find the losing team's first gg
+			loser_first_gg_loop = None
+			if losing_team is not None:
+				for gameloop, pi, text in sorted(chat_records, key=lambda r: r[0]):
+					if _normalize_chat(text) in _GG_PATTERNS and players[pi]["team"] == losing_team:
+						loser_first_gg_loop = gameloop
+						break
+
+			# Flag players who sent an offensive gg
+			for gameloop, pi, text in chat_records:
+				if _normalize_chat(text) not in _GG_PATTERNS:
+					continue
+				is_offensive = False
+				# Too early: more than 15 seconds before game end
+				if gameloop < gg_early_threshold:
+					is_offensive = True
+				# Winners first: winning team gg before losing team's first gg
+				if (winning_team is not None and players[pi]["team"] == winning_team
+						and loser_first_gg_loop is not None and gameloop < loser_first_gg_loop):
+					is_offensive = True
+				if is_offensive:
+					players[pi]["stats"]["chatOffensiveGg"] = 1
 
 	# Store death-by-source stats
 	for pi in range(num_players):

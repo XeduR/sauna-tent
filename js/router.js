@@ -36,6 +36,10 @@ var Router = (function() {
 			var match = path.match(routes[i].pattern);
 			if (match) {
 				var params = match.slice(1);
+				// Restore view-specific overrides before switching views
+				if (typeof HallOfFameView !== "undefined" && HallOfFameView.restoreNoAltsToggle) {
+					HallOfFameView.restoreNoAltsToggle();
+				}
 				routes[i].handler.apply(null, params);
 				updateActiveNav(path);
 				window.scrollTo(0, 0);

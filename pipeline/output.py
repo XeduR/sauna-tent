@@ -50,10 +50,13 @@ def _build_match_index_entry(match: dict) -> dict:
 			val = s.get(key, 0)
 			if 0 < val < HOF_SENTINEL_THRESHOLD:
 				hof[key] = val
-		if s.get("multikill", 0) > 0:
-			hof["hasMultikill"] = 1
 		if p["hero"] in FEMALE_HEROES:
 			hof["femaleHero"] = 1
+
+		def _safe(key: str) -> int:
+			"""Read a stat, treating sentinel values as 0."""
+			val = s.get(key, 0)
+			return val if val < HOF_SENTINEL_THRESHOLD else 0
 
 		rp = {
 			"name": display_name,
@@ -61,18 +64,18 @@ def _build_match_index_entry(match: dict) -> dict:
 			"result": p["result"],
 			"partySize": p.get("partySize", 1),
 			"isAlt": is_alt,
-			"kills": s.get("kills", 0),
-			"deaths": s.get("deaths", 0),
-			"assists": s.get("assists", 0),
-			"heroDamage": s.get("heroDamage", 0),
-			"siegeDamage": s.get("siegeDamage", 0),
-			"healing": s.get("healing", 0),
-			"selfHealing": s.get("selfHealing", 0),
-			"damageTaken": s.get("damageTaken", 0),
-			"damageSoaked": s.get("damageSoaked", 0),
-			"xpContribution": s.get("xpContribution", 0),
-			"mercCaptures": s.get("mercCaptures", 0),
-			"timeSpentDead": s.get("timeSpentDead", 0),
+			"kills": _safe("kills"),
+			"deaths": _safe("deaths"),
+			"assists": _safe("assists"),
+			"heroDamage": _safe("heroDamage"),
+			"siegeDamage": _safe("siegeDamage"),
+			"healing": _safe("healing"),
+			"selfHealing": _safe("selfHealing"),
+			"damageTaken": _safe("damageTaken"),
+			"damageSoaked": _safe("damageSoaked"),
+			"xpContribution": _safe("xpContribution"),
+			"mercCaptures": _safe("mercCaptures"),
+			"timeSpentDead": _safe("timeSpentDead"),
 			"talentChoices": p.get("talentChoices", []),
 		}
 		if hof:

@@ -1,7 +1,7 @@
 // Hall of Fame page: top-N lists for various records and achievements (N from AppSettings)
 var HallOfFameView = (function() {
-	var filters = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
-	var defaults = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
+	var filters = { mode: "", dateFrom: "", dateTo: "", seasons: "", noAlts: true };
+	var defaults = { mode: "", dateFrom: "", dateTo: "", seasons: "", noAlts: true };
 	var hofData = null;
 	var matchIndex = null;
 
@@ -535,7 +535,7 @@ var HallOfFameView = (function() {
 		var filteredForCustom = MatchIndexUtils.filter(matchIndex, customFilters);
 		var cumCustom = aggregateCumulative(filteredForCustom, "Custom");
 
-		var html = '<div class="page-header"><h1>Hall of Fame and Shame</h1>' +
+		var html = '<div class="page-header"><h1>Hall of Fame <span class="hof-title-shame">and Shame</span></h1>' +
 			'<div class="subtitle">Records and achievements</div></div>';
 
 		html += buildPageFilterBar(filters, { mode: true, dateFrom: true, dateTo: true });
@@ -550,7 +550,8 @@ var HallOfFameView = (function() {
 			else if (s.size === 4) stacks4[key] = s;
 			else if (s.size === 5) stacks5[key] = s;
 		}
-		html += '<h2 class="section-title">Hall of Fame</h2><div class="hof-grid">';
+		html += '<h2 class="hof-page-section">Hall of Fame</h2>';
+		html += '<h3 class="section-title">Best Stacks</h3><div class="hof-grid">';
 		var smg = AppSettings.hallOfFame.stackMinGames;
 		html += renderStackCard("Best Duos", stacks2, smg.duo, "Highest winrate duo combinations.");
 		html += renderStackCard("Best 3-Stacks", stacks3, smg.trio, "Highest winrate 3-player parties.");
@@ -569,13 +570,6 @@ var HallOfFameView = (function() {
 		html += renderGameCard("Longest Games Won", computeGameDurationRecords(filtered, topN, "win", false), "Longest match ending in victory.");
 		html += '</div>';
 
-		if (hasCumStat(cum, "hasAward")) {
-			html += '<h3 class="section-title">Awards</h3><div class="hof-grid">';
-			html += renderCumulativeCard("Most End-of-Match Awards", cumTopByValue(cum, "hasAward"), "Total post-game awards across all games.");
-			html += renderPercentCard("MVP Percentage", cumTopByPercent(cum, "awardMVP"), "Percentage of games awarded MVP.", "MVPs");
-			html += '</div>';
-		}
-
 		var hasSocialData = SINGLE_GAME_STATS.chatMessages || hasCumStat(cum, "chatMessages") ||
 			SINGLE_GAME_STATS.votesReceived || hasCumStat(cum, "votesReceived");
 		if (hasSocialData) {
@@ -588,8 +582,8 @@ var HallOfFameView = (function() {
 			if (hasCumStat(cum, "pings")) {
 				html += renderCumulativeCard("Total Pings", cumTopByValue(cum, "pings"), "Pings sent across all games.");
 			}
-			if (hasCumStat(cum, "chatMessagesAll")) {
-				html += renderCumulativeCard("Total All Chat", cumTopByValue(cum, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf".');
+			if (hasCumStat(cumCustom, "chatMessagesAll")) {
+				html += renderCumulativeCard("Total All Chat", cumTopByValue(cumCustom, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf".');
 			}
 			html += renderCumulativeCard("Accidental Team Chats", cumTopByValue(cumCustom, "chatMessagesTeam"),
 				"Team chat in Custom games (probably meant for all chat).");
@@ -599,7 +593,7 @@ var HallOfFameView = (function() {
 			}
 			if (hasCumStat(cum, "chatGamesClean")) {
 				html += renderPercentCard("Conversationalist", cumTopByPercent(cum, "chatGamesClean"),
-					"Percentage of games with chat and no toxic messages.", "clean games");
+					"Percentage of games with chat without triggering the toxic word detection.", "clean games");
 			}
 			if (hasCumStat(cum, "votesGiven")) {
 				html += renderCumulativeCard("Total Votes Given", cumTopByValue(cum, "votesGiven"), "Post-game votes given to other players.");
@@ -614,11 +608,14 @@ var HallOfFameView = (function() {
 		html += '<h3 class="section-title">Player Records</h3><div class="hof-grid">';
 		html += renderFunStats(filtered);
 		html += renderAvgTimeOnFireCard(cum);
+		if (hasCumStat(cum, "hasAward")) {
+			html += renderCumulativeCard("Most End-of-Match Awards", cumTopByValue(cum, "hasAward"), "Total post-game awards across all games.");
+		}
+		if (hasCumStat(cum, "awardMVP")) {
+			html += renderPercentCard("MVP Percentage", cumTopByPercent(cum, "awardMVP"), "Percentage of games awarded MVP.", "MVPs");
+		}
 		if (hasCumStat(cum, "regenGlobes")) {
 			html += renderCumulativeCard("A Game of Globes", cumTopByValue(cum, "regenGlobes"), "Total number of globes collected.");
-		}
-		if (hasCumStat(cum, "hasMultikill")) {
-			html += renderPercentCard("Multi-kill Percentage", cumTopByPercent(cum, "hasMultikill"), "Percentage of games with multikills.", "multikill games");
 		}
 		if (hasCumStat(cum, "femaleHero")) {
 			html += renderPercentCard("Gender Equality", cumTopByPercent(cum, "femaleHero"), "Percentage of games played with female characters.", "female hero games");
@@ -626,22 +623,16 @@ var HallOfFameView = (function() {
 		html += '</div>';
 
 		// Hall of Shame
-		html += '<h2 class="section-title">Hall of Shame</h2><div class="hof-grid">';
+		html += '<div class="hof-shame-divider"></div>';
+		html += '<h2 class="hof-page-section">Hall of Shame</h2>';
+
+		// Beatings
+		html += '<h3 class="section-title">Beatings</h3><div class="hof-grid">';
 		var snarkyKeys = ["deaths", "timeSpentDead"];
 		for (var i = 0; i < snarkyKeys.length; i++) {
 			var records = computeSingleGameRecords(filtered, snarkyKeys[i], topN, false);
 			html += renderStatCard({ label: STAT_LABELS[snarkyKeys[i]] }, records, STAT_DESC[snarkyKeys[i]]);
 		}
-
-		if (hasCumStat(cum, "chatGamesToxic")) {
-			html += renderPercentCard("Most Toxic Conversationalist", cumTopByPercent(cum, "chatGamesToxic"),
-				"Percentage of games where the player sent a toxic message.", "toxic games");
-		}
-		if (hasCumStat(cum, "chatOffensiveGg")) {
-			html += renderPercentCard("Offensive GG", cumTopByPercent(cum, "chatOffensiveGg"),
-				"Percentage of games with an early or premature \"gg\".", "offensive ggs");
-		}
-
 		html += renderStatCard({ label: STAT_LABELS.damageSoakedMin }, computeSingleGameRecords(filtered, "damageSoakedMin", topN, true), STAT_DESC.damageSoakedMin);
 
 		var deathSourceKeys = ["deathsByMinions", "deathsByMercs", "deathsByStructures", "deathsByMonsters"];
@@ -661,9 +652,26 @@ var HallOfFameView = (function() {
 				html += renderCumulativeCard(deathCumulativeLabels[key], cumTopByValue(cum, key), "Total " + deathCumulativeLabels[key].toLowerCase() + ".");
 			}
 		}
-
 		html += renderMostScaredCard(cum);
+		html += '</div>';
 
+		// Social
+		html += '<h3 class="section-title">Social</h3><div class="hof-grid">';
+		if (hasCumStat(cum, "disconnectedAtEnd")) {
+			html += renderCumulativeCard("Rage Quits", cumTopByValue(cum, "disconnectedAtEnd"), "Games left without returning.");
+		}
+		if (hasCumStat(cum, "chatGamesToxic")) {
+			html += renderPercentCard("Most Toxic Conversationalist", cumTopByPercent(cum, "chatGamesToxic"),
+				"Percentage of games where the player sent a toxic message.", "toxic games");
+		}
+		if (hasCumStat(cumCustom, "chatOffensiveGg")) {
+			html += renderPercentCard("Offensive GG", cumTopByPercent(cumCustom, "chatOffensiveGg"),
+				"Percentage of Custom games with an early or premature \"gg\".", "offensive ggs");
+		}
+		html += '</div>';
+
+		// Matches
+		html += '<h3 class="section-title">Matches</h3><div class="hof-grid">';
 		var shortestLost = computeGameDurationRecords(filtered, topN, "loss", true);
 		var longestLost = computeGameDurationRecords(filtered, topN, "loss", false);
 		if (shortestLost.length > 0 || longestLost.length > 0) {
@@ -673,19 +681,31 @@ var HallOfFameView = (function() {
 			html += renderGameCard("Shortest Games", computeGameDurationRecords(filtered, topN, null, true), "Shortest match by duration.");
 			html += renderGameCard("Longest Games", computeGameDurationRecords(filtered, topN, null, false), "Longest match by duration.");
 		}
-
-		if (hasCumStat(cum, "disconnectedAtEnd")) {
-			html += renderCumulativeCard("Rage Quits", cumTopByValue(cum, "disconnectedAtEnd"), "Games left without returning.");
-		}
 		html += '</div>';
 
 		app.innerHTML = html;
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
 	}
 
+	function setNoAltsToggleDisabled(disabled) {
+		var toggle = document.getElementById("global-no-alts-toggle");
+		if (!toggle) return;
+		toggle.disabled = disabled;
+		var label = toggle.parentElement;
+		if (disabled) {
+			label.classList.add("disabled");
+			label.title = "Alts are not tracked for Hall of Fame.";
+		} else {
+			label.classList.remove("disabled");
+			label.title = "Hide matches containing alt accounts";
+		}
+	}
+
 	async function render() {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading Hall of Fame...</div>';
+
+		setNoAltsToggleDisabled(true);
 
 		try {
 			var results = await Promise.all([Data.hallOfFame(), Data.matchIndex(), Data.settings()]);
@@ -698,5 +718,5 @@ var HallOfFameView = (function() {
 		}
 	}
 
-	return { render: render };
+	return { render: render, restoreNoAltsToggle: function() { setNoAltsToggleDisabled(false); } };
 })();

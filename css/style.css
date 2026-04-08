@@ -190,6 +190,20 @@ a.nav-brand:hover {
 	accent-color: var(--accent);
 }
 
+.nav-global-filter.disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.nav-global-filter.disabled:hover {
+	color: var(--text-muted);
+	background: transparent;
+}
+
+.nav-global-filter.disabled input[type="checkbox"] {
+	cursor: not-allowed;
+}
+
 .nav-dropdown-separator {
 	height: 1px;
 	margin: 0.3rem 0.6rem;
@@ -1167,6 +1181,24 @@ tfoot {
 }
 
 /* Hall of Fame */
+.hof-page-section {
+	font-size: 1.3rem;
+	font-weight: 600;
+	margin-top: 2.5rem;
+	margin-bottom: 0.5rem;
+	color: var(--text);
+	letter-spacing: 0.03em;
+}
+
+.hof-title-shame {
+	color: color-mix(in srgb, var(--text-muted), #c44 30%);
+}
+
+.hof-shame-divider {
+	border-top: 1px solid var(--border);
+	margin-top: 3rem;
+}
+
 .hof-grid {
 	display: grid;
 	grid-template-columns: 1fr;
