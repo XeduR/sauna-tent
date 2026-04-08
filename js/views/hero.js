@@ -506,23 +506,19 @@ var HeroView = (function() {
 			}
 			allyRows = filtered;
 		}
-		if (allyRows.length > 0) {
-			var allyColumns = [
-				{ key: "hero", label: "Hero", format: function(v) {
-					return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + heroIconHtml(v) + escapeHtml(v) + '</a>';
-				}},
-				{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
-				{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
-				{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
-				{ key: "winrate", label: "Win Rate", className: "num", format: StandardTable.FORMAT.wr }
-			];
-			allyTable = sortableTable("ally-winrate-table", allyColumns, allyRows, "games", true);
-			html += '<h2 class="section-title">Ally Win Rates</h2>' +
-				'<div class="text-muted chart-desc">Showing ' + allyRows.length + ' out of 90 heroes.</div>' +
-				allyTable.buildHTML();
-		} else {
-			allyTable = null;
-		}
+		var allyColumns = [
+			{ key: "hero", label: "Hero", format: function(v) {
+				return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + heroIconHtml(v) + escapeHtml(v) + '</a>';
+			}},
+			{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
+			{ key: "winrate", label: "Win Rate", className: "num", format: StandardTable.FORMAT.wr }
+		];
+		allyTable = sortableTable("ally-winrate-table", allyColumns, allyRows, "games", true);
+		html += '<h2 class="section-title">Ally Win Rates</h2>' +
+			'<div class="text-muted chart-desc">Showing ' + allyRows.length + ' out of 90 heroes.</div>' +
+			allyTable.buildHTML();
 
 		app.innerHTML = html;
 
