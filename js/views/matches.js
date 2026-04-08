@@ -218,7 +218,7 @@ var MatchesView = (function() {
 	}
 
 	function buildTagSelector(id, label, allOptions, includeList, excludeList, displayFn) {
-		if (!displayFn) displayFn = escapeHtml;
+		if (!displayFn) displayFn = function(v) { return v; };
 
 		// Filter out already-selected options from the dropdown
 		var available = [];
@@ -229,27 +229,33 @@ var MatchesView = (function() {
 			}
 		}
 
+		var searchItems = [];
+		for (var i = 0; i < available.length; i++) {
+			searchItems.push({ value: available[i], text: displayFn(available[i]) });
+		}
+
+		var searchId = id + '-search';
 		var html = '<div class="filter-tag-selector" id="' + id + '">' +
 			'<label>' + label + '</label>' +
 			'<div class="tag-selector-controls">' +
-			'<select class="tag-selector-dropdown">' +
-			'<option value="">Select...</option>';
-		for (var i = 0; i < available.length; i++) {
-			html += '<option value="' + escapeHtml(available[i]) + '">' + displayFn(available[i]) + '</option>';
-		}
-		html += '</select>' +
+			SearchSelect.renderHtml({
+				id: searchId,
+				value: '',
+				placeholder: 'Select...',
+				items: searchItems
+			}) +
 			'<button class="tag-btn-include" title="Include">+</button>' +
 			'<button class="tag-btn-exclude" title="Exclude">&minus;</button>' +
 			'</div><div class="tag-list">';
 
 		for (var i = 0; i < includeList.length; i++) {
 			html += '<span class="tag tag-include" data-value="' + escapeHtml(includeList[i]) +
-				'" data-type="include">' + displayFn(includeList[i]) +
+				'" data-type="include">' + escapeHtml(displayFn(includeList[i])) +
 				' <button class="tag-remove">x</button></span>';
 		}
 		for (var i = 0; i < excludeList.length; i++) {
 			html += '<span class="tag tag-exclude" data-value="' + escapeHtml(excludeList[i]) +
-				'" data-type="exclude">' + displayFn(excludeList[i]) +
+				'" data-type="exclude">' + escapeHtml(displayFn(excludeList[i])) +
 				' <button class="tag-remove">x</button></span>';
 		}
 
@@ -362,10 +368,9 @@ var MatchesView = (function() {
 
 		html += '</div>';
 
-		var mapDisplayFn = function(v) { return escapeHtml(displayMapName(v)); };
 		html += '<div class="filter-section">' +
 			buildTagSelector("filter-maps", "Maps", getAvailableMaps(),
-				filters.maps.include, filters.maps.exclude, mapDisplayFn) +
+				filters.maps.include, filters.maps.exclude, displayMapName) +
 			'</div>';
 
 		html += '</div>';
@@ -569,12 +574,14 @@ var MatchesView = (function() {
 		var container = document.getElementById(selectorId);
 		if (!container) return;
 
-		var dropdown = container.querySelector(".tag-selector-dropdown");
+		var searchId = selectorId + '-search';
+		SearchSelect.attach(searchId);
+
 		var btnInclude = container.querySelector(".tag-btn-include");
 		var btnExclude = container.querySelector(".tag-btn-exclude");
 
 		function addTag(type) {
-			var val = dropdown.value;
+			var val = SearchSelect.getValue(searchId);
 			if (!val) return;
 			if (filterObj.include.indexOf(val) !== -1 || filterObj.exclude.indexOf(val) !== -1) return;
 			filterObj[type].push(val);

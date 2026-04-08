@@ -336,6 +336,7 @@ var DraftView = (function() {
 
 	function renderHeroSelect(id, value, comboCounts) {
 		var options = availableHeroes(value);
+		var items = [];
 
 		var hasAnyGames = false;
 		if (comboCounts) {
@@ -345,15 +346,11 @@ var DraftView = (function() {
 		}
 
 		var disabled = comboCounts && !hasAnyGames && !value;
-		var html = '<select id="' + id + '" class="draft-hero-select"' +
-			(disabled ? ' disabled' : '') + '>' +
-			'<option value="">-- Select Hero --</option>';
 
 		if (comboCounts) {
 			var withGames = [];
 			var noGames = [];
 			for (var i = 0; i < options.length; i++) {
-				// Keep the currently selected hero in the selectable group
 				if (options[i] === value || (comboCounts[options[i]] || 0) > 0) {
 					withGames.push(options[i]);
 				} else {
@@ -364,28 +361,27 @@ var DraftView = (function() {
 			for (var i = 0; i < withGames.length; i++) {
 				var h = withGames[i];
 				var count = comboCounts[h] || 0;
-				html += '<option value="' + escapeHtml(h) + '"' +
-					(h === value ? ' selected' : '') + '>' +
-					escapeHtml(h) + ' (' + count + ' games)</option>';
+				items.push({ value: h, text: h, suffix: '(' + count + ' games)' });
 			}
 			if (withGames.length > 0 && noGames.length > 0) {
-				html += '<option disabled>---</option>';
+				items.push({ separator: true });
 			}
 			for (var i = 0; i < noGames.length; i++) {
-				var h = noGames[i];
-				html += '<option value="' + escapeHtml(h) + '" disabled>' +
-					escapeHtml(h) + ' (0 games)</option>';
+				items.push({ value: noGames[i], text: noGames[i], suffix: '(0 games)', disabled: true });
 			}
 		} else {
 			for (var i = 0; i < options.length; i++) {
-				var h = options[i];
-				html += '<option value="' + escapeHtml(h) + '"' +
-					(h === value ? ' selected' : '') + '>' + escapeHtml(h) + '</option>';
+				items.push({ value: options[i], text: options[i] });
 			}
 		}
 
-		html += '</select>';
-		return html;
+		return SearchSelect.renderHtml({
+			id: id,
+			value: value,
+			placeholder: '-- Select Hero --',
+			items: items,
+			disabled: disabled
+		});
 	}
 
 	function renderRecPanel(title, description, entries, side) {
@@ -556,20 +552,14 @@ var DraftView = (function() {
 
 		for (var i = 0; i < 5; i++) {
 			(function(idx) {
-				var allySelect = app.querySelector('#ally-' + idx);
-				var oppSelect = app.querySelector('#opp-' + idx);
-				if (allySelect) {
-					allySelect.addEventListener('change', function() {
-						allyPicks[idx] = this.value;
-						renderContent();
-					});
-				}
-				if (oppSelect) {
-					oppSelect.addEventListener('change', function() {
-						opponentPicks[idx] = this.value;
-						renderContent();
-					});
-				}
+				SearchSelect.attach('ally-' + idx, function(value) {
+					allyPicks[idx] = value;
+					renderContent();
+				});
+				SearchSelect.attach('opp-' + idx, function(value) {
+					opponentPicks[idx] = value;
+					renderContent();
+				});
 			})(i);
 		}
 

@@ -92,6 +92,7 @@ var CombosView = (function() {
 
 	function renderHeroSelect(id, value, comboCounts) {
 		var options = availableHeroes(value);
+		var items = [];
 
 		var hasAnyGames = false;
 		if (comboCounts) {
@@ -101,9 +102,6 @@ var CombosView = (function() {
 		}
 
 		var disabled = comboCounts && !hasAnyGames && !value;
-		var html = '<select id="' + id + '" class="draft-hero-select"' +
-			(disabled ? ' disabled' : '') + '>' +
-			'<option value="">-- Select Hero --</option>';
 
 		if (comboCounts) {
 			var withGames = [];
@@ -118,28 +116,27 @@ var CombosView = (function() {
 
 			for (var i = 0; i < withGames.length; i++) {
 				var h = withGames[i];
-				html += '<option value="' + escapeHtml(h) + '"' +
-					(h === value ? ' selected' : '') + '>' +
-					escapeHtml(h) + ' (' + comboCounts[h] + ' games)</option>';
+				items.push({ value: h, text: h, suffix: '(' + comboCounts[h] + ' games)' });
 			}
 			if (withGames.length > 0 && noGames.length > 0) {
-				html += '<option disabled>---</option>';
+				items.push({ separator: true });
 			}
 			for (var i = 0; i < noGames.length; i++) {
-				var h = noGames[i];
-				html += '<option value="' + escapeHtml(h) + '" disabled>' +
-					escapeHtml(h) + ' (0 games)</option>';
+				items.push({ value: noGames[i], text: noGames[i], suffix: '(0 games)', disabled: true });
 			}
 		} else {
 			for (var i = 0; i < options.length; i++) {
-				var h = options[i];
-				html += '<option value="' + escapeHtml(h) + '"' +
-					(h === value ? ' selected' : '') + '>' + escapeHtml(h) + '</option>';
+				items.push({ value: options[i], text: options[i] });
 			}
 		}
 
-		html += '</select>';
-		return html;
+		return SearchSelect.renderHtml({
+			id: id,
+			value: value,
+			placeholder: '-- Select Hero --',
+			items: items,
+			disabled: disabled
+		});
 	}
 
 	// Count games per talent choice for a slot's hero, per tier.
@@ -515,14 +512,11 @@ var CombosView = (function() {
 
 		for (var i = 0; i < 5; i++) {
 			(function(idx) {
-				var select = app.querySelector('#ally-' + idx);
-				if (select) {
-					select.addEventListener('change', function() {
-						allyPicks[idx] = this.value;
-						allyTalents[idx] = [0, 0, 0, 0, 0, 0, 0];
-						renderContent();
-					});
-				}
+				SearchSelect.attach('ally-' + idx, function(value) {
+					allyPicks[idx] = value;
+					allyTalents[idx] = [0, 0, 0, 0, 0, 0, 0];
+					renderContent();
+				});
 			})(i);
 		}
 

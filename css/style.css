@@ -1041,21 +1041,14 @@ tfoot {
 	align-items: center;
 }
 
-.tag-selector-controls select {
-	background: var(--bg);
-	color: var(--text);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	padding: 0.35rem 0.5rem;
-	font-size: 0.8rem;
-	font-family: var(--font);
+.tag-selector-controls .search-select {
 	flex: 1;
 	min-width: 0;
 }
 
-.tag-selector-controls select:focus {
-	outline: none;
-	border-color: var(--accent);
+.tag-selector-controls .search-select-input {
+	padding: 0.35rem 0.5rem;
+	font-size: 0.8rem;
 }
 
 .tag-btn-include,
@@ -1405,7 +1398,14 @@ tfoot {
 	gap: 0.4rem;
 }
 
-.draft-hero-select {
+/* Search select component */
+
+.search-select {
+	position: relative;
+	width: 100%;
+}
+
+.search-select-input {
 	background: var(--bg);
 	color: var(--text);
 	border: 1px solid var(--border);
@@ -1416,14 +1416,67 @@ tfoot {
 	width: 100%;
 }
 
-.draft-hero-select:focus {
+.search-select-input:focus {
 	outline: none;
 	border-color: var(--accent);
 }
 
-.draft-hero-select:disabled {
+.search-select.disabled .search-select-input {
 	opacity: 0.4;
 	cursor: not-allowed;
+}
+
+.search-select-dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	max-height: 240px;
+	overflow-y: auto;
+	z-index: 100;
+	margin-top: 2px;
+}
+
+.search-select-option {
+	padding: 0.4rem 0.6rem;
+	cursor: pointer;
+	font-size: 0.9rem;
+}
+
+.search-select-option:hover,
+.search-select-option.highlighted {
+	background: var(--bg-card-hover);
+}
+
+.search-select-option.selected {
+	color: var(--accent);
+}
+
+.search-select-option.disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.search-select-option.disabled:hover {
+	background: transparent;
+}
+
+.search-select-separator {
+	border-top: 1px solid var(--border);
+	margin: 0.2rem 0;
+}
+
+.search-select-empty {
+	padding: 0.4rem 0.6rem;
+	color: var(--text-muted);
+	font-size: 0.9rem;
+}
+
+.search-select-suffix {
+	color: var(--text-muted);
 }
 
 .draft-recs {
