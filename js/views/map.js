@@ -216,10 +216,17 @@ var MapView = (function() {
 		var playerTable = StandardTable.create("map-players", playerRows, { mask: mask, partyContext: partyContext, wrl: wrl });
 		var heroTable = StandardTable.create("map-heroes", heroRows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
+		// Baseline total from match index (respects noAlts toggle, ignores other filters)
+		var baselineMatches = MatchIndexUtils.filter(matchIndex, {});
+		var totalMapGames = 0;
+		for (var bi = 0; bi < baselineMatches.length; bi++) {
+			if (baselineMatches[bi].map === mapName) totalMapGames++;
+		}
+
 		var html =
 			'<div class="page-header"><h1>' + escapeHtml(displayMapName(mapName)) + '</h1>' +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
-			mapData.overall.games.toLocaleString() + ' games</div></div>';
+			totalMapGames.toLocaleString() + ' games</div></div>';
 
 		var isAram = !!ARAM_MAPS[mapName];
 		var modeOptions = isAram

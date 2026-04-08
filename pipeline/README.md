@@ -99,3 +99,20 @@ All written to the configured output directory (default: `data/`).
 | `maps/{slug}.json` | Per-map aggregate with hero and player breakdowns |
 | `matches/{id}.json` | Full match data (one file per match, written during parsing) |
 | `matches/index.json` | Lightweight match index with per-match meta stats (side, first blood, first boss/merc, level lead, chat toxicity classification) for frontend filtering |
+
+## Data filterability rule
+
+All data shown in the frontend must be filterable by the user's active filters (date, season, mode, party size, map). No exceptions. This is a correctness requirement for a statistics dashboard. Showing unfiltered data alongside filtered data produces misleading statistical conclusions.
+
+### How it works
+
+The match index (`data/matches/index.json`) is the single source of truth for filterable data. Each match entry contains per-player stats in `rosterPlayers` so the frontend can re-aggregate any stat from a filtered subset of matches.
+
+Pre-computed aggregates (per-player, per-hero, per-map JSONs and `hall-of-fame.json`) exist as an optimization for the default unfiltered view. They must never be the sole source for any stat that appears in a view with active filters.
+
+### When adding new stats or cards
+
+1. Ensure the raw per-game value exists in the match index `rosterPlayers` entries (either as a top-level field or inside the `hof` dict).
+2. If the stat is a new HoF cumulative category, add it to `_HOF_CUMULATIVE_CATEGORIES` in `aggregate.py` (this automatically adds it to `HOF_INDEX_STAT_KEYS` which `output.py` writes to the match index).
+3. Frontend rendering code must compute the stat from the filtered match index when filters are active, falling back to pre-computed data only when no filters are set.
+4. Never add a "Lifetime total" disclaimer or hide a section as a substitute for making the data filterable.

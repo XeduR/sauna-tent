@@ -129,6 +129,8 @@ The dashboard uses two data paths:
 - **Pre-computed aggregates** (`data/players/`, `data/heroes/`, `data/maps/`): detailed per-player stats, averages, KDA, damage breakdowns, and talent builds. Used by individual profile pages.
 - **Match index** (`data/matches/index.json`): lightweight per-match entries loaded once and cached in memory. Used by all filterable pages to compute stats entirely in JavaScript.
 
+All displayed data must be filterable by the user's active filters. The match index is the single source of truth for filtered views. See `pipeline/README.md` "Data filterability rule" for implementation details.
+
 ## Configuration
 
 `pipeline.json`:

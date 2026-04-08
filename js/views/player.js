@@ -622,7 +622,7 @@ var PlayerView = (function() {
 			'<div class="page-header"><h1>' + escapeHtml(playerData.name) + altBadge + '</h1>' +
 			profileLink +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
-			playerData.overall.games.toLocaleString() + ' games</div></div>';
+			filterMatchesForPlayer(MatchIndexUtils.filter(matchIndex, { noAlts: filters.noAlts })).length.toLocaleString() + ' games</div></div>';
 
 		html += buildPageFilterBar(filters, {
 			mode: true, mapOptions: getAvailableMaps(), partySize: true,
