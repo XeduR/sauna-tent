@@ -680,14 +680,14 @@ Observers appear in `m_playerList` but NOT in tracker events (no PlayerInit). Th
 2. **No ability cooldown tracking**: only activation (SCmdEvent) is recorded, not cooldown state.
 3. **Ability IDs are build-dependent**: `m_abilLink` values change between game builds. No stable mapping exists.
 4. **No talent quest or mastery progress**: replay files do not record quest stack counts, quest completion status, or mastery talent completion. No tracker event, score result, attribute, or game event carries this data. This matches the in-game behavior where talent quest progress is not shown in the end-of-game stats screen either. Which talents are quest or mastery types can be identified from the `TalentChosen` internal names ("Quest" or "Mastery" in the `PurchaseName`), but whether they were completed during the match cannot be determined.
-4. **Position sampling is coarse**: SUnitPositionsEvent fires every ~15 seconds and only for units that dealt or took damage recently.
-5. **Observer ID misalignment**: observers in `m_playerList` can shift player indices. Must cross-reference via ToonHandle.
-6. **heroprotocol --json output**: one JSON object per line, not a valid JSON array. Requires line-by-line parsing.
-7. **SPlayerStatsEvent**: mostly SC2 engine legacy fields. Food values (divide by 4096) are the only HotS-relevant data.
-8. **Revived units**: not tracked by SUnitPositionsEvent after revival in some edge cases.
-9. **Draft event cross-referencing**: SHeroPickedEvent uses Working Set Slot ID, not tracker player ID.
-10. **Localized strings**: hero and map names in `details` are localized to the recording client. Use tracker event internal IDs for language-independent names.
-11. **Battlelobby file**: a separate file (`replay.server.battlelobby`) is created during loading screen but deleted when the client closes. Only HeroesToolChest parsers support it.
+5. **Position sampling is coarse**: SUnitPositionsEvent fires every ~15 seconds and only for units that dealt or took damage recently.
+6. **Observer ID misalignment**: observers in `m_playerList` can shift player indices. Must cross-reference via ToonHandle.
+7. **heroprotocol --json output**: one JSON object per line, not a valid JSON array. Requires line-by-line parsing.
+8. **SPlayerStatsEvent**: mostly SC2 engine legacy fields. Food values (divide by 4096) are the only HotS-relevant data.
+9. **Revived units**: not tracked by SUnitPositionsEvent after revival in some edge cases.
+10. **Draft event cross-referencing**: SHeroPickedEvent uses Working Set Slot ID, not tracker player ID.
+11. **Localized strings**: hero and map names in `details` are localized to the recording client. Use tracker event internal IDs for language-independent names.
+12. **Battlelobby file**: a separate file (`replay.server.battlelobby`) is created during loading screen but deleted when the client closes. Only HeroesToolChest parsers support it.
 
 ## Parsing Tools
 

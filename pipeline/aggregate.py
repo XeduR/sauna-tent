@@ -242,9 +242,10 @@ _HOF_HERO_EXCLUSIONS = {
 _HOF_RECORDS_PER_CATEGORY = 20
 
 # Cumulative player stats to track for hall of fame (summed across all games).
-# These stat keys are also written to the match index (via HOF_INDEX_STAT_KEYS)
-# so the frontend can re-aggregate from filtered matches. Any changes here must
-# be reflected in the frontend's cumulative card rendering (halloffame.js).
+# These stat keys are written to each player's hof dict in the match index (via
+# HOF_INDEX_STAT_KEYS) so the frontend can re-aggregate from filtered matches.
+# Any changes here must be reflected in the frontend's cumulative card rendering
+# (halloffame.js).
 _HOF_CUMULATIVE_CATEGORIES = [
 	("hasAward", "Most End-of-Match Awards"),
 	("awardMVP", "Most MVP Awards"),
@@ -280,7 +281,7 @@ _HOF_DERIVED_CUMULATIVE = [
 
 # Stat keys written to match index rosterPlayers so the frontend can
 # re-aggregate cumulative HoF stats from date-filtered matches.
-# Derived categories (hasMultikill, femaleHero) are handled separately in output.py.
+# Derived categories (hasMultikill, femaleHero) are computed in output.py's _build_match_index_entry.
 HOF_INDEX_STAT_KEYS: list[str] = [key for key, _ in _HOF_CUMULATIVE_CATEGORIES]
 
 # Sentinel threshold re-exported for output.py to skip garbage stat values

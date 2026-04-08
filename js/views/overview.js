@@ -46,7 +46,7 @@ var OverviewView = (function() {
 	}
 
 	function renderMostPlayedHeroes(heroStats) {
-		// Sort by games descending, take top 10
+		// Sort by games descending, take top N (AppSettings.overview.topHeroesCount)
 		var entries = [];
 		for (var hero in heroStats) {
 			entries.push({ hero: hero, games: heroStats[hero].games });

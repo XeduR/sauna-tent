@@ -15,7 +15,7 @@ var MatchView = (function() {
 		{ key: "timeSpentDead", label: "Dead Time" }
 	];
 
-	// DD/MM/YYYY HH:MM for human-readable display. Tables use YYYY-MM-DD (formatDateFinnish) for sortable columns.
+	// DD/MM/YYYY HH:MM for human-readable display. Tables use DD/MM/YYYY (formatDateFinnish).
 	function formatDate(ts) {
 		var d = new Date(ts);
 		return String(d.getDate()).padStart(2, "0") + "/" +

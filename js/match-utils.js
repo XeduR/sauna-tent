@@ -4,8 +4,8 @@
 
 var MatchIndexUtils = (function() {
 	// Filter match index entries by criteria.
-	// `filters.noAlts` excludes matches containing alt players. When undefined,
-	// the global toggle (window.GlobalFilters) provides the default.
+	// Supported keys: noAlts, mode, map, dateFrom, dateTo, seasons, partySize.
+	// noAlts defaults to window.GlobalFilters.getNoAlts() when not explicitly set.
 	function filter(matches, filters) {
 		var noAlts;
 		if (filters.noAlts !== undefined) {

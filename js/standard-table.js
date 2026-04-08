@@ -1,5 +1,5 @@
 // Unified table builder for all standard stat tables.
-// Wraps sortableTable() from app.js and adds visual filter toggles.
+// Wraps sortableTable() from app.js with segment visibility toggles and URL state persistence.
 
 var StandardTable = (function() {
 	// Format function registry (centralizes duplicated fmtWr, fmtNum, etc.)

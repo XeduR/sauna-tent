@@ -28,7 +28,7 @@ Replays from before 7 December 2021 are excluded. This is the start date of Stor
 
 ### Custom game inclusion
 
-Custom games require a full 5-stack of roster players on one team. Games with fewer roster players are excluded during replay processing. See `pipeline/README.md` for all acceptance criteria.
+Custom games require at least 3 roster players in the match, with no alt players. Games with fewer roster players are excluded during replay processing. See `pipeline/README.md` for all acceptance criteria.
 
 ## Usage
 

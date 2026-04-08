@@ -12,6 +12,7 @@ Replay processing pipeline for the Sauna Tent dashboard. Parses `.StormReplay` f
 - **herodata.py**: Static lookup tables mapping heroprotocol internal IDs to display names for heroes, maps, roles, and ARAM map identification.
 - **toxicity.py**: Loads `toxic_keywords.txt` and exposes `is_toxic(message)` for case-insensitive substring matching against chat messages. Keywords are loaded once and cached.
 - **toxic_keywords.txt**: One toxic keyword or phrase per line. Comments start with `#`. Edit this file to adjust toxicity detection without touching code.
+- **update_protocols.py**: Fetches the latest heroprotocol version files from GitHub and updates `tools/heroprotocol/`. Preserves the patched `__init__.py`.
 
 ## Dependencies
 
@@ -93,12 +94,12 @@ All written to the configured output directory (default: `data/`).
 |---|---|
 | `summary.json` | Global stats, most played heroes, game mode/party size breakdowns, meta stats |
 | `roster.json` | Team name and player list with URL slugs |
-| `hall-of-fame.json` | Single-game records, cumulative records, game duration records |
+| `hall-of-fame.json` | Single-game records, game duration records (cumulative records still written by pipeline but not consumed at runtime; frontend recomputes from match index) |
 | `players/{slug}.json` | Per-player aggregate with hero, map, party size breakdowns and builds |
 | `heroes/{slug}.json` | Per-hero aggregate with player breakdown, builds, and tier pick rates |
 | `maps/{slug}.json` | Per-map aggregate with hero and player breakdowns |
 | `matches/{id}.json` | Full match data (one file per match, written during parsing) |
-| `matches/index.json` | Lightweight match index with per-match meta stats (side, first blood, first boss/merc, level lead, chat toxicity classification) for frontend filtering |
+| `matches/index.json` | Match index with per-match meta stats and per-player data (talent choices, HoF stat values) for client-side filtered aggregation |
 
 ## Data filterability rule
 

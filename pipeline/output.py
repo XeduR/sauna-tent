@@ -1,5 +1,5 @@
-# Output file generator. Takes aggregate data and match JSON files, writes
-# dashboard-ready split JSON files: summary, players, heroes, maps, match index.
+# Output file generator. Takes aggregate data and writes dashboard-ready split
+# JSON: summary, roster, players, heroes, maps, hall-of-fame, match index.
 
 import json
 import os

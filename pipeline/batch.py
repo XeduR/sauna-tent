@@ -1,6 +1,6 @@
 # Batch replay processor with manifest-based incremental processing.
 # Scans replay directory, processes new/changed files, skips unchanged ones.
-# Usage: python -m pipeline.batch [--config path] [--output-dir dir] [--reprocess] [--pretty] [--generate]
+# Usage: python -m pipeline.batch [--config path] [--output-dir dir] [--manifest path] [--reprocess] [--pretty] [--generate]
 
 import argparse
 import hashlib
@@ -205,7 +205,7 @@ def process_replays(
 
 	save_manifest(manifest, manifest_path)
 
-	# Remove match JSON files not referenced by any manifest entry
+	# Remove match JSON files not referenced by any manifest entry (noSauna matches have no output file to protect)
 	out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
 	matches_dir = os.path.join(out_dir, "matches")
 	if os.path.isdir(matches_dir):

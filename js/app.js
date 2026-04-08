@@ -424,6 +424,7 @@ function sortableTable(tableId, columns, rows, defaultSortKey, defaultDesc, head
 
 // Aggregate overall stats from grouped entries (heroes, players, maps) that pass minGames.
 // Used to keep overall stats consistent with table rows after minGames filtering.
+// Input entries may use averageDurationSeconds (pre-computed) or avgDuration (match-index-derived).
 function aggregateGroup(entries, minGames) {
 	var o = { games: 0, wins: 0, losses: 0 };
 	var totalKills = 0, totalDeaths = 0, totalAssists = 0, totalDuration = 0;

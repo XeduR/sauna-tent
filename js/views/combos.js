@@ -6,7 +6,7 @@ var CombosView = (function() {
 	var talentData = null;
 	var allHeroes = [];
 	var allyPicks = ["", "", "", "", ""];
-	// Per-slot talent selections: 5 arrays of 7 ints (0 = any, 1-4 = specific talent)
+	// Per-slot talent selections: 5 arrays of 7 ints (0 = any, 1-5 = specific talent)
 	var allyTalents = [null, null, null, null, null];
 
 	function initTalents() {

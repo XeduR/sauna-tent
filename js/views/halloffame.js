@@ -1,4 +1,4 @@
-// Hall of Fame page: top 5 lists for various records and achievements
+// Hall of Fame page: top-N lists for various records and achievements (N from AppSettings)
 var HallOfFameView = (function() {
 	var filters = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
 	var defaults = { mode: "", dateFrom: "", dateTo: "", seasons: "" };
@@ -483,7 +483,7 @@ var HallOfFameView = (function() {
 		}
 		html += '</div></div>';
 
-		// Highest winrate (min 50 games)
+		// Highest winrate (minimum games from AppSettings.hallOfFame.winrateMinGames)
 		var wrPairs = [];
 		for (var name in playerGames) {
 			if (playerGames[name] >= AppSettings.hallOfFame.winrateMinGames) {

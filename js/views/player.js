@@ -598,6 +598,7 @@ var PlayerView = (function() {
 		var mask = getMask();
 
 		var heroes = useFiltered ? computeFilteredHeroes() : playerData.heroes;
+		// partyFilter only applies to pre-computed data; match index recompute handles party size in the filter step
 		var partyFilter = (!useFiltered && filters.partySize) ? filters.partySize : null;
 
 		var o = aggregateHeroes(heroes, minGames, partyFilter);

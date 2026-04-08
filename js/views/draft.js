@@ -208,7 +208,7 @@ var DraftView = (function() {
 			if (!allPresent) continue;
 
 			combo.games++;
-			// For ally combos, win = roster win. For opponent combos, win = roster win (we beat them).
+			// Both ally and opponent combos track roster wins. Opponent combo winrate = how often the roster wins against that combination.
 			if (md.isWin) combo.wins++;
 			else combo.losses++;
 
