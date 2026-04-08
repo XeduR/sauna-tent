@@ -8,6 +8,8 @@ var HeroView = (function() {
 	var heroName = null;
 	var aramMaps = [];
 	var buildsTable = null;
+	var allyTable = null;
+	var heroChart = null;
 	var currentMask = null;
 	var currentWrl = null;
 	var talentData = null;
@@ -350,6 +352,69 @@ var HeroView = (function() {
 		return html;
 	}
 
+	// Count this hero's picks per month from filtered matches
+	function computePopularity(filtered) {
+		var months = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				if (m.rosterPlayers[j].hero === heroName) {
+					var month = m.timestamp.substring(0, 7);
+					months[month] = (months[month] || 0) + 1;
+					break;
+				}
+			}
+		}
+		var sortedMonths = Object.keys(months).sort();
+		var counts = [];
+		for (var i = 0; i < sortedMonths.length; i++) {
+			counts.push(months[sortedMonths[i]]);
+		}
+		return { labels: sortedMonths, data: counts };
+	}
+
+	// Win rates when paired with other heroes on the same team
+	function computeAllyWinRates(filtered) {
+		var allies = {};
+		for (var i = 0; i < filtered.length; i++) {
+			var m = filtered[i];
+			// Find the roster player(s) on this hero and their result
+			var heroResult = null;
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				if (m.rosterPlayers[j].hero === heroName) {
+					heroResult = m.rosterPlayers[j].result;
+					break;
+				}
+			}
+			if (heroResult === null) continue;
+
+			// Record other roster players on the same team (same result)
+			var isWin = heroResult === "win";
+			for (var j = 0; j < m.rosterPlayers.length; j++) {
+				var rp = m.rosterPlayers[j];
+				if (rp.hero === heroName) continue;
+				if (rp.result !== heroResult) continue;
+				if (!allies[rp.hero]) allies[rp.hero] = { games: 0, wins: 0 };
+				allies[rp.hero].games++;
+				if (isWin) allies[rp.hero].wins++;
+			}
+		}
+
+		var rows = [];
+		for (var hero in allies) {
+			var a = allies[hero];
+			rows.push({
+				hero: hero,
+				games: a.games,
+				wins: a.wins,
+				losses: a.games - a.wins,
+				winrate: a.games > 0 ? a.wins / a.games : 0
+			});
+		}
+		rows.sort(function(a, b) { return b.games - a.games; });
+		return rows;
+	}
+
 	function renderContent() {
 		var app = document.getElementById("app");
 		var minGames = filters.minGames !== "" ? Number(filters.minGames) : 0;
@@ -423,7 +488,47 @@ var HeroView = (function() {
 			buildsTable = null;
 		}
 
+		// Popularity over time and ally win rates use the full filtered set
+		var heroFiltered = MatchIndexUtils.filter(matchIndex, filters);
+		var popData = computePopularity(heroFiltered);
+
+		if (heroChart) { heroChart.destroy(); heroChart = null; }
+		if (popData.labels.length >= 2) {
+			html += '<h2 class="section-title">Popularity Over Time</h2>' +
+				'<div class="chart-container"><canvas id="hero-pick-chart"></canvas></div>';
+		}
+
+		var allyRows = computeAllyWinRates(heroFiltered);
+		if (minGames > 0) {
+			var filtered = [];
+			for (var i = 0; i < allyRows.length; i++) {
+				if (allyRows[i].games >= minGames) filtered.push(allyRows[i]);
+			}
+			allyRows = filtered;
+		}
+		if (allyRows.length > 0) {
+			var allyColumns = [
+				{ key: "hero", label: "Hero", format: function(v) {
+					return '<a href="' + appLink('/hero/' + slugify(v)) + '">' + heroIconHtml(v) + escapeHtml(v) + '</a>';
+				}},
+				{ key: "games", label: "Games", className: "num", format: StandardTable.FORMAT.num },
+				{ key: "wins", label: "Wins", className: "num", format: StandardTable.FORMAT.num },
+				{ key: "losses", label: "Losses", className: "num", format: StandardTable.FORMAT.num },
+				{ key: "winrate", label: "Win Rate", className: "num", format: StandardTable.FORMAT.wr }
+			];
+			allyTable = sortableTable("ally-winrate-table", allyColumns, allyRows, "games", true);
+			html += '<h2 class="section-title">Ally Win Rates</h2>' +
+				'<div class="text-muted chart-desc">Showing ' + allyRows.length + ' out of 90 heroes.</div>' +
+				allyTable.buildHTML();
+		} else {
+			allyTable = null;
+		}
+
 		app.innerHTML = html;
+
+		if (popData.labels.length >= 2) {
+			heroChart = ChartUtils.createHeroPickChart("hero-pick-chart", popData.labels, popData.data);
+		}
 		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
 			StandardTable.writeWrlToURL(newWrl);
@@ -439,6 +544,7 @@ var HeroView = (function() {
 			renderContent();
 		}, onWrlChange);
 		if (buildsTable) buildsTable.attachListeners(app);
+		if (allyTable) allyTable.attachListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() {
 			if (filters.map) {
 				var validMaps = getAvailableMaps();

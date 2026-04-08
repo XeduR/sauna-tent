@@ -84,7 +84,54 @@ var ChartUtils = (function() {
 		});
 	}
 
+	// Create a bar chart for a single hero's pick count per month.
+	function createHeroPickChart(canvasId, labels, data) {
+		if (labels.length < 2) return null;
+
+		var chart = TableConfig.CHART;
+		var ctx = document.getElementById(canvasId);
+		if (!ctx) return null;
+
+		return new Chart(ctx, {
+			type: "bar",
+			data: {
+				labels: labels,
+				datasets: [{
+					data: data,
+					backgroundColor: "rgb(59, 130, 246)",
+					borderColor: "rgb(59, 130, 246)",
+					borderWidth: 1,
+					borderRadius: 2
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					x: { ticks: { color: chart.textColor }, grid: { color: chart.gridColor } },
+					y: {
+						beginAtZero: true,
+						ticks: { color: chart.textColor, precision: 0 },
+						grid: { color: chart.gridColor }
+					}
+				},
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						backgroundColor: "rgb(0, 0, 0)",
+						callbacks: {
+							label: function(item) {
+								return item.raw + (item.raw === 1 ? " game" : " games");
+							}
+						}
+					}
+				}
+			}
+		});
+	}
+
 	return {
-		createHeroPopularityChart: createHeroPopularityChart
+		createHeroPopularityChart: createHeroPopularityChart,
+		createHeroPickChart: createHeroPickChart
 	};
 })();
