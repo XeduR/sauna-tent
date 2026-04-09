@@ -158,6 +158,13 @@ var HallOfFameView = (function() {
 		return records.slice(0, topN);
 	}
 
+	function renderUnavailableCard(title, description) {
+		return '<div class="hof-card card">' +
+			'<div class="hof-card-title">' + escapeHtml(title) + '</div>' +
+			descHtml(description) +
+			'<div class="text-muted">This record is not available in the chosen game mode.</div></div>';
+	}
+
 	function renderStatCard(category, records, description) {
 		var label = category.label || category;
 		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
@@ -582,11 +589,16 @@ var HallOfFameView = (function() {
 			if (hasCumStat(cum, "pings")) {
 				html += renderCumulativeCard("Total Pings", cumTopByValue(cum, "pings"), "Pings sent across all games.");
 			}
-			if (hasCumStat(cumCustom, "chatMessagesAll")) {
-				html += renderCumulativeCard("Total All Chat", cumTopByValue(cumCustom, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf".');
+			if (filters.mode !== "" && filters.mode !== "Custom") {
+				html += renderUnavailableCard("Total All Chat", 'Friendly messages sent to other team, e.g. "gl & hf".');
+				html += renderUnavailableCard("Accidental Team Chats", "Team chat in Custom games (probably meant for all chat).");
+			} else {
+				if (hasCumStat(cumCustom, "chatMessagesAll")) {
+					html += renderCumulativeCard("Total All Chat", cumTopByValue(cumCustom, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf".');
+				}
+				html += renderCumulativeCard("Accidental Team Chats", cumTopByValue(cumCustom, "chatMessagesTeam"),
+					"Team chat in Custom games (probably meant for all chat).");
 			}
-			html += renderCumulativeCard("Accidental Team Chats", cumTopByValue(cumCustom, "chatMessagesTeam"),
-				"Team chat in Custom games (probably meant for all chat).");
 			if (hasCumStat(cum, "chatGlhf")) {
 				html += renderPercentCard("Sportsmanlike Start", cumTopByPercent(cum, "chatGlhf"),
 					"Percentage of games where the player greeted with \"gl hf\".", "greetings");
@@ -664,7 +676,9 @@ var HallOfFameView = (function() {
 			html += renderPercentCard("Most Toxic Conversationalist", cumTopByPercent(cum, "chatGamesToxic"),
 				"Percentage of games where the player sent a toxic message.", "toxic games");
 		}
-		if (hasCumStat(cumCustom, "chatOffensiveGg")) {
+		if (filters.mode !== "" && filters.mode !== "Custom") {
+			html += renderUnavailableCard("Offensive GG", "Percentage of Custom games with an early or premature \"gg\".");
+		} else if (hasCumStat(cumCustom, "chatOffensiveGg")) {
 			html += renderPercentCard("Offensive GG", cumTopByPercent(cumCustom, "chatOffensiveGg"),
 				"Percentage of Custom games with an early or premature \"gg\".", "offensive ggs");
 		}
