@@ -10,6 +10,12 @@ A static analytics dashboard for the Heroes of the Storm team "Sauna Tent". Pars
 
 ## Exporting replays
 
+### Automated (project owner)
+
+Double-click `refresh-replays.bat` (or run `python collect_replays.py`). It walks `%USERPROFILE%\Documents\Heroes of the Storm\Accounts`, copies every new `.StormReplay` into the project `replays/` folder, and deduplicates by filename. Originals are preserved.
+
+### Manual (sharing replays with a teammate)
+
 1. Open your Heroes of the Storm documents folder: `%USERPROFILE%\Documents\Heroes of the Storm\Accounts`
 2. Search for `*.StormReplay` using the Windows search bar.
 3. Wait for the search to finish, then select all results and copy them to a temporary folder. Make sure to copy, not cut, so the originals remain in place.
@@ -97,6 +103,30 @@ Any static file server works. The frontend fetches JSON from `data/` via relativ
 
 **GitHub Pages**: The `404.html` redirect handles SPA routing by saving the requested path to `sessionStorage` and redirecting to the deployment root, where `index.html` restores the path via `history.replaceState`.
 
+## Refreshing hero data
+
+Hero stats, ability data, talent names/descriptions, and all hero/talent/ability icons are regenerated from a local HotS install via [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) (HDP), a .NET CLI that reads Blizzard's game files directly. Run this after every HotS patch to keep talent data in sync with the live game.
+
+### Quick start
+
+Double-click `refresh-hero-data.bat` (or run `python generate_hero_data.py`). The default game path is `C:\Games\Heroes of the Storm`; pass a different path as the first argument to the `.bat` (or use `--game-path` on the script) if your install lives elsewhere.
+
+### Prerequisites
+
+1. **.NET 8.0 SDK** (required, install once manually): <https://dotnet.microsoft.com/download/dotnet/8.0> — pick "SDK", x64 Windows installer. The Runtime alone is not enough; the SDK is required to install global tools. The script does not auto-install the SDK because it is system-wide and needs admin elevation.
+2. **HeroesDataParser** (auto-installed on first run): a user-scoped global dotnet tool, installed into `%USERPROFILE%\.dotnet\tools`. The script prompts y/N before installing.
+3. **Pillow** (auto-installed on first run): a Python imaging library used to downscale and re-encode icons. The script prompts y/N before installing.
+
+### What it does
+
+1. Invokes HDP to extract hero data + images from `<game-path>\HeroesData` into `.scratch/hots-data-output/` (gitignored).
+2. Translates HDP's per-hero JSON into the dashboard's flat structures and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`.
+3. Downscales every icon from 128x128 to 64x64 with Lanczos resampling, re-encodes with PNG `optimize=True`, and writes them to `img/hero/{slug}/avatar.png`, `img/hero/{slug}/talent{tier}_{choice}.png`, and `img/hero/{slug}/abilities/{ability-id}.png`. Existing files are MD5-compared against the new output and skipped if identical.
+
+### Skipping HDP
+
+Use `python generate_hero_data.py --skip-parser` to re-translate already-extracted HDP output without rerunning the parser. Useful for iterating on the translator or testing against the bundled HDP sample JSONs under `.scratch/HeroesDataParser-main/Tests/`.
+
 ## Chat Toxicity Detection
 
 The pipeline detects toxic messages in team chat using keyword-based substring matching. The keyword list is in `pipeline/toxic_keywords.txt` (one keyword per line, case-insensitive). Edit this file to adjust what counts as toxic. No code changes needed.
@@ -108,13 +138,13 @@ Toxicity data feeds into:
 
 ## Game Assets
 
-Hero portraits, talent icons, and role icons are in `img/`. These are sourced from Blizzard game assets via the [Heroes Profile](https://github.com/Heroes-Profile/heroesprofile) repository and the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Talent display names are mapped in `data/talent-names.json`. Hero chart colors are defined in `data/hero-colors.json`.
+Hero portraits, talent icons, and ability icons under `img/hero/` are extracted from a local HotS install via HeroesDataParser (see [Refreshing hero data](#refreshing-hero-data)). Role icons under `img/role/` are sourced from the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Hero chart colors are defined in `data/hero-colors.json`.
 
 Game imagery is copyright Blizzard Entertainment.
 
 ### Talent data freshness
 
-Talent names, descriptions, and icons always reflect the latest game patch at the time the pipeline was last run. When a hero receives a talent rework in a new patch, old match results will display the updated talent information rather than what was available when those games were played. This is an accepted limitation. Maintaining version-specific talent mappings for every patch is not practical, and community tools (e.g. Heroes Profile) follow the same approach.
+Talent names, descriptions, and icons always reflect the live game patch at the time `generate_hero_data.py` was last run. When a hero receives a talent rework in a new patch, old match results will display the updated talent information rather than what was available when those games were played. This is an accepted limitation. Maintaining version-specific talent mappings for every patch is not practical, and community tools (e.g. Heroes Profile) follow the same approach.
 
 ## How It Works
 
@@ -156,10 +186,18 @@ All displayed data must be filterable by the user's active filters. The match in
 
 Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date.
 
+## Local scratch directory
+
+`.scratch/` at the project root is a gitignored workspace for files generated by local tooling. Nothing inside is required to build or serve the dashboard, and nothing in it should be committed.
+
+- `.scratch/hots-data-output/` — raw 128x128 JSON and images produced by `generate_hero_data.py` via HeroesDataParser. The same script downscales the icons to 64x64, re-encodes with `optimize=True`, and writes them alongside the translated `data/hero-info.json`, `data/talent-names.json`, `data/talent-descriptions.json`, and per-hero images under `img/hero/{slug}/`.
+
+Other contents that may accumulate here (HotS install snapshots, vendored HeroesDataParser source, debug reports, code reviews) are similarly transient.
+
 ## Data Sources
 
 - **Replay parsing**: [heroprotocol](https://github.com/Blizzard/heroprotocol) by Blizzard Entertainment.
-- **Hero and talent images**: [Heroes Profile](https://github.com/Heroes-Profile/heroesprofile) repository (Blizzard game assets).
+- **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the local HotS install directly (Blizzard game assets).
 - **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
 - **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).
 

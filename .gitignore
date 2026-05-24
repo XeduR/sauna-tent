@@ -3,6 +3,7 @@
 
 # Processing manifest (local state, not served to client)
 manifest.json
+*.log
 
 # Third-party tools fetched at runtime (keep README.md)
 tools/*

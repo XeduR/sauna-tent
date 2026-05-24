@@ -5,16 +5,23 @@ Outputs:
   - data/hero-info.json           (full per-hero reference: stats, abilities, talents)
   - data/talent-names.json        (talent name lookup by hero slug and tier_choice key)
   - data/talent-descriptions.json (talent description lookup, same structure)
-  - img/hero/{slug}/avatar.png    (hero select portrait icon)
-  - img/hero/{slug}/talent{tier}_{choice}.png (talent icons)
-  - img/hero/{slug}/abilities/{nameId-slug}.png (ability icons)
+  - img/hero/{slug}/avatar.png    (hero select portrait icon, 64x64)
+  - img/hero/{slug}/talent{tier}_{choice}.png (talent icons, 64x64)
+  - img/hero/{slug}/abilities/{nameId-slug}.png (ability icons, 64x64)
 
 Source: HeroesDataParser (https://github.com/HeroesToolChest/HeroesDataParser)
-extracts JSON + images directly from the live HotS game files.
+extracts JSON + images directly from the live HotS game files. HDP emits images
+at 128x128; this script downscales them to 64x64 and re-encodes the PNGs with
+optimisation enabled to roughly halve dashboard payload size.
 
 Prerequisites (one-time, on the machine that runs HDP):
-  1. Install .NET 8.0 SDK or Runtime: https://dotnet.microsoft.com/download/dotnet/8.0
-  2. dotnet tool install --global HeroesDataParser
+  1. Install the .NET 8.0 SDK manually: https://dotnet.microsoft.com/download/dotnet/8.0
+     The Runtime alone is not enough; the SDK is required to install global tools.
+     This script intentionally does not auto-install the SDK (system-wide, needs admin).
+  2. HeroesDataParser itself is auto-installed on first run after a y/N prompt.
+     To install manually:  dotnet tool install --global HeroesDataParser
+  3. Pillow (Python imaging) is auto-installed on first run after a y/N prompt.
+     To install manually:  pip install Pillow
 
 In the dev container, dotnet is not installed. Use --skip-parser to translate
 pre-extracted HDP output (e.g. from a Windows run, or the bundled test samples
@@ -27,7 +34,9 @@ Usage:
 """
 
 import argparse
+import glob
 import hashlib
+import io
 import json
 import os
 import re
@@ -37,8 +46,9 @@ import sys
 
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-DEFAULT_GAME_PATH = os.path.join(_PROJECT_ROOT, ".scratch", "Heroes of the Storm")
-DEFAULT_HDP_OUTPUT = os.path.join(_PROJECT_ROOT, ".scratch", "hots-data-output")
+SCRATCH_DIR = os.path.join(_PROJECT_ROOT, ".scratch")
+DEFAULT_GAME_PATH = os.path.join(SCRATCH_DIR, "Heroes of the Storm")
+DEFAULT_HDP_OUTPUT = os.path.join(SCRATCH_DIR, "hots-data-output")
 DEFAULT_DATA_DIR = os.path.join(_PROJECT_ROOT, "data")
 DEFAULT_IMG_DIR = os.path.join(_PROJECT_ROOT, "img", "hero")
 
@@ -52,6 +62,11 @@ ABILITY_CATEGORIES = ("basic", "heroic", "trait")
 
 # HDP groups talents under levelN keys. Tiers map level# -> tier index used in our keys.
 TALENT_LEVELS = (1, 4, 7, 10, 13, 16, 20)
+
+# HDP emits 128x128 icons; the dashboard uses 64x64. Downscale + re-encode with
+# Pillow's optimize flag (light, lossless) cuts each PNG to roughly the size of
+# the pre-HDP icons that previously shipped in img/hero/.
+TARGET_IMAGE_SIZE = (64, 64)
 
 
 def slugify(name: str) -> str:
@@ -80,27 +95,135 @@ def file_hash(path: str) -> str | None:
         return hashlib.md5(f.read()).hexdigest()
 
 
-def copy_if_changed(src: str, dst: str, dry_run: bool) -> bool:
-    """Copy src -> dst if hashes differ. Returns True if a copy happened/would happen."""
+def encode_resized_png(src: str) -> bytes:
+    """Load src, downscale to TARGET_IMAGE_SIZE, return optimised PNG bytes."""
+    from PIL import Image
+    with Image.open(src) as im:
+        if im.mode not in ("RGBA", "RGB", "LA", "L"):
+            im = im.convert("RGBA")
+        if im.size != TARGET_IMAGE_SIZE:
+            im = im.resize(TARGET_IMAGE_SIZE, Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, format="PNG", optimize=True)
+        return buf.getvalue()
+
+
+def process_image_if_changed(src: str, dst: str, dry_run: bool) -> bool:
+    """Resize+re-encode src and write to dst if the resulting bytes differ from dst."""
     if not os.path.exists(src):
         return False
-    if file_hash(src) == file_hash(dst):
+    new_bytes = encode_resized_png(src)
+    if hashlib.md5(new_bytes).hexdigest() == file_hash(dst):
         return False
     if not dry_run:
         os.makedirs(os.path.dirname(dst), exist_ok=True)
-        shutil.copy2(src, dst)
+        with open(dst, "wb") as f:
+            f.write(new_bytes)
     return True
+
+
+def ensure_pillow() -> None:
+    """Import Pillow, prompting to pip-install it if missing."""
+    try:
+        import PIL  # noqa: F401
+        return
+    except ImportError:
+        pass
+    print("Pillow (PIL) is not installed. It is required to downscale and re-encode icons.")
+    if not prompt_yes_no("Install Pillow now?"):
+        raise SystemExit(
+            "Aborted. To install manually:\n"
+            "  pip install Pillow"
+        )
+    print("Installing Pillow ...")
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "Pillow"],
+        check=True,
+    )
+    print("Pillow installed.")
+
+
+SDK_GUIDANCE = (
+    "The .NET 8.0 SDK must be installed manually before HeroesDataParser can be installed\n"
+    "or run. The SDK is system-wide and requires admin elevation, so this script does\n"
+    "not auto-install it.\n"
+    "\n"
+    "Download (pick 'SDK', x64 Windows installer):\n"
+    "  https://dotnet.microsoft.com/download/dotnet/8.0\n"
+    "\n"
+    "After install, open a NEW terminal and re-run this script."
+)
+
+
+def list_dotnet_sdks() -> list[str]:
+    """Return installed .NET SDK version lines, or empty if runtime-only or dotnet missing."""
+    try:
+        result = subprocess.run(
+            ["dotnet", "--list-sdks"], capture_output=True, text=True, check=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+    return [line for line in result.stdout.splitlines() if line.strip()]
+
+
+def is_hdp_installed() -> bool:
+    """Check whether HeroesDataParser is registered as a global dotnet tool."""
+    try:
+        result = subprocess.run(
+            ["dotnet", "tool", "list", "--global"],
+            capture_output=True, text=True, check=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+    return any("heroesdataparser" in line.lower() for line in result.stdout.splitlines())
+
+
+def prompt_yes_no(message: str) -> bool:
+    """Read a y/N answer from stdin. Default no; only 'y'/'Y' counts as yes."""
+    try:
+        answer = input(f"{message} [y/N]: ").strip().lower()
+    except EOFError:
+        return False
+    return answer == "y"
+
+
+def install_hdp() -> None:
+    """Install HeroesDataParser as a global dotnet tool. Raises CalledProcessError on failure."""
+    print("Installing HeroesDataParser ...")
+    subprocess.run(
+        ["dotnet", "tool", "install", "--global", "HeroesDataParser"],
+        check=True,
+    )
+    print("HeroesDataParser installed.")
 
 
 def run_hdp(game_path: str, output_dir: str) -> None:
     """Invoke HeroesDataParser. Raises CalledProcessError on failure."""
     if shutil.which("dotnet") is None:
+        raise SystemExit("ERROR: 'dotnet' was not found on PATH.\n\n" + SDK_GUIDANCE)
+
+    if not list_dotnet_sdks():
         raise SystemExit(
-            "ERROR: 'dotnet' not found in PATH. Install .NET 8.0 and run\n"
-            "  dotnet tool install --global HeroesDataParser\n"
-            "Or pass --skip-parser to translate an existing HDP output directory."
+            "ERROR: no .NET SDK is installed (the runtime alone cannot install global tools).\n\n"
+            + SDK_GUIDANCE
         )
+
+    if not is_hdp_installed():
+        print("HeroesDataParser is not installed as a global dotnet tool.")
+        print(r"It will be installed into %USERPROFILE%\.dotnet\tools (user-scoped, no admin).")
+        if not prompt_yes_no("Install HeroesDataParser now?"):
+            raise SystemExit(
+                "Aborted. To install manually:\n"
+                "  dotnet tool install --global HeroesDataParser"
+            )
+        install_hdp()
+
+    # Resolve to absolute paths so the cwd switch below doesn't break them.
+    game_path = os.path.abspath(game_path)
+    output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(SCRATCH_DIR, exist_ok=True)
+
     cmd = [
         "dotnet", "heroes-data", game_path,
         "-e", "herodata",
@@ -110,27 +233,34 @@ def run_hdp(game_path: str, output_dir: str) -> None:
         "-o", output_dir,
     ]
     print(f"Running: {' '.join(cmd)}")
-    subprocess.run(cmd, check=True)
+    # CASCExplorer (inside HDP) writes debug.log via a relative path, so it lands
+    # in the process CWD. Run HDP from .scratch/ to keep that log out of the
+    # project root.
+    subprocess.run(cmd, check=True, cwd=SCRATCH_DIR)
 
 
 def discover_hero_files(hdp_output: str) -> list[str]:
-    """Return absolute paths to per-hero JSON files in HDP output."""
-    # HDP writes to either <output>/json/ (default) or directly into <output>
-    # depending on version. Check both.
-    candidates = (
-        os.path.join(hdp_output, "json"),
-        hdp_output,
-    )
-    for d in candidates:
+    """Return absolute paths to per-hero JSON files in HDP output.
+
+    Real HDP CLI output with --file-split lands at:
+      <output>/json/splitfiles-{build}-{loc}/herodata/{hero}.json
+    The bundled HDP test samples use a flat <output>/*.json layout.
+    """
+    split_pattern = os.path.join(hdp_output, "json", "splitfiles-*", "herodata", "*.json")
+    split_files = sorted(glob.glob(split_pattern))
+    if split_files:
+        return split_files
+
+    for d in (os.path.join(hdp_output, "json"), hdp_output):
         if not os.path.isdir(d):
             continue
-        files = sorted(
+        flat = sorted(
             os.path.join(d, f) for f in os.listdir(d)
             if f.endswith(".json") and not f.startswith("jsongamestring")
             and not f.startswith("jsonoutput")
         )
-        if files:
-            return files
+        if flat:
+            return flat
     return []
 
 
@@ -262,13 +392,14 @@ def sync_hero_images(
     abilities_synced = 0
     missing = 0
 
-    # Portrait (heroSelect variant, per user choice in plan).
-    portrait_file = (hero.get("portraits") or {}).get("heroSelect")
+    # Target portrait: rectangular framed headshot used in-game when a unit is selected.
+    # Chosen over heroSelect (circular hero-pick button) for the dashboard avatar.
+    portrait_file = (hero.get("portraits") or {}).get("target")
     if portrait_file:
         src = os.path.join(portraits_dir, portrait_file)
         dst = os.path.join(hero_dir, "avatar.png")
         if os.path.exists(src):
-            if copy_if_changed(src, dst, dry_run):
+            if process_image_if_changed(src, dst, dry_run):
                 portraits_synced += 1
         else:
             missing += 1
@@ -282,7 +413,7 @@ def sync_hero_images(
             src = os.path.join(talents_dir, icon)
             dst = os.path.join(hero_dir, f"talent{tier}_{i}.png")
             if os.path.exists(src):
-                if copy_if_changed(src, dst, dry_run):
+                if process_image_if_changed(src, dst, dry_run):
                     talents_synced += 1
             else:
                 missing += 1
@@ -298,7 +429,7 @@ def sync_hero_images(
             src = os.path.join(abilities_dir, icon)
             dst = os.path.join(hero_dir, "abilities", slugify(name_id) + ".png")
             if os.path.exists(src):
-                if copy_if_changed(src, dst, dry_run):
+                if process_image_if_changed(src, dst, dry_run):
                     abilities_synced += 1
             else:
                 missing += 1
@@ -332,6 +463,8 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true",
                         help="Report actions without writing")
     args = parser.parse_args()
+
+    ensure_pillow()
 
     if not args.skip_parser:
         run_hdp(args.game_path, args.hdp_output)
