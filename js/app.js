@@ -114,7 +114,7 @@ function formatNumber(n) {
 
 // Must match pipeline's slugify exactly: lowercase, spaces to dashes, strip apostrophes and dots
 function slugify(name) {
-	return name.toLowerCase().replace(/ /g, "-").replace(/'/g, "").replace(/\./g, "");
+	return name.toLowerCase().replace(/ /g, "-").replace(/['’]/g, "").replace(/\./g, "");
 }
 
 // Icon helpers
