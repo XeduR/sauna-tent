@@ -720,6 +720,9 @@ var HallOfFameView = (function() {
 		app.innerHTML = '<div class="loading">Loading Hall of Fame...</div>';
 
 		setNoAltsToggleDisabled(true);
+		// HoF ignores the global noAlts toggle, so the `na` URL param is meaningless here.
+		// Underlying GlobalFilters state and localStorage are preserved; only the URL is cleaned.
+		GlobalFilters.stripNoAltsFromURL();
 
 		try {
 			var results = await Promise.all([Data.hallOfFame(), Data.matchIndex(), Data.settings()]);
@@ -732,5 +735,12 @@ var HallOfFameView = (function() {
 		}
 	}
 
-	return { render: render, restoreNoAltsToggle: function() { setNoAltsToggleDisabled(false); } };
+	// Called by Router before dispatching any view so HoF's overrides
+	// don't leak into the next page (toggle disabled state, missing `na` param).
+	function restoreNoAltsToggle() {
+		setNoAltsToggleDisabled(false);
+		GlobalFilters.writeNoAltsToURL();
+	}
+
+	return { render: render, restoreNoAltsToggle: restoreNoAltsToggle };
 })();

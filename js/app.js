@@ -1,11 +1,22 @@
 // Shared utility functions and app initialization
 
 // Global filter state: applies to every view via MatchIndexUtils and
-// each view's hasDataFilters() check. Persists in localStorage.
+// each view's hasDataFilters() check. URL `na` overrides localStorage,
+// which overrides the hardcoded default (alts hidden).
 var GlobalFilters = (function() {
 	var KEY = "sauna-tent-no-alts";
-	var stored = localStorage.getItem(KEY);
-	var noAlts = stored === null ? true : stored === "true";
+	var URL_KEY = "na";
+	var DEFAULT_NO_ALTS = true;
+
+	var urlVal = new URLSearchParams(window.location.search).get(URL_KEY);
+	var noAlts;
+	if (urlVal === "1" || urlVal === "0") {
+		noAlts = urlVal === "1";
+		localStorage.setItem(KEY, String(noAlts));
+	} else {
+		var stored = localStorage.getItem(KEY);
+		noAlts = stored === null ? DEFAULT_NO_ALTS : stored === "true";
+	}
 
 	function getNoAlts() { return noAlts; }
 
@@ -14,7 +25,35 @@ var GlobalFilters = (function() {
 		localStorage.setItem(KEY, String(noAlts));
 	}
 
-	return { getNoAlts: getNoAlts, setNoAlts: setNoAlts };
+	// Sync `na` query param with current state, omitting the default.
+	function writeNoAltsToURL() {
+		var params = new URLSearchParams(window.location.search);
+		if (noAlts === DEFAULT_NO_ALTS) {
+			params.delete(URL_KEY);
+		} else {
+			params.set(URL_KEY, noAlts ? "1" : "0");
+		}
+		var qs = params.toString();
+		var newURL = window.location.pathname + (qs ? "?" + qs : "");
+		history.replaceState(null, "", newURL);
+	}
+
+	// Remove `na` from URL without changing stored state (for HoF view).
+	function stripNoAltsFromURL() {
+		var params = new URLSearchParams(window.location.search);
+		if (!params.has(URL_KEY)) return;
+		params.delete(URL_KEY);
+		var qs = params.toString();
+		var newURL = window.location.pathname + (qs ? "?" + qs : "");
+		history.replaceState(null, "", newURL);
+	}
+
+	return {
+		getNoAlts: getNoAlts,
+		setNoAlts: setNoAlts,
+		writeNoAltsToURL: writeNoAltsToURL,
+		stripNoAltsFromURL: stripNoAltsFromURL,
+	};
 })();
 window.GlobalFilters = GlobalFilters;
 
@@ -881,6 +920,7 @@ function setupGlobalNoAltsToggle() {
 	toggle.checked = GlobalFilters.getNoAlts();
 	toggle.addEventListener("change", function() {
 		GlobalFilters.setNoAlts(this.checked);
+		GlobalFilters.writeNoAltsToURL();
 		renderPlayersNavMenu();
 		Router.refresh();
 	});

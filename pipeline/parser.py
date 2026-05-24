@@ -65,6 +65,13 @@ _TALENT_TIERS = [
 	b"Tier5Talent", b"Tier6Talent", b"Tier7Talent",
 ]
 
+# Core score-result stats every player must have post-parse. Missing all of
+# these signals a wssi/slot misalignment rather than a disconnected player.
+_REQUIRED_STATS = (
+	"takedowns", "kills", "deaths",
+	"heroDamage", "siegeDamage", "damageTaken", "xpContribution",
+)
+
 # Talent tier levels where breakpoints matter for level lead tracking
 _TALENT_TIER_LEVELS = frozenset({4, 7, 10, 13, 16, 20})
 
@@ -349,22 +356,27 @@ def parse_replay(replay_path: str) -> dict:
 							category = _classify_killer_unit(killer_type)
 							death_sources[pi][category] = death_sources[pi].get(category, 0) + 1
 
-			# Score results
+			# Score results.
+			# m_values is a 16-slot array indexed by Working Set Slot ID (wssi),
+			# NOT by filtered player index. wssi is non-contiguous when a lobby
+			# slot is left open (e.g. wssi 0-6, 8, 10, 15 for 10 players), so
+			# using pi as the slot index silently mis-attributes data.
 			elif event_type == "NNet.Replay.Tracker.SScoreResultEvent":
 				for inst in event["m_instanceList"]:
 					stat_name = inst["m_name"]
+					values_list = inst["m_values"]
 
 					if stat_name in _SCORE_STATS:
 						field = _SCORE_STATS[stat_name]
-						for pi in range(num_players):
-							val = _extract_score_value(inst["m_values"], pi)
+						for wssi, pi in wssi_to_idx.items():
+							val = _extract_score_value(values_list, wssi)
 							if val is not None:
 								players[pi]["stats"][field] = val
 
 					elif stat_name in _TALENT_TIERS:
 						tier_idx = _TALENT_TIERS.index(stat_name)
-						for pi in range(num_players):
-							val = _extract_score_value(inst["m_values"], pi)
+						for wssi, pi in wssi_to_idx.items():
+							val = _extract_score_value(values_list, wssi)
 							if val is not None:
 								choices = players[pi]["talentChoices"]
 								while len(choices) <= tier_idx:
@@ -373,8 +385,8 @@ def parse_replay(replay_path: str) -> dict:
 
 					# End-of-match awards (booleans, 0 or 1 per player)
 					elif stat_name.startswith(b"EndOfMatchAward"):
-						for pi in range(num_players):
-							val = _extract_score_value(inst["m_values"], pi)
+						for wssi, pi in wssi_to_idx.items():
+							val = _extract_score_value(values_list, wssi)
 							if val and val == 1:
 								if stat_name == b"EndOfMatchAwardMVPBoolean":
 									players[pi]["stats"]["awardMVP"] = 1
@@ -602,6 +614,20 @@ def parse_replay(replay_path: str) -> dict:
 		# ARAM: Amm+stan on an ARAM-exclusive map
 		if game_mode == "QuickMatch" and tracker_map_id in ARAM_MAP_IDS:
 			game_mode = "ARAM"
+
+	# Integrity check: every player must have core score stats. Missing all
+	# of them typically means wssi/slot misalignment in SScoreResultEvent.
+	missing_score_players = [
+		f"{p['name']} (hero={p['hero']})"
+		for p in players
+		if all(field not in p["stats"] for field in _REQUIRED_STATS)
+	]
+	if missing_score_players:
+		raise ValueError(
+			f"Score data missing for {len(missing_score_players)} player(s): "
+			f"{', '.join(missing_score_players)}. "
+			f"Likely cause: SScoreResultEvent wssi/slot mismatch."
+		)
 
 	# Compute KDA for each player
 	for p in players:
