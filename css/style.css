@@ -500,6 +500,12 @@ th.num {
 	margin-top: 0;
 }
 
+.section-description {
+	margin-top: -0.4rem;
+	margin-bottom: 0.8rem;
+	font-size: 0.9rem;
+}
+
 
 /* Player cards */
 .player-card {

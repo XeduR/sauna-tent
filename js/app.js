@@ -266,7 +266,8 @@ function attachAllSortableListeners(container) {
 // Shared match factor / level lead rendering (used by overview, player, map pages).
 // conditionSortFn, when provided, takes a condition string and returns a numeric
 // sort value so callers can override the default alphabetic sort.
-function renderMetaFactorTable(title, dataRows, conditionSortFn) {
+// descriptionHTML, when provided, is inserted between the heading and the table.
+function renderMetaFactorTable(title, dataRows, conditionSortFn, descriptionHTML) {
 	_metaTableCounter++;
 	var tableId = "meta-table-" + _metaTableCounter;
 
@@ -302,7 +303,8 @@ function renderMetaFactorTable(title, dataRows, conditionSortFn) {
 
 	var table = sortableTable(tableId, columns, rows, "condition", false, headerGroups);
 	registerSortableTable(table);
-	return '<h2 class="section-title">' + title + '</h2>' + table.buildHTML();
+	var description = descriptionHTML ? descriptionHTML : "";
+	return '<h2 class="section-title">' + title + '</h2>' + description + table.buildHTML();
 }
 
 function renderLevelLeadTable(levelLead) {

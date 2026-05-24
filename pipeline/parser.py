@@ -113,6 +113,9 @@ _GLHF_PATTERNS = frozenset({"gl", "hf", "gl hf", "gl & hf", "glhf"})
 _GG_PATTERNS = frozenset({"gg", "ggs"})
 _GLHF_THRESHOLD_LOOPS = 60 * _LOOPS_PER_SECOND
 _GG_EARLY_BUFFER_LOOPS = 15 * _LOOPS_PER_SECOND
+# Messages within this window before match end are treated as post-result
+# pleasantries and excluded from Overview win-rate chat classification.
+_CHAT_LATE_GAME_LOOPS = 60 * _LOOPS_PER_SECOND
 
 
 def _normalize_chat(text: str) -> str:
@@ -480,6 +483,9 @@ def parse_replay(replay_path: str) -> dict:
 	if message_content and hasattr(protocol, "decode_replay_message_events"):
 		disconnected = set()
 		chat_records = []
+		# Negative threshold (short matches) makes every message "late", which
+		# correctly excludes all chat from the win-rate classification.
+		chat_late_threshold = elapsed_loops - _CHAT_LATE_GAME_LOOPS
 		for event in protocol.decode_replay_message_events(message_content):
 			event_name = event.get("_event", "")
 			userid = event.get("_userid")
@@ -492,26 +498,35 @@ def parse_replay(replay_path: str) -> dict:
 					# Skip observer-only messages (recipient 4)
 					if recipient == 4:
 						continue
-					players[player_idx]["stats"].setdefault("chatMessages", 0)
-					players[player_idx]["stats"]["chatMessages"] += 1
+					gameloop = event.get("_gameloop", 0)
+					is_late = gameloop >= chat_late_threshold
+					stats = players[player_idx]["stats"]
+					stats.setdefault("chatMessages", 0)
+					stats["chatMessages"] += 1
 					if recipient == 0:
-						players[player_idx]["stats"].setdefault("chatMessagesAll", 0)
-						players[player_idx]["stats"]["chatMessagesAll"] += 1
+						stats.setdefault("chatMessagesAll", 0)
+						stats["chatMessagesAll"] += 1
 					elif recipient == 1:
-						players[player_idx]["stats"].setdefault("chatMessagesTeam", 0)
-						players[player_idx]["stats"]["chatMessagesTeam"] += 1
+						stats.setdefault("chatMessagesTeam", 0)
+						stats["chatMessagesTeam"] += 1
+						if is_late:
+							stats.setdefault("chatMessagesTeamLate", 0)
+							stats["chatMessagesTeamLate"] += 1
 
 					# Toxicity detection on message text
 					raw_text = event.get("m_string", b"")
 					text = _decode_bytes(raw_text) if isinstance(raw_text, bytes) else str(raw_text)
 					if text and is_toxic(text):
-						players[player_idx]["stats"].setdefault("chatToxicMessages", 0)
-						players[player_idx]["stats"]["chatToxicMessages"] += 1
+						stats.setdefault("chatToxicMessages", 0)
+						stats["chatToxicMessages"] += 1
+						if is_late:
+							stats.setdefault("chatToxicMessagesLate", 0)
+							stats["chatToxicMessagesLate"] += 1
 
 					# Retain per-message metadata for behaviour analysis
 					if text:
 						chat_records.append((
-							event.get("_gameloop", 0),
+							gameloop,
 							player_idx,
 							text,
 						))

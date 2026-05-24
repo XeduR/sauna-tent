@@ -210,7 +210,11 @@ var OverviewView = (function() {
 		if (chatStats.toxicOther.games > 0) rows.push(["Toxic Chat (Non-Roster)", chatStats.toxicOther]);
 		if (chatStats.toxicMixed.games > 0) rows.push(["Toxic Chat (Mixed)", chatStats.toxicMixed]);
 		if (rows.length === 0) return "";
-		return renderMetaFactorTable("Chat Statistics", rows);
+		var description = '<p class="text-muted section-description">' +
+			'Chat sent in the final 60 seconds of a match is excluded from these stats. ' +
+			'A "gg" after the game is already decided should not count as chat that affected the outcome.' +
+			'</p>';
+		return renderMetaFactorTable("Chat Statistics", rows, null, description);
 	}
 
 	function renderContent() {

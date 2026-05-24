@@ -170,8 +170,11 @@ def _build_match_index_entry(match: dict) -> dict:
 					entry["rosterFirstPick"] = first_pick_team == roster_team_id
 				break
 
-	# Chat toxicity classification for the roster team
-	# Examines all players on the roster's team (not just roster members)
+	# Chat toxicity classification for the roster team.
+	# Examines all players on the roster's team (not just roster members).
+	# Subtracts the final-60s window (post-result pleasantries like "gg") so
+	# the win-rate stats only reflect chat that could have influenced play.
+	# HoF reads the unadjusted *Team / *Toxic fields directly and is unaffected.
 	if roster_team_id is not None:
 		had_team_chat = False
 		has_toxic_roster = False
@@ -180,9 +183,11 @@ def _build_match_index_entry(match: dict) -> dict:
 			if p["team"] != roster_team_id:
 				continue
 			s = p.get("stats", {})
-			if s.get("chatMessagesTeam", 0) > 0:
+			effective_team_chat = s.get("chatMessagesTeam", 0) - s.get("chatMessagesTeamLate", 0)
+			effective_toxic = s.get("chatToxicMessages", 0) - s.get("chatToxicMessagesLate", 0)
+			if effective_team_chat > 0:
 				had_team_chat = True
-			if s.get("chatToxicMessages", 0) > 0:
+			if effective_toxic > 0:
 				if p.get("isRoster"):
 					has_toxic_roster = True
 				else:
