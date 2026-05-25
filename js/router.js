@@ -40,6 +40,9 @@ var Router = (function() {
 				if (typeof HallOfFameView !== "undefined" && HallOfFameView.restoreNoAltsToggle) {
 					HallOfFameView.restoreNoAltsToggle();
 				}
+				if (typeof HeroInfoView !== "undefined" && HeroInfoView.restoreNoAltsToggle) {
+					HeroInfoView.restoreNoAltsToggle();
+				}
 				routes[i].handler.apply(null, params);
 				updateActiveNav(path);
 				window.scrollTo(0, 0);
@@ -68,6 +71,7 @@ var Router = (function() {
 		if (path === "/") section = "overview";
 		else if (path === "/players" || path.indexOf("/player/") === 0) section = "players";
 		else if (path === "/heroes" || path.indexOf("/hero/") === 0) section = "heroes";
+		else if (path === "/hero-info" || path.indexOf("/hero-info/") === 0) section = "hero-info";
 		else if (path === "/maps" || path.indexOf("/map/") === 0) section = "maps";
 		else if (path.indexOf("/match") === 0) section = "matches";
 		else if (path === "/hall-of-fame") section = "hall-of-fame";

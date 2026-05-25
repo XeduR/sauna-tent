@@ -72,6 +72,10 @@ var Data = (function() {
 		return fetchJSON("talent-descriptions.json");
 	}
 
+	function heroInfo() {
+		return fetchJSON("hero-info.json");
+	}
+
 	function seasons() {
 		return fetchJSON("seasons.json");
 	}
@@ -95,6 +99,7 @@ var Data = (function() {
 		heroColors: heroColors,
 		talentNames: talentNames,
 		talentDescriptions: talentDescriptions,
+		heroInfo: heroInfo,
 		seasons: seasons,
 		settings: settings
 	};

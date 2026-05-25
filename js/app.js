@@ -63,6 +63,26 @@ function escapeHtml(str) {
 	return div.innerHTML;
 }
 
+// Strip HotS in-game tooltip markup and resolve per-level scaling markers.
+// - <base>~~<scale>~~ becomes the scaled integer (base * (1 + scale * level)).
+// - <s val=".."> / <c val=".."> wrappers are stripped, inner text kept.
+// - <n/> becomes <br>. Everything else is HTML-escaped.
+// Returns HTML-safe markup with <br> tokens preserved as line breaks.
+function cleanHotsText(str, level) {
+	if (!str) return "";
+	var lvl = Number(level) || 0;
+	var out = String(str);
+	out = out.replace(/(\d+(?:\.\d+)?)~~(\d+(?:\.\d+)?)~~/g, function(match, base, scale) {
+		var scaled = parseFloat(base) * (1 + parseFloat(scale) * lvl);
+		return String(Math.round(scaled));
+	});
+	out = out.replace(/<n\/>/g, "__HOTS_BR__");
+	out = out.replace(/<[^>]+>/g, "");
+	out = escapeHtml(out);
+	out = out.replace(/__HOTS_BR__/g, "<br>");
+	return out;
+}
+
 function formatWinrate(rate) {
 	return (rate * 100).toFixed(1) + "%";
 }
@@ -141,9 +161,12 @@ function talentIconHtml(heroName, tierIndex, choice, talentData) {
 	var descs = talentData && talentData.descriptions ? talentData.descriptions[slug] : null;
 	var name = names ? names[key] || "" : "";
 	var desc = descs ? descs[key] || "" : "";
+	// cleanHotsText returns HTML-safe markup (with <br> tokens) for the tooltip body.
+	// The attribute value still needs HTML-attribute escaping (quotes), so wrap it.
+	var descHtml = cleanHotsText(desc, 0).replace(/"/g, "&quot;");
 
 	return '<span class="talent-tip" data-tip-name="' + escapeHtml(name) +
-		'" data-tip-desc="' + escapeHtml(desc) + '">' +
+		'" data-tip-desc="' + descHtml + '">' +
 		'<img class="talent-icon" src="' + src + '" alt=""></span>';
 }
 
@@ -184,7 +207,12 @@ function initTalentTooltip() {
 		nameEl.textContent = name;
 		talentTooltip.innerHTML = "";
 		talentTooltip.appendChild(nameEl);
-		if (desc) talentTooltip.appendChild(document.createTextNode(desc));
+		if (desc) {
+			// desc is pre-sanitised by cleanHotsText (HTML-escaped, <br> preserved).
+			var descEl = document.createElement("div");
+			descEl.innerHTML = desc;
+			talentTooltip.appendChild(descEl);
+		}
 		talentTooltip.style.display = "block";
 		positionTooltip(tip);
 	});
@@ -597,6 +625,34 @@ function buildPageFilterBar(filters, options) {
 		html += '</select></div>';
 	}
 
+	if (options.roleOptions) {
+		html += '<div class="filter-field">' +
+			'<label for="pf-role">Role</label>' +
+			'<select id="pf-role">' +
+			'<option value="">All</option>';
+		for (var ri = 0; ri < options.roleOptions.length; ri++) {
+			var r = options.roleOptions[ri];
+			html += '<option value="' + escapeHtml(r) + '"' +
+				(filters.role === r ? ' selected' : '') + '>' +
+				escapeHtml(r) + '</option>';
+		}
+		html += '</select></div>';
+	}
+
+	if (options.franchiseOptions) {
+		html += '<div class="filter-field">' +
+			'<label for="pf-franchise">Franchise</label>' +
+			'<select id="pf-franchise">' +
+			'<option value="">All</option>';
+		for (var fi = 0; fi < options.franchiseOptions.length; fi++) {
+			var fr = options.franchiseOptions[fi];
+			html += '<option value="' + escapeHtml(fr) + '"' +
+				(filters.franchise === fr ? ' selected' : '') + '>' +
+				escapeHtml(fr) + '</option>';
+		}
+		html += '</select></div>';
+	}
+
 	if (options.dateFrom) {
 		html += '<div class="filter-field">' +
 			'<label for="pf-date-from">From</label>' +
@@ -641,7 +697,10 @@ var FILTER_URL_KEYS = {
 	dateTo: "dt",
 	minGames: "mg",
 	search: "q",
-	seasons: "s"
+	seasons: "s",
+	role: "r",
+	franchise: "f",
+	scaleLevel: "sl"
 };
 
 function readFiltersFromURL(filters, defaults) {
@@ -713,6 +772,8 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 	var reset = container.querySelector(".page-filter-reset");
 
 	var map = container.querySelector("#pf-map");
+	var role = container.querySelector("#pf-role");
+	var franchise = container.querySelector("#pf-franchise");
 	var search = container.querySelector("#pf-search");
 
 	var seasonBtn = container.querySelector("#pf-season-btn");
@@ -764,6 +825,8 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 		onChange();
 	});
 	if (map) map.addEventListener("change", function() { filters.map = this.value; onChange(); });
+	if (role) role.addEventListener("change", function() { filters.role = this.value; onChange(); });
+	if (franchise) franchise.addEventListener("change", function() { filters.franchise = this.value; onChange(); });
 	if (search) search.addEventListener("input", function() {
 		var val = this.value;
 		filters.search = val;
@@ -1039,6 +1102,8 @@ Router.add("/players", function() { PlayersView.render(); });
 Router.add("/player/:slug", function(slug) { PlayerView.render(slug); });
 Router.add("/heroes", function() { HeroesMainView.render(); });
 Router.add("/hero/:slug", function(slug) { HeroView.render(slug); });
+Router.add("/hero-info", function() { HeroInfoView.render(); });
+Router.add("/hero-info/:slug", function(slug) { HeroInfoDetailView.render(slug); });
 Router.add("/maps", function() { MapsMainView.render(); });
 Router.add("/map/:slug", function(slug) { MapView.render(slug); });
 Router.add("/matches", function() { MatchesView.render(); });

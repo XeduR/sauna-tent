@@ -56,6 +56,8 @@ body {
 	color: var(--text);
 	line-height: 1.5;
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 a {
@@ -276,6 +278,8 @@ a.nav-brand:hover {
 	max-width: 1400px;
 	margin-left: auto;
 	margin-right: auto;
+	flex: 1;
+	width: 100%;
 }
 
 /* Cards */
@@ -1267,6 +1271,270 @@ tfoot {
 	margin-top: 0.15rem;
 }
 
+/* Hero Info */
+.hero-info-controls-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	align-items: start;
+	margin-bottom: 1rem;
+}
+
+@media (max-width: 720px) {
+	.hero-info-controls-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+.hero-info-level-pane {
+	padding: 0.75rem 1rem;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+.hero-info-level-pane h3 {
+	margin: 0 0 0.25rem;
+	font-size: 1.1rem;
+}
+
+.hero-info-level-pane p {
+	margin: 0 0 0.5rem;
+	color: var(--text-muted);
+	font-size: 0.9rem;
+}
+
+.hero-info-notes {
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.8rem 1rem;
+	margin-top: 2rem;
+	font-size: 0.85rem;
+	color: var(--text-muted);
+}
+
+.hero-info-notes-title {
+	color: var(--text);
+	font-weight: 600;
+	margin-bottom: 0.4rem;
+}
+
+.hero-info-notes h4 {
+	margin: 1rem 0 0.5rem;
+	font-size: 1rem;
+	color: var(--accent);
+}
+
+.hero-info-notes ul {
+	margin: 0;
+	padding-left: 1.2rem;
+}
+
+.hero-info-notes li {
+	margin-bottom: 0.25rem;
+}
+
+.hero-info-notes code {
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	background: var(--bg);
+	padding: 0.05rem 0.3rem;
+	border-radius: var(--radius);
+}
+
+.hero-info-cross-link {
+	margin-top: 0.4rem;
+	font-size: 0.85rem;
+}
+
+.hero-info-detail-controls {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-bottom: 1rem;
+	flex-wrap: wrap;
+}
+
+.hero-info-detail-hint {
+	font-size: 0.8rem;
+}
+
+.hero-info-detail-hint code {
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	background: var(--bg-card);
+	padding: 0.05rem 0.3rem;
+	border-radius: var(--radius);
+}
+
+.hero-info-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+	justify-content: start;
+}
+
+.hero-info-stat-block {
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.8rem 1rem;
+	width: min(420px, 100%);
+	box-sizing: border-box;
+}
+
+.hero-info-section-title {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: var(--accent);
+	margin: 1.5rem 0 0.75rem;
+}
+
+.hero-info-section-title:first-child {
+	margin-top: 0;
+}
+
+.hero-info-talents-section {
+	border-top: 1px solid var(--border);
+	margin-top: 2rem;
+	padding-top: 1.5rem;
+}
+
+.hero-info-form-label {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--accent);
+	margin-bottom: 0.5rem;
+	padding-bottom: 0.4rem;
+	border-bottom: 1px solid var(--border);
+}
+
+.hero-info-stat-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.25rem 0;
+	font-size: 0.9rem;
+}
+
+.hero-info-stat-label {
+	color: var(--text-muted);
+}
+
+.hero-info-stat-value {
+	color: var(--text);
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.hero-info-ability-group {
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--text);
+	margin-top: 1.2rem;
+	margin-bottom: 0.6rem;
+}
+
+.hero-info-ability-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 0.8rem;
+}
+
+.hero-info-ability-card,
+.hero-info-talent-card {
+	display: flex;
+	gap: 0.8rem;
+	background: var(--bg-card);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.8rem;
+}
+
+.hero-info-ability-icon,
+.hero-info-talent-icon {
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius);
+	background: var(--bg);
+}
+
+.hero-info-ability-body,
+.hero-info-talent-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.hero-info-ability-head,
+.hero-info-talent-head {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.3rem;
+	flex-wrap: wrap;
+}
+
+.hero-info-ability-type,
+.hero-info-talent-type {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--accent);
+	background: var(--accent-muted);
+	padding: 0.1rem 0.4rem;
+	border-radius: var(--radius);
+	letter-spacing: 0.04em;
+}
+
+.hero-info-talent-quest {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--text);
+	background: color-mix(in srgb, var(--win) 20%, transparent);
+	padding: 0.1rem 0.4rem;
+	border-radius: var(--radius);
+	letter-spacing: 0.04em;
+}
+
+.hero-info-ability-name,
+.hero-info-talent-name {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--text);
+}
+
+.hero-info-ability-meta {
+	font-size: 0.78rem;
+	color: var(--text-muted);
+}
+
+.hero-info-ability-desc,
+.hero-info-talent-desc {
+	font-size: 0.85rem;
+	color: var(--text);
+	margin-top: 0.3rem;
+	line-height: 1.5;
+}
+
+.hero-info-talent-tier {
+	margin-bottom: 1rem;
+}
+
+.hero-info-talent-tier-label {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--accent);
+	margin-bottom: 0.5rem;
+}
+
+.hero-info-talent-tier-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 0.6rem;
+}
+
 /* Combos Tool */
 .combo-layout {
 	display: flex;
@@ -1837,6 +2105,8 @@ tfoot {
 	padding: 2rem 1rem;
 	color: var(--text-muted);
 	font-size: 0.85rem;
+	border-top: 1px solid var(--border);
+	margin-top: 2rem;
 }
 
 #site-footer a {

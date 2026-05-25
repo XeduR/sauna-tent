@@ -443,7 +443,10 @@ var HeroView = (function() {
 		var html =
 			'<div class="page-header"><h1>' + heroIconHtml(heroData.name, "lg") + escapeHtml(heroData.name) + '</h1>' +
 			'<div class="subtitle">' + o.games.toLocaleString() + ' out of ' +
-			heroData.overall.games.toLocaleString() + ' games</div></div>';
+			heroData.overall.games.toLocaleString() + ' games</div>' +
+			'<div class="hero-info-cross-link">' +
+			'<a href="' + appLink('/hero-info/' + slugify(heroData.name)) + '">View game reference for ' + escapeHtml(heroData.name) + '</a>' +
+			'</div></div>';
 
 		html += buildPageFilterBar(filters, {
 			mode: true, partySize: true, dateFrom: true, dateTo: true,
