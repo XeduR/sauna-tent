@@ -314,6 +314,14 @@ var HeroInfoView = (function() {
 		var sortKey = prevSort ? prevSort.key : "name";
 		var sortDesc = prevSort ? prevSort.desc : false;
 		var table = sortableTable("hero-info-table", columns, filteredRows, sortKey, sortDesc);
+		html += '<div class="table-search">' +
+			buildSearchInputHtml({
+				id: "table-search-hero-info",
+				value: filters.search || "",
+				placeholder: "e.g. Tychus",
+				ariaLabel: "Search hero info"
+			}) +
+			'</div>';
 		html += table.buildHTML();
 
 		html += '<div class="hero-info-notes">' +
@@ -345,6 +353,9 @@ var HeroInfoView = (function() {
 		app.innerHTML = html;
 		table.attachListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
+		wireSearchInput(document.getElementById("table-search-hero-info"), app, filters, function() {
+			renderContent();
+		});
 		attachLevelListener(app);
 	}
 

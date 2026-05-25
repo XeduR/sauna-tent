@@ -75,6 +75,14 @@ var MapsMainView = (function() {
 
 		html += '<h2 class="section-title">All Maps</h2>';
 		html += table.buildToggles();
+		html += '<div class="table-search">' +
+			buildSearchInputHtml({
+				id: "table-search-maps",
+				value: filters.search || "",
+				placeholder: "e.g. Infernal",
+				ariaLabel: "Search maps"
+			}) +
+			'</div>';
 		html += table.buildHTML();
 
 		// Overall match factors and level lead
@@ -179,6 +187,9 @@ var MapsMainView = (function() {
 		}, onWrlChange);
 		attachAllSortableListeners(app);
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex); });
+		wireSearchInput(document.getElementById("table-search-maps"), app, filters, function() {
+			renderContent(matchIndex);
+		});
 	}
 
 	async function render() {

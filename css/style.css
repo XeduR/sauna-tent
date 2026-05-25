@@ -1166,6 +1166,16 @@ tfoot {
 	border-color: var(--accent);
 }
 
+/* Table-top mirror of the filter-bar search input */
+.table-search {
+	margin: 0 0 0.75rem;
+}
+
+.table-search .filter-search {
+	width: 260px;
+	max-width: 100%;
+}
+
 /* Min games filter input */
 .filter-min-games {
 	background: var(--bg);

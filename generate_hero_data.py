@@ -328,7 +328,6 @@ def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]]) -> dict:
     weapons = hero.get("weapons") or []
     primary = weapons[0] if weapons else {}
     life = hero.get("life") or {}
-    armor_hero = (hero.get("armor") or {}).get("hero") or {}
 
     talents_out: dict[str, dict] = {}
     for tier, talents in talents_by_tier.items():
@@ -354,11 +353,6 @@ def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]]) -> dict:
         "healthScale": life.get("scale", 0),
         "healthRegen": life.get("regenRate", 0),
         "healthRegenScale": life.get("regenScale", 0),
-        "armor": {
-            "basic": armor_hero.get("basic", 0),
-            "ability": armor_hero.get("ability", 0),
-            "splash": armor_hero.get("splash", 0),
-        },
         "attackRange": primary.get("range"),
         "attackSpeed": primary.get("period"),
         "attackDamage": primary.get("damage"),

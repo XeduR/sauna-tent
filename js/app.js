@@ -63,6 +63,38 @@ function escapeHtml(str) {
 	return div.innerHTML;
 }
 
+// Build a search <input> with the shared .filter-search styling. Returns just the
+// input; the caller wraps it (filter-bar uses a labelled .filter-field, the
+// table-top mirror uses .table-search).
+function buildSearchInputHtml(params) {
+	var html = '<input type="text" id="' + escapeHtml(params.id) +
+		'" value="' + escapeHtml(params.value || "") +
+		'" placeholder="' + escapeHtml(params.placeholder || "") +
+		'" class="filter-search"';
+	if (params.ariaLabel) {
+		html += ' aria-label="' + escapeHtml(params.ariaLabel) + '"';
+	}
+	return html + '>';
+}
+
+// Wire a search input to filters.search and trigger onChange on every keystroke.
+// After re-render, focus is restored to whichever input fired the event (by id),
+// preserving caret position so typing continues uninterrupted.
+function wireSearchInput(input, container, filters, onChange) {
+	if (!input) return;
+	input.addEventListener("input", function() {
+		var val = this.value;
+		var sourceId = this.id;
+		filters.search = val;
+		onChange();
+		var refreshed = container.querySelector("#" + sourceId);
+		if (refreshed) {
+			refreshed.focus();
+			refreshed.setSelectionRange(val.length, val.length);
+		}
+	});
+}
+
 // Strip HotS in-game tooltip markup and resolve per-level scaling markers.
 // - <base>~~<scale>~~ becomes the scaled integer (base * (1 + scale * level)).
 // - <s val=".."> / <c val=".."> wrappers are stripped, inner text kept.
@@ -72,9 +104,9 @@ function cleanHotsText(str, level) {
 	if (!str) return "";
 	var lvl = Number(level) || 0;
 	var out = String(str);
-	out = out.replace(/(\d+(?:\.\d+)?)~~(\d+(?:\.\d+)?)~~/g, function(match, base, scale) {
+	out = out.replace(/(\d+(?:\.\d+)?)(%?)~~(\d+(?:\.\d+)?)~~/g, function(match, base, pct, scale) {
 		var scaled = parseFloat(base) * (1 + parseFloat(scale) * lvl);
-		return String(Math.round(scaled));
+		return String(Math.round(scaled)) + pct;
 	});
 	out = out.replace(/<n\/>/g, "__HOTS_BR__");
 	out = out.replace(/<[^>]+>/g, "");
@@ -679,8 +711,11 @@ function buildPageFilterBar(filters, options) {
 	if (options.search) {
 		html += '<div class="filter-field">' +
 			'<label for="pf-search">Search</label>' +
-			'<input type="text" id="pf-search" value="' + escapeHtml(filters.search || "") +
-			'" placeholder="' + escapeHtml(options.searchPlaceholder || "") + '" class="filter-search">' +
+			buildSearchInputHtml({
+				id: "pf-search",
+				value: filters.search || "",
+				placeholder: options.searchPlaceholder || ""
+			}) +
 			'</div>';
 	}
 
@@ -827,17 +862,7 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 	if (map) map.addEventListener("change", function() { filters.map = this.value; onChange(); });
 	if (role) role.addEventListener("change", function() { filters.role = this.value; onChange(); });
 	if (franchise) franchise.addEventListener("change", function() { filters.franchise = this.value; onChange(); });
-	if (search) search.addEventListener("input", function() {
-		var val = this.value;
-		filters.search = val;
-		onChange();
-		// Restore focus after re-render since onChange rebuilds the DOM
-		var newSearch = container.querySelector("#pf-search");
-		if (newSearch) {
-			newSearch.focus();
-			newSearch.setSelectionRange(val.length, val.length);
-		}
-	});
+	wireSearchInput(search, container, filters, onChange);
 	if (minGames) {
 		var commitMinGames = function() {
 			var val = minGames.value.trim();

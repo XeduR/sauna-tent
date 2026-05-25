@@ -117,9 +117,19 @@ var HeroesMainView = (function() {
 		var partyContext = wrl === "full" ? { showAll: true, filterPartySize: filters.partySize || null } : null;
 		var table = StandardTable.create("heroes-main", rows, { mask: mask, partyContext: partyContext, wrl: wrl });
 
+		var tableSearchHtml = '<div class="table-search">' +
+			buildSearchInputHtml({
+				id: "table-search-heroes",
+				value: filters.search || "",
+				placeholder: "e.g. Murky",
+				ariaLabel: "Search heroes"
+			}) +
+			'</div>';
+
 		var tableHtml = '<div id="heroes-table-section">' +
 			'<h2 class="section-title">All Heroes</h2>' +
 			table.buildToggles() +
+			tableSearchHtml +
 			table.buildHTML() +
 			'</div>';
 
@@ -140,6 +150,10 @@ var HeroesMainView = (function() {
 
 			attachPageFilterListeners(app, filters, defaults, function() { renderContent(matchIndex, summary); });
 		}
+
+		wireSearchInput(document.getElementById("table-search-heroes"), app, filters, function() {
+			renderContent(matchIndex, summary);
+		});
 
 		var onWrlChange = function(newWrl, newMask) {
 			currentWrl = newWrl;
