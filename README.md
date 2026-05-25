@@ -140,8 +140,6 @@ Toxicity data feeds into:
 
 Hero portraits, talent icons, and ability icons under `img/hero/` are extracted from a local HotS install via HeroesDataParser (see [Refreshing hero data](#refreshing-hero-data)). Role icons under `img/role/` are sourced from the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Hero chart colors are defined in `data/hero-colors.json`.
 
-Game imagery is copyright Blizzard Entertainment.
-
 ### Talent data freshness
 
 Talent names, descriptions, and icons always reflect the live game patch at the time `generate_hero_data.py` was last run. When a hero receives a talent rework in a new patch, old match results will display the updated talent information rather than what was available when those games were played. This is an accepted limitation. Maintaining version-specific talent mappings for every patch is not practical, and community tools (e.g. Heroes Profile) follow the same approach.
@@ -200,6 +198,10 @@ Other contents that may accumulate here (HotS install snapshots, vendored Heroes
 - **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the local HotS install directly (Blizzard game assets).
 - **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
 - **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).
+
+## Trademarks
+
+All Heroes of the Storm content surfaced by this dashboard, including hero, ability, talent, and map names; ability and talent text and descriptions; hero portraits, ability icons, talent icons, and role imagery; and other in-game text and assets, is the property of Blizzard Entertainment, Inc. Heroes of the Storm is a trademark of Blizzard Entertainment, Inc. This is my personal project and it is not affiliated with or endorsed by Blizzard Entertainment in any way.
 
 ## License
 
