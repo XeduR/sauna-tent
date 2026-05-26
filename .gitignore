@@ -5,9 +5,14 @@
 manifest.json
 *.log
 
-# Third-party tools fetched at runtime (keep README.md)
+# Third-party tools (keep README.md and the vendored replay-parser-cs source)
 tools/*
 !tools/README.md
+!tools/replay-parser-cs/
+
+# C# build artefacts for the vendored sidecar
+tools/replay-parser-cs/bin/
+tools/replay-parser-cs/obj/
 
 # Python
 __pycache__/

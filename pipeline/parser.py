@@ -1,113 +1,26 @@
-# Core replay parser module. Wraps heroprotocol to extract structured data
-# from a single .StormReplay file.
+# Replay parser. Spawns the heroes-replay-parser-cs sidecar (a dotnet global
+# tool) to do all MPQ + protocol decoding, then applies Sauna Tent analysis
+# on top: hero/map name resolution, ARAM detection, KDA, chat toxicity,
+# glhf/gg behaviour flags, integrity checks.
 
-import re
-import sys
+import json
 import os
-from datetime import datetime, timezone
-
-import mpyq
-
-# heroprotocol is not pip-installable; add it to sys.path
-_HEROPROTOCOL_PATH = os.path.join(
-	os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-	"tools", "heroprotocol"
-)
-if _HEROPROTOCOL_PATH not in sys.path:
-	sys.path.insert(0, _HEROPROTOCOL_PATH)
-
-from heroprotocol.versions import build, latest
+import re
+import shutil
+import subprocess
 
 from pipeline.herodata import HERO_NAMES, MAP_NAMES, ARAM_MAP_IDS
 from pipeline.toxicity import is_toxic
 
-# Windows FILETIME epoch offset (100-ns intervals between 1601-01-01 and 1970-01-01)
-_FILETIME_EPOCH_DIFF = 116444736000000000
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_TOOL_COMMAND = "heroes-replay-parser-cs"
+_PARSER_SOURCE_DIR = os.path.join(_PROJECT_ROOT, "tools", "replay-parser-cs")
+_NUPKG_DIR = os.path.join(_PARSER_SOURCE_DIR, "nupkg")
 
 # Game runs at 16 loops per second
 _LOOPS_PER_SECOND = 16
 
-# Score result stats to extract, mapped to output field names
-_SCORE_STATS = {
-	b"SoloKill": "kills",
-	b"Deaths": "deaths",
-	b"Assists": "assists",
-	b"HeroDamage": "heroDamage",
-	b"SiegeDamage": "siegeDamage",
-	b"StructureDamage": "structureDamage",
-	b"Healing": "healing",
-	b"SelfHealing": "selfHealing",
-	b"DamageTaken": "damageTaken",
-	b"ExperienceContribution": "xpContribution",
-	b"TimeSpentDead": "timeSpentDead",
-	b"MercCampCaptures": "mercCaptures",
-	b"CreepDamage": "creepDamage",
-	b"SummonDamage": "summonDamage",
-	b"TimeCCdEnemyHeroes": "timeCCdEnemyHeroes",
-	b"DamageSoaked": "damageSoaked",
-	b"HighestKillStreak": "highestKillStreak",
-	b"ProtectionGivenToAllies": "protectionGiven",
-	b"TeamfightHeroDamage": "teamfightHeroDamage",
-	b"TeamfightDamageTaken": "teamfightDamageTaken",
-	b"TeamfightHealingDone": "teamfightHealing",
-	b"MinionKills": "minionKills",
-	b"RegenGlobes": "regenGlobes",
-	b"Multikill": "multikill",
-	b"PhysicalDamage": "physicalDamage",
-	b"SpellDamage": "spellDamage",
-	b"Takedowns": "takedowns",
-	b"OnFireTimeOnFire": "timeOnFire",
-}
-
-# Talent tier stat names (1-indexed choice within each tier)
-_TALENT_TIERS = [
-	b"Tier1Talent", b"Tier2Talent", b"Tier3Talent", b"Tier4Talent",
-	b"Tier5Talent", b"Tier6Talent", b"Tier7Talent",
-]
-
-# Core score-result stats every player must have post-parse. Missing all of
-# these signals a wssi/slot misalignment rather than a disconnected player.
-_REQUIRED_STATS = (
-	"takedowns", "kills", "deaths",
-	"heroDamage", "siegeDamage", "damageTaken", "xpContribution",
-)
-
-# Talent tier levels where breakpoints matter for level lead tracking
-_TALENT_TIER_LEVELS = frozenset({4, 7, 10, 13, 16, 20})
-
-# JungleCampCapture camp type classification
-_BOSS_CAMP_TYPE = "Boss Camp"
-
-# Game mode detection from global attribute scope
-# 3009: matchmaking type, 4010: lobby mode
-# Amm+stan can be QM or ARAM (distinguished by map after tracker parsing)
-_GAME_MODE_MAP = {
-	(b"Amm", b"drft"): "StormLeague",
-	(b"Amm", b"stan"): "QuickMatch",
-	(b"Priv", b"drft"): "Custom",
-	(b"Priv", b"tour"): "Custom",
-	(b"Priv", b"stan"): "CustomStandard",
-}
-
-
-# Death source classification for non-player kills
-_MINION_UNIT_TYPES = frozenset({
-	"FootmanMinion", "RangedMinion", "WizardMinion", "CatapultMinion",
-})
-
-_STRUCTURE_UNIT_TYPES = frozenset({
-	"KingsCore", "VanndarStormpike", "DrekThar",
-})
-
-_DEATH_SOURCE_STAT_KEYS = {
-	"minion": "deathsByMinions",
-	"merc": "deathsByMercs",
-	"structure": "deathsByStructures",
-	"monster": "deathsByMonsters",
-}
-
-
-# Chat behaviour analysis: sportsmanlike greetings and offensive gg
+# Chat behaviour analysis
 _CHAT_NORMALIZE_RE = re.compile(r"[^a-z0-9 &]")
 _GLHF_PATTERNS = frozenset({"gl", "hf", "gl hf", "gl & hf", "glhf"})
 _GG_PATTERNS = frozenset({"gg", "ggs"})
@@ -117,56 +30,302 @@ _GG_EARLY_BUFFER_LOOPS = 15 * _LOOPS_PER_SECOND
 # pleasantries and excluded from Overview win-rate chat classification.
 _CHAT_LATE_GAME_LOOPS = 60 * _LOOPS_PER_SECOND
 
+# Library emits StormGameMode.ToString() which is a [Flags] enum. When more
+# than one bit is set, ToString produces a comma-separated string; this
+# tuple is the resolution priority (most specific first).
+_GAME_MODE_PRIORITY = (
+	"ARAM", "StormLeague", "HeroLeague", "TeamLeague", "UnrankedDraft",
+	"Brawl", "Cooperative", "QuickMatch", "Custom", "Event",
+	"TryMe", "Practice",
+)
+
+_SDK_GUIDANCE = (
+	"The .NET 8.0 SDK must be installed before heroes-replay-parser-cs can be\n"
+	"installed or run. Download (pick 'SDK', x64 Windows installer):\n"
+	"  https://dotnet.microsoft.com/download/dotnet/8.0\n"
+	"\n"
+	"After install, open a NEW terminal and re-run."
+)
+
 
 def _normalize_chat(text: str) -> str:
-	"""Normalize chat text for pattern matching: lowercase, strip non-alnum."""
+	"""Lowercase + strip non-alnum for pattern matching."""
 	return " ".join(_CHAT_NORMALIZE_RE.sub("", text.strip().lower()).split())
 
 
-def _classify_killer_unit(unit_type: str) -> str:
-	"""Classify a non-player killer unit into a death source category."""
-	if unit_type in _MINION_UNIT_TYPES:
-		return "minion"
-	if unit_type.startswith("Merc"):
-		return "merc"
-	if unit_type in _STRUCTURE_UNIT_TYPES or unit_type.startswith("Town"):
-		return "structure"
-	return "monster"
+def _resolve_game_mode(game_mode: str, lobby_mode: str, map_internal_id: str | None) -> str:
+	"""Resolve the C#-emitted game mode into the dashboard's expected string."""
+	if not game_mode:
+		return "Unknown"
+
+	# Flags enum may emit "ARAM, QuickMatch" if multiple bits are set.
+	if "," in game_mode:
+		parts = {p.strip() for p in game_mode.split(",")}
+		for candidate in _GAME_MODE_PRIORITY:
+			if candidate in parts:
+				game_mode = candidate
+				break
+		else:
+			game_mode = "Unknown"
+
+	# Preserve historical "CustomStandard" / "CustomDraft" labels. Downstream
+	# aggregate.py and output.py filter on both as distinct game modes.
+	if game_mode == "Custom":
+		if lobby_mode == "Standard":
+			return "CustomStandard"
+		if lobby_mode in ("Draft", "TournamentDraft"):
+			return "CustomDraft"
+
+	# Belt-and-suspenders ARAM fallback in case the library tags an ARAM
+	# replay as QuickMatch.
+	if game_mode == "QuickMatch" and map_internal_id and map_internal_id in ARAM_MAP_IDS:
+		return "ARAM"
+
+	return game_mode
 
 
-def _decode_bytes(value):
-	"""Decode bytes to str, handling heroprotocol's mixed bytes/str output."""
-	if isinstance(value, bytes):
-		return value.decode("utf-8", errors="replace")
-	return value
+def is_parser_installed() -> bool:
+	"""Check whether heroes-replay-parser-cs is registered as a global dotnet tool."""
+	try:
+		result = subprocess.run(
+			["dotnet", "tool", "list", "--global"],
+			capture_output=True, text=True, check=True,
+		)
+	except (subprocess.CalledProcessError, FileNotFoundError):
+		return False
+	return any(_TOOL_COMMAND in line.lower() for line in result.stdout.splitlines())
 
 
-def _filetime_to_iso(filetime: int) -> str:
-	"""Convert Windows FILETIME to ISO 8601 UTC string."""
-	unix_timestamp = (filetime - _FILETIME_EPOCH_DIFF) / 10_000_000
-	dt = datetime.fromtimestamp(unix_timestamp, tz=timezone.utc)
-	return dt.isoformat()
+def _list_dotnet_sdks() -> list[str]:
+	"""Return installed .NET SDK version lines (empty if dotnet missing or runtime-only)."""
+	try:
+		result = subprocess.run(
+			["dotnet", "--list-sdks"], capture_output=True, text=True, check=True,
+		)
+	except (subprocess.CalledProcessError, FileNotFoundError):
+		return []
+	return [line for line in result.stdout.splitlines() if line.strip()]
 
 
-def _extract_score_value(values_list: list, player_index: int) -> int | None:
-	"""Extract a single score value for a player from the score result array.
+def _prompt_yes_no(message: str) -> bool:
+	try:
+		answer = input(f"{message} [y/N]: ").strip().lower()
+	except EOFError:
+		return False
+	return answer == "y"
 
-	The values array has 16 slots (10 players + 6 empty). Each non-empty
-	slot contains a list of time-stamped values; we take the final one.
+
+def _nupkg_exists() -> bool:
+	"""True if at least one .nupkg file is present in the nupkg directory."""
+	if not os.path.isdir(_NUPKG_DIR):
+		return False
+	return any(name.endswith(".nupkg") for name in os.listdir(_NUPKG_DIR))
+
+
+def _pack_parser() -> None:
+	"""Run `dotnet pack` in the sidecar source directory to produce the nupkg."""
+	if not os.path.isdir(_PARSER_SOURCE_DIR):
+		raise SystemExit(
+			f"Cannot build: parser source directory missing: {_PARSER_SOURCE_DIR}"
+		)
+	print(f"Building {_TOOL_COMMAND} (dotnet pack)...")
+	subprocess.run(
+		["dotnet", "pack", "-c", "Release", "-o", _NUPKG_DIR],
+		cwd=_PARSER_SOURCE_DIR, check=True,
+	)
+
+
+def _install_parser() -> None:
+	"""Install heroes-replay-parser-cs as a global dotnet tool, building the nupkg if needed."""
+	if not _nupkg_exists():
+		_pack_parser()
+	print(f"Installing {_TOOL_COMMAND} ...")
+	subprocess.run(
+		["dotnet", "tool", "install", "--global", "--add-source", _NUPKG_DIR, _TOOL_COMMAND],
+		check=True,
+	)
+	print(f"{_TOOL_COMMAND} installed.")
+
+
+def ensure_parser_available() -> None:
+	"""Verify dotnet + the parser tool are available; prompt to install the tool if missing.
+
+	Aborts via SystemExit if dotnet itself is missing or the user declines.
+	Intended for one-shot startup checks (batch.py); parse_replay does not
+	call this itself to avoid per-replay overhead.
 	"""
-	if player_index >= len(values_list):
-		return None
-	entries = values_list[player_index]
-	if not entries:
-		return None
-	return entries[-1]["m_value"]
+	if shutil.which("dotnet") is None:
+		raise SystemExit("ERROR: 'dotnet' was not found on PATH.\n\n" + _SDK_GUIDANCE)
+	if not _list_dotnet_sdks():
+		raise SystemExit(
+			"ERROR: no .NET SDK is installed (the runtime alone cannot install global tools).\n\n"
+			+ _SDK_GUIDANCE
+		)
+	if is_parser_installed():
+		return
+	print(f"{_TOOL_COMMAND} is not installed as a global dotnet tool.")
+	print(r"It will be installed into %USERPROFILE%\.dotnet\tools (user-scoped, no admin).")
+	if not _prompt_yes_no(f"Install {_TOOL_COMMAND} now? (builds the nupkg via dotnet pack if missing)"):
+		raise SystemExit(
+			"Aborted. To install manually:\n"
+			f"  cd tools/replay-parser-cs && dotnet pack -c Release -o ./nupkg\n"
+			f"  dotnet tool install --global --add-source ./nupkg {_TOOL_COMMAND}"
+		)
+	_install_parser()
 
 
-def _detect_game_mode(global_scope: dict) -> str:
-	"""Detect game mode from global attribute scope."""
-	matchmaking = (global_scope.get(3009) or [{}])[0].get("value", b"").strip()
-	lobby = (global_scope.get(4010) or [{}])[0].get("value", b"").strip()
-	return _GAME_MODE_MAP.get((matchmaking, lobby), "Unknown")
+def _run_sidecar(replay_path: str) -> dict:
+	"""Invoke the C# sidecar and return its JSON output as a dict."""
+	try:
+		proc = subprocess.run(
+			[_TOOL_COMMAND, replay_path],
+			capture_output=True, text=True, encoding="utf-8",
+		)
+	except FileNotFoundError as e:
+		raise ValueError(
+			f"Replay parser binary not found on PATH: {_TOOL_COMMAND}. "
+			"Run `dotnet tool install --global --add-source tools/replay-parser-cs/nupkg heroes-replay-parser-cs`."
+		) from e
+
+	if proc.returncode != 0:
+		raise ValueError(
+			f"Replay parser failed (exit {proc.returncode}): {proc.stderr.strip()}"
+		)
+
+	try:
+		return json.loads(proc.stdout)
+	except json.JSONDecodeError as e:
+		raise ValueError(f"Replay parser emitted invalid JSON: {e}") from e
+
+
+def _trim_talents(choices: list) -> list:
+	"""Drop trailing None entries to match the variable-length output of the
+	old Python parser (which only populated up to the highest tier reached)."""
+	end = len(choices)
+	while end > 0 and choices[end - 1] is None:
+		end -= 1
+	return choices[:end]
+
+
+def _apply_chat_analysis(players: list, chat_records: list, elapsed_loops: int, game_mode: str) -> None:
+	"""Run toxicity + glhf + offensive-gg analysis from raw chat records."""
+	num_players = len(players)
+	chat_late_threshold = elapsed_loops - _CHAT_LATE_GAME_LOOPS
+
+	for record in chat_records:
+		player_idx = record["playerIndex"]
+		if player_idx < 0 or player_idx >= num_players:
+			continue
+		gameloop = record.get("gameloop", 0)
+		recipient = record["recipient"]
+		text = record.get("text") or ""
+		is_late = gameloop >= chat_late_threshold
+		stats = players[player_idx]["stats"]
+
+		stats["chatMessages"] = stats.get("chatMessages", 0) + 1
+		if recipient == 0:
+			stats["chatMessagesAll"] = stats.get("chatMessagesAll", 0) + 1
+		elif recipient == 1:
+			stats["chatMessagesTeam"] = stats.get("chatMessagesTeam", 0) + 1
+			if is_late:
+				stats["chatMessagesTeamLate"] = stats.get("chatMessagesTeamLate", 0) + 1
+
+		if text and is_toxic(text):
+			stats["chatToxicMessages"] = stats.get("chatToxicMessages", 0) + 1
+			if is_late:
+				stats["chatToxicMessagesLate"] = stats.get("chatToxicMessagesLate", 0) + 1
+
+	# Per-player clean/toxic game flags for HoF/HoS
+	for p in players:
+		s = p["stats"]
+		total_chat = s.get("chatMessages", 0)
+		toxic_chat = s.get("chatToxicMessages", 0)
+		if total_chat > 0 and toxic_chat == 0:
+			s["chatGamesClean"] = 1
+		if toxic_chat > 0:
+			s["chatGamesToxic"] = 1
+
+	# Sportsmanlike greeting in first 60 seconds
+	for record in chat_records:
+		if record.get("gameloop", 0) > _GLHF_THRESHOLD_LOOPS:
+			continue
+		text = record.get("text") or ""
+		if _normalize_chat(text) in _GLHF_PATTERNS:
+			pi = record["playerIndex"]
+			if 0 <= pi < num_players:
+				players[pi]["stats"]["chatGlhf"] = 1
+
+	# Offensive gg only meaningful in custom games (all-chat available)
+	if game_mode != "Custom":
+		return
+
+	winning_team = None
+	losing_team = None
+	for p in players:
+		if p["result"] == "win":
+			winning_team = p["team"]
+		elif p["result"] == "loss":
+			losing_team = p["team"]
+		if winning_team is not None and losing_team is not None:
+			break
+
+	gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
+
+	loser_first_gg_loop = None
+	if losing_team is not None:
+		for record in sorted(chat_records, key=lambda r: r.get("gameloop", 0)):
+			text = record.get("text") or ""
+			if _normalize_chat(text) not in _GG_PATTERNS:
+				continue
+			pi = record["playerIndex"]
+			if 0 <= pi < num_players and players[pi]["team"] == losing_team:
+				loser_first_gg_loop = record.get("gameloop", 0)
+				break
+
+	for record in chat_records:
+		text = record.get("text") or ""
+		if _normalize_chat(text) not in _GG_PATTERNS:
+			continue
+		pi = record["playerIndex"]
+		if pi < 0 or pi >= num_players:
+			continue
+		gameloop = record.get("gameloop", 0)
+		is_offensive = False
+		if gameloop < gg_early_threshold:
+			is_offensive = True
+		if (winning_team is not None and players[pi]["team"] == winning_team
+				and loser_first_gg_loop is not None and gameloop < loser_first_gg_loop):
+			is_offensive = True
+		if is_offensive:
+			players[pi]["stats"]["chatOffensiveGg"] = 1
+
+
+def parse_replay_raw(replay_path: str) -> dict:
+	"""Run the C# sidecar and return its raw JSON output verbatim.
+
+	Used by remove_replays.py for filtering decisions on every replay,
+	including incomplete games that parse_replay() rejects. No analysis
+	or transformation is applied; the dict shape matches MatchJson.cs.
+
+	Raises:
+		FileNotFoundError: If the replay file doesn't exist.
+		ValueError: If the sidecar exits non-zero or returns invalid JSON.
+	"""
+	if not os.path.isfile(replay_path):
+		raise FileNotFoundError(f"Replay not found: {replay_path}")
+	return _run_sidecar(replay_path)
+
+
+def resolve_game_mode(raw: dict) -> str:
+	"""Resolve a raw sidecar dict into the dashboard's expected mode string.
+
+	Exposed so remove_replays.py classifies modes the same way as parse_replay.
+	"""
+	return _resolve_game_mode(
+		raw.get("gameMode") or "",
+		raw.get("lobbyMode") or "",
+		raw.get("mapInternalId"),
+	)
 
 
 def parse_replay(replay_path: str) -> dict:
@@ -180,519 +339,84 @@ def parse_replay(replay_path: str) -> dict:
 
 	Raises:
 		FileNotFoundError: If the replay file doesn't exist.
-		ValueError: If the replay can't be parsed (corrupt, unsupported build).
+		ValueError: If the sidecar fails to parse the file, returns invalid
+			data, or the match is incomplete (score data missing).
 	"""
-	if not os.path.isfile(replay_path):
-		raise FileNotFoundError(f"Replay not found: {replay_path}")
+	raw = parse_replay_raw(replay_path)
 
-	try:
-		archive = mpyq.MPQArchive(replay_path)
-	except Exception as e:
-		raise ValueError(f"Failed to open replay archive: {e}") from e
+	if raw.get("isIncomplete"):
+		raise ValueError("Score data missing - incomplete game")
 
-	# Header (readable with any protocol version)
-	header_content = archive.header["user_data_header"]["content"]
-	header = latest().decode_replay_header(header_content)
-	base_build = header["m_version"]["m_baseBuild"]
-	elapsed_loops = header["m_elapsedGameLoops"]
+	map_internal_id = raw.get("mapInternalId")
+	map_localized_name = raw.get("mapLocalizedName") or ""
+	if map_internal_id:
+		map_name = MAP_NAMES.get(map_internal_id, map_internal_id)
+	else:
+		map_name = map_localized_name
 
-	try:
-		protocol = build(base_build)
-	except Exception as e:
-		raise ValueError(f"Unsupported protocol build {base_build}: {e}") from e
+	game_mode = _resolve_game_mode(
+		raw.get("gameMode") or "",
+		raw.get("lobbyMode") or "",
+		map_internal_id,
+	)
 
-	# Some protocol builds load but lack decoder methods
-	for method in ("decode_replay_details", "decode_replay_attributes_events"):
-		if not hasattr(protocol, method):
-			raise ValueError(f"Protocol build {base_build} missing {method}")
-
-	# Details
-	details_content = archive.read_file("replay.details")
-	details = protocol.decode_replay_details(details_content)
-
-	map_name = _decode_bytes(details["m_title"])
-	timestamp = _filetime_to_iso(details["m_timeUTC"])
-	duration_seconds = elapsed_loops / _LOOPS_PER_SECOND
-
-	# Init data (randomSeed is the stable per-match identifier from the game engine)
-	initdata = protocol.decode_replay_initdata(archive.read_file("replay.initdata"))
-	random_seed = initdata["m_syncLobbyState"]["m_lobbyState"]["m_randomSeed"]
-
-	# Attribute events (talents, game mode, hero level)
-	attr_content = archive.read_file("replay.attributes.events")
-	attributes = protocol.decode_replay_attributes_events(attr_content)
-	scopes = attributes.get("scopes", {})
-	global_scope = scopes.get(16, {})
-	game_mode = _detect_game_mode(global_scope)
-
-	# Parse initdata slots for lobby user ID mapping.
-	# Message events identify players by m_userId (lobby slot ID), which is
-	# not the same as the m_playerList index or tracker player ID. Build a
-	# toon handle -> user ID map so we can cross-reference later.
-	lobby_slots = initdata["m_syncLobbyState"]["m_lobbyState"]["m_slots"]
-	toon_to_user_id = {}
-	for slot in lobby_slots:
-		uid = slot.get("m_userId")
-		if uid is None:
-			continue
-		toon_handle = _decode_bytes(slot.get("m_toonHandle", b"")).strip()
-		if not toon_handle:
-			continue
-		# Format: "region-Hero-realm-profileId" (e.g. "2-Hero-1-12345678")
-		parts = toon_handle.split("-")
-		if len(parts) >= 4:
-			try:
-				toon_to_user_id[(int(parts[0]), int(parts[2]), int(parts[3]))] = uid
-			except (ValueError, IndexError):
-				pass
-
-	# Build player list from details, filtering observers.
-	# Observers appear in m_playerList but not in tracker events, which
-	# causes ID misalignment if not excluded here.
-	player_list = details["m_playerList"]
 	players = []
-	user_id_to_idx = {}  # lobby m_userId -> players[] index
-	wssi_to_idx = {}  # Working Set Slot ID -> players[] index
-
-	for orig_idx, p in enumerate(player_list):
-		if p.get("m_observe", 0):
-			continue
-
-		player_idx = len(players)
-		toon = p.get("m_toon", {})
-		# Attribute scopes use 1-indexed m_playerList position (not filtered index)
-		player_scope = scopes.get(orig_idx + 1, {})
-
-		hero_level_attr = (player_scope.get(4008) or [{}])[0].get("value", b"")
-		hero_level_str = _decode_bytes(hero_level_attr).strip()
-		hero_level = int(hero_level_str) if hero_level_str.isdigit() else None
-
-		player_data = {
-			"name": _decode_bytes(p["m_name"]),
-			"hero": _decode_bytes(p["m_hero"]),
-			"team": p["m_teamId"],
-			"result": "win" if p["m_result"] == 1 else "loss",
-			"toon": {
-				"region": toon.get("m_region"),
-				"realmId": toon.get("m_realm"),
-				"profileId": toon.get("m_id"),
-			},
-			"heroLevel": hero_level,
-			"talentChoices": [],  # Filled from score results below
-			"stats": {},
-		}
-		players.append(player_data)
-
-		# Working Set Slot ID -> players[] index (for draft pick events)
-		wssi = p.get("m_workingSetSlotId")
-		if wssi is not None:
-			wssi_to_idx[wssi] = player_idx
-
-		# Lobby user ID -> players[] index (for message events)
-		toon_key = (toon.get("m_region"), toon.get("m_realm"), toon.get("m_id"))
-		uid = toon_to_user_id.get(toon_key)
-		if uid is not None:
-			user_id_to_idx[uid] = player_idx
-
-	num_players = len(players)
-
-	# Tracker events (hero identification, map ID, score results, death sources)
-	tracker_content = archive.read_file("replay.tracker.events")
-	hero_units = {}  # player_id -> internal hero name (from first SUnitBornEvent)
-	unit_registry = {}  # (tag_index, tag_recycle) -> unit_type_name
-	hero_tags = {}  # (tag_index, tag_recycle) -> player_index (0-based)
-	death_sources = [{} for _ in range(num_players)]
-	tracker_map_id = None
-	gates_open_loop = None  # gameloop of GatesOpen event (game time 0:00)
-	first_blood_loop = None  # gameloop of first hero death (post-gates only)
-	first_blood_victim_idx = None  # player index (0-based) of first hero to die
-	# Level lead: first gameloop each team reaches a talent tier level
-	# team_level_loops[team_id][level] = first gameloop
-	team_level_loops = {0: {}, 1: {}}
-	# Final team levels: highest level reached by each team
-	team_max_level = {0: 0, 1: 0}
-	# Draft order: bans and picks in event order (empty for non-draft modes)
-	draft_order = []
-	# First boss/merc capture: team ID (0 or 1) or None
-	first_boss_team = None
-	first_boss_loop = None
-	first_merc_team = None
-	first_merc_loop = None
-	if tracker_content and hasattr(protocol, "decode_replay_tracker_events"):
-		for event in protocol.decode_replay_tracker_events(tracker_content):
-			event_type = event.get("_event")
-
-			if event_type == "NNet.Replay.Tracker.SUnitBornEvent":
-				unit_name = _decode_bytes(event.get("m_unitTypeName", b""))
-				player_id = event.get("m_controlPlayerId", 0)
-				tag = (event.get("m_unitTagIndex"), event.get("m_unitTagRecycle"))
-				# Build unit registry for death source classification
-				if tag[0] is not None and tag[1] is not None:
-					unit_registry[tag] = unit_name
-					if unit_name.startswith("Hero") and 1 <= player_id <= num_players:
-						hero_tags[tag] = player_id - 1
-				# Hero identification: first spawn per player is their hero
-				if player_id > 0 and player_id not in hero_units:
-					if unit_name.startswith("Hero"):
-						hero_units[player_id] = unit_name[4:]
-
-			# Hero deaths by non-player units + first blood tracking
-			elif event_type == "NNet.Replay.Tracker.SUnitDiedEvent":
-				tag = (event.get("m_unitTagIndex"), event.get("m_unitTagRecycle"))
-				if tag[0] is not None and tag[1] is not None and tag in hero_tags:
-					pi = hero_tags[tag]
-					# First blood: first hero death after gates open
-					game_loop = event.get("_gameloop", 0)
-					if gates_open_loop is not None and game_loop >= gates_open_loop:
-						if first_blood_loop is None or game_loop < first_blood_loop:
-							first_blood_loop = game_loop
-							first_blood_victim_idx = pi
-
-					killer_pid = event.get("m_killerPlayerId", 0)
-					if killer_pid == 0 or killer_pid > num_players:
-						killer_tag = (
-							event.get("m_killerUnitTagIndex"),
-							event.get("m_killerUnitTagRecycle"),
-						)
-						if killer_tag[0] is not None and killer_tag[1] is not None:
-							killer_type = unit_registry.get(killer_tag, "")
-							category = _classify_killer_unit(killer_type)
-							death_sources[pi][category] = death_sources[pi].get(category, 0) + 1
-
-			# Score results.
-			# m_values is a 16-slot array indexed by Working Set Slot ID (wssi),
-			# NOT by filtered player index. wssi is non-contiguous when a lobby
-			# slot is left open (e.g. wssi 0-6, 8, 10, 15 for 10 players), so
-			# using pi as the slot index silently mis-attributes data.
-			elif event_type == "NNet.Replay.Tracker.SScoreResultEvent":
-				for inst in event["m_instanceList"]:
-					stat_name = inst["m_name"]
-					values_list = inst["m_values"]
-
-					if stat_name in _SCORE_STATS:
-						field = _SCORE_STATS[stat_name]
-						for wssi, pi in wssi_to_idx.items():
-							val = _extract_score_value(values_list, wssi)
-							if val is not None:
-								players[pi]["stats"][field] = val
-
-					elif stat_name in _TALENT_TIERS:
-						tier_idx = _TALENT_TIERS.index(stat_name)
-						for wssi, pi in wssi_to_idx.items():
-							val = _extract_score_value(values_list, wssi)
-							if val is not None:
-								choices = players[pi]["talentChoices"]
-								while len(choices) <= tier_idx:
-									choices.append(None)
-								choices[tier_idx] = val
-
-					# End-of-match awards (booleans, 0 or 1 per player)
-					elif stat_name.startswith(b"EndOfMatchAward"):
-						for wssi, pi in wssi_to_idx.items():
-							val = _extract_score_value(values_list, wssi)
-							if val and val == 1:
-								if stat_name == b"EndOfMatchAwardMVPBoolean":
-									players[pi]["stats"]["awardMVP"] = 1
-									players[pi]["stats"]["hasAward"] = 1
-								elif stat_name == b"EndOfMatchAwardMapSpecificBoolean":
-									players[pi]["stats"]["awardMapSpecific"] = 1
-									players[pi]["stats"]["hasAward"] = 1
-								elif stat_name == b"EndOfMatchAwardGivenToNonwinner":
-									players[pi]["stats"]["awardInternal"] = 1
-								else:
-									players[pi]["stats"]["hasAward"] = 1
-
-			# Map internal ID and votes from end-of-game tracker events
-			elif event_type == "NNet.Replay.Tracker.SStatGameEvent":
-				event_name = _decode_bytes(event.get("m_eventName", b""))
-
-				if event_name == "GatesOpen" and gates_open_loop is None:
-					gates_open_loop = event.get("_gameloop", 0)
-
-				elif event_name == "EndOfGameTalentChoices" and tracker_map_id is None:
-					for item in event.get("m_stringData", []):
-						if _decode_bytes(item["m_key"]) == "Map":
-							tracker_map_id = _decode_bytes(item["m_value"])
-							break
-
-				elif event_name == "EndOfGameUpVotesCollected":
-					int_data = event.get("m_intData", [])
-					if len(int_data) >= 2:
-						upvoted_id = int_data[0].get("m_value", 0)
-						voter_id = int_data[1].get("m_value", 0)
-						if 1 <= upvoted_id <= num_players:
-							players[upvoted_id - 1]["stats"].setdefault("votesReceived", 0)
-							players[upvoted_id - 1]["stats"]["votesReceived"] += 1
-						if 1 <= voter_id <= num_players:
-							players[voter_id - 1]["stats"].setdefault("votesGiven", 0)
-							players[voter_id - 1]["stats"]["votesGiven"] += 1
-
-				elif event_name == "LevelUp":
-					int_data = event.get("m_intData", [])
-					if len(int_data) >= 2:
-						tracker_pid = int_data[0].get("m_value", 0)
-						new_level = int_data[1].get("m_value", 0)
-						if 1 <= tracker_pid <= num_players:
-							team_id = players[tracker_pid - 1]["team"]
-							if new_level > team_max_level[team_id]:
-								team_max_level[team_id] = new_level
-							if new_level in _TALENT_TIER_LEVELS:
-								if new_level not in team_level_loops[team_id]:
-									team_level_loops[team_id][new_level] = event.get("_gameloop", 0)
-
-				elif event_name == "JungleCampCapture":
-					fixed_data = event.get("m_fixedData", [])
-					string_data = event.get("m_stringData", [])
-					if fixed_data and string_data:
-						# Team: 1=blue(team0), 2=red(team1), stored as fixed-point / 4096
-						raw_team = fixed_data[0].get("m_value", 0) // 4096
-						team_id = raw_team - 1  # 0 or 1
-						if team_id in (0, 1):
-							camp_type = _decode_bytes(string_data[0].get("m_value", b""))
-							game_loop = event.get("_gameloop", 0)
-							if camp_type == _BOSS_CAMP_TYPE:
-								if first_boss_loop is None or game_loop < first_boss_loop:
-									first_boss_team = team_id
-									first_boss_loop = game_loop
-							else:
-								if first_merc_loop is None or game_loop < first_merc_loop:
-									first_merc_team = team_id
-									first_merc_loop = game_loop
-
-			elif event_type == "NNet.Replay.Tracker.SHeroBannedEvent":
-				hero_id = _decode_bytes(event.get("m_hero", b""))
-				# m_controllingTeam is 1-indexed (1=team0, 2=team1)
-				team = event.get("m_controllingTeam", 0) - 1
-				if team in (0, 1):
-					draft_order.append({"type": "ban", "hero": hero_id, "team": team})
-
-			elif event_type == "NNet.Replay.Tracker.SHeroPickedEvent":
-				hero_id = _decode_bytes(event.get("m_hero", b""))
-				# m_controllingPlayer is a Working Set Slot ID, not a direct index
-				wssi = event.get("m_controllingPlayer", 0)
-				pick_idx = wssi_to_idx.get(wssi)
-				if pick_idx is not None:
-					draft_order.append({
-						"type": "pick",
-						"hero": hero_id,
-						"team": players[pick_idx]["team"],
-					})
-
-	# Message events (chat messages, pings, disconnects)
-	message_content = archive.read_file("replay.message.events")
-	if message_content and hasattr(protocol, "decode_replay_message_events"):
-		disconnected = set()
-		chat_records = []
-		# Negative threshold (short matches) makes every message "late", which
-		# correctly excludes all chat from the win-rate classification.
-		chat_late_threshold = elapsed_loops - _CHAT_LATE_GAME_LOOPS
-		for event in protocol.decode_replay_message_events(message_content):
-			event_name = event.get("_event", "")
-			userid = event.get("_userid")
-			raw_uid = userid.get("m_userId") if userid else None
-			player_idx = user_id_to_idx.get(raw_uid) if raw_uid is not None else None
-
-			if event_name.endswith(".SChatMessage"):
-				if player_idx is not None and 0 <= player_idx < num_players:
-					recipient = event.get("m_recipient", -1)
-					# Skip observer-only messages (recipient 4)
-					if recipient == 4:
-						continue
-					gameloop = event.get("_gameloop", 0)
-					is_late = gameloop >= chat_late_threshold
-					stats = players[player_idx]["stats"]
-					stats.setdefault("chatMessages", 0)
-					stats["chatMessages"] += 1
-					if recipient == 0:
-						stats.setdefault("chatMessagesAll", 0)
-						stats["chatMessagesAll"] += 1
-					elif recipient == 1:
-						stats.setdefault("chatMessagesTeam", 0)
-						stats["chatMessagesTeam"] += 1
-						if is_late:
-							stats.setdefault("chatMessagesTeamLate", 0)
-							stats["chatMessagesTeamLate"] += 1
-
-					# Toxicity detection on message text
-					raw_text = event.get("m_string", b"")
-					text = _decode_bytes(raw_text) if isinstance(raw_text, bytes) else str(raw_text)
-					if text and is_toxic(text):
-						stats.setdefault("chatToxicMessages", 0)
-						stats["chatToxicMessages"] += 1
-						if is_late:
-							stats.setdefault("chatToxicMessagesLate", 0)
-							stats["chatToxicMessagesLate"] += 1
-
-					# Retain per-message metadata for behaviour analysis
-					if text:
-						chat_records.append((
-							gameloop,
-							player_idx,
-							text,
-						))
-
-			elif event_name.endswith(".SPingMessage"):
-				if player_idx is not None and 0 <= player_idx < num_players:
-					players[player_idx]["stats"].setdefault("pings", 0)
-					players[player_idx]["stats"]["pings"] += 1
-
-			elif event_name.endswith(".SReconnectNotifyMessage"):
-				status = event.get("m_status", 0)
-				if player_idx is not None and 0 <= player_idx < num_players:
-					if status == 1:
-						players[player_idx]["stats"].setdefault("disconnects", 0)
-						players[player_idx]["stats"]["disconnects"] += 1
-						disconnected.add(player_idx)
-					elif status == 2:
-						disconnected.discard(player_idx)
-
-		for pi in disconnected:
-			if 0 <= pi < num_players:
-				players[pi]["stats"]["disconnectedAtEnd"] = 1
-
-		# Derived chat stats: per-player clean/toxic game flags for HoF/HoS
-		for pi in range(num_players):
-			s = players[pi]["stats"]
-			total_chat = s.get("chatMessages", 0)
-			toxic_chat = s.get("chatToxicMessages", 0)
-			if total_chat > 0 and toxic_chat == 0:
-				s["chatGamesClean"] = 1
-			if toxic_chat > 0:
-				s["chatGamesToxic"] = 1
-
-		# Chat behaviour: sportsmanlike greeting (glhf) in first 60 seconds
-		for gameloop, pi, text in chat_records:
-			if gameloop > _GLHF_THRESHOLD_LOOPS:
-				continue
-			if _normalize_chat(text) in _GLHF_PATTERNS:
-				players[pi]["stats"]["chatGlhf"] = 1
-
-		# Chat behaviour: offensive gg (too early or winners-say-first).
-		# Only relevant in Custom games where all-chat is available.
-		if game_mode == "Custom":
-			winning_team = None
-			losing_team = None
-			for p in players:
-				if p["result"] == "win":
-					winning_team = p["team"]
-				elif p["result"] == "loss":
-					losing_team = p["team"]
-				if winning_team is not None and losing_team is not None:
-					break
-
-			gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
-
-			# Find the losing team's first gg
-			loser_first_gg_loop = None
-			if losing_team is not None:
-				for gameloop, pi, text in sorted(chat_records, key=lambda r: r[0]):
-					if _normalize_chat(text) in _GG_PATTERNS and players[pi]["team"] == losing_team:
-						loser_first_gg_loop = gameloop
-						break
-
-			# Flag players who sent an offensive gg
-			for gameloop, pi, text in chat_records:
-				if _normalize_chat(text) not in _GG_PATTERNS:
-					continue
-				is_offensive = False
-				# Too early: more than 15 seconds before game end
-				if gameloop < gg_early_threshold:
-					is_offensive = True
-				# Winners first: winning team gg before losing team's first gg
-				if (winning_team is not None and players[pi]["team"] == winning_team
-						and loser_first_gg_loop is not None and gameloop < loser_first_gg_loop):
-					is_offensive = True
-				if is_offensive:
-					players[pi]["stats"]["chatOffensiveGg"] = 1
-
-	# Store death-by-source stats
-	for pi in range(num_players):
-		for category, count in death_sources[pi].items():
-			if count > 0:
-				key = _DEATH_SOURCE_STAT_KEYS.get(category)
-				if key:
-					players[pi]["stats"][key] = count
-
-	# Resolve hero names from tracker data (language-independent)
-	for i, p in enumerate(players):
-		internal_id = hero_units.get(i + 1)
-		if internal_id:
-			p["hero"] = HERO_NAMES.get(internal_id, internal_id)
-
-	# Resolve draft hero names from tracker data (same mapping as played heroes)
-	for entry in draft_order:
-		entry["hero"] = HERO_NAMES.get(entry["hero"], entry["hero"])
-
-	# Resolve map name from tracker data (language-independent)
-	if tracker_map_id:
-		map_name = MAP_NAMES.get(tracker_map_id, tracker_map_id)
-		# ARAM: Amm+stan on an ARAM-exclusive map
-		if game_mode == "QuickMatch" and tracker_map_id in ARAM_MAP_IDS:
-			game_mode = "ARAM"
-
-	# Integrity check: every player must have core score stats. Missing all
-	# of them typically means wssi/slot misalignment in SScoreResultEvent.
-	missing_score_players = [
-		f"{p['name']} (hero={p['hero']})"
-		for p in players
-		if all(field not in p["stats"] for field in _REQUIRED_STATS)
-	]
-	if missing_score_players:
-		raise ValueError(
-			f"Score data missing for {len(missing_score_players)} player(s): "
-			f"{', '.join(missing_score_players)}. "
-			f"Likely cause: SScoreResultEvent wssi/slot mismatch."
+	for raw_player in raw.get("players", []):
+		hero_internal = raw_player.get("heroInternal")
+		hero_name = (
+			HERO_NAMES.get(hero_internal, hero_internal)
+			if hero_internal else raw_player.get("heroLocalizedFallback", "")
 		)
+		players.append({
+			"name": raw_player.get("name", ""),
+			"hero": hero_name,
+			"team": raw_player.get("team", -1),
+			"result": raw_player.get("result", ""),
+			"toon": {
+				"region": raw_player.get("toon", {}).get("region"),
+				"realmId": raw_player.get("toon", {}).get("realmId"),
+				"profileId": raw_player.get("toon", {}).get("profileId"),
+			},
+			"heroLevel": raw_player.get("heroLevel"),
+			"talentChoices": _trim_talents(raw_player.get("talentChoices", [])),
+			"stats": dict(raw_player.get("stats", {})),
+		})
 
-	# Compute KDA for each player
+	# Chat / toxicity / behaviour analysis (consumes the intermediate
+	# chatRecords array emitted by the C# sidecar).
+	chat_records = raw.get("chatRecords", [])
+	elapsed_loops = raw.get("elapsedGameLoops", 0)
+	_apply_chat_analysis(players, chat_records, elapsed_loops, game_mode)
+
+	# Resolve draft hero names (same internal-ID mapping as played heroes)
+	draft = []
+	for entry in raw.get("draft", []):
+		draft.append({
+			"type": entry.get("type", ""),
+			"hero": HERO_NAMES.get(entry.get("hero", ""), entry.get("hero", "")),
+			"team": entry.get("team", -1),
+		})
+
+	# Derived: KDA per player
 	for p in players:
 		s = p["stats"]
 		kills = s.get("kills", 0)
 		deaths = s.get("deaths", 0)
 		assists = s.get("assists", 0)
-		p["stats"]["kda"] = round((kills + assists) / max(deaths, 1), 2)
-
-	# First blood: which team gave up the first death
-	# The victim's team conceded first blood; the other team "got" it.
-	first_blood_team = None
-	if first_blood_victim_idx is not None and first_blood_victim_idx < num_players:
-		victim_team = players[first_blood_victim_idx]["team"]
-		if victim_team in (0, 1):
-			first_blood_team = 1 - victim_team
-
-	# Level lead: determine which team reached each talent tier first
-	first_to_level = {}
-	for level in sorted(_TALENT_TIER_LEVELS):
-		t0 = team_level_loops[0].get(level)
-		t1 = team_level_loops[1].get(level)
-		if t0 is not None and t1 is not None:
-			if t0 < t1:
-				first_to_level[str(level)] = 0
-			elif t1 < t0:
-				first_to_level[str(level)] = 1
-			# Tie (same gameloop): omit from results
-		elif t0 is not None:
-			first_to_level[str(level)] = 0
-		elif t1 is not None:
-			first_to_level[str(level)] = 1
-
-	# Final team levels (omit if both are 0, which means no LevelUp events fired)
-	team_levels = None
-	if team_max_level[0] > 0 or team_max_level[1] > 0:
-		team_levels = {str(k): v for k, v in team_max_level.items()}
+		s["kda"] = round((kills + assists) / max(deaths, 1), 2)
 
 	return {
 		"map": map_name,
-		"timestamp": timestamp,
-		"durationSeconds": round(duration_seconds, 1),
-		"build": base_build,
+		"timestamp": raw.get("timestamp", ""),
+		"durationSeconds": round(raw.get("durationSeconds", 0), 1),
+		"build": raw.get("build", 0),
 		"gameMode": game_mode,
-		"randomSeed": random_seed,
+		"randomSeed": raw.get("randomSeed", 0),
 		"players": players,
-		"firstBloodTeam": first_blood_team,
-		"firstToLevel": first_to_level,
-		"teamLevels": team_levels,
-		"firstBossTeam": first_boss_team,
-		"firstMercTeam": first_merc_team,
-		"draft": draft_order,
+		"firstBloodTeam": raw.get("firstBloodTeam"),
+		"firstToLevel": raw.get("firstToLevel", {}),
+		"teamLevels": raw.get("teamLevels"),
+		"firstBossTeam": raw.get("firstBossTeam"),
+		"firstMercTeam": raw.get("firstMercTeam"),
+		"draft": draft,
 	}

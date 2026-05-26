@@ -10,7 +10,7 @@ import sys
 import time
 
 from pipeline.run import load_config, process_single, PROJECT_ROOT, DEFAULT_CONFIG_PATH
-from pipeline.update_protocols import update_protocols
+from pipeline.parser import ensure_parser_available
 from pipeline.aggregate import load_matches, aggregate_all
 from pipeline.output import write_output
 from remove_replays import remove_replays
@@ -310,8 +310,12 @@ def main():
 		print(f"Error: Replay directory not found: {replay_dir}", file=sys.stderr)
 		sys.exit(1)
 
+	# Verify the C# parser sidecar is installed before doing any work; aborts
+	# via SystemExit if dotnet is missing or the user declines installation.
+	ensure_parser_available()
+
 	pipeline_start = time.monotonic()
-	total_steps = 4 if args.generate else 3
+	total_steps = 3 if args.generate else 2
 
 	# Initial estimate based on replay count
 	initial_count = len(_scan_replays(replay_dir))
@@ -322,32 +326,21 @@ def main():
 		est_total += _TIME_GENERATE
 
 	print(f"\nPipeline: {initial_count} replays, estimated ~{_format_time(est_total)}")
-	print(f"  Step 1: Update protocols  (network)")
-	print(f"  Step 2: Remove replays    ~{_format_time(est_scan)}")
-	print(f"  Step 3: Process replays   ~{_format_time(est_process)}")
+	print(f"  Step 1: Remove replays    ~{_format_time(est_scan)}")
+	print(f"  Step 2: Process replays   ~{_format_time(est_process)}")
 	if args.generate:
-		print(f"  Step 4: Generate output   ~{_format_time(_TIME_GENERATE)}")
+		print(f"  Step 3: Generate output   ~{_format_time(_TIME_GENERATE)}")
 
-	# Step 1: Update protocol files
+	# Step 1: Remove unwanted replays (duplicates, wrong mode, etc.)
 	step_start = time.monotonic()
-	print(f"\n[Step 1/{total_steps}] Updating heroprotocol")
-	try:
-		update_protocols()
-	except Exception as e:
-		print(f"  Update failed ({e}), continuing with existing protocols")
+	print(f"\n[Step 1/{total_steps}] Removing unwanted replays")
+	remove_replays(replay_dir)
 	print(f"  Step 1 done in {_format_time(time.monotonic() - step_start)}"
 		  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
 
-	# Step 2: Remove unwanted replays (duplicates, wrong mode, etc.)
+	# Step 2: Process replays
 	step_start = time.monotonic()
-	print(f"\n[Step 2/{total_steps}] Removing unwanted replays")
-	remove_replays(replay_dir)
-	print(f"  Step 2 done in {_format_time(time.monotonic() - step_start)}"
-		  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
-
-	# Step 3: Process replays
-	step_start = time.monotonic()
-	print(f"\n[Step 3/{total_steps}] Processing replays")
+	print(f"\n[Step 2/{total_steps}] Processing replays")
 	try:
 		stats = process_replays(
 			config, args.output_dir, args.manifest, args.reprocess, args.pretty,
@@ -356,16 +349,16 @@ def main():
 	except FileNotFoundError as e:
 		print(f"Error: {e}", file=sys.stderr)
 		sys.exit(1)
-	print(f"  Step 3 done in {_format_time(time.monotonic() - step_start)}"
+	print(f"  Step 2 done in {_format_time(time.monotonic() - step_start)}"
 		  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
 
-	# Step 4: Generate dashboard output
+	# Step 3: Generate dashboard output
 	counts = None
 	if args.generate:
 		step_start = time.monotonic()
-		print(f"\n[Step 4/{total_steps}] Generating dashboard")
+		print(f"\n[Step 3/{total_steps}] Generating dashboard")
 		counts = generate_output(config, args.output_dir, args.pretty)
-		print(f"  Step 4 done in {_format_time(time.monotonic() - step_start)}"
+		print(f"  Step 3 done in {_format_time(time.monotonic() - step_start)}"
 			  f" | Pipeline: {_format_time(time.monotonic() - pipeline_start)} elapsed")
 
 	# Final summary

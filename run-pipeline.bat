@@ -9,6 +9,13 @@ REM Optional sub-steps (asked per run):
 REM   - Collect new replays from %USERPROFILE% before the pipeline (refresh-replays.bat)
 REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat)
 REM
+REM First-run prerequisites:
+REM   - .NET 8.0 SDK installed (same SDK as refresh-hero-data.bat uses):
+REM     https://dotnet.microsoft.com/download/dotnet/8.0  (pick "SDK", x64)
+REM   - The pipeline checks for the heroes-replay-parser-cs global tool at
+REM     startup. If missing, it prompts y/N to build the nupkg (dotnet pack)
+REM     and install the tool automatically. Declining aborts the run.
+REM
 REM Usage:
 REM   run-pipeline.bat                       (uses default hero-data game path)
 REM   run-pipeline.bat "D:\Path\To\HotS"     (forwarded to refresh-hero-data.bat)

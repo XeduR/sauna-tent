@@ -1,39 +1,27 @@
 # Pipeline
 
-Replay processing pipeline for the Sauna Tent dashboard. Parses `.StormReplay` files via Blizzard's heroprotocol, aggregates stats, and outputs pre-computed JSON for the static frontend.
+Replay processing pipeline for the Sauna Tent dashboard. Decodes `.StormReplay` files via the C# `heroes-replay-parser-cs` sidecar, applies Sauna Tent analysis on top, aggregates stats, and outputs pre-computed JSON for the static frontend.
 
 ## Modules
 
-- **parser.py**: Wraps heroprotocol to extract structured data from a single replay. Handles hero/map name resolution, game mode detection, talent extraction, score stats, death source classification, chat/ping/disconnect tracking, chat toxicity detection, first blood, first boss/mercenary capture, and level lead tracking.
+- **parser.py**: Spawns the `heroes-replay-parser-cs` sidecar (a dotnet global tool), then layers Sauna Tent analysis on the intermediate JSON: hero/map name resolution, ARAM detection from map IDs, talent trimming, chat toxicity / glhf / offensive-gg classification, and KDA. Exposes `parse_replay` for the main pipeline and `parse_replay_raw` for filter passes that need the unprocessed sidecar output.
 - **run.py**: Single-replay processor. Loads config, calls the parser, tags roster players by toon ID, detects party composition, generates a stable match ID, and writes the match JSON file.
-- **batch.py**: Batch processor. Scans the replay directory, processes new/changed files incrementally using a manifest, and orchestrates the full pipeline (deduplicate, filter, parse, aggregate, output).
+- **batch.py**: Batch processor. Scans the replay directory, processes new/changed files incrementally using a manifest, and orchestrates the full pipeline (deduplicate, filter, parse, aggregate, output). Verifies the sidecar is installed at startup.
 - **aggregate.py**: Reads all match JSON files and computes aggregate statistics across every combination of player, hero, map, game mode, and party size. Also tracks hall of fame records and talent builds.
 - **output.py**: Writes the final dashboard JSON files (summary, roster, per-player, per-hero, per-map, match index, hall of fame).
-- **herodata.py**: Static lookup tables mapping heroprotocol internal IDs to display names for heroes, maps, roles, and ARAM map identification.
+- **herodata.py**: Static lookup tables mapping the library's internal hero/map IDs to display names. Also lists ARAM map IDs.
 - **toxicity.py**: Loads `toxic_keywords.txt` and exposes `is_toxic(message)` for case-insensitive substring matching against chat messages. Keywords are loaded once and cached.
 - **toxic_keywords.txt**: One toxic keyword or phrase per line. Comments start with `#`. Edit this file to adjust toxicity detection without touching code.
-- **update_protocols.py**: Fetches the latest heroprotocol version files from GitHub and updates `tools/heroprotocol/`. Preserves the patched `__init__.py`.
 
 ## Dependencies
 
-- **heroprotocol**: Blizzard's replay decoder, vendored in `tools/heroprotocol/`. Updated with each HotS patch to support new protocol builds.
-- **mpyq**: MPQ archive reader for `.StormReplay` files. Installed via pip (prompted automatically on first run).
-- **six**: Python 2/3 compatibility layer required by heroprotocol. Also auto-installed on first run.
+- **heroes-replay-parser-cs**: vendored .NET 8 console app under `tools/replay-parser-cs/` that wraps [Heroes.StormReplayParser](https://github.com/HeroesToolChest/Heroes.StormReplayParser). Installed as a user-scoped dotnet global tool. The Python pipeline owns the analysis layer; the sidecar only decodes the MPQ archive and exposes the library's parsed object model as JSON.
 
 ## Replay parsing
 
-Each `.StormReplay` is an MPQ archive containing multiple data streams. The parser extracts:
+A `.StormReplay` is an MPQ archive containing multiple data streams (header, details, initdata, attributes events, tracker events, message events). All MPQ + protocol decoding happens inside the C# sidecar via Heroes.StormReplayParser; the library exposes a typed object model that the sidecar serialises into the intermediate JSON shape consumed by `parser.py`. The library is build-resilient by design, so the pipeline does not require per-patch updates.
 
-| Stream | Data |
-|---|---|
-| `replay.header` | Game version (base build), duration in game loops |
-| `replay.details` | Timestamp, player list (names, toons, teams, results), map display name |
-| `replay.initdata` | `randomSeed` for match fingerprinting |
-| `replay.attributes.events` | Game mode, hero levels, talent internal codes |
-| `replay.tracker.events` | Hero/map internal IDs, end-of-game score stats, talent tier choices, death sources |
-| `replay.message.events` | Chat messages (with toxicity detection), pings, disconnects/reconnects |
-
-Hero and map names are resolved from tracker event internal IDs (always English regardless of client language) via lookup tables in `herodata.py`.
+Hero and map names are resolved on the Python side from the library's internal IDs (always English regardless of client language) via lookup tables in `herodata.py`.
 
 Duration is computed as `elapsed_game_loops / 16` (the game runs at 16 loops per second).
 
@@ -43,17 +31,13 @@ Matches are fingerprinted as `MD5(sorted_player_profile_ids + randomSeed)`. The 
 
 ## Game mode detection
 
-Detected from attribute events in the global scope (player slot 16):
+The C# sidecar emits the library's `StormGameMode` enum as a string (`gameMode`) plus the `StormLobbyMode` enum (`lobbyMode`) and the map's internal ID. `_resolve_game_mode` in `parser.py` reduces those into the dashboard's expected labels:
 
-| Attribute 3009 (Matchmaking) | Attribute 4010 (Lobby) | Mode |
-|---|---|---|
-| Amm | drft | StormLeague |
-| Priv | drft or tour | Custom |
-| Priv | stan | CustomStandard |
-| Amm | stan + ARAM map | ARAM |
-| Amm | stan + non-ARAM map | QuickMatch (rejected) |
+- `StormGameMode.ToString()` is the library's `[Flags]` enum representation. When more than one bit is set it emits a comma-separated string; the resolver picks the most specific bit via `_GAME_MODE_PRIORITY`.
+- `Custom` is split by lobby mode: `Standard` becomes `CustomStandard`, `Draft` or `TournamentDraft` becomes `CustomDraft`.
+- `QuickMatch` on an ARAM map ID is remapped to `ARAM` as a safety net for any client mislabelling.
 
-ARAM detection falls back to tracker event map IDs for non-English clients where the display name won't match the lookup table.
+ARAM map IDs live in `herodata.ARAM_MAP_IDS`.
 
 ## Acceptance criteria
 

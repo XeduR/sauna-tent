@@ -1,7 +1,7 @@
 # Tools
 
-This directory contains third-party tools fetched automatically by the pipeline. Its contents are gitignored.
+This directory contains vendored third-party tooling used by the pipeline.
 
-## heroprotocol
+## replay-parser-cs
 
-Blizzard's [heroprotocol](https://github.com/Blizzard/heroprotocol) replay parser. Downloaded and updated automatically by `pipeline/update_protocols.py` during batch processing.
+A small .NET 8 console app that wraps [Heroes.StormReplayParser](https://github.com/HeroesToolChest/Heroes.StormReplayParser) and emits the intermediate match JSON consumed by `pipeline/parser.py`. Packaged as a user-scoped dotnet global tool. See `replay-parser-cs/README.md` for build and install instructions.

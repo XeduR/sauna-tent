@@ -5,8 +5,8 @@ A static analytics dashboard for the Heroes of the Storm team "Sauna Tent". Pars
 ## Requirements
 
 - Python 3.12+
-- `mpyq` and `six` (installed automatically on first run if missing)
-- heroprotocol (vendored in `tools/`)
+- .NET 8.0 SDK (required to install the replay parser). See [Refreshing hero data](#refreshing-hero-data) for the download link; the same SDK serves both tools.
+- `heroes-replay-parser-cs` (auto-installed on first batch run; the vendored source lives in `tools/replay-parser-cs/`).
 
 ## Exporting replays
 
@@ -44,7 +44,7 @@ Custom games require at least 3 roster players in the match, with no alt players
 python -m pipeline.batch --generate
 ```
 
-Fetches latest heroprotocol, removes unwanted replays, parses new ones (skips unchanged files via manifest), aggregates stats, and writes minified dashboard JSON to `data/`. This is the normal workflow after dropping new `.StormReplay` files into `replays/`.
+Removes unwanted replays, parses new ones (skips unchanged files via manifest), aggregates stats, and writes minified dashboard JSON to `data/`. This is the normal workflow after dropping new `.StormReplay` files into `replays/`.
 
 ### Full reprocess
 
@@ -79,10 +79,11 @@ python -m pipeline.batch --generate
 
 The batch command runs these steps in order:
 
-1. **Update protocols** - fetches the latest heroprotocol version files from GitHub. Continues with existing protocols if the network is unavailable.
-2. **Remove replays** - scans all replays for duplicates, unwanted game modes, AI games, incomplete matches, etc. Prompts per category before deleting.
-3. **Process replays** - parses remaining replays into per-match JSON in `data/matches/`. Incremental by default (tracks file hashes in `manifest.json`).
-4. **Generate output** (with `--generate`) - aggregates match data and writes dashboard JSON: summary, hall of fame, per-player/hero/map stats, and the match index.
+1. **Remove replays** - scans all replays for duplicates, unwanted game modes, AI games, incomplete matches, etc. Prompts per category before deleting.
+2. **Process replays** - parses remaining replays into per-match JSON in `data/matches/`. Incremental by default (tracks file hashes in `manifest.json`).
+3. **Generate output** (with `--generate`) - aggregates match data and writes dashboard JSON: summary, hall of fame, per-player/hero/map stats, and the match index.
+
+Before any of these steps run, the batch verifies that `dotnet` and the `heroes-replay-parser-cs` global tool are installed. On a fresh machine it prompts to install the tool; declining aborts the run.
 
 ### Batch flags
 
@@ -194,7 +195,7 @@ Other contents that may accumulate here (HotS install snapshots, vendored Heroes
 
 ## Data Sources
 
-- **Replay parsing**: [heroprotocol](https://github.com/Blizzard/heroprotocol) by Blizzard Entertainment.
+- **Replay parsing**: [Heroes.StormReplayParser](https://github.com/HeroesToolChest/Heroes.StormReplayParser) by HeroesToolChest, wrapped by the `tools/replay-parser-cs/` sidecar.
 - **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the local HotS install directly (Blizzard game assets).
 - **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
 - **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).

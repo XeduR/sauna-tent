@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>HeroesReplayParserCs</RootNamespace>
+		<AssemblyName>heroes-replay-parser-cs</AssemblyName>
+
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>heroes-replay-parser-cs</ToolCommandName>
+		<PackageId>heroes-replay-parser-cs</PackageId>
+		<Version>1.1.0</Version>
+		<Authors>Eetu Rantanen</Authors>
+		<Description>Sauna Tent sidecar that parses a single .StormReplay via Heroes.StormReplayParser and prints intermediate JSON for the Python pipeline.</Description>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Heroes.StormReplayParser" Version="2.2.1" />
+	</ItemGroup>
+
+</Project>
