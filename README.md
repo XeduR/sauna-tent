@@ -38,7 +38,17 @@ Custom games require at least 3 roster players in the match, with no alt players
 
 ## Usage
 
-### Adding new replays (typical use)
+### Interactive workflow (typical use)
+
+Double-click `run-pipeline.bat`. It prompts for:
+
+1. Incremental update or full reprocess.
+2. Whether to collect new replays from `%USERPROFILE%` first (runs `collect_replays.py`).
+3. Whether to refresh static hero data after the pipeline (runs `refresh-hero-data.bat`).
+
+Forwards the optional first argument (game install path) to `refresh-hero-data.bat`. The pipeline itself uses `--generate` (and `--reprocess` for option 2).
+
+### Adding new replays (CLI)
 
 ```bash
 python -m pipeline.batch --generate
@@ -172,10 +182,10 @@ All displayed data must be filterable by the user's active filters. The match in
 {
   "team": "Sauna Tent",
   "roster": [
-    {"name": "PlayerName", "toons": ["2-1-12345"]}
+    {"name": "PlayerName", "toons": ["2-1-12345"], "heroesProfile": "https://www.heroesprofile.com/Player/PlayerName/12345/2"}
   ],
   "alts": [
-    {"name": "AltName", "toons": ["2-1-67890"]}
+    {"name": "AltName", "toons": ["2-1-67890"], "heroesProfile": "https://www.heroesprofile.com/Player/AltName/67890/2"}
   ],
   "cutoffDate": "2021-12-07",
   "replayDirectory": "replays",
@@ -183,7 +193,7 @@ All displayed data must be filterable by the user's active filters. The match in
 }
 ```
 
-Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date.
+Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The optional `heroesProfile` field is an external profile URL surfaced on the player page; omit it if not applicable. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date.
 
 ## Local scratch directory
 

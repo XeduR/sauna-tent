@@ -9,7 +9,7 @@ Replay processing pipeline for the Sauna Tent dashboard. Decodes `.StormReplay` 
 - **batch.py**: Batch processor. Scans the replay directory, processes new/changed files incrementally using a manifest, and orchestrates the full pipeline (deduplicate, filter, parse, aggregate, output). Verifies the sidecar is installed at startup.
 - **aggregate.py**: Reads all match JSON files and computes aggregate statistics across every combination of player, hero, map, game mode, and party size. Also tracks hall of fame records and talent builds.
 - **output.py**: Writes the final dashboard JSON files (summary, roster, per-player, per-hero, per-map, match index, hall of fame).
-- **herodata.py**: Static lookup tables mapping the library's internal hero/map IDs to display names. Also lists ARAM map IDs.
+- **herodata.py**: Static lookup tables mapping the library's internal hero/map IDs to display names. Also exports `ARAM_MAP_IDS` / `ARAM_MAP_NAMES`, the `HERO_ROLES` map used by `output.py`, and the `FEMALE_HEROES` set used by aggregation/HoF categorisation.
 - **toxicity.py**: Loads `toxic_keywords.txt` and exposes `is_toxic(message)` for case-insensitive substring matching against chat messages. Keywords are loaded once and cached.
 - **toxic_keywords.txt**: One toxic keyword or phrase per line. Comments start with `#`. Edit this file to adjust toxicity detection without touching code.
 
