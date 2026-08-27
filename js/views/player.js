@@ -277,15 +277,17 @@ var PlayerView = (function() {
 		var rows = [];
 		var names = Object.keys(heroes);
 
-		// Count total games for pick rate
+		// Pick-rate denominator: total games in the current filter scope, independent
+		// of the Min Games slider. Rows below the threshold are hidden but still count
+		// toward the total, so pick % stays a stable share of the player's games.
 		var totalGames = 0;
 		for (var i = 0; i < names.length; i++) {
 			var h = heroes[names[i]];
 			if (partyFilter && !useFiltered) {
 				var pd = (h.byPartySize || {})[partyFilter];
-				if (pd && pd.games >= minGames) totalGames += pd.games;
+				if (pd) totalGames += pd.games;
 			} else {
-				if (h.games >= minGames) totalGames += h.games;
+				totalGames += h.games;
 			}
 		}
 
@@ -356,10 +358,11 @@ var PlayerView = (function() {
 
 	function buildMapRows(maps, minGames, partyData) {
 		var rows = [];
+		// Pick-rate denominator: total games in scope, independent of the Min Games slider.
 		var totalGames = 0;
 		var names = Object.keys(maps);
 		for (var i = 0; i < names.length; i++) {
-			if (maps[names[i]].games >= minGames) totalGames += maps[names[i]].games;
+			totalGames += maps[names[i]].games;
 		}
 		for (var i = 0; i < names.length; i++) {
 			var name = names[i];

@@ -38,10 +38,10 @@ try {
 		AllowPTR = true,
 		ShouldParseTrackerEvents = true,
 		ShouldParseMessageEvents = true,
-		ShouldParseGameEvents = false,
+		ShouldParseGameEvents = true,
 	});
 } catch (System.Exception ex) {
-	System.Console.Error.WriteLine($"Library threw while parsing: {ex.GetType().Name}: {ex.Message}");
+	System.Console.Error.WriteLine($"Library threw while parsing: {ex}");
 	return 2;
 }
 
@@ -57,7 +57,10 @@ bool isRecoverable = result.Status == StormReplayParseStatus.Success
 	|| result.Status == StormReplayParseStatus.TryMeMode;
 
 if (!isRecoverable || result.Replay == null) {
-	string detail = result.Exception?.Message ?? "no exception detail";
+	// Full ToString() (not just Message) surfaces the inner exception + stack the
+	// library swallows into result.Exception, which is needed to diagnose the
+	// otherwise-opaque unparseable replays.
+	string detail = result.Exception?.ToString() ?? "no exception detail";
 	System.Console.Error.WriteLine($"Parse failed (status={result.Status}): {detail}");
 	return 2;
 }

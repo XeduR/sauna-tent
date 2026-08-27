@@ -56,10 +56,6 @@ var Data = (function() {
 		return fetchJSON(`matches/${id}.json`);
 	}
 
-	function hallOfFame() {
-		return fetchJSON("hall-of-fame.json");
-	}
-
 	function heroColors() {
 		return fetchJSON("hero-colors.json");
 	}
@@ -95,7 +91,6 @@ var Data = (function() {
 		map: map,
 		matchIndex: matchIndex,
 		match: match,
-		hallOfFame: hallOfFame,
 		heroColors: heroColors,
 		talentNames: talentNames,
 		talentDescriptions: talentDescriptions,

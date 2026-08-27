@@ -16,6 +16,8 @@ _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TOOL_COMMAND = "heroes-replay-parser-cs"
 _PARSER_SOURCE_DIR = os.path.join(_PROJECT_ROOT, "tools", "replay-parser-cs")
 _NUPKG_DIR = os.path.join(_PARSER_SOURCE_DIR, "nupkg")
+_CSPROJ_PATH = os.path.join(_PARSER_SOURCE_DIR, "HeroesReplayParserCs.csproj")
+_VERSION_RE = re.compile(r"<Version>\s*([^<\s]+)\s*</Version>")
 
 # Game runs at 16 loops per second
 _LOOPS_PER_SECOND = 16
@@ -45,6 +47,13 @@ _SDK_GUIDANCE = (
 	"  https://dotnet.microsoft.com/download/dotnet/8.0\n"
 	"\n"
 	"After install, open a NEW terminal and re-run."
+)
+
+_TOOL_PATH_GUIDANCE = (
+	"The dotnet global-tool directory is not added to PATH on every platform.\n"
+	"Add it, open a NEW terminal, and re-run:\n"
+	"  Windows:     %USERPROFILE%\\.dotnet\\tools\n"
+	"  Linux/macOS: $HOME/.dotnet/tools"
 )
 
 
@@ -84,16 +93,31 @@ def _resolve_game_mode(game_mode: str, lobby_mode: str, map_internal_id: str | N
 	return game_mode
 
 
-def is_parser_installed() -> bool:
-	"""Check whether heroes-replay-parser-cs is registered as a global dotnet tool."""
+def _read_csproj_version() -> str | None:
+	"""Parse the <Version> element from the sidecar csproj. None if unreadable."""
+	try:
+		with open(_CSPROJ_PATH, "r", encoding="utf-8") as f:
+			match = _VERSION_RE.search(f.read())
+	except OSError:
+		return None
+	return match.group(1) if match else None
+
+
+def _installed_tool_version() -> str | None:
+	"""Return the installed global-tool version, or None if not installed."""
 	try:
 		result = subprocess.run(
 			["dotnet", "tool", "list", "--global"],
 			capture_output=True, text=True, check=True,
 		)
 	except (subprocess.CalledProcessError, FileNotFoundError):
-		return False
-	return any(_TOOL_COMMAND in line.lower() for line in result.stdout.splitlines())
+		return None
+	for line in result.stdout.splitlines():
+		parts = line.split()
+		# Columns: "<packageId> <version> <commands...>"
+		if len(parts) >= 2 and parts[0].lower() == _TOOL_COMMAND:
+			return parts[1]
+	return None
 
 
 def _list_dotnet_sdks() -> list[str]:
@@ -115,11 +139,15 @@ def _prompt_yes_no(message: str) -> bool:
 	return answer == "y"
 
 
-def _nupkg_exists() -> bool:
-	"""True if at least one .nupkg file is present in the nupkg directory."""
+def _find_nupkg(version: str) -> str | None:
+	"""Path to the nupkg matching the given version, or None if absent."""
 	if not os.path.isdir(_NUPKG_DIR):
-		return False
-	return any(name.endswith(".nupkg") for name in os.listdir(_NUPKG_DIR))
+		return None
+	target = f"{_TOOL_COMMAND}.{version}.nupkg"
+	for name in os.listdir(_NUPKG_DIR):
+		if name == target:
+			return os.path.join(_NUPKG_DIR, name)
+	return None
 
 
 def _pack_parser() -> None:
@@ -135,22 +163,32 @@ def _pack_parser() -> None:
 	)
 
 
-def _install_parser() -> None:
-	"""Install heroes-replay-parser-cs as a global dotnet tool, building the nupkg if needed."""
-	if not _nupkg_exists():
+def _install_parser(version: str, is_update: bool) -> None:
+	"""Install or update the global tool to the target version, packing the nupkg if missing."""
+	if _find_nupkg(version) is None:
 		_pack_parser()
-	print(f"Installing {_TOOL_COMMAND} ...")
+	verb = "update" if is_update else "install"
+	print(f"{'Updating' if is_update else 'Installing'} {_TOOL_COMMAND} {version} ...")
 	subprocess.run(
-		["dotnet", "tool", "install", "--global", "--add-source", _NUPKG_DIR, _TOOL_COMMAND],
+		["dotnet", "tool", verb, "--global", "--add-source", _NUPKG_DIR,
+			"--version", version, _TOOL_COMMAND],
 		check=True,
 	)
-	print(f"{_TOOL_COMMAND} installed.")
+	print(f"{_TOOL_COMMAND} {version} installed.")
 
 
-def ensure_parser_available() -> None:
-	"""Verify dotnet + the parser tool are available; prompt to install the tool if missing.
+def ensure_parser_available(non_interactive: bool = False) -> None:
+	"""Verify dotnet + the parser tool are available at the csproj's version.
+
+	The check is version-aware: if the installed global tool is missing or its
+	version does not match <Version> in the sidecar csproj, the tool is rebuilt
+	from source (dotnet pack) and (re)installed. This prevents a stale committed
+	nupkg from pinning an old parser after the C# source moves forward. It also
+	verifies the tool's shim actually resolves on PATH, which `dotnet tool list`
+	does not tell you.
 
 	Aborts via SystemExit if dotnet itself is missing or the user declines.
+	With non_interactive=True (CI), the (re)install proceeds without prompting.
 	Intended for one-shot startup checks (batch.py); parse_replay does not
 	call this itself to avoid per-replay overhead.
 	"""
@@ -161,17 +199,36 @@ def ensure_parser_available() -> None:
 			"ERROR: no .NET SDK is installed (the runtime alone cannot install global tools).\n\n"
 			+ _SDK_GUIDANCE
 		)
-	if is_parser_installed():
-		return
-	print(f"{_TOOL_COMMAND} is not installed as a global dotnet tool.")
-	print(r"It will be installed into %USERPROFILE%\.dotnet\tools (user-scoped, no admin).")
-	if not _prompt_yes_no(f"Install {_TOOL_COMMAND} now? (builds the nupkg via dotnet pack if missing)"):
+
+	target = _read_csproj_version()
+	if target is None:
+		raise SystemExit(f"Cannot read parser version from {_CSPROJ_PATH}")
+	installed = _installed_tool_version()
+	if installed != target:
+		if installed is None:
+			summary = f"install {_TOOL_COMMAND} {target}"
+		else:
+			summary = f"update {_TOOL_COMMAND} {installed} -> {target}"
+		print(f"{_TOOL_COMMAND}: need to {summary}.")
+		print(r"It installs into %USERPROFILE%\.dotnet\tools (user-scoped, no admin).")
+		if not non_interactive and not _prompt_yes_no(
+			f"Proceed to {summary}? (builds the nupkg via dotnet pack if missing)"
+		):
+			raise SystemExit(
+				"Aborted. To install manually:\n"
+				f"  cd tools/replay-parser-cs && dotnet pack -c Release -o ./nupkg\n"
+				f"  dotnet tool update --global --add-source ./nupkg {_TOOL_COMMAND}"
+			)
+		_install_parser(target, installed is not None)
+
+	# An installed-but-unreachable tool is the dangerous case: every replay would
+	# fail with "binary not found" and be cached as an `unparseable` verdict,
+	# which then sticks until a --reprocess run.
+	if shutil.which(_TOOL_COMMAND) is None:
 		raise SystemExit(
-			"Aborted. To install manually:\n"
-			f"  cd tools/replay-parser-cs && dotnet pack -c Release -o ./nupkg\n"
-			f"  dotnet tool install --global --add-source ./nupkg {_TOOL_COMMAND}"
+			f"ERROR: '{_TOOL_COMMAND}' {target} is installed but was not found on PATH.\n\n"
+			+ _TOOL_PATH_GUIDANCE
 		)
-	_install_parser()
 
 
 def _run_sidecar(replay_path: str) -> dict:
@@ -182,9 +239,11 @@ def _run_sidecar(replay_path: str) -> dict:
 			capture_output=True, text=True, encoding="utf-8",
 		)
 	except FileNotFoundError as e:
-		raise ValueError(
-			f"Replay parser binary not found on PATH: {_TOOL_COMMAND}. "
-			"Run `dotnet tool install --global --add-source tools/replay-parser-cs/nupkg heroes-replay-parser-cs`."
+		# Environment fault, not a bad replay: SystemExit aborts the run instead
+		# of letting the caller record a per-replay `unparseable` verdict for
+		# every file in the library.
+		raise SystemExit(
+			f"ERROR: '{_TOOL_COMMAND}' was not found on PATH.\n\n" + _TOOL_PATH_GUIDANCE
 		) from e
 
 	if proc.returncode != 0:
@@ -199,8 +258,7 @@ def _run_sidecar(replay_path: str) -> dict:
 
 
 def _trim_talents(choices: list) -> list:
-	"""Drop trailing None entries to match the variable-length output of the
-	old Python parser (which only populated up to the highest tier reached)."""
+	"""Drop trailing None entries so the list ends at the highest tier reached."""
 	end = len(choices)
 	while end > 0 and choices[end - 1] is None:
 		end -= 1
@@ -303,13 +361,15 @@ def _apply_chat_analysis(players: list, chat_records: list, elapsed_loops: int, 
 def parse_replay_raw(replay_path: str) -> dict:
 	"""Run the C# sidecar and return its raw JSON output verbatim.
 
-	Used by remove_replays.py for filtering decisions on every replay,
+	Used by the batch classifier for filtering decisions on every replay,
 	including incomplete games that parse_replay() rejects. No analysis
 	or transformation is applied; the dict shape matches MatchJson.cs.
 
 	Raises:
 		FileNotFoundError: If the replay file doesn't exist.
 		ValueError: If the sidecar exits non-zero or returns invalid JSON.
+		SystemExit: If the sidecar binary itself is missing from PATH (an
+			environment fault that must abort the run, not a per-replay verdict).
 	"""
 	if not os.path.isfile(replay_path):
 		raise FileNotFoundError(f"Replay not found: {replay_path}")
@@ -319,7 +379,7 @@ def parse_replay_raw(replay_path: str) -> dict:
 def resolve_game_mode(raw: dict) -> str:
 	"""Resolve a raw sidecar dict into the dashboard's expected mode string.
 
-	Exposed so remove_replays.py classifies modes the same way as parse_replay.
+	Exposed so the batch classifier resolves modes the same way as parse_replay.
 	"""
 	return _resolve_game_mode(
 		raw.get("gameMode") or "",
@@ -342,8 +402,62 @@ def parse_replay(replay_path: str) -> dict:
 		ValueError: If the sidecar fails to parse the file, returns invalid
 			data, or the match is incomplete (score data missing).
 	"""
-	raw = parse_replay_raw(replay_path)
+	return analyze_raw(parse_replay_raw(replay_path))
 
+
+# Tier-1 whitelist keys that are populated downstream of analyze_raw, so the
+# coverage guard must not expect analyze_raw to produce them: process_single /
+# batch add matchId + replayFile; tag_players adds the roster/alt/party keys.
+_POST_ANALYZE_TOPLEVEL_KEYS = frozenset({"matchId", "replayFile"})
+_POST_ANALYZE_PLAYER_KEYS = frozenset({
+	"isRoster", "rosterName", "isAlt", "altName", "partySize", "partyMembers",
+})
+
+# Set once the coverage guard has run (it is a static structural check, so one
+# pass per process is enough).
+_tier1_coverage_checked = False
+
+
+def _assert_tier1_coverage(match: dict) -> None:
+	"""Fail loudly if run.py's tier-1 whitelist promotes a key analyze_raw never
+	produces.
+
+	A key added to _TIER1_TOPLEVEL_KEYS / _TIER1_PLAYER_KEYS but not built here
+	(or downstream) would be silently dropped from tier-1: the whitelist would
+	have nothing to pass through. This runs once per process on the first analysed
+	match, so it fires in normal pipeline use (batch/process/single), not only
+	under tests.
+	"""
+	global _tier1_coverage_checked
+	if _tier1_coverage_checked:
+		return
+	# Deferred import: run.py imports this module, so a top-level import cycles.
+	from pipeline.run import _TIER1_TOPLEVEL_KEYS, _TIER1_PLAYER_KEYS
+
+	missing_top = (set(_TIER1_TOPLEVEL_KEYS) - _POST_ANALYZE_TOPLEVEL_KEYS) - set(match)
+	if missing_top:
+		raise AssertionError(
+			f"analyze_raw does not produce tier-1 top-level key(s) {sorted(missing_top)}. "
+			"Add them to the match dict here, or drop them from _TIER1_TOPLEVEL_KEYS in run.py."
+		)
+	players = match.get("players") or []
+	if players:
+		missing_player = (set(_TIER1_PLAYER_KEYS) - _POST_ANALYZE_PLAYER_KEYS) - set(players[0])
+		if missing_player:
+			raise AssertionError(
+				f"analyze_raw does not produce tier-1 player key(s) {sorted(missing_player)}. "
+				"Add them to the player rebuild here, or drop them from _TIER1_PLAYER_KEYS in run.py."
+			)
+	_tier1_coverage_checked = True
+
+
+def analyze_raw(raw: dict) -> dict:
+	"""Apply Sauna Tent analysis to an already-fetched raw sidecar dict.
+
+	Split out from parse_replay so a caller that already holds the raw dict
+	(e.g. the batch classifier) can analyse it without a second sidecar
+	invocation. Raises ValueError if the match is incomplete.
+	"""
 	if raw.get("isIncomplete"):
 		raise ValueError("Score data missing - incomplete game")
 
@@ -380,6 +494,9 @@ def parse_replay(replay_path: str) -> dict:
 			"heroLevel": raw_player.get("heroLevel"),
 			"talentChoices": _trim_talents(raw_player.get("talentChoices", [])),
 			"stats": dict(raw_player.get("stats", {})),
+			# Tier-1 named end-of-match awards (empty until game-event parsing is
+			# on). output.py copies this into the match-index awards list.
+			"matchAwardsList": list(raw_player.get("matchAwardsList") or []),
 		})
 
 	# Chat / toxicity / behaviour analysis (consumes the intermediate
@@ -405,7 +522,7 @@ def parse_replay(replay_path: str) -> dict:
 		assists = s.get("assists", 0)
 		s["kda"] = round((kills + assists) / max(deaths, 1), 2)
 
-	return {
+	match = {
 		"map": map_name,
 		"timestamp": raw.get("timestamp", ""),
 		"durationSeconds": round(raw.get("durationSeconds", 0), 1),
@@ -420,3 +537,5 @@ def parse_replay(replay_path: str) -> dict:
 		"firstMercTeam": raw.get("firstMercTeam"),
 		"draft": draft,
 	}
+	_assert_tier1_coverage(match)
+	return match

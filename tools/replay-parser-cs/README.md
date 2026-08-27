@@ -32,18 +32,24 @@ exit 0 and lets the Python layer categorise the result:
   and Python rejects via the `unwanted_mode` category.
 
 Everything else (`Exception`, `UnexpectedResult`, `PreAlphaWipe`,
-`FileSizeTooLarge`, `FileNotFound`, `Unknown`) exits 2 with the status and any
-exception message on stderr.
+`FileSizeTooLarge`, `FileNotFound`, `Unknown`) exits 2 with the status and the
+failing result's full inner exception (`ToString()`, including the library
+stack) on stderr, so opaque parse failures can be diagnosed.
 
 All error messages go to stderr. Python reads stdout as JSON.
 
-The JSON schema is the intermediate shape consumed by
+The JSON schema is a superset consumed by
 [pipeline/parser.py](../../pipeline/parser.py): typed library fields
 (`build`, `gameMode`, `lobbyMode`, `mapInternalId`, `winningTeam`, ...)
 plus the raw event walks for first blood, death sources, votes, jungle
-camp captures, chat records, pings, and disconnects. The Python layer
-resolves hero/map names, detects ARAM, computes KDA, and analyses chat
-toxicity.
+camp captures, chat records, pings, and disconnects, plus the full tier-2
+extraction (award lists, loadouts, extended score, level/XP timelines, kill
+feed, positions, generic stat events, and ability/talent/ping game events).
+Game events are parsed (`ShouldParseGameEvents = true`), dropping the
+high-volume noise event types. The pipeline splits the superset into the
+served tier-1 schema and the tier-2 archive (see
+[pipeline/README.md](../../pipeline/README.md)); the Python layer resolves
+hero/map names, detects ARAM, computes KDA, and analyses chat toxicity.
 
 ## Build
 

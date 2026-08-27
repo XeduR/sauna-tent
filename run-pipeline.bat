@@ -2,8 +2,13 @@
 REM Runs the replay processing pipeline with selectable workflows.
 REM
 REM Main workflows:
-REM   1. Incremental update    -- process new replays + regenerate dashboard data
-REM   2. Force full reprocess  -- reprocess every replay + regenerate dashboard data
+REM   1. Incremental update    -- classify + parse new replays, regenerate dashboard data
+REM   2. Force full reprocess  -- clear the cache, re-derive from present replays, regenerate
+REM
+REM The pipeline never deletes replay files. Unwanted and duplicate replays are
+REM classified and skipped (recorded in the local manifest cache so they are not
+REM re-parsed), never removed. Replays are disposable inputs; the committed
+REM data\matches\*.json files are the source of truth.
 REM
 REM Optional sub-steps (asked per run):
 REM   - Collect new replays from %USERPROFILE% before the pipeline (refresh-replays.bat)
@@ -12,9 +17,10 @@ REM
 REM First-run prerequisites:
 REM   - .NET 8.0 SDK installed (same SDK as refresh-hero-data.bat uses):
 REM     https://dotnet.microsoft.com/download/dotnet/8.0  (pick "SDK", x64)
-REM   - The pipeline checks for the heroes-replay-parser-cs global tool at
-REM     startup. If missing, it prompts y/N to build the nupkg (dotnet pack)
-REM     and install the tool automatically. Declining aborts the run.
+REM   - The pipeline checks the heroes-replay-parser-cs global tool at startup
+REM     and compares its version against the sidecar csproj. If it is missing or
+REM     stale, it prompts y/N to rebuild the nupkg (dotnet pack) and (re)install
+REM     the tool. Declining aborts the run.
 REM
 REM Usage:
 REM   run-pipeline.bat                       (uses default hero-data game path)
@@ -84,8 +90,8 @@ if "%RUN_COLLECT%"=="1" (
     echo.
 )
 
-echo [Main] Running pipeline: %PIPELINE_FLAGS%
-%PYTHON% -m pipeline.batch %PIPELINE_FLAGS%
+echo [Main] Running pipeline: process %PIPELINE_FLAGS%
+%PYTHON% -m pipeline.batch process %PIPELINE_FLAGS%
 if errorlevel 1 (
     echo.
     echo Pipeline failed. See output above.

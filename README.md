@@ -21,6 +21,8 @@ Double-click `refresh-replays.bat` (or run `python collect_replays.py`). It walk
 3. Wait for the search to finish, then select all results and copy them to a temporary folder. Make sure to copy, not cut, so the originals remain in place.
 4. Zip the folder and send it over.
 
+You can also contribute replays through a pull request instead of sending them; see [Contributing replays](#contributing-replays).
+
 ## Setup
 
 1. Place `.StormReplay` files in `replays/`.
@@ -46,65 +48,83 @@ Double-click `run-pipeline.bat`. It prompts for:
 2. Whether to collect new replays from `%USERPROFILE%` first (runs `collect_replays.py`).
 3. Whether to refresh static hero data after the pipeline (runs `refresh-hero-data.bat`).
 
-Forwards the optional first argument (game install path) to `refresh-hero-data.bat`. The pipeline itself uses `--generate` (and `--reprocess` for option 2).
+Forwards the optional first argument (game install path) to `refresh-hero-data.bat`. The pipeline itself runs `process --generate` (and `--reprocess` for option 2). It never deletes replays.
 
 ### Adding new replays (CLI)
 
 ```bash
-python -m pipeline.batch --generate
+python -m pipeline.batch process --generate
 ```
 
-Removes unwanted replays, parses new ones (skips unchanged files via manifest), aggregates stats, and writes minified dashboard JSON to `data/`. This is the normal workflow after dropping new `.StormReplay` files into `replays/`.
+Classifies and parses new replays (skips unchanged files via the manifest cache), aggregates stats, and writes minified dashboard JSON to `data/`. This is the normal workflow after dropping new `.StormReplay` files into `replays/`. Unwanted and duplicate replays are classified and skipped, never deleted. Running with no subcommand defaults to `process`, so `python -m pipeline.batch --generate` still works.
 
 ### Full reprocess
 
 ```bash
-python -m pipeline.batch --generate --reprocess
+python -m pipeline.batch process --generate --reprocess
 ```
 
-Same as above but clears the manifest and re-parses every replay from scratch. Needed after pipeline code changes, config changes, or data structure updates.
+Clears the manifest cache and re-derives every match from the replays currently on disk. Committed match files whose replay is no longer present are left untouched. Needed after pipeline code changes or to re-examine previously rejected replays. (Roster/alt/cutoff changes use `retag`, not reprocess - see below.)
 
 ### Debug/inspection run
 
 ```bash
-python -m pipeline.batch --generate --pretty
+python -m pipeline.batch process --generate --pretty
 ```
 
 Same as above but writes human-readable (indented) JSON. Useful for inspecting output files by hand. The `--pretty` flag increases file size, so use minified output (no flag) for production/deployment.
 
-### Individual steps
+### Managing the dataset
 
 ```bash
-# Remove unwanted replays only (duplicates, wrong mode, AI, etc.)
-python remove_replays.py
+# Re-derive roster/alt tags on every committed match (after a roster/alt rename)
+python -m pipeline.batch retag
 
-# Process a single replay
+# Remove one match permanently (tombstones it so it never returns)
+python -m pipeline.batch remove-match <matchId>
+
+# Process a single replay by hand
 python -m pipeline.run replays/FILENAME.StormReplay --pretty
 
 # Re-run aggregation and output without re-parsing
-python -m pipeline.batch --generate
+python -m pipeline.batch process --generate
 ```
 
-### Pipeline steps
+`retag` rewrites `isRoster` / `rosterName` / `isAlt` / `altName` / `partySize` / `partyMembers` in place from the toon IDs stored in each match file plus the current `pipeline.json`; it needs no replays. Run it after renaming a player in `pipeline.json`, then regenerate output.
 
-The batch command runs these steps in order:
+`remove-match` deletes `data/matches/<matchId>.json` and appends the id to `data/removed-matches.json`, a committed tombstone registry. Tombstoned matches are never re-created by `process` or `--reprocess`, nor by a re-uploaded overlapping replay. To un-remove a match, delete its id from `data/removed-matches.json` and run `process --reprocess`. Regenerate aggregates afterwards.
 
-1. **Remove replays** - scans all replays for duplicates, unwanted game modes, AI games, incomplete matches, etc. Prompts per category before deleting.
-2. **Process replays** - parses remaining replays into per-match JSON in `data/matches/`. Incremental by default (tracks file hashes in `manifest.json`).
-3. **Generate output** (with `--generate`) - aggregates match data and writes dashboard JSON: summary, hall of fame, per-player/hero/map stats, and the match index.
+### Processing model
 
-Before any of these steps run, the batch verifies that `dotnet` and the `heroes-replay-parser-cs` global tool are installed. On a fresh machine it prompts to install the tool; declining aborts the run.
+The committed `data/matches/*.json` files plus `data/matches/index.json` are the canonical registry of processed matches. `manifest.json` (gitignored) is a local performance cache keyed by each replay's content hash, so unchanged replays are never re-parsed. The pipeline never deletes replay files, and it never deletes a committed match file because a replay went missing. Replays are disposable inputs: the pipeline runs fine with `replays/` absent or empty, working from the committed data alone.
 
-### Batch flags
+`process` runs, in order:
+
+1. **Classify + parse** each new or changed replay once, writing accepted matches to `data/matches/` and recording rejected / duplicate / tombstoned verdicts in the cache. The sidecar is only required when there are replays to parse.
+2. **Generate output** (with `--generate`) - aggregates match data and writes dashboard JSON: summary, hall of fame, per-player/hero/map stats, and the match index.
+
+A change to `roster`, `alts`, or `cutoffDate` in `pipeline.json` prints guidance to run `retag` (which re-derives tags on the committed matches) instead of reprocessing replays. Before parsing, the batch verifies `dotnet` and the `heroes-replay-parser-cs` global tool are installed at the version pinned in the sidecar csproj, rebuilding/reinstalling if stale, and that the tool actually resolves on PATH (the dotnet global-tool directory is not on PATH by default outside Windows; an installed-but-unreachable tool aborts the run instead of marking every replay unparseable). On a fresh machine it prompts to install; `--ci` installs without prompting. See `pipeline/README.md` for the full acceptance criteria.
+
+### Commands and flags
+
+| Command | Description |
+|---|---|
+| `process` (default) | Classify + parse new replays, write match JSON |
+| `retag` | Re-derive roster/alt tags on every committed match in place |
+| `remove-match <id>` | Delete one match and tombstone it |
+
+`process` flags:
 
 | Flag | Description |
 |---|---|
 | `--generate` | Run aggregation and write dashboard JSON after processing |
+| `--reprocess` | Clear the cache and re-derive from the replays on disk |
 | `--pretty` | Pretty-print (indent) JSON output instead of minified |
-| `--reprocess` | Clear manifest and re-parse all replays from scratch |
+| `--ci` | Non-interactive: never prompt (auto-install the sidecar) |
+| `--summary-out PATH` | Write a machine-readable JSON run summary |
 | `--config PATH` | Override pipeline config path (default: `pipeline.json`) |
 | `--output-dir DIR` | Override output directory (default: from config) |
-| `--manifest PATH` | Override manifest file path (default: `manifest.json`) |
+| `--manifest PATH` | Override manifest cache path (default: `manifest.json`) |
 
 ### Serving the dashboard
 
@@ -113,6 +133,12 @@ Any static file server works. The frontend fetches JSON from `data/` via relativ
 **Local development (XAMPP)**: Point the project directory into XAMPP's `htdocs`. The `.htaccess` rewrites all non-file paths to `index.html` for SPA routing. No additional setup needed.
 
 **GitHub Pages**: The `404.html` redirect handles SPA routing by saving the requested path to `sessionStorage` and redirecting to the deployment root, where `index.html` restores the path via `history.replaceState`.
+
+## Contributing replays
+
+Replays are processed locally, and the maintainer makes every commit to this repository.
+
+To contribute your games, either send the maintainer a zip of your `.StormReplay` files (the [Manual](#manual-sharing-replays-with-a-teammate) steps above) for them to process, or, if you have the toolchain (Python 3.12+ and the .NET 8 SDK), fork the repository, run the pipeline locally to regenerate `data/`, and open a pull request. The maintainer reviews and merges it, and GitHub Pages redeploys from `main`.
 
 ## Refreshing hero data
 
@@ -163,7 +189,7 @@ There is no backend. The entire dashboard is a static site served from GitHub Pa
 
 The replay files (`.StormReplay`) are too large for GitHub. A typical dataset is several thousand files totalling multiple gigabytes. GitHub enforces a 2 GB push limit and recommends keeping repositories under 1 GB. Even with Git LFS, GitHub Actions runners only have ~14 GB of disk, leaving insufficient room for replay processing alongside the OS and toolchain.
 
-The pipeline is designed to run locally. Replay files are gitignored and never leave the local machine. Only the pre-computed JSON output (`data/`, typically under 100 MB) is committed and deployed to GitHub Pages.
+The pipeline is designed to run locally. Replay files are gitignored, so the local pipeline never bulk-commits them; a typical dataset stays entirely on the owner's machine. Only the pre-computed JSON output (`data/`, typically under 100 MB) is committed and deployed to GitHub Pages.
 
 For a private team dashboard with a bounded dataset (a few thousand matches), a traditional database backend is unnecessary infrastructure and cost. The static approach trades a one-time upfront download for zero hosting cost and instant filter responsiveness after load.
 

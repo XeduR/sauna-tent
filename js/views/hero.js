@@ -219,9 +219,10 @@ var HeroView = (function() {
 
 	function buildPlayerRows(data, minGames, partyData) {
 		var rows = [];
+		// Pick-rate denominator: total games in scope, independent of the Min Games slider.
 		var totalGames = 0;
 		for (var name in data) {
-			if (data[name].games >= minGames) totalGames += data[name].games;
+			totalGames += data[name].games;
 		}
 		for (var name in data) {
 			var p = data[name];

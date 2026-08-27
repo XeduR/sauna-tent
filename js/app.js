@@ -141,6 +141,37 @@ function winrateSpan(rate) {
 	return '<span class="winrate" style="--wr-color:' + winrateColor(rate) + '">' + formatWinrate(rate) + '</span>';
 }
 
+// Wilson score interval lower bound for a binomial proportion. Used as the sort
+// key for every winrate/proportion leaderboard so a small sample of lucky games
+// cannot outrank a long, consistent record. The displayed rate stays the raw
+// successes/n; only the ordering uses this. z defaults to 1.96 (95% one-sided ~97.5%).
+function wilsonLowerBound(successes, n, z) {
+	if (!n || n <= 0) return 0;
+	if (z === undefined) z = 1.96;
+	var phat = successes / n;
+	var z2 = z * z;
+	var denom = 1 + z2 / n;
+	var centre = phat + z2 / (2 * n);
+	var margin = z * Math.sqrt((phat * (1 - phat) + z2 / (4 * n)) / n);
+	return (centre - margin) / denom;
+}
+
+// Wilson score interval upper bound (same formula as the lower bound, with a plus
+// before the margin). Used to order "worst" leaderboards ascending: a lone 0-win
+// sample has a lower bound pinned at 0, so ordering those boards by the lower
+// bound lets any tiny 0-win sample top them. The upper bound instead ranks a
+// large, reliably-bad sample above noisy tiny ones.
+function wilsonUpperBound(successes, n, z) {
+	if (!n || n <= 0) return 0;
+	if (z === undefined) z = 1.96;
+	var phat = successes / n;
+	var z2 = z * z;
+	var denom = 1 + z2 / n;
+	var centre = phat + z2 / (2 * n);
+	var margin = z * Math.sqrt((phat * (1 - phat) + z2 / (4 * n)) / n);
+	return (centre + margin) / denom;
+}
+
 function statBox(label, value) {
 	return '<div class="stat-box"><div class="label">' + escapeHtml(label) +
 		'</div><div class="value">' + value + '</div></div>';
@@ -301,9 +332,53 @@ function appLink(path) {
 	return Router.basePath + path;
 }
 
+// Split a match timestamp's leading YYYY-MM-DD into [year, month, day] strings.
+// The dataset's time portion uses dots ("...T13.51.10..."), so only the date is
+// parsed; this is the shared primitive for all client-side match-date handling.
+function matchDateParts(isoTimestamp) {
+	return isoTimestamp.substring(0, 10).split("-");
+}
+
 function formatDateFinnish(isoTimestamp) {
-	var parts = isoTimestamp.substring(0, 10).split("-");
+	var parts = matchDateParts(isoTimestamp);
 	return parts[2] + "/" + parts[1] + "/" + parts[0];
+}
+
+// Local-midnight Date from a match timestamp (day granularity).
+function parseMatchDate(isoTimestamp) {
+	var parts = matchDateParts(isoTimestamp);
+	return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+}
+
+var MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// "12 Jul 2026" style date for the latest-match strip.
+function formatDateLong(isoTimestamp) {
+	var d = parseMatchDate(isoTimestamp);
+	return d.getDate() + " " + MONTH_ABBR[d.getMonth()] + " " + d.getFullYear();
+}
+
+// Human relative age of a match date: today, yesterday, N days/weeks/months/years ago.
+function relativeMatchTime(isoTimestamp) {
+	var then = parseMatchDate(isoTimestamp);
+	var now = new Date();
+	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+	var days = Math.round((today.getTime() - then.getTime()) / 86400000);
+
+	if (days <= 0) return "today";
+	if (days === 1) return "yesterday";
+	if (days <= 13) return days + " days ago";
+	if (days <= 62) return Math.floor(days / 7) + " weeks ago";
+
+	var months = (today.getFullYear() - then.getFullYear()) * 12 + (today.getMonth() - then.getMonth());
+	if (today.getDate() < then.getDate()) months -= 1;
+	if (months < 12) {
+		// Weeks already cover up to ~2 months, so the month branch starts at 2.
+		if (months < 2) months = 2;
+		return months + " months ago";
+	}
+	var years = Math.floor(months / 12);
+	return years + (years === 1 ? " year ago" : " years ago");
 }
 
 // Registry for sortable tables created by shared render functions.
@@ -559,7 +634,7 @@ function aggregateGroup(entries, minGames) {
 			kills: totalKills / o.games,
 			deaths: totalDeaths / o.games,
 			assists: totalAssists / o.games,
-			kda: totalDeaths > 0 ? (totalKills + totalAssists) / totalDeaths : 0,
+			kda: (totalKills + totalAssists) / Math.max(totalDeaths, 1),
 			heroDamage: totalHeroDamage / o.games,
 			siegeDamage: totalSiegeDamage / o.games,
 		};
@@ -996,6 +1071,15 @@ async function populateNav() {
 				ARAM_MAPS[summary.aramMaps[i]] = true;
 			}
 		}
+		// Latest-match freshness strip. Absent field -> strip stays hidden.
+		if (summary.latestMatchTimestamp) {
+			var stripEl = document.getElementById("latest-match");
+			if (stripEl) {
+				stripEl.textContent = "Latest match: " + formatDateLong(summary.latestMatchTimestamp) +
+					" (" + relativeMatchTime(summary.latestMatchTimestamp) + ")";
+				stripEl.classList.add("is-visible");
+			}
+		}
 	} catch (err) {
 		// Non-critical
 	}
@@ -1016,19 +1100,34 @@ function setupGlobalNoAltsToggle() {
 	});
 }
 
+// Viewport width (px) at/above which the nav shows the full horizontal row;
+// below it the hamburger menu is used. Must match the min-width of the nav
+// @media block in css/style.css (the 1040px one, separate from the 769px desktop
+// block; CSS cannot read a JS value, so the two are kept in sync by hand).
+var NAV_BREAKPOINT_PX = 1040;
+
+function isMobileNav() {
+	return !window.matchMedia("(min-width: " + NAV_BREAKPOINT_PX + "px)").matches;
+}
+
 // Mobile nav toggle
 function setupMobileNav() {
 	var toggle = document.querySelector(".nav-toggle");
 	var links = document.querySelector(".nav-links");
 
+	function setOpen(open) {
+		links.classList.toggle("open", open);
+		toggle.setAttribute("aria-expanded", open ? "true" : "false");
+	}
+
 	toggle.addEventListener("click", function() {
-		links.classList.toggle("open");
+		setOpen(!links.classList.contains("open"));
 	});
 
 	// Close mobile nav on link click
 	links.addEventListener("click", function(e) {
 		if (e.target.tagName === "A" && !e.target.classList.contains("nav-dropdown-toggle")) {
-			links.classList.remove("open");
+			setOpen(false);
 		}
 	});
 
@@ -1037,9 +1136,9 @@ function setupMobileNav() {
 	var dropdownToggles = document.querySelectorAll(".nav-dropdown-toggle");
 	for (var i = 0; i < dropdownToggles.length; i++) {
 		dropdownToggles[i].addEventListener("click", function(e) {
-			if (window.innerWidth <= 768) {
+			if (isMobileNav()) {
 				// Navigate to the main page (href is set on the link)
-				links.classList.remove("open");
+				setOpen(false);
 			}
 		});
 	}

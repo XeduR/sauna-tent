@@ -15,14 +15,12 @@ var MatchView = (function() {
 		{ key: "timeSpentDead", label: "Dead Time" }
 	];
 
-	// DD/MM/YYYY HH:MM for human-readable display. Tables use DD/MM/YYYY (formatDateFinnish).
+	// DD/MM/YYYY HH:MM for human-readable display. Date goes through the shared
+	// separator-agnostic parse (formatDateFinnish); HH:MM is read positionally so
+	// both dot- and colon-separated timestamps work. new Date(ts) chokes on the
+	// dataset's dot-format time. Tables use DD/MM/YYYY (formatDateFinnish).
 	function formatDate(ts) {
-		var d = new Date(ts);
-		return String(d.getDate()).padStart(2, "0") + "/" +
-			String(d.getMonth() + 1).padStart(2, "0") + "/" +
-			d.getFullYear() + " " +
-			String(d.getHours()).padStart(2, "0") + ":" +
-			String(d.getMinutes()).padStart(2, "0");
+		return formatDateFinnish(ts) + " " + ts.substring(11, 13) + ":" + ts.substring(14, 16);
 	}
 
 	function formatStatValue(key, value) {

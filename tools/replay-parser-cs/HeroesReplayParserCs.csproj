@@ -12,7 +12,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>heroes-replay-parser-cs</ToolCommandName>
 		<PackageId>heroes-replay-parser-cs</PackageId>
-		<Version>1.1.0</Version>
+		<Version>2.0.1</Version>
 		<Authors>Eetu Rantanen</Authors>
 		<Description>Sauna Tent sidecar that parses a single .StormReplay via Heroes.StormReplayParser and prints intermediate JSON for the Python pipeline.</Description>
 		<PackageOutputPath>./nupkg</PackageOutputPath>

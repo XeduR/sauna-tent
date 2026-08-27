@@ -119,7 +119,7 @@ Available from three sources (use EndOfGameTalentChoices for the most reliable i
 
 Additionally, `TalentChosen` (tracker SStatGameEvent) fires at the moment each talent is picked, giving exact timing per tier.
 
-`SHeroTalentTreeSelectedEvent` (game event, eventid 64) fires when the talent UI selection is made.
+`SHeroTalentTreeSelectedEvent` (game event, eventid 110 in current builds) fires when the talent UI selection is made. This id is build-generation-dependent: game-event ids are renumbered across build generations in the SC2 protocol (Heroes.StormReplayParser 2.2.1 declares it as 110).
 
 ## End-of-Game Stats (SScoreResultEvent)
 
@@ -264,6 +264,8 @@ Boolean fields (0 or 1). A player receives at most one award per match.
 | EndOfMatchAwardMostAltarDamageDone | Towers of Doom |
 | EndOfMatchAwardMostNukeDamageDoneBoolean | Warhead Junction |
 | EndOfMatchAwardMostInterruptedCageUnlocksBoolean | Alterac Pass |
+
+The authoritative source for award identities is the `MatchAwardType` enum in Heroes.StormReplayParser 2.2.1 (serialized per player as `matchAwardsList`): 23 generic awards (values 1-24, value 10 unused) and 16 map-specific awards (values 1001-1023, with gaps). The map-specific table above lists 13; the enum adds three not shown here: `MostTimePushing` (1016), `MostTimeOnPoint` (1019), and `MostSeedsCollected` (1023). Value 1011 (Lost Cavern) has no award.
 
 ## Player Positions and Heatmaps
 
@@ -597,7 +599,7 @@ Ability IDs change between game builds. No stable cross-build mapping exists. He
 | 36 | STriggerPingEvent | Ping with position, unit, minimap flag |
 | 39 | SUnitClickEvent | Unit clicked (spacebar centering) |
 | 46 | STriggerSoundOffsetEvent | Hero voice/sound trigger |
-| 64 | SHeroTalentTreeSelectedEvent | Talent tree UI selection |
+| 110 | SHeroTalentTreeSelectedEvent | Talent tree UI selection (eventid build-generation-dependent) |
 
 ## Misc Tracker Data
 

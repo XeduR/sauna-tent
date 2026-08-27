@@ -13,14 +13,15 @@
 		"topBuildsCount": 10
 	},
 	"draft": {
-		"minGamesForRecommendation": 3,
+		"minGamesForRecommendation": 10,
+		"minGamesToShow": 3,
 		"topRecommendations": 10,
-		"lowConfidenceThreshold": 5,
 		"minHeroesForCombo": 2
 	},
 	"hallOfFame": {
 		"topEntries": 5,
 		"winrateMinGames": 50,
+		"percentageMinGames": 20,
 		"stackMinGames": {
 			"duo": 10,
 			"trio": 5,

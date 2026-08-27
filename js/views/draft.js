@@ -142,31 +142,54 @@ var DraftView = (function() {
 			}
 		}
 
-		var minRec = AppSettings.draft.minGamesForRecommendation;
-		var allyRecs = [];
-		for (var h in allyStats) {
-			var s = allyStats[h];
-			if (s.games >= minRec) {
-				allyRecs.push({ hero: h, games: s.games, wins: s.wins, winrate: s.wins / s.games });
-			}
-		}
-		var oppRecs = [];
-		for (var h in oppStats) {
-			var s = oppStats[h];
-			if (s.games >= minRec) {
-				oppRecs.push({ hero: h, games: s.games, wins: s.wins, winrate: s.wins / s.games });
-			}
-		}
+		// Coerced so a browser holding a cached settings.json without these keys still behaves.
+		var minRec = AppSettings.draft.minGamesForRecommendation || 0;
+		var minShow = AppSettings.draft.minGamesToShow || 3;
 
-		var byWrDesc = function(a, b) { return b.winrate - a.winrate || b.games - a.games; };
-		var byWrAsc = function(a, b) { return a.winrate - b.winrate || b.games - a.games; };
+		// Collect every hero at or above the visibility floor. Those below the
+		// recommendation floor are flagged so they render greyed and always rank
+		// below floor-passing entries, never as a ranked recommendation.
+		function collectRecs(stats) {
+			var recs = [];
+			for (var h in stats) {
+				var s = stats[h];
+				if (s.games >= minShow) {
+					recs.push({
+						hero: h, games: s.games, wins: s.wins,
+						winrate: s.wins / s.games, belowFloor: s.games < minRec
+					});
+				}
+			}
+			return recs;
+		}
+		var allyRecs = collectRecs(allyStats);
+		var oppRecs = collectRecs(oppStats);
+
+		// Best/free-win boards want the highest reliable rate: Wilson LOWER bound,
+		// descending. Avoid/scariest boards want the most confidently bad: Wilson
+		// UPPER bound, ascending, so a lone 0-win sample (lower bound pinned at 0)
+		// can't dominate. Displayed winrate stays raw.
+		var byWrDesc = function(a, b) {
+			return wilsonLowerBound(b.wins, b.games) - wilsonLowerBound(a.wins, a.games) || b.games - a.games;
+		};
+		var byWrAsc = function(a, b) {
+			return wilsonUpperBound(a.wins, a.games) - wilsonUpperBound(b.wins, b.games) || b.games - a.games;
+		};
+		// Wrap a comparator so floor-passing entries always sort above sub-floor ones.
+		var floorFirst = function(cmp) {
+			return function(a, b) {
+				if (a.belowFloor !== b.belowFloor) return a.belowFloor ? 1 : -1;
+				return cmp(a, b);
+			};
+		};
+		var topN = AppSettings.draft.topRecommendations;
 
 		return {
 			matchedCount: matchedCount,
-			bestPicks: allyRecs.slice().sort(byWrDesc).slice(0, AppSettings.draft.topRecommendations),
-			avoid: allyRecs.slice().sort(byWrAsc).slice(0, AppSettings.draft.topRecommendations),
-			scariestPicks: oppRecs.slice().sort(byWrAsc).slice(0, AppSettings.draft.topRecommendations),
-			freeWins: oppRecs.slice().sort(byWrDesc).slice(0, AppSettings.draft.topRecommendations)
+			bestPicks: allyRecs.slice().sort(floorFirst(byWrDesc)).slice(0, topN),
+			avoid: allyRecs.slice().sort(floorFirst(byWrAsc)).slice(0, topN),
+			scariestPicks: oppRecs.slice().sort(floorFirst(byWrAsc)).slice(0, topN),
+			freeWins: oppRecs.slice().sort(floorFirst(byWrDesc)).slice(0, topN)
 		};
 	}
 
@@ -242,9 +265,7 @@ var DraftView = (function() {
 				ph.avgAssists = ph.totalAssists / combo.games;
 				ph.avgHeroDamage = ph.totalHeroDamage / combo.games;
 				ph.avgSiegeDamage = ph.totalSiegeDamage / combo.games;
-				ph.kda = ph.totalDeaths > 0
-					? (ph.totalKills + ph.totalAssists) / ph.totalDeaths
-					: 0;
+				ph.kda = (ph.totalKills + ph.totalAssists) / Math.max(ph.totalDeaths, 1);
 			}
 		}
 
@@ -395,7 +416,8 @@ var DraftView = (function() {
 			html += '<div class="draft-rec-list">';
 			for (var i = 0; i < entries.length; i++) {
 				var e = entries[i];
-				var cls = e.games < AppSettings.draft.lowConfidenceThreshold ? ' draft-low-conf' : '';
+				// Sub-floor entries (visible but never ranked) render greyed.
+				var cls = e.belowFloor ? ' draft-low-conf' : '';
 				html += '<div class="draft-rec-entry' + cls + '">' +
 					'<span class="draft-rec-rank">' + (i + 1) + '</span>' +
 					'<a href="' + appLink('/hero/' + slugify(e.hero)) + '">' + heroIconHtml(e.hero) + escapeHtml(e.hero) + '</a> ' +

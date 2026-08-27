@@ -5,6 +5,9 @@
 manifest.json
 *.log
 
+# Tier-2 match archives (gzipped full extracts, not served to client)
+/archive/
+
 # Third-party tools (keep README.md and the vendored replay-parser-cs source)
 tools/*
 !tools/README.md

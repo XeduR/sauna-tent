@@ -1,5 +1,5 @@
 # Output file generator. Takes aggregate data and writes dashboard-ready split
-# JSON: summary, roster, players, heroes, maps, hall-of-fame, match index.
+# JSON: summary, roster, players, heroes, maps, match index.
 
 import json
 import os
@@ -80,6 +80,10 @@ def _build_match_index_entry(match: dict) -> dict:
 		}
 		if hof:
 			rp["hof"] = hof
+		# Compact per-player named-award list (only when the parser supplied one).
+		awards = p.get("matchAwardsList") or []
+		if awards:
+			rp["awards"] = awards
 		roster_players.append(rp)
 
 	# All 10 players as hero/team pairs for team comp display
@@ -225,12 +229,27 @@ def write_output(
 	Returns:
 		Dict with counts of files written per category.
 	"""
-	counts = {"summary": 0, "roster": 0, "players": 0, "heroes": 0, "maps": 0, "matchIndex": 0, "hallOfFame": 0}
+	counts = {"summary": 0, "roster": 0, "players": 0, "heroes": 0, "maps": 0, "matchIndex": 0}
+
+	# Load every match file once: the freshness field below and the match index
+	# at the end both use it. This is the full set (alt-containing and Custom
+	# matches included), unlike the baseline-only aggregate stats.
+	matches_dir = os.path.join(output_dir, "matches")
+	matches = load_matches(matches_dir)
 
 	# summary.json
 	summary = aggregates["summary"]
 	summary["aramMaps"] = sorted(ARAM_MAP_NAMES)
 	summary["heroRoles"] = HERO_ROLES
+
+	# Filter-exempt freshness indicator: newest match across ALL matches,
+	# including the alt-containing ones the baseline stats exclude.
+	latest_timestamp = max(
+		(m["timestamp"] for m in matches if m.get("timestamp")),
+		default=None,
+	)
+	if latest_timestamp:
+		summary["latestMatchTimestamp"] = latest_timestamp
 
 	# All heroes with basic stats and roles for the heroes main page
 	all_heroes = []
@@ -261,11 +280,6 @@ def write_output(
 
 	_write_json(summary, os.path.join(output_dir, "summary.json"), pretty)
 	counts["summary"] = 1
-
-	# hall-of-fame.json
-	if "hallOfFame" in aggregates:
-		_write_json(aggregates["hallOfFame"], os.path.join(output_dir, "hall-of-fame.json"), pretty)
-		counts["hallOfFame"] = 1
 
 	# roster.json - player list with slugs for frontend navigation.
 	# Includes alts (loose Sauna Tent members) alongside the true roster.
@@ -343,9 +357,7 @@ def write_output(
 		_write_json(map_data, os.path.join(maps_dir, f"{slug}.json"), pretty)
 		counts["maps"] += 1
 
-	# matches/index.json - lightweight match list from existing match files
-	matches_dir = os.path.join(output_dir, "matches")
-	matches = load_matches(matches_dir)
+	# matches/index.json - lightweight match list from the matches loaded above
 	cutoff_date = config.get("cutoffDate")
 	index_entries = [
 		_build_match_index_entry(m) for m in matches
