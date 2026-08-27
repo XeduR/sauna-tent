@@ -60,6 +60,9 @@ var Router = (function() {
 		var openDropdowns = document.querySelectorAll(".nav-dropdown.open");
 		for (var i = 0; i < openDropdowns.length; i++) {
 			openDropdowns[i].classList.remove("open");
+			// Reset the toggle's aria-expanded so it doesn't stay "true" once closed.
+			var openToggle = openDropdowns[i].querySelector(".nav-dropdown-toggle");
+			if (openToggle) openToggle.setAttribute("aria-expanded", "false");
 		}
 
 		var links = document.querySelectorAll(".nav-link");

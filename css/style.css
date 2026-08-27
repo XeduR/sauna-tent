@@ -58,6 +58,10 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	/* Reserve the fixed-nav height here (not on #app) so the latest-match strip
+	   can sit directly below the nav while #app stays clear of it even when the
+	   strip is hidden. */
+	padding-top: var(--nav-height);
 }
 
 a {
@@ -134,6 +138,12 @@ a.nav-brand:hover {
 	padding: 0.5rem;
 	list-style: none;
 	gap: 0.3rem;
+}
+
+/* Mobile: hamburger opens the dropdown panel. The desktop @media below forces
+   .nav-links back to a static row regardless of this class. */
+.nav-links.open {
+	display: flex;
 }
 
 .nav-link {
@@ -271,9 +281,25 @@ a.nav-brand:hover {
 	background: var(--bg-card);
 }
 
+/* Latest match freshness strip (below the fixed nav, above #app).
+   Hidden until populateNav() finds a latestMatchTimestamp in the summary. */
+.latest-match-strip {
+	display: none;
+	padding: 0.3rem 1.2rem;
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	text-align: right;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.latest-match-strip.is-visible {
+	display: block;
+}
+
 /* Main content */
 #app {
-	margin-top: var(--nav-height);
 	padding: 1rem;
 	max-width: 1400px;
 	margin-left: auto;
@@ -1237,6 +1263,15 @@ tfoot {
 	margin-bottom: 0.6rem;
 }
 
+/* Ordering-rules note at the foot of the Hall of Fame page. Muted-consistent but
+   brightened toward the body text so it stays comfortably readable. */
+.hof-footnote {
+	margin-top: 2rem;
+	font-size: 0.85rem;
+	line-height: 1.5;
+	color: color-mix(in srgb, var(--text-muted) 60%, var(--text));
+}
+
 .hof-list {
 	display: flex;
 	flex-direction: column;
@@ -2013,44 +2048,12 @@ tfoot {
 	color: color-mix(in srgb, var(--loss) 70%, transparent);
 }
 
-/* Responsive: desktop enhancements (mobile-first) */
+/* Responsive: desktop enhancements (mobile-first). These are independent of the
+   nav mode, so they keep the original 769px breakpoint. The nav row has its own
+   higher breakpoint below (it needs more width to fit than the rest of the layout). */
 @media (min-width: 769px) {
 	html {
 		font-size: 87.5%;
-	}
-
-	.nav-links {
-		display: flex;
-		position: static;
-		background: none;
-		border-bottom: none;
-		flex-direction: row;
-		padding: 0;
-		flex: 1;
-	}
-
-	.nav-toggle {
-		display: none;
-	}
-
-	.nav-global-filter {
-		margin-left: 0.8rem;
-		margin-right: 0;
-	}
-
-	.nav-dropdown-menu {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		border: 1px solid var(--border);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-		padding: 0.3rem 0;
-		padding-left: 0;
-		min-width: 160px;
-	}
-
-	.nav-dropdown.open .nav-dropdown-menu {
-		display: block;
 	}
 
 	#app {
@@ -2106,6 +2109,47 @@ tfoot {
 
 	.draft-layout {
 		grid-template-columns: 1fr 1fr;
+	}
+}
+
+/* Nav switches from the hamburger to the full horizontal row only here.
+   Breakpoint = the min width the row fits without wrapping (measured ~998px at
+   the 87.5% desktop root font set above) plus margin. Kept separate from the
+   769px block so the rest of the desktop layout is unaffected. Keep in sync with
+   NAV_BREAKPOINT_PX in js/app.js. */
+@media (min-width: 1040px) {
+	.nav-links {
+		display: flex;
+		position: static;
+		background: none;
+		border-bottom: none;
+		flex-direction: row;
+		padding: 0;
+		flex: 1;
+	}
+
+	.nav-toggle {
+		display: none;
+	}
+
+	.nav-global-filter {
+		margin-left: 0.8rem;
+		margin-right: 0;
+	}
+
+	.nav-dropdown-menu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		border: 1px solid var(--border);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+		padding: 0.3rem 0;
+		padding-left: 0;
+		min-width: 160px;
+	}
+
+	.nav-dropdown.open .nav-dropdown-menu {
+		display: block;
 	}
 }
 
