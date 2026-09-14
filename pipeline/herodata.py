@@ -96,6 +96,7 @@ HERO_NAMES = {
 	"Whitemane": "Whitemane",
 	"WitchDoctor": "Nazeebo",
 	"Wizard": "Li-Ming",
+	"Xalatath": "Xal'atath",
 	"Yrel": "Yrel",
 	"Zagara": "Zagara",
 	"Zarya": "Zarya",
@@ -213,6 +214,7 @@ HERO_ROLES: dict[str, str] = {
 	"Valla": "Ranged Assassin",
 	"Varian": "Bruiser",
 	"Whitemane": "Healer",
+	"Xal'atath": "Ranged Assassin",
 	"Xul": "Bruiser",
 	"Yrel": "Bruiser",
 	"Zagara": "Ranged Assassin",
@@ -227,7 +229,8 @@ FEMALE_HEROES: frozenset[str] = frozenset({
 	"D.Va", "Jaina", "Johanna", "Kerrigan", "Li Li", "Li-Ming",
 	"Lt. Morales", "Lunara", "Maiev", "Mei", "Nova", "Orphea",
 	"Qhira", "Sgt. Hammer", "Sonya", "Sylvanas", "Tracer", "Tyrande",
-	"Valeera", "Valla", "Whitemane", "Yrel", "Zagara", "Zarya",
+	"Valeera", "Valla", "Whitemane", "Xal'atath", "Yrel", "Zagara",
+	"Zarya",
 })
 
 # ARAM-exclusive map internal IDs (for mode detection without localized names)

@@ -152,7 +152,10 @@ var HeroInfoDetailView = (function() {
 	}
 
 	function abilityCardHtml(ability) {
-		var iconSrc = "img/hero/" + actualSlug + "/abilities/" + ability.icon;
+		// Unreleased heroes can arrive without icons in the game files.
+		var icon = ability.icon
+			? '<img class="hero-info-ability-icon" src="img/hero/' + actualSlug + '/abilities/' + ability.icon + '" alt="">'
+			: '';
 		var typeBadge = ability.abilityType
 			? '<span class="hero-info-ability-type">' + escapeHtml(ability.abilityType) + '</span>'
 			: '';
@@ -162,7 +165,7 @@ var HeroInfoDetailView = (function() {
 		if (ability.manaCost) meta += '<div class="hero-info-ability-meta">' + cleanHotsText(ability.manaCost, level) + '</div>';
 
 		return '<div class="hero-info-ability-card">' +
-			'<img class="hero-info-ability-icon" src="' + iconSrc + '" alt="">' +
+			icon +
 			'<div class="hero-info-ability-body">' +
 			'<div class="hero-info-ability-head">' +
 			typeBadge +
@@ -194,13 +197,15 @@ var HeroInfoDetailView = (function() {
 	}
 
 	function talentCardHtml(tier, choice, talent) {
-		var iconSrc = "img/hero/" + actualSlug + "/talent" + tier + "_" + choice + ".png";
+		var icon = talent.icon
+			? '<img class="hero-info-talent-icon" src="img/hero/' + actualSlug + '/talent' + tier + '_' + choice + '.png" alt="">'
+			: '';
 		var meta = "";
 		if (talent.abilityType) meta += '<span class="hero-info-talent-type">' + escapeHtml(talent.abilityType) + '</span>';
 		if (talent.isQuest) meta += '<span class="hero-info-talent-quest">Quest</span>';
 
 		return '<div class="hero-info-talent-card">' +
-			'<img class="hero-info-talent-icon" src="' + iconSrc + '" alt="">' +
+			icon +
 			'<div class="hero-info-talent-body">' +
 			'<div class="hero-info-talent-head">' +
 			'<span class="hero-info-talent-name">' + escapeHtml(talent.name || "") + '</span>' +

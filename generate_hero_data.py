@@ -10,16 +10,22 @@ Outputs:
   - img/hero/{slug}/abilities/{nameId-slug}.png (ability icons, 64x64)
 
 Source: HeroesDataParser (https://github.com/HeroesToolChest/HeroesDataParser)
-extracts JSON + images directly from the live HotS game files. HDP emits images
+extracts JSON + images directly from the HotS game files. HDP emits images
 at 128x128; this script downscales them to 64x64 and re-encodes the PNGs with
 optimisation enabled to roughly halve dashboard payload size.
+
+Channels:
+  -release (default) reads the live install, -ptr the Public Test install, each
+  with its own game path and HDP output directory. A PTR run only writes heroes
+  missing from data/hero-info.json plus ones it previously tagged "ptr": true; a
+  release run owns every hero the live build has and drops the tag when one ships.
 
 Prerequisites (one-time, on the machine that runs HDP):
   1. Install the .NET 8.0 SDK manually: https://dotnet.microsoft.com/download/dotnet/8.0
      The Runtime alone is not enough; the SDK is required to install global tools.
      This script intentionally does not auto-install the SDK (system-wide, needs admin).
   2. HeroesDataParser itself is auto-installed on first run after a y/N prompt.
-     To install manually:  dotnet tool install --global HeroesDataParser
+     To install manually:  dotnet tool install --global HeroesDataParser --version 4.14.4
   3. Pillow (Python imaging) is auto-installed on first run after a y/N prompt.
      To install manually:  pip install Pillow
 
@@ -29,6 +35,7 @@ under .scratch/HeroesDataParser-main/Tests/...).
 
 Usage:
   python generate_hero_data.py                 # full pipeline: HDP + translate + sync
+  python generate_hero_data.py -ptr            # same, against the PTR install
   python generate_hero_data.py --skip-parser   # skip HDP, translate existing output
   python generate_hero_data.py --dry-run       # report actions, no writes
 """
@@ -43,18 +50,47 @@ import re
 import shutil
 import subprocess
 import sys
+from typing import NamedTuple
+
+from pipeline.herodata import FEMALE_HEROES, HERO_NAMES, HERO_ROLES
 
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SCRATCH_DIR = os.path.join(_PROJECT_ROOT, ".scratch")
-DEFAULT_GAME_PATH = os.path.join(SCRATCH_DIR, "Heroes of the Storm")
-DEFAULT_HDP_OUTPUT = os.path.join(SCRATCH_DIR, "hots-data-output")
 DEFAULT_DATA_DIR = os.path.join(_PROJECT_ROOT, "data")
 DEFAULT_IMG_DIR = os.path.join(_PROJECT_ROOT, "img", "hero")
+
+CHANNEL_RELEASE = "release"
+CHANNEL_PTR = "ptr"
+
+# The .bat wrappers pass the real Windows install paths; these are container-side
+# snapshot locations for --skip-parser work.
+DEFAULT_GAME_PATHS = {
+    CHANNEL_RELEASE: os.path.join(SCRATCH_DIR, "Heroes of the Storm"),
+    CHANNEL_PTR: os.path.join(SCRATCH_DIR, "Heroes of the Storm Public Test"),
+}
+
+# Separate roots: a shared one would let the PTR build win the selection in
+# discover_hero_files and replace the live dataset.
+DEFAULT_HDP_OUTPUTS = {
+    CHANNEL_RELEASE: os.path.join(SCRATCH_DIR, "hots-data-output"),
+    CHANNEL_PTR: os.path.join(SCRATCH_DIR, "hots-data-output-ptr"),
+}
 
 HERO_INFO_FILENAME = "hero-info.json"
 TALENT_NAMES_FILENAME = "talent-names.json"
 TALENT_DESCRIPTIONS_FILENAME = "talent-descriptions.json"
+HERO_COLORS_FILENAME = "hero-colors.json"
+
+# Hand-written data for heroes the game files describe incompletely, keyed by slug
+# then by ability/talent nameId. Delete an entry once the build carries the real data.
+HERO_OVERRIDES_FILENAME = "hero-overrides.json"
+
+# Marks a hero-info.json record as PTR-sourced; the talent files derive theirs from it.
+PTR_FLAG = "ptr"
+
+# HDP 5 renamed the tool command and changed the CLI, so the auto-install stays on 4.x.
+HDP_VERSION = "4.14.4"
 
 # Ability categories kept in hero-info.json. mount/activable/hearth are generic and
 # rarely consulted, so they are excluded to keep the JSON small.
@@ -67,6 +103,14 @@ TALENT_LEVELS = (1, 4, 7, 10, 13, 16, 20)
 # Pillow's optimize flag (light, lossless) cuts each PNG to roughly the size of
 # the pre-HDP icons that previously shipped in img/hero/.
 TARGET_IMAGE_SIZE = (64, 64)
+
+
+class HeroDataSet(NamedTuple):
+    """The three hero data files, each keyed by hero slug."""
+
+    info: dict[str, dict]
+    names: dict[str, dict]
+    descriptions: dict[str, dict]
 
 
 def slugify(name: str) -> str:
@@ -189,9 +233,9 @@ def prompt_yes_no(message: str) -> bool:
 
 def install_hdp() -> None:
     """Install HeroesDataParser as a global dotnet tool. Raises CalledProcessError on failure."""
-    print("Installing HeroesDataParser ...")
+    print(f"Installing HeroesDataParser {HDP_VERSION} ...")
     subprocess.run(
-        ["dotnet", "tool", "install", "--global", "HeroesDataParser"],
+        ["dotnet", "tool", "install", "--global", "HeroesDataParser", "--version", HDP_VERSION],
         check=True,
     )
     print("HeroesDataParser installed.")
@@ -214,7 +258,7 @@ def run_hdp(game_path: str, output_dir: str) -> None:
         if not prompt_yes_no("Install HeroesDataParser now?"):
             raise SystemExit(
                 "Aborted. To install manually:\n"
-                "  dotnet tool install --global HeroesDataParser"
+                f"  dotnet tool install --global HeroesDataParser --version {HDP_VERSION}"
             )
         install_hdp()
 
@@ -239,17 +283,30 @@ def run_hdp(game_path: str, output_dir: str) -> None:
     subprocess.run(cmd, check=True, cwd=SCRATCH_DIR)
 
 
+def split_build_number(split_dir: str) -> int:
+    """Return the build number embedded in a splitfiles-{build}-{loc} directory name."""
+    match = re.match(r"splitfiles-(\d+)-", os.path.basename(split_dir))
+    return int(match.group(1)) if match else -1
+
+
 def discover_hero_files(hdp_output: str) -> list[str]:
     """Return absolute paths to per-hero JSON files in HDP output.
 
     Real HDP CLI output with --file-split lands at:
       <output>/json/splitfiles-{build}-{loc}/herodata/{hero}.json
+    Earlier patches are left behind there, so only the highest build is read.
     The bundled HDP test samples use a flat <output>/*.json layout.
     """
-    split_pattern = os.path.join(hdp_output, "json", "splitfiles-*", "herodata", "*.json")
-    split_files = sorted(glob.glob(split_pattern))
-    if split_files:
-        return split_files
+    split_dirs = sorted(
+        glob.glob(os.path.join(hdp_output, "json", "splitfiles-*")),
+        key=split_build_number,
+    )
+    if split_dirs:
+        newest = split_dirs[-1]
+        split_files = sorted(glob.glob(os.path.join(newest, "herodata", "*.json")))
+        if split_files:
+            print(f"Using build {split_build_number(newest)} ({os.path.basename(newest)})")
+            return split_files
 
     for d in (os.path.join(hdp_output, "json"), hdp_output):
         if not os.path.isdir(d):
@@ -288,61 +345,61 @@ def collect_talents_by_tier(hero: dict) -> dict[int, list[dict]]:
     return result
 
 
-def build_talent_names(talents_by_tier: dict[int, list[dict]]) -> dict[str, str]:
-    out: dict[str, str] = {}
-    for tier, talents in talents_by_tier.items():
-        for i, talent in enumerate(talents, 1):
-            out[f"{tier}_{i}"] = talent.get("name", "")
-    return out
+def build_talent_names(talents_out: dict[str, dict]) -> dict[str, str]:
+    return {key: talent["name"] for key, talent in talents_out.items()}
 
 
-def build_talent_descriptions(talents_by_tier: dict[int, list[dict]]) -> dict[str, str]:
-    out: dict[str, str] = {}
-    for tier, talents in talents_by_tier.items():
-        for i, talent in enumerate(talents, 1):
-            out[f"{tier}_{i}"] = strip_html(talent.get("fullTooltip", ""))
-    return out
+def build_talent_descriptions(talents_out: dict[str, dict]) -> dict[str, str]:
+    return {key: talent["description"] for key, talent in talents_out.items()}
 
 
-def build_abilities(hero: dict) -> dict[str, list[dict]]:
+def build_abilities(hero: dict, overrides: dict) -> dict[str, list[dict]]:
     src = hero.get("abilities", {})
     out: dict[str, list[dict]] = {}
     for category in ABILITY_CATEGORIES:
         entries = []
         for ability in src.get(category, []):
             name_id = ability.get("nameId", "")
+            override = overrides.get(name_id, {})
+            has_icon = bool(name_id and ability.get("icon"))
             entries.append({
                 "id": name_id,
-                "name": ability.get("name", ""),
-                "icon": slugify(name_id) + ".png" if name_id else "",
+                "name": override.get("name") or ability.get("name", ""),
+                "icon": slugify(name_id) + ".png" if has_icon else "",
                 "abilityType": ability.get("abilityType", ""),
                 "cooldown": ability.get("cooldownTooltip", ""),
                 "manaCost": ability.get("energyTooltip", ""),
-                "description": strip_html(ability.get("fullTooltip", "")),
+                "description": override.get("description") or strip_html(ability.get("fullTooltip", "")),
             })
         out[category] = entries
     return out
 
 
-def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]]) -> dict:
+def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]], override: dict) -> dict:
     weapons = hero.get("weapons") or []
     primary = weapons[0] if weapons else {}
     life = hero.get("life") or {}
+    talent_overrides = override.get("talents", {})
 
+    # Unnamed talents would render as blank cards. Numbering stays tier-ordered
+    # regardless, because replay talent choices index into it.
     talents_out: dict[str, dict] = {}
     for tier, talents in talents_by_tier.items():
         for i, talent in enumerate(talents, 1):
+            talent = talent | talent_overrides.get(talent.get("nameId", ""), {})
+            if not talent.get("name"):
+                continue
             key = f"{tier}_{i}"
             talents_out[key] = {
                 "name": talent.get("name", ""),
-                "icon": f"talent{key}.png",
-                "description": strip_html(talent.get("fullTooltip", "")),
+                "icon": f"talent{key}.png" if talent.get("icon") else "",
+                "description": talent.get("description") or strip_html(talent.get("fullTooltip", "")),
                 "abilityType": talent.get("abilityType", ""),
                 "isQuest": talent.get("isQuest", False),
                 "isActive": talent.get("isActive", False),
             }
 
-    return {
+    record = {
         "name": hero.get("name", ""),
         "franchise": hero.get("franchise", ""),
         "roles": hero.get("roles", []),
@@ -358,10 +415,16 @@ def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]]) -> dict:
         "attackDamage": primary.get("damage"),
         "attackDamageScale": primary.get("damageScale"),
         "weapons": weapons,
-        "abilities": build_abilities(hero),
+        "abilities": build_abilities(hero, override.get("abilities", {})),
         "talents": talents_out,
         "heroUnits": hero.get("heroUnits", []),
     }
+
+    for key, value in override.items():
+        if key not in ("abilities", "talents"):
+            record[key] = value
+
+    return record
 
 
 def sync_hero_images(
@@ -431,6 +494,92 @@ def sync_hero_images(
     return portraits_synced, talents_synced, abilities_synced, missing
 
 
+def load_existing_json(path: str) -> dict:
+    """Load a data file already on disk. A missing file means a first run."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def merge_channel_data(
+    channel: str, parsed: HeroDataSet, existing: HeroDataSet,
+) -> tuple[HeroDataSet, set[str]]:
+    """Combine a channel's extract with the data already on disk.
+
+    Returns the dataset to write and the slugs whose icons need syncing.
+    """
+    ptr_slugs = {slug for slug, record in existing.info.items() if record.get(PTR_FLAG)}
+
+    if channel == CHANNEL_PTR:
+        merged = HeroDataSet(
+            dict(existing.info), dict(existing.names), dict(existing.descriptions),
+        )
+        written = {
+            slug for slug in parsed.info
+            if slug not in existing.info or slug in ptr_slugs
+        }
+        for slug in written:
+            record = dict(parsed.info[slug])
+            record[PTR_FLAG] = True
+            merged.info[slug] = record
+            merged.names[slug] = parsed.names[slug]
+            merged.descriptions[slug] = parsed.descriptions[slug]
+        return merged, written
+
+    merged = HeroDataSet(dict(parsed.info), dict(parsed.names), dict(parsed.descriptions))
+    written = set(parsed.info)
+
+    # Heroes the live build does not have yet stay as the PTR run left them.
+    for slug in ptr_slugs - written:
+        merged.info[slug] = existing.info[slug]
+        if slug in existing.names:
+            merged.names[slug] = existing.names[slug]
+        if slug in existing.descriptions:
+            merged.descriptions[slug] = existing.descriptions[slug]
+
+    return merged, written
+
+
+def report_missing_static_entries(heroes: dict[str, dict], data_dir: str) -> None:
+    """Print the static lookup entries a hero still needs, ready to paste in."""
+    colors = load_existing_json(os.path.join(data_dir, HERO_COLORS_FILENAME))
+    missing: list[tuple[str, str, list[str]]] = []
+
+    for slug in sorted(heroes):
+        hero = heroes[slug]
+        name = hero.get("name", "")
+        unit_id = hero.get("unitId", "")
+        internal = unit_id[len("Hero"):] if unit_id.startswith("Hero") else unit_id
+        role = hero.get("expandedRole", "")
+        entries = []
+
+        if internal and internal not in HERO_NAMES:
+            entries.append(f'pipeline/herodata.py HERO_NAMES: "{internal}": "{name}",')
+        if name not in HERO_ROLES:
+            entries.append(f'pipeline/herodata.py HERO_ROLES: "{name}": "{role}",')
+        if hero.get("gender") == "Female" and name not in FEMALE_HEROES:
+            entries.append(f'pipeline/herodata.py FEMALE_HEROES: "{name}",')
+        if name not in colors:
+            entries.append(f'data/{HERO_COLORS_FILENAME}: "{name}": "#RRGGBB",')
+
+        if entries:
+            missing.append((name, slug, entries))
+
+    if not missing:
+        return
+
+    print(f"\n{len(missing)} hero(es) missing from the static lookup tables:")
+    for name, slug, entries in missing:
+        print(f"  {name} ({slug})")
+        for entry in entries:
+            print(f"    {entry}")
+    print(
+        "  Replays featuring them parse with the internal hero id and role Unknown\n"
+        "  until these are added. Alternate unit forms need their own HERO_NAMES keys."
+    )
+
+
 def write_json(path: str, data: dict, dry_run: bool) -> None:
     """Compact JSON write matching the existing format (no indent, ensure_ascii=False)."""
     if dry_run:
@@ -444,10 +593,23 @@ def write_json(path: str, data: dict, dry_run: bool) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--game-path", default=DEFAULT_GAME_PATH,
-                        help=f"Path to HotS install (default: {DEFAULT_GAME_PATH})")
-    parser.add_argument("--hdp-output", default=DEFAULT_HDP_OUTPUT,
-                        help=f"HDP raw output dir (default: {DEFAULT_HDP_OUTPUT})")
+
+    channel_group = parser.add_mutually_exclusive_group()
+    channel_group.add_argument("-release", dest="channel", action="store_const",
+                               const=CHANNEL_RELEASE,
+                               help="Read the live install (default)")
+    channel_group.add_argument("-ptr", dest="channel", action="store_const",
+                               const=CHANNEL_PTR,
+                               help="Read the Public Test install, adding heroes the "
+                                    "live build does not have yet")
+    parser.set_defaults(channel=CHANNEL_RELEASE)
+
+    parser.add_argument("--game-path", default=None,
+                        help=f"Path to HotS install (default: {DEFAULT_GAME_PATHS[CHANNEL_RELEASE]}, "
+                             f"or {DEFAULT_GAME_PATHS[CHANNEL_PTR]} with -ptr)")
+    parser.add_argument("--hdp-output", default=None,
+                        help=f"HDP raw output dir (default: {DEFAULT_HDP_OUTPUTS[CHANNEL_RELEASE]}, "
+                             f"or {DEFAULT_HDP_OUTPUTS[CHANNEL_PTR]} with -ptr)")
     parser.add_argument("--data-dir", default=DEFAULT_DATA_DIR,
                         help=f"Final JSON output dir (default: {DEFAULT_DATA_DIR})")
     parser.add_argument("--img-dir", default=DEFAULT_IMG_DIR,
@@ -457,6 +619,13 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true",
                         help="Report actions without writing")
     args = parser.parse_args()
+
+    if args.game_path is None:
+        args.game_path = DEFAULT_GAME_PATHS[args.channel]
+    if args.hdp_output is None:
+        args.hdp_output = DEFAULT_HDP_OUTPUTS[args.channel]
+
+    print(f"Channel: {args.channel}")
 
     ensure_pillow()
 
@@ -469,11 +638,11 @@ def main() -> int:
         return 1
     print(f"Found {len(hero_files)} hero JSON file(s) in {args.hdp_output}")
 
-    hero_info: dict[str, dict] = {}
-    talent_names: dict[str, dict] = {}
-    talent_descriptions: dict[str, dict] = {}
+    overrides = load_existing_json(os.path.join(args.data_dir, HERO_OVERRIDES_FILENAME))
 
-    total_portraits = total_talents = total_abilities = total_missing = 0
+    heroes: dict[str, dict] = {}
+    talents_by_slug: dict[str, dict[int, list[dict]]] = {}
+    parsed = HeroDataSet({}, {}, {})
 
     for path in hero_files:
         loaded = load_hero(path)
@@ -483,33 +652,57 @@ def main() -> int:
         slug, hero = loaded
 
         talents_by_tier = collect_talents_by_tier(hero)
+        heroes[slug] = hero
+        talents_by_slug[slug] = talents_by_tier
 
-        hero_info[slug] = build_hero_info(hero, talents_by_tier)
-        talent_names[slug] = build_talent_names(talents_by_tier)
-        talent_descriptions[slug] = build_talent_descriptions(talents_by_tier)
+        record = build_hero_info(hero, talents_by_tier, overrides.get(slug, {}))
+        parsed.info[slug] = record
+        parsed.names[slug] = build_talent_names(record["talents"])
+        parsed.descriptions[slug] = build_talent_descriptions(record["talents"])
 
+    applied = sorted(slug for slug in overrides if slug in parsed.info)
+    if applied:
+        print(f"Overrides applied from {HERO_OVERRIDES_FILENAME}: {', '.join(applied)}")
+
+    info_path = os.path.join(args.data_dir, HERO_INFO_FILENAME)
+    names_path = os.path.join(args.data_dir, TALENT_NAMES_FILENAME)
+    descriptions_path = os.path.join(args.data_dir, TALENT_DESCRIPTIONS_FILENAME)
+
+    existing = HeroDataSet(
+        load_existing_json(info_path),
+        load_existing_json(names_path),
+        load_existing_json(descriptions_path),
+    )
+    merged, written = merge_channel_data(args.channel, parsed, existing)
+
+    total_portraits = total_talents = total_abilities = total_missing = 0
+
+    for slug in sorted(written):
         p, t, a, m = sync_hero_images(
-            hero, slug, talents_by_tier, args.hdp_output, args.img_dir, args.dry_run,
+            heroes[slug], slug, talents_by_slug[slug],
+            args.hdp_output, args.img_dir, args.dry_run,
         )
         total_portraits += p
         total_talents += t
         total_abilities += a
         total_missing += m
 
-    write_json(os.path.join(args.data_dir, HERO_INFO_FILENAME), hero_info, args.dry_run)
-    write_json(os.path.join(args.data_dir, TALENT_NAMES_FILENAME), talent_names, args.dry_run)
-    write_json(
-        os.path.join(args.data_dir, TALENT_DESCRIPTIONS_FILENAME),
-        talent_descriptions,
-        args.dry_run,
-    )
+    write_json(info_path, merged.info, args.dry_run)
+    write_json(names_path, merged.names, args.dry_run)
+    write_json(descriptions_path, merged.descriptions, args.dry_run)
 
     verb = "Would sync" if args.dry_run else "Synced"
     print(
         f"\nImages: {verb} {total_portraits} portrait(s), {total_talents} talent icon(s), "
         f"{total_abilities} ability icon(s). {total_missing} source image(s) missing."
     )
-    print(f"Heroes processed: {len(hero_info)}")
+    print(f"Heroes parsed: {len(parsed.info)}, written: {len(written)}, in dataset: {len(merged.info)}")
+
+    ptr_slugs = sorted(slug for slug, record in merged.info.items() if record.get(PTR_FLAG))
+    if ptr_slugs:
+        print(f"PTR-only heroes: {', '.join(ptr_slugs)}")
+
+    report_missing_static_entries(heroes, args.data_dir)
     return 0
 
 

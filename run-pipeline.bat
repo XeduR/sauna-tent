@@ -12,7 +12,7 @@ REM data\matches\*.json files are the source of truth.
 REM
 REM Optional sub-steps (asked per run):
 REM   - Collect new replays from %USERPROFILE% before the pipeline (refresh-replays.bat)
-REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat)
+REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat), live or PTR
 REM
 REM First-run prerequisites:
 REM   - .NET 8.0 SDK installed (same SDK as refresh-hero-data.bat uses):
@@ -25,6 +25,9 @@ REM
 REM Usage:
 REM   run-pipeline.bat                       (uses default hero-data game path)
 REM   run-pipeline.bat "D:\Path\To\HotS"     (forwarded to refresh-hero-data.bat)
+REM
+REM The forwarded path replaces the default for whichever install the hero-data
+REM prompt selects, so pass the PTR path when answering it with P.
 
 setlocal
 cd /d "%~dp0"
@@ -68,6 +71,17 @@ echo.
 choice /c YN /n /m "Refresh static hero data after pipeline? [Y/N]: "
 if errorlevel 2 set "RUN_HERODATA=0"
 if errorlevel 1 if not errorlevel 2 set "RUN_HERODATA=1"
+if "%RUN_HERODATA%"=="1" goto sub_channel
+goto run
+
+:sub_channel
+echo.
+echo   L. Live install
+echo   P. Public Test install (adds heroes missing from the live build)
+echo.
+choice /c LP /n /m "Hero data source [L, P]: "
+if errorlevel 2 set "HERODATA_CHANNEL=-ptr"
+if errorlevel 1 if not errorlevel 2 set "HERODATA_CHANNEL=-release"
 goto run
 
 :run
@@ -75,7 +89,7 @@ echo.
 echo === Plan ===
 if "%RUN_COLLECT%"=="1"  echo   [1] Collect new replays
 echo   [*] Pipeline: %PIPELINE_FLAGS%
-if "%RUN_HERODATA%"=="1" echo   [2] Refresh hero data
+if "%RUN_HERODATA%"=="1" echo   [2] Refresh hero data: %HERODATA_CHANNEL%
 echo.
 
 if "%RUN_COLLECT%"=="1" (
@@ -103,9 +117,9 @@ if "%RUN_HERODATA%"=="1" (
     echo.
     echo [Sub-step] Refreshing hero data...
     if "%GAME_PATH%"=="" (
-        call refresh-hero-data.bat
+        call refresh-hero-data.bat %HERODATA_CHANNEL%
     ) else (
-        call refresh-hero-data.bat "%GAME_PATH%"
+        call refresh-hero-data.bat %HERODATA_CHANNEL% "%GAME_PATH%"
     )
     if errorlevel 1 (
         echo.

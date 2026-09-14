@@ -9,19 +9,38 @@ REM      https://dotnet.microsoft.com/download/dotnet/8.0  (pick "SDK", x64)
 REM      The Runtime alone is not enough; the SDK is required for global tools.
 REM   2. HeroesDataParser will be installed automatically on first run after a y/N prompt.
 REM
+REM -release (default) reads the live install, -ptr the Public Test install. A PTR
+REM run only adds heroes the live build does not have yet.
+REM
 REM Usage:
-REM   refresh-hero-data.bat                       (uses default game path below)
-REM   refresh-hero-data.bat "D:\Path\To\HotS"     (override game install path)
+REM   refresh-hero-data.bat                            (live install, default path)
+REM   refresh-hero-data.bat -ptr                       (PTR install, default path)
+REM   refresh-hero-data.bat -ptr "D:\Path\To\HotS PTR" (override game install path)
 
 setlocal
 cd /d "%~dp0"
 
+set "CHANNEL=-release"
 set "GAME_PATH=%~1"
-if "%GAME_PATH%"=="" set "GAME_PATH=C:\Games\Heroes of the Storm"
+
+if /i "%~1"=="-ptr" (
+    set "CHANNEL=-ptr"
+    set "GAME_PATH=%~2"
+) else if /i "%~1"=="-release" (
+    set "GAME_PATH=%~2"
+)
+
+if "%GAME_PATH%"=="" (
+    if /i "%CHANNEL%"=="-ptr" (
+        set "GAME_PATH=C:\Games\Heroes of the Storm Public Test"
+    ) else (
+        set "GAME_PATH=C:\Games\Heroes of the Storm"
+    )
+)
 
 if not exist "%GAME_PATH%\HeroesData" (
     echo HotS install not found at: %GAME_PATH%
-    echo Expected a HeroesData\ subfolder. Pass the correct path as the first argument.
+    echo Expected a HeroesData\ subfolder. Pass the correct path as an argument.
     pause
     exit /b 1
 )
@@ -43,10 +62,11 @@ if %errorlevel%==0 (
     set "PYTHON=python"
 )
 
+echo Channel:   %CHANNEL%
 echo Game path: %GAME_PATH%
 echo.
 
-%PYTHON% generate_hero_data.py --game-path "%GAME_PATH%"
+%PYTHON% generate_hero_data.py %CHANNEL% --game-path "%GAME_PATH%"
 if errorlevel 1 (
     echo.
     echo Hero data refresh failed. See output above.
