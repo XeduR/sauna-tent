@@ -15,24 +15,19 @@ REM   - Collect new replays from %USERPROFILE% before the pipeline (refresh-repl
 REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat), live or PTR
 REM
 REM First-run prerequisites:
-REM   - .NET 8.0 SDK installed (same SDK as refresh-hero-data.bat uses):
+REM   - .NET 8.0 SDK installed, for the replay parser sidecar:
 REM     https://dotnet.microsoft.com/download/dotnet/8.0  (pick "SDK", x64)
+REM     Hero data does not need it; that parser is a self-contained download.
 REM   - The pipeline checks the heroes-replay-parser-cs global tool at startup
 REM     and compares its version against the sidecar csproj. If it is missing or
 REM     stale, it prompts y/N to rebuild the nupkg (dotnet pack) and (re)install
 REM     the tool. Declining aborts the run.
 REM
 REM Usage:
-REM   run-pipeline.bat                       (uses default hero-data game path)
-REM   run-pipeline.bat "D:\Path\To\HotS"     (forwarded to refresh-hero-data.bat)
-REM
-REM The forwarded path replaces the default for whichever install the hero-data
-REM prompt selects, so pass the PTR path when answering it with P.
+REM   run-pipeline.bat
 
 setlocal
 cd /d "%~dp0"
-
-set "GAME_PATH=%~1"
 
 where py >nul 2>nul
 if %errorlevel%==0 (
@@ -76,8 +71,8 @@ goto run
 
 :sub_channel
 echo.
-echo   L. Live install
-echo   P. Public Test install (adds heroes missing from the live build)
+echo   L. Live build
+echo   P. Public Test build (adds heroes missing from the live build)
 echo.
 choice /c LP /n /m "Hero data source [L, P]: "
 if errorlevel 2 set "HERODATA_CHANNEL=-ptr"
@@ -116,11 +111,7 @@ if errorlevel 1 (
 if "%RUN_HERODATA%"=="1" (
     echo.
     echo [Sub-step] Refreshing hero data...
-    if "%GAME_PATH%"=="" (
-        call refresh-hero-data.bat %HERODATA_CHANNEL%
-    ) else (
-        call refresh-hero-data.bat %HERODATA_CHANNEL% "%GAME_PATH%"
-    )
+    call refresh-hero-data.bat %HERODATA_CHANNEL%
     if errorlevel 1 (
         echo.
         echo Hero data refresh failed. See output above.

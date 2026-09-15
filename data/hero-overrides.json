@@ -1,45 +1,7 @@
 {
-	"xalatath": {
-		"releaseDate": "2026-09-28",
+	"orphea": { "franchise": "Nexus" },
 
-		"abilities": {
-			"XalatathVoidVolley": { "name": "Void Volley", "description": "Void Volley is charged by Xal'atath's Basic Attacks. Unleash a barrage of Void Orbs at a target location, each dealing 99 damage on impact." },
-			"XalatathShadowMark": { "name": "Shadow Mark", "description": "Shoot a single Void Orb that deals 45 damage to enemies hit. Enemies hit by the center take an additional 90 damage. Enemy Heroes directly hit are Marked for 4 seconds. Marked Heroes are Revealed and draw the Dark Heart and Void Minions toward them." },
-			"XalatathVoidStep": { "name": "Void Step", "description": "Cast to teleport Xal'atath 3 times in a triangular pattern. Each time Xal'atath teleports, her Basic Attacks deal +25% damage while the ability is active. Reactivate to end Void Step early and remain at the current location." },
-			"XalatathDarkHeartRitual": { "name": "Dark Heart Ritual", "description": "Summon the Dark Heart, which pulses for 35 damage per second to nearby enemies for 8 seconds. The Dark Heart moves to Shadow Mark's impact location. The Dark Heart pursues Marked Heroes and detonates on impact, dealing 120 damage to nearby enemies and an additional 60 damage to the Marked target." },
-			"XalatathVoidEruption": { "name": "Void Eruption", "description": "Channel a single powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early. Enemies that come into contact with the Orb take up to 175 damage and are Blinded for 1 second. When the Orb reaches the end of its path, it detonates in a large explosion, dealing up to 700 damage." },
-			"XalatathVoidConvergence": { "name": "Void Convergence", "description": "After channeling for 2 seconds, summon a Void Portal that spawns up to 4 Void Minions to attack nearby enemies. Enemies near the Void Portal are Slowed by 25%. Void Minions are attracted to Shadow Marked Heroes. The Portal loses health over 20 seconds." }
-		},
+	"qhira": { "franchise": "Nexus" },
 
-		"talents": {
-			"XalatathToxicMark": { "name": "Toxic Mark", "description": "Increase Shadow Mark's duration by 1 second. Damage over time dealt to Marked Heroes is increased to 1% of their maximum Health. Marked enemies have -15 Armor while Marked." },
-			"XalatathCloakOfShadows": { "name": "Cloak of Shadows", "description": "Activating Void Step grants 50% Movement Speed and 25 Spell Armor for 2 seconds. This bonus refreshes each time Xal'atath teleports." },
-			"XalatathAnchoredCore": { "name": "Anchored Core", "description": "Increase Dark Heart's area by 50% and duration by 50%. Dark Heart's damage bounces 2 times from the primary target to nearby enemies, dealing 18 damage." },
-
-			"XalatathFrozenMark": { "name": "Cold Feet", "description": "Increase Shadow Mark's duration by 1 second. Marked enemies are Slowed by 25%." },
-			"XalatathVoidAcolyte": { "name": "Void Acolyte", "description": "Completing Void Step fully charges Void Volley. The next Void Volley deals 50% increased damage and costs no Mana." },
-			"XalatathDarkBarrier": { "name": "Dark Barrier", "description": "Each time Dark Heart damages an enemy, Xal'atath gains a Shield equal to 2% of her maximum Health, up to 10%." },
-
-			"XalatathVoidAdept": { "name": "Void Adept", "description": "Quest: Detonate the Dark Heart on Marked enemy Heroes to increase Shadow Mark's damage by 5 each time a target is hit, up to 100 additional damage.", "isQuest": true },
-			"XalatathSilenceOfTheLamb": { "name": "Silence of the Lamb", "description": "Activating Void Step summons a seal of Void magic on the ground. When the seal completes, it deals 99 damage to enemies inside and Silences them for 2 seconds." },
-			"XalatathVoidSummoner": { "name": "Void Summoner", "description": "Activating Void Step summons a single Void Minion in its center. Void Minions are attracted to Shadow Marked Heroes. Void Minion Basic Attacks deal 95 damage per hit. Void Minions lose Health over 30 seconds." },
-
-			"XalatathHeroicAbilityVoidEruption": { "name": "Void Eruption", "description": "Channel a single powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early. Enemies that come into contact with the Orb take up to 175 damage and are Blinded for 1 second. When the Orb reaches the end of its path, it detonates in a large explosion, dealing up to 700 damage." },
-			"XalatathHeroicAbilityVoidConvergence": { "name": "Void Convergence", "description": "After channeling for 2 seconds, summon a Void Portal that spawns up to 4 Void Minions to attack nearby enemies. Enemies near the Void Portal are Slowed by 25%. Void Minions are attracted to Shadow Marked Heroes. The Portal loses health over 20 seconds." },
-
-			"XalatathPummelingStep": { "name": "Relentless Whispers", "description": "While Void Step is active, Xal'atath's Basic Attack rate is increased by 200%." },
-			"XalatathDarkHeartsProtection": { "name": "Dark Heart's Protection", "description": "Casting Dark Heart Silences enemies inside its radius for 1 second. Xal'atath and allied Heroes gain 30 Spell Armor while inside Dark Heart's radius." },
-			"XalatathCrushingCascade": { "name": "Crushing Cascade", "description": "Enemies hit by Void Volley are Slowed by 6% for 2 seconds per projectile, up to 50%." },
-
-			"XalatathMarkedResilience": { "name": "Marked Resilience", "description": "Basic Attacks against Marked Heroes grant a 480 point Shield that rapidly decays." },
-			"XalatathPullOfTheDarkHeart": { "name": "Pull of the Dark Heart", "description": "Linked enemies are Slowed by 10% for each pulse, stacking up to 5 times and decaying over 2 seconds." },
-			"XalatathFracturedReality": { "name": "Fractured Reality", "description": "Increase Void Volley projectile damage by 25%. Void Volley projectiles leave a trail of fire along their path for 3 seconds, dealing 15 damage over time. The trail deals damage every 1 second." },
-
-			"XalatathOrbitalEruption": { "name": "Harbinger's Consumption", "description": "Xal'atath's Void Eruption splits into 3 orbiting Void Orbs. Cancelling the ability early causes the orbs to travel faster." },
-			"XalatathRiftInvasion": { "name": "Rift Invasion", "description": "Void Convergence's Portal no longer loses health over time and can spawn and sustain up to 6 Void Minions." },
-			"XalatathDuelingOrbs": { "name": "Dueling Orbs", "description": "Gain 1 additional Shadow Mark charge." },
-			"XalatathParadoxLoop": { "name": "Paradox Loop", "description": "After completing Void Step, Xal'atath immediately performs a second Void Step in the opposite direction. Added effects are triggered again." },
-			"XalatathUnstableCore": { "name": "Unstable Core", "description": "When the Dark Heart expires or detonates on a Marked Hero, it leaves behind a pool of void flames for 5 seconds. Enemies in the flames take 15 damage over time. The flames deal damage every 1 second." }
-		}
-	}
+	"xalatath": { "releaseDate": "2026-09-28" }
 }

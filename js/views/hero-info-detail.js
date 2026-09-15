@@ -159,6 +159,10 @@ var HeroInfoDetailView = (function() {
 		var typeBadge = ability.abilityType
 			? '<span class="hero-info-ability-type">' + escapeHtml(ability.abilityType) + '</span>'
 			: '';
+		// Abilities that only exist in another form, stance or unit name their owner.
+		var ownerBadge = ability.parent
+			? '<span class="hero-info-ability-parent">' + escapeHtml(ability.parent) + '</span>'
+			: '';
 
 		var meta = "";
 		if (ability.cooldown) meta += '<div class="hero-info-ability-meta">' + cleanHotsText(ability.cooldown, level) + '</div>';
@@ -170,6 +174,7 @@ var HeroInfoDetailView = (function() {
 			'<div class="hero-info-ability-head">' +
 			typeBadge +
 			'<span class="hero-info-ability-name">' + escapeHtml(ability.name || "") + '</span>' +
+			ownerBadge +
 			'</div>' +
 			meta +
 			'<div class="hero-info-ability-desc">' + cleanHotsText(ability.description, level) + '</div>' +

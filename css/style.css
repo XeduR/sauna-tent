@@ -1533,6 +1533,17 @@ tfoot {
 	letter-spacing: 0.04em;
 }
 
+.hero-info-ability-parent {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--text-muted);
+	background: var(--bg-card-hover);
+	border: 1px solid var(--border);
+	padding: 0.1rem 0.4rem;
+	border-radius: var(--radius);
+	letter-spacing: 0.04em;
+}
+
 .hero-info-talent-quest {
 	font-size: 0.7rem;
 	font-weight: 600;

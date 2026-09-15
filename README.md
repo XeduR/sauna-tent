@@ -5,7 +5,7 @@ A static analytics dashboard for the Heroes of the Storm team "Sauna Tent". Pars
 ## Requirements
 
 - Python 3.12+
-- .NET 8.0 SDK (required to install the replay parser). See [Refreshing hero data](#refreshing-hero-data) for the download link; the same SDK serves both tools.
+- .NET 8.0 SDK, to install the replay parser: <https://dotnet.microsoft.com/download/dotnet/8.0> (pick "SDK", x64). Only replay processing needs it; refreshing hero data does not.
 - `heroes-replay-parser-cs` (auto-installed on first batch run; the vendored source lives in `tools/replay-parser-cs/`).
 
 ## Exporting replays
@@ -46,9 +46,9 @@ Double-click `run-pipeline.bat`. It prompts for:
 
 1. Incremental update or full reprocess.
 2. Whether to collect new replays from `%USERPROFILE%` first (runs `collect_replays.py`).
-3. Whether to refresh static hero data after the pipeline (runs `refresh-hero-data.bat`).
+3. Whether to refresh static hero data after the pipeline (runs `refresh-hero-data.bat`), and from the live or the PTR build.
 
-Forwards the optional first argument (game install path) to `refresh-hero-data.bat`. The pipeline itself runs `process --generate` (and `--reprocess` for option 2). It never deletes replays.
+The pipeline itself runs `process --generate` (and `--reprocess` for option 2). It never deletes replays.
 
 ### Adding new replays (CLI)
 
@@ -142,15 +142,15 @@ To contribute your games, either send the maintainer a zip of your `.StormReplay
 
 ## Refreshing hero data
 
-Hero stats, ability data, talent names/descriptions, and all hero/talent/ability icons are regenerated from a local HotS install via [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) (HDP), a .NET CLI that reads Blizzard's game files directly. Run this after every HotS patch to keep talent data in sync with the live game.
+Hero stats, ability data, talent names/descriptions, and all hero/talent/ability icons are regenerated via [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) (HDP), a CLI that reads Blizzard's game files. It downloads the build straight from Blizzard's CDN, so no HotS install is needed and the refresh runs on any machine. Run it after every HotS patch to keep talent data in sync with the live game.
 
 ### Quick start
 
-Double-click `refresh-hero-data.bat` (or run `python generate_hero_data.py`). The default game path is `C:\Games\Heroes of the Storm`; pass a different path as an argument to the `.bat` (or use `--game-path` on the script) if your install lives elsewhere.
+Double-click `refresh-hero-data.bat` (or run `python generate_hero_data.py`). The first run downloads the parser; expect several minutes per run while it pulls and parses the build.
 
 ### Live and PTR
 
-`-release` (the default) reads the live install; `-ptr` reads the Public Test install at `C:\Games\Heroes of the Storm Public Test`, which is how an unreleased hero reaches the dashboard before it ships.
+`-release` (the default) reads the live build; `-ptr` reads the Public Test build, which is how an unreleased hero reaches the dashboard before it ships.
 
 ```
 refresh-hero-data.bat -ptr
@@ -165,24 +165,29 @@ A new hero needs entries in `pipeline/herodata.py` (`HERO_NAMES`, `HERO_ROLES`, 
 
 An unreleased hero can arrive with stats and ability names but no talent text and no icons at all. Talents HDP cannot name are dropped rather than written blank, and cards without an icon render text-only, so the page shows real data or nothing.
 
-Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by ability or talent `nameId` (read the ids out of `.scratch/hots-data-output-ptr/`). Its values win over the game data, it survives re-runs, and talent slot numbering is untouched. Delete a hero's entry once the live build carries the real strings.
+Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by ability `abilityId` or talent `talentId` (read the ids out of `.scratch/hots-data-output-ptr/data/`). Its values win over the game data, it survives re-runs, and talent slot numbering is untouched. Any other key sets a top-level field on the hero record, which is how `franchise` and a corrected `releaseDate` are pinned. Delete a hero's entry once the live build carries the real strings.
 
 ### Prerequisites
 
-1. **.NET 8.0 SDK** (required, install once manually): <https://dotnet.microsoft.com/download/dotnet/8.0> — pick "SDK", x64 Windows installer. The Runtime alone is not enough; the SDK is required to install global tools. The script does not auto-install the SDK because it is system-wide and needs admin elevation.
-2. **HeroesDataParser 4.14.4** (auto-installed on first run): a user-scoped global dotnet tool, installed into `%USERPROFILE%\.dotnet\tools`. The script prompts y/N before installing. The version is pinned because HDP 5 renamed the tool command to `dotnet heroes-data-parser` and changed its CLI.
-3. **Pillow** (auto-installed on first run): a Python imaging library used to downscale and re-encode icons. The script prompts y/N before installing.
+1. **HeroesDataParser 5.0.4** (auto-downloaded on first run): a self-contained build, so no .NET runtime is required. The script prompts y/N, then downloads the release archive for the current platform into `.scratch/hdp/` and verifies its SHA-256 before unpacking. The version and checksums are pinned in `generate_hero_data.py`; a platform without a pinned archive aborts with instructions rather than downloading something unverified.
+2. **Pillow** (auto-installed on first run): a Python imaging library used to downscale and re-encode icons. The script prompts y/N before installing.
 
 ### What it does
 
-1. Invokes HDP to extract hero data + images from `<game-path>\HeroesData` into `.scratch/hots-data-output/`, or `.scratch/hots-data-output-ptr/` with `-ptr` (both gitignored).
-2. Translates HDP's per-hero JSON into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`.
+1. Invokes HDP against Blizzard's CDN (`online`, plus `--download-ptr` for the PTR channel), extracting hero data + images into `.scratch/hots-data-output/`, or `.scratch/hots-data-output-ptr/` with `-ptr` (both gitignored).
+2. Translates HDP's hero data file into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`.
 3. Downscales every icon from 128x128 to 64x64 with Lanczos resampling, re-encodes with PNG `optimize=True`, and writes them to `img/hero/{slug}/avatar.png`, `img/hero/{slug}/talent{tier}_{choice}.png`, and `img/hero/{slug}/abilities/{ability-id}.png`. Existing files are MD5-compared against the new output and skipped if identical.
 4. Reports any hero missing from the static lookup tables.
 
+### Form, stance and unit abilities
+
+Heroes who transform or command a second unit have abilities HDP nests under an owner instead of listing with the rest: Deathwing's World Breaker set, Greymane's Worgen attacks, Chen's split spirits, D.Va's pilot kit, Alexstrasza's dragon form, Abathur's Symbiote, Rexxar's Misha. Each gets its own ability card, tagged with the form or unit it belongs to so two cards sharing a hotkey stay distinguishable.
+
+Left out, because they would only repeat something already on the page: cancel buttons, primed and active states whose tooltip matches the ability they belong to, and abilities a unit only has once a talent grants them (the talent card covers those).
+
 ### Skipping HDP
 
-Use `python generate_hero_data.py --skip-parser` to re-translate already-extracted HDP output without rerunning the parser. Useful for iterating on the translator or testing against the bundled HDP sample JSONs under `.scratch/HeroesDataParser-main/Tests/`.
+Use `python generate_hero_data.py --skip-parser` to re-translate already-extracted HDP output without rerunning the parser. Useful when iterating on the translator, since it skips the CDN download.
 
 ## Chat Toxicity Detection
 
@@ -195,7 +200,7 @@ Toxicity data feeds into:
 
 ## Game Assets
 
-Hero portraits, talent icons, and ability icons under `img/hero/` are extracted from a local HotS install via HeroesDataParser (see [Refreshing hero data](#refreshing-hero-data)). Role icons under `img/role/` are sourced from the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Hero chart colors are defined in `data/hero-colors.json`.
+Hero portraits, talent icons, and ability icons under `img/hero/` are extracted from Blizzard's game files via HeroesDataParser (see [Refreshing hero data](#refreshing-hero-data)). Role icons under `img/role/` are sourced from the [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/). Hero chart colors are defined in `data/hero-colors.json`.
 
 ### Talent data freshness
 
@@ -246,14 +251,16 @@ Each roster entry can have multiple toon IDs (for players with accounts across r
 `.scratch/` at the project root is a gitignored workspace for files generated by local tooling. Nothing inside is required to build or serve the dashboard, and nothing in it should be committed.
 
 - `.scratch/hots-data-output/` — raw 128x128 JSON and images produced by `generate_hero_data.py` via HeroesDataParser. The same script downscales the icons to 64x64, re-encodes with `optimize=True`, and writes them alongside the translated `data/hero-info.json`, `data/talent-names.json`, `data/talent-descriptions.json`, and per-hero images under `img/hero/{slug}/`.
-- `.scratch/hots-data-output-ptr/` — the same, for the Public Test install.
+- `.scratch/hots-data-output-ptr/` — the same, for the Public Test build.
+- `.scratch/hdp/` — the HeroesDataParser build, downloaded on first run and re-downloaded whenever this directory is cleared.
+- `.scratch/cache/` — HDP's CASC cache of the CDN data, a few hundred MB. It is written relative to the working directory, which is why the parser runs from `.scratch/`. Deleting it costs a slower next run, nothing else.
 
-Other contents that may accumulate here (HotS install snapshots, vendored HeroesDataParser source, debug reports, code reviews) are similarly transient.
+Other contents that may accumulate here (debug reports, code reviews, probe scripts) are similarly transient.
 
 ## Data Sources
 
 - **Replay parsing**: [Heroes.StormReplayParser](https://github.com/HeroesToolChest/Heroes.StormReplayParser) by HeroesToolChest, wrapped by the `tools/replay-parser-cs/` sidecar.
-- **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the local HotS install directly (Blizzard game assets).
+- **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the game build from Blizzard's CDN (Blizzard game assets).
 - **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
 - **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).
 

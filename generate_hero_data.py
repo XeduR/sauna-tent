@@ -1,5 +1,6 @@
 """
-Regenerate all hero data from a local HotS install using HeroesDataParser.
+Regenerate all hero data using HeroesDataParser, which downloads the game build
+straight from Blizzard's CDN. No HotS install is required.
 
 Outputs:
   - data/hero-info.json           (full per-hero reference: stats, abilities, talents)
@@ -7,35 +8,25 @@ Outputs:
   - data/talent-descriptions.json (talent description lookup, same structure)
   - img/hero/{slug}/avatar.png    (hero select portrait icon, 64x64)
   - img/hero/{slug}/talent{tier}_{choice}.png (talent icons, 64x64)
-  - img/hero/{slug}/abilities/{nameId-slug}.png (ability icons, 64x64)
+  - img/hero/{slug}/abilities/{id-slug}.png (ability icons, 64x64)
 
 Source: HeroesDataParser (https://github.com/HeroesToolChest/HeroesDataParser)
-extracts JSON + images directly from the HotS game files. HDP emits images
-at 128x128; this script downscales them to 64x64 and re-encodes the PNGs with
-optimisation enabled to roughly halve dashboard payload size.
+extracts JSON + images from Blizzard's game files. HDP emits images at 128x128;
+this script downscales them to 64x64 and re-encodes the PNGs with optimisation
+enabled to roughly halve dashboard payload size.
 
 Channels:
-  -release (default) reads the live install, -ptr the Public Test install, each
-  with its own game path and HDP output directory. A PTR run only writes heroes
-  missing from data/hero-info.json plus ones it previously tagged "ptr": true; a
-  release run owns every hero the live build has and drops the tag when one ships.
+  -release (default) reads the live build, -ptr the Public Test build, each into
+  its own HDP output directory. A PTR run only writes heroes missing from
+  data/hero-info.json plus ones it previously tagged "ptr": true; a release run
+  owns every hero the live build has and drops the tag when one ships.
 
-Prerequisites (one-time, on the machine that runs HDP):
-  1. Install the .NET 8.0 SDK manually: https://dotnet.microsoft.com/download/dotnet/8.0
-     The Runtime alone is not enough; the SDK is required to install global tools.
-     This script intentionally does not auto-install the SDK (system-wide, needs admin).
-  2. HeroesDataParser itself is auto-installed on first run after a y/N prompt.
-     To install manually:  dotnet tool install --global HeroesDataParser --version 4.14.4
-  3. Pillow (Python imaging) is auto-installed on first run after a y/N prompt.
-     To install manually:  pip install Pillow
-
-In the dev container, dotnet is not installed. Use --skip-parser to translate
-pre-extracted HDP output (e.g. from a Windows run, or the bundled test samples
-under .scratch/HeroesDataParser-main/Tests/...).
+Prerequisites: none beyond Python. The self-contained HeroesDataParser build is
+downloaded and checksum-verified on first run after a y/N prompt, as is Pillow.
 
 Usage:
   python generate_hero_data.py                 # full pipeline: HDP + translate + sync
-  python generate_hero_data.py -ptr            # same, against the PTR install
+  python generate_hero_data.py -ptr            # same, against the PTR build
   python generate_hero_data.py --skip-parser   # skip HDP, translate existing output
   python generate_hero_data.py --dry-run       # report actions, no writes
 """
@@ -46,10 +37,15 @@ import hashlib
 import io
 import json
 import os
+import platform
 import re
 import shutil
 import subprocess
 import sys
+import tarfile
+import tempfile
+import urllib.request
+import zipfile
 from typing import NamedTuple
 
 from pipeline.herodata import FEMALE_HEROES, HERO_NAMES, HERO_ROLES
@@ -63,15 +59,8 @@ DEFAULT_IMG_DIR = os.path.join(_PROJECT_ROOT, "img", "hero")
 CHANNEL_RELEASE = "release"
 CHANNEL_PTR = "ptr"
 
-# The .bat wrappers pass the real Windows install paths; these are container-side
-# snapshot locations for --skip-parser work.
-DEFAULT_GAME_PATHS = {
-    CHANNEL_RELEASE: os.path.join(SCRATCH_DIR, "Heroes of the Storm"),
-    CHANNEL_PTR: os.path.join(SCRATCH_DIR, "Heroes of the Storm Public Test"),
-}
-
-# Separate roots: a shared one would let the PTR build win the selection in
-# discover_hero_files and replace the live dataset.
+# Separate roots: a shared one would let the PTR build win the newest-build
+# selection in discover_hero_data_file and replace the live dataset.
 DEFAULT_HDP_OUTPUTS = {
     CHANNEL_RELEASE: os.path.join(SCRATCH_DIR, "hots-data-output"),
     CHANNEL_PTR: os.path.join(SCRATCH_DIR, "hots-data-output-ptr"),
@@ -83,20 +72,46 @@ TALENT_DESCRIPTIONS_FILENAME = "talent-descriptions.json"
 HERO_COLORS_FILENAME = "hero-colors.json"
 
 # Hand-written data for heroes the game files describe incompletely, keyed by slug
-# then by ability/talent nameId. Delete an entry once the build carries the real data.
+# then by ability or talent id. Delete an entry once the build carries the real data.
 HERO_OVERRIDES_FILENAME = "hero-overrides.json"
 
 # Marks a hero-info.json record as PTR-sourced; the talent files derive theirs from it.
 PTR_FLAG = "ptr"
 
-# HDP 5 renamed the tool command and changed the CLI, so the auto-install stays on 4.x.
-HDP_VERSION = "4.14.4"
+HDP_VERSION = "5.0.4"
+HDP_DIR = os.path.join(SCRATCH_DIR, "hdp")
+HDP_RELEASE_URL = "https://github.com/HeroesToolChest/HeroesDataParser/releases/download/v{version}/{asset}"
 
-# Ability categories kept in hero-info.json. mount/activable/hearth are generic and
-# rarely consulted, so they are excluded to keep the JSON small.
-ABILITY_CATEGORIES = ("basic", "heroic", "trait")
+# Self-contained builds, so no .NET runtime has to be installed. Each archive
+# unpacks into a directory named after its runtime id. The SHA-256 is checked
+# before unpacking, so a tampered or truncated download never runs.
+HDP_ASSETS = {
+    "linux-x64": (
+        f"HeroesDataParser.{HDP_VERSION}-scd-linux-x64.tar.gz",
+        "8ee8afaa4df6add6c3710e0527435558bcc94a6a14d60f783a0deb3948404850",
+    ),
+    "win-x64": (
+        f"HeroesDataParser.{HDP_VERSION}-scd-win-x64.zip",
+        "beb28570de818e63d1eee4ca990b402aa208ae5932f3b6a5fe4cb44a1ad6e014",
+    ),
+}
 
-# HDP groups talents under levelN keys. Tiers map level# -> tier index used in our keys.
+HDP_THREADS = 4
+
+# Ability categories kept in hero-info.json, HDP's name mapped to the frontend's.
+# Mount/Activable/Hearth are generic and rarely consulted, so they are excluded
+# to keep the JSON small.
+ABILITY_CATEGORIES = (("Basic", "basic"), ("Heroic", "heroic"), ("Trait", "trait"))
+
+# A passive ability has no activatable ability behind it, so HDP gives it this id
+# in place of one. The button it was built from carries a usable id.
+PASSIVE_ABILITY_ID = ":PASSIVE:"
+
+# The game's shared "stop channelling" button art. Every ability that can be
+# interrupted has one, and it repeats the parent ability's tooltip.
+CANCEL_ICON = "hud_btn_bg_ability_cancel.png"
+
+# HDP groups talents under LevelN keys. Tiers map level# -> tier index used in our keys.
 TALENT_LEVELS = (1, 4, 7, 10, 13, 16, 20)
 
 # HDP emits 128x128 icons; the dashboard uses 64x64. Downscale + re-encode with
@@ -111,6 +126,19 @@ class HeroDataSet(NamedTuple):
     info: dict[str, dict]
     names: dict[str, dict]
     descriptions: dict[str, dict]
+
+
+class AbilityEntry(NamedTuple):
+    """One ability card: its output category, unique id, HDP record, and owner.
+
+    parent is the ability, form or stance the game nests this one under, empty
+    for an ability the hero has outright.
+    """
+
+    category: str
+    entry_id: str
+    source: dict
+    parent: str
 
 
 def slugify(name: str) -> str:
@@ -187,41 +215,6 @@ def ensure_pillow() -> None:
     print("Pillow installed.")
 
 
-SDK_GUIDANCE = (
-    "The .NET 8.0 SDK must be installed manually before HeroesDataParser can be installed\n"
-    "or run. The SDK is system-wide and requires admin elevation, so this script does\n"
-    "not auto-install it.\n"
-    "\n"
-    "Download (pick 'SDK', x64 Windows installer):\n"
-    "  https://dotnet.microsoft.com/download/dotnet/8.0\n"
-    "\n"
-    "After install, open a NEW terminal and re-run this script."
-)
-
-
-def list_dotnet_sdks() -> list[str]:
-    """Return installed .NET SDK version lines, or empty if runtime-only or dotnet missing."""
-    try:
-        result = subprocess.run(
-            ["dotnet", "--list-sdks"], capture_output=True, text=True, check=True,
-        )
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return []
-    return [line for line in result.stdout.splitlines() if line.strip()]
-
-
-def is_hdp_installed() -> bool:
-    """Check whether HeroesDataParser is registered as a global dotnet tool."""
-    try:
-        result = subprocess.run(
-            ["dotnet", "tool", "list", "--global"],
-            capture_output=True, text=True, check=True,
-        )
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return False
-    return any("heroesdataparser" in line.lower() for line in result.stdout.splitlines())
-
-
 def prompt_yes_no(message: str) -> bool:
     """Read a y/N answer from stdin. Default no; only 'y'/'Y' counts as yes."""
     try:
@@ -231,107 +224,270 @@ def prompt_yes_no(message: str) -> bool:
     return answer == "y"
 
 
-def install_hdp() -> None:
-    """Install HeroesDataParser as a global dotnet tool. Raises CalledProcessError on failure."""
-    print(f"Installing HeroesDataParser {HDP_VERSION} ...")
-    subprocess.run(
-        ["dotnet", "tool", "install", "--global", "HeroesDataParser", "--version", HDP_VERSION],
-        check=True,
-    )
-    print("HeroesDataParser installed.")
+def hdp_runtime_id() -> str:
+    """Return the .NET runtime id matching this machine, e.g. linux-x64."""
+    systems = {"linux": "linux", "windows": "win", "darwin": "osx"}
+    machines = {"x86_64": "x64", "amd64": "x64", "aarch64": "arm64", "arm64": "arm64"}
 
-
-def run_hdp(game_path: str, output_dir: str) -> None:
-    """Invoke HeroesDataParser. Raises CalledProcessError on failure."""
-    if shutil.which("dotnet") is None:
-        raise SystemExit("ERROR: 'dotnet' was not found on PATH.\n\n" + SDK_GUIDANCE)
-
-    if not list_dotnet_sdks():
+    system = systems.get(platform.system().lower())
+    machine = machines.get(platform.machine().lower())
+    if not system or not machine:
         raise SystemExit(
-            "ERROR: no .NET SDK is installed (the runtime alone cannot install global tools).\n\n"
-            + SDK_GUIDANCE
+            f"ERROR: unsupported platform {platform.system()} {platform.machine()} "
+            "for HeroesDataParser."
+        )
+    return f"{system}-{machine}"
+
+
+def hdp_executable_path(runtime_id: str) -> str:
+    name = "HeroesDataParser.exe" if runtime_id.startswith("win") else "HeroesDataParser"
+    return os.path.join(HDP_DIR, runtime_id, name)
+
+
+def download_verified(url: str, sha256: str, dst: str) -> None:
+    """Download url to dst, aborting unless the payload matches sha256."""
+    print(f"Downloading {url} ...")
+    with urllib.request.urlopen(url) as response, open(dst, "wb") as f:
+        shutil.copyfileobj(response, f)
+
+    digest = hashlib.sha256()
+    with open(dst, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+
+    if digest.hexdigest() != sha256:
+        raise SystemExit(
+            f"ERROR: checksum mismatch for {os.path.basename(url)}.\n"
+            f"  expected {sha256}\n"
+            f"  got      {digest.hexdigest()}"
         )
 
-    if not is_hdp_installed():
-        print("HeroesDataParser is not installed as a global dotnet tool.")
-        print(r"It will be installed into %USERPROFILE%\.dotnet\tools (user-scoped, no admin).")
-        if not prompt_yes_no("Install HeroesDataParser now?"):
-            raise SystemExit(
-                "Aborted. To install manually:\n"
-                f"  dotnet tool install --global HeroesDataParser --version {HDP_VERSION}"
-            )
-        install_hdp()
 
-    # Resolve to absolute paths so the cwd switch below doesn't break them.
-    game_path = os.path.abspath(game_path)
+def ensure_hdp() -> str:
+    """Return the path to the HDP executable, downloading it if needed."""
+    runtime_id = hdp_runtime_id()
+    executable = hdp_executable_path(runtime_id)
+    if os.path.exists(executable):
+        return executable
+
+    if runtime_id not in HDP_ASSETS:
+        raise SystemExit(
+            f"ERROR: no pinned HeroesDataParser {HDP_VERSION} archive for {runtime_id}.\n"
+            f"Add its filename and SHA-256 to HDP_ASSETS from\n"
+            f"  https://github.com/HeroesToolChest/HeroesDataParser/releases/tag/v{HDP_VERSION}"
+        )
+
+    asset, sha256 = HDP_ASSETS[runtime_id]
+    url = HDP_RELEASE_URL.format(version=HDP_VERSION, asset=asset)
+    print(f"HeroesDataParser {HDP_VERSION} ({runtime_id}) is not present in {HDP_DIR}.")
+    print("It is a self-contained build, so no .NET runtime is needed.")
+    if not prompt_yes_no("Download it now?"):
+        raise SystemExit(f"Aborted. To install manually, unpack {url} into {HDP_DIR}.")
+
+    os.makedirs(HDP_DIR, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        archive = os.path.join(tmp, asset)
+        download_verified(url, sha256, archive)
+
+        # Both archive kinds already carry a top-level directory named after the
+        # runtime id, so they unpack straight into HDP_DIR.
+        print(f"Unpacking into {HDP_DIR} ...")
+        if asset.endswith(".zip"):
+            with zipfile.ZipFile(archive) as zf:
+                zf.extractall(HDP_DIR)
+        else:
+            with tarfile.open(archive) as tf:
+                tf.extractall(HDP_DIR, filter="data")
+
+    if not os.path.exists(executable):
+        raise SystemExit(f"ERROR: {asset} did not contain {executable}")
+    os.chmod(executable, 0o755)
+
+    print(f"HeroesDataParser {HDP_VERSION} ready.")
+    return executable
+
+
+def run_hdp(channel: str, output_dir: str) -> None:
+    """Invoke HeroesDataParser against Blizzard's CDN. Raises CalledProcessError on failure."""
+    executable = ensure_hdp()
+
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(SCRATCH_DIR, exist_ok=True)
 
-    cmd = [
-        "dotnet", "heroes-data", game_path,
-        "-e", "herodata",
-        "-i", "herodata-split",
-        "--json",
-        "--file-split",
-        "-o", output_dir,
-    ]
+    cmd = [executable, "online"]
+    if channel == CHANNEL_PTR:
+        cmd.append("--download-ptr")
+    cmd += ["-e", "hero:i", "-o", output_dir, "-t", str(HDP_THREADS)]
+
     print(f"Running: {' '.join(cmd)}")
-    # CASCExplorer (inside HDP) writes debug.log via a relative path, so it lands
-    # in the process CWD. Run HDP from .scratch/ to keep that log out of the
-    # project root.
+    print("Downloading and parsing the build takes several minutes.")
+    # HDP writes its CASC scratch files relative to the process CWD, so run it
+    # from .scratch/ to keep them out of the project root.
     subprocess.run(cmd, check=True, cwd=SCRATCH_DIR)
 
 
-def split_build_number(split_dir: str) -> int:
-    """Return the build number embedded in a splitfiles-{build}-{loc} directory name."""
-    match = re.match(r"splitfiles-(\d+)-", os.path.basename(split_dir))
+def data_build_number(data_file: str) -> int:
+    """Return the build number embedded in a herodata_{build}_{loc}.json filename."""
+    match = re.match(r"herodata_(\d+)_", os.path.basename(data_file))
     return int(match.group(1)) if match else -1
 
 
-def discover_hero_files(hdp_output: str) -> list[str]:
-    """Return absolute paths to per-hero JSON files in HDP output.
-
-    Real HDP CLI output with --file-split lands at:
-      <output>/json/splitfiles-{build}-{loc}/herodata/{hero}.json
-    Earlier patches are left behind there, so only the highest build is read.
-    The bundled HDP test samples use a flat <output>/*.json layout.
-    """
-    split_dirs = sorted(
-        glob.glob(os.path.join(hdp_output, "json", "splitfiles-*")),
-        key=split_build_number,
-    )
-    if split_dirs:
-        newest = split_dirs[-1]
-        split_files = sorted(glob.glob(os.path.join(newest, "herodata", "*.json")))
-        if split_files:
-            print(f"Using build {split_build_number(newest)} ({os.path.basename(newest)})")
-            return split_files
-
-    for d in (os.path.join(hdp_output, "json"), hdp_output):
-        if not os.path.isdir(d):
-            continue
-        flat = sorted(
-            os.path.join(d, f) for f in os.listdir(d)
-            if f.endswith(".json") and not f.startswith("jsongamestring")
-            and not f.startswith("jsonoutput")
-        )
-        if flat:
-            return flat
-    return []
+def discover_hero_data_file(hdp_output: str) -> str | None:
+    """Return the newest <output>/data/herodata_{build}_{loc}.json, or None."""
+    candidates = glob.glob(os.path.join(hdp_output, "data", "herodata_*.json"))
+    if not candidates:
+        return None
+    newest = max(candidates, key=data_build_number)
+    print(f"Using build {data_build_number(newest)} ({os.path.basename(newest)})")
+    return newest
 
 
-def load_hero(path: str) -> tuple[str, dict] | None:
-    """Load a per-hero HDP JSON file. Returns (slug, hero_dict) or None."""
+def load_heroes(path: str) -> list[tuple[str, dict]]:
+    """Load HDP's hero data file. Returns (slug, hero_dict) pairs sorted by slug."""
     with open(path, encoding="utf-8") as f:
-        outer = json.load(f)
-    if not outer:
-        return None
-    # File has a single top-level key (hero ID like "Alarak"); body is the hero dict.
-    _, hero = next(iter(outer.items()))
-    if not isinstance(hero, dict) or "name" not in hero:
-        return None
-    return slugify(hero["name"]), hero
+        items = json.load(f).get("items", {})
+    heroes = [
+        (slugify(hero["name"]), hero)
+        for hero in items.values()
+        if isinstance(hero, dict) and hero.get("name")
+    ]
+    return sorted(heroes, key=lambda pair: pair[0])
+
+
+def ability_id(entry: dict) -> str:
+    """Return the id HDP gives an ability, or its button's when it has none."""
+    value = entry.get("abilityId", "")
+    return entry.get("buttonId", "") if value == PASSIVE_ABILITY_ID else value
+
+
+def is_cancel_button(ability: dict) -> bool:
+    return (
+        ability.get("icon") == CANCEL_ICON
+        or "cancel" in (ability.get("name") or "").lower()
+    )
+
+
+def sub_ability_groups(hero: dict) -> list[tuple[str, dict]]:
+    """Return (parent link id, {category: [abilities]}) for the hero's own abilities.
+
+    A link id carries a trailing LevelN segment when a talent is what grants the
+    ability. Those already have a talent card, so they are left out.
+    """
+    return [
+        (link, groups)
+        for link, groups in (hero.get("subAbilities") or {}).items()
+        if link.count("|") == 2
+    ]
+
+
+def index_abilities_by_id(hero: dict) -> dict[str, dict]:
+    """Map the hero's abilities by both of their ids, nested ones included.
+
+    Nested abilities are in here because one can be another's parent: Deathwing's
+    Onslaught hangs off World Breaker, which itself hangs off Dragonflight.
+    """
+    index: dict[str, dict] = {}
+    groups = list((hero.get("abilities") or {}).values())
+    for _, nested in (hero.get("subAbilities") or {}).items():
+        groups.extend(nested.values())
+
+    for abilities in groups:
+        for ability in abilities:
+            for key in (ability.get("abilityId"), ability.get("buttonId")):
+                if key and key != PASSIVE_ABILITY_ID:
+                    index.setdefault(key, ability)
+    return index
+
+
+def talent_granted(hero: dict) -> tuple[set[str], set[str]]:
+    """Return the ability ids and names the hero only has when a talent is picked."""
+    ids, names = set(), set()
+    for talents in (hero.get("talents") or {}).values():
+        for talent in talents:
+            ability = talent.get("abilityId", "")
+            if ability and ability != PASSIVE_ABILITY_ID:
+                ids.add(ability)
+            names.add(talent.get("name", ""))
+    return ids, names
+
+
+def hero_unit_label(hero: dict, unit_id: str, unit: dict) -> str:
+    """Name the form a unit represents, for labelling the abilities it owns.
+
+    Units that transform the hero rather than accompany them are named after the
+    hero (Alexstrasza's dragon, D.Va's pilot), so their id supplies the form:
+    HeroDVaPilot -> Pilot, RagnarosBigRag -> Big Rag.
+    """
+    name = unit.get("name", "")
+    if name != hero.get("name"):
+        return name
+
+    hero_id = re.sub(r"^Hero", "", hero.get("unitId", ""))
+    form = re.sub(r"^Hero", "", unit_id)
+    shared = os.path.commonprefix([hero_id, form])
+    form = form[len(shared):] or form
+    return re.sub(r"(?<=[a-z])(?=[A-Z])", " ", form) or name
+
+
+def collect_abilities(hero: dict) -> list[AbilityEntry]:
+    """Return the hero's ability cards, including the ones HDP nests.
+
+    An ability that only exists in another form, stance or unit (Deathwing's
+    World Breaker set, Greymane's Worgen attacks, D.Va's pilot kit) is nested
+    under its owner rather than listed with the rest. Each is its own card here,
+    minus cancel buttons, the primed/active states that only repeat their parent,
+    and the talent-granted abilities that already have a talent card.
+    """
+    source = hero.get("abilities") or {}
+    by_id = index_abilities_by_id(hero)
+    entries: list[AbilityEntry] = []
+    used_ids: set[str] = set()
+    used_names: set[str] = set()
+
+    def add(category: str, ability: dict, parent: str) -> None:
+        entry_id = ability_id(ability)
+        # Samuro's Image Transmission shares its abilityId with the heroic that
+        # grants it, and an id decides the icon filename, so fall back to the
+        # button that actually carries this ability's name and art.
+        if entry_id in used_ids:
+            entry_id = ability.get("buttonId", "")
+        if not entry_id or entry_id in used_ids:
+            return
+        used_ids.add(entry_id)
+        used_names.add(ability.get("name", ""))
+        entries.append(AbilityEntry(category, entry_id, ability, parent))
+
+    for source_category, category in ABILITY_CATEGORIES:
+        for ability in source.get(source_category, []):
+            add(category, ability, "")
+
+    for link, groups in sub_ability_groups(hero):
+        parent = by_id.get(link.split("|")[0]) or by_id.get(link.split("|")[1]) or {}
+        for source_category, category in ABILITY_CATEGORIES:
+            for ability in groups.get(source_category, []):
+                if is_cancel_button(ability):
+                    continue
+                if ability.get("name") in used_names:
+                    continue
+                if ability.get("fullText") == parent.get("fullText"):
+                    continue
+                add(category, ability, parent.get("name", ""))
+
+    talent_ids, talent_names = talent_granted(hero)
+    for unit_id, unit in (hero.get("heroUnits") or {}).items():
+        label = hero_unit_label(hero, unit_id, unit)
+        for source_category, category in ABILITY_CATEGORIES:
+            for ability in (unit.get("abilities") or {}).get(source_category, []):
+                if is_cancel_button(ability):
+                    continue
+                if ability.get("name") in used_names:
+                    continue
+                if ability.get("abilityId") in talent_ids or ability.get("name") in talent_names:
+                    continue
+                add(category, ability, label)
+
+    return entries
 
 
 def collect_talents_by_tier(hero: dict) -> dict[int, list[dict]]:
@@ -339,8 +495,7 @@ def collect_talents_by_tier(hero: dict) -> dict[int, list[dict]]:
     talents = hero.get("talents", {})
     result: dict[int, list[dict]] = {}
     for tier in TALENT_LEVELS:
-        level_key = f"level{tier}"
-        tier_talents = talents.get(level_key, [])
+        tier_talents = talents.get(f"Level{tier}", [])
         result[tier] = sorted(tier_talents, key=lambda t: t.get("sort", 0))
     return result
 
@@ -353,30 +508,60 @@ def build_talent_descriptions(talents_out: dict[str, dict]) -> dict[str, str]:
     return {key: talent["description"] for key, talent in talents_out.items()}
 
 
-def build_abilities(hero: dict, overrides: dict) -> dict[str, list[dict]]:
-    src = hero.get("abilities", {})
-    out: dict[str, list[dict]] = {}
-    for category in ABILITY_CATEGORIES:
-        entries = []
-        for ability in src.get(category, []):
-            name_id = ability.get("nameId", "")
-            override = overrides.get(name_id, {})
-            has_icon = bool(name_id and ability.get("icon"))
-            entries.append({
-                "id": name_id,
-                "name": override.get("name") or ability.get("name", ""),
-                "icon": slugify(name_id) + ".png" if has_icon else "",
-                "abilityType": ability.get("abilityType", ""),
-                "cooldown": ability.get("cooldownTooltip", ""),
-                "manaCost": ability.get("energyTooltip", ""),
-                "description": override.get("description") or strip_html(ability.get("fullTooltip", "")),
-            })
-        out[category] = entries
+def build_abilities(abilities: list[AbilityEntry], overrides: dict) -> dict[str, list[dict]]:
+    out: dict[str, list[dict]] = {category: [] for _, category in ABILITY_CATEGORIES}
+    for entry in abilities:
+        ability = entry.source
+        override = overrides.get(entry.entry_id, {})
+        out[entry.category].append({
+            "id": entry.entry_id,
+            "name": override.get("name") or ability.get("name", ""),
+            "icon": slugify(entry.entry_id) + ".png" if ability.get("icon") else "",
+            "parent": entry.parent,
+            "abilityType": ability.get("abilityType", ""),
+            "cooldown": ability.get("cooldownText", ""),
+            "manaCost": ability.get("energyText", ""),
+            "description": override.get("description") or strip_html(ability.get("fullText", "")),
+        })
     return out
 
 
-def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]], override: dict) -> dict:
-    weapons = hero.get("weapons") or []
+def enabled_weapons(unit: dict) -> list[dict]:
+    """Return a unit's active weapons in source order.
+
+    HDP also lists the alternative weapons talents can swap in, ahead of the real
+    one, so an unfiltered weapons[0] reports a weapon the hero does not have
+    (Stukov's Spine Launcher, Nova's Anti-Armor Shells).
+    """
+    weapons = []
+    for weapon in unit.get("weapons") or []:
+        if weapon.get("isDisabled"):
+            continue
+        weapon = dict(weapon)
+        weapon.pop("isDisabled", None)
+        weapons.append(weapon)
+    return weapons
+
+
+def build_hero_units(hero: dict) -> list[dict]:
+    """Return alternate hero forms as one single-key object each, keyed by unit id."""
+    units = hero.get("heroUnits") or {}
+    out = []
+    for unit_id, unit in units.items():
+        unit = dict(unit)
+        if "weapons" in unit:
+            unit["weapons"] = enabled_weapons(unit)
+        out.append({unit_id: unit})
+    return out
+
+
+def build_hero_info(
+    hero: dict,
+    talents_by_tier: dict[int, list[dict]],
+    abilities: list[AbilityEntry],
+    override: dict,
+) -> dict:
+    weapons = enabled_weapons(hero)
     primary = weapons[0] if weapons else {}
     life = hero.get("life") or {}
     talent_overrides = override.get("talents", {})
@@ -386,17 +571,16 @@ def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]], override
     talents_out: dict[str, dict] = {}
     for tier, talents in talents_by_tier.items():
         for i, talent in enumerate(talents, 1):
-            talent = talent | talent_overrides.get(talent.get("nameId", ""), {})
+            talent = talent | talent_overrides.get(talent.get("talentId", ""), {})
             if not talent.get("name"):
                 continue
             key = f"{tier}_{i}"
             talents_out[key] = {
                 "name": talent.get("name", ""),
                 "icon": f"talent{key}.png" if talent.get("icon") else "",
-                "description": talent.get("description") or strip_html(talent.get("fullTooltip", "")),
+                "description": talent.get("description") or strip_html(talent.get("fullText", "")),
                 "abilityType": talent.get("abilityType", ""),
                 "isQuest": talent.get("isQuest", False),
-                "isActive": talent.get("isActive", False),
             }
 
     record = {
@@ -415,9 +599,9 @@ def build_hero_info(hero: dict, talents_by_tier: dict[int, list[dict]], override
         "attackDamage": primary.get("damage"),
         "attackDamageScale": primary.get("damageScale"),
         "weapons": weapons,
-        "abilities": build_abilities(hero, override.get("abilities", {})),
+        "abilities": build_abilities(abilities, override.get("abilities", {})),
         "talents": talents_out,
-        "heroUnits": hero.get("heroUnits", []),
+        "heroUnits": build_hero_units(hero),
     }
 
     for key, value in override.items():
@@ -431,6 +615,7 @@ def sync_hero_images(
     hero: dict,
     slug: str,
     talents_by_tier: dict[int, list[dict]],
+    abilities: list[AbilityEntry],
     hdp_output: str,
     img_dir: str,
     dry_run: bool,
@@ -440,8 +625,9 @@ def sync_hero_images(
     Returns (portraits_synced, talents_synced, abilities_synced, missing_sources).
     """
     portraits_dir = os.path.join(hdp_output, "images", "heroportraits")
-    talents_dir = os.path.join(hdp_output, "images", "talents")
-    abilities_dir = os.path.join(hdp_output, "images", "abilities")
+    # HDP emits ability and talent icons into one directory; talents reuse their
+    # ability's icon file.
+    icons_dir = os.path.join(hdp_output, "images", "abilitytalents")
     hero_dir = os.path.join(img_dir, slug)
 
     portraits_synced = 0
@@ -467,7 +653,7 @@ def sync_hero_images(
             icon = talent.get("icon")
             if not icon:
                 continue
-            src = os.path.join(talents_dir, icon)
+            src = os.path.join(icons_dir, icon)
             dst = os.path.join(hero_dir, f"talent{tier}_{i}.png")
             if os.path.exists(src):
                 if process_image_if_changed(src, dst, dry_run):
@@ -476,20 +662,17 @@ def sync_hero_images(
                 missing += 1
 
     # Ability icons.
-    src_abilities = hero.get("abilities") or {}
-    for category in ABILITY_CATEGORIES:
-        for ability in src_abilities.get(category, []):
-            icon = ability.get("icon")
-            name_id = ability.get("nameId")
-            if not icon or not name_id:
-                continue
-            src = os.path.join(abilities_dir, icon)
-            dst = os.path.join(hero_dir, "abilities", slugify(name_id) + ".png")
-            if os.path.exists(src):
-                if process_image_if_changed(src, dst, dry_run):
-                    abilities_synced += 1
-            else:
-                missing += 1
+    for entry in abilities:
+        icon = entry.source.get("icon")
+        if not icon:
+            continue
+        src = os.path.join(icons_dir, icon)
+        dst = os.path.join(hero_dir, "abilities", slugify(entry.entry_id) + ".png")
+        if os.path.exists(src):
+            if process_image_if_changed(src, dst, dry_run):
+                abilities_synced += 1
+        else:
+            missing += 1
 
     return portraits_synced, talents_synced, abilities_synced, missing
 
@@ -597,16 +780,13 @@ def main() -> int:
     channel_group = parser.add_mutually_exclusive_group()
     channel_group.add_argument("-release", dest="channel", action="store_const",
                                const=CHANNEL_RELEASE,
-                               help="Read the live install (default)")
+                               help="Read the live build (default)")
     channel_group.add_argument("-ptr", dest="channel", action="store_const",
                                const=CHANNEL_PTR,
-                               help="Read the Public Test install, adding heroes the "
+                               help="Read the Public Test build, adding heroes the "
                                     "live build does not have yet")
     parser.set_defaults(channel=CHANNEL_RELEASE)
 
-    parser.add_argument("--game-path", default=None,
-                        help=f"Path to HotS install (default: {DEFAULT_GAME_PATHS[CHANNEL_RELEASE]}, "
-                             f"or {DEFAULT_GAME_PATHS[CHANNEL_PTR]} with -ptr)")
     parser.add_argument("--hdp-output", default=None,
                         help=f"HDP raw output dir (default: {DEFAULT_HDP_OUTPUTS[CHANNEL_RELEASE]}, "
                              f"or {DEFAULT_HDP_OUTPUTS[CHANNEL_PTR]} with -ptr)")
@@ -620,8 +800,6 @@ def main() -> int:
                         help="Report actions without writing")
     args = parser.parse_args()
 
-    if args.game_path is None:
-        args.game_path = DEFAULT_GAME_PATHS[args.channel]
     if args.hdp_output is None:
         args.hdp_output = DEFAULT_HDP_OUTPUTS[args.channel]
 
@@ -630,32 +808,31 @@ def main() -> int:
     ensure_pillow()
 
     if not args.skip_parser:
-        run_hdp(args.game_path, args.hdp_output)
+        run_hdp(args.channel, args.hdp_output)
 
-    hero_files = discover_hero_files(args.hdp_output)
-    if not hero_files:
-        print(f"ERROR: no hero JSON files found under {args.hdp_output}", file=sys.stderr)
+    data_file = discover_hero_data_file(args.hdp_output)
+    if data_file is None:
+        print(f"ERROR: no hero data file found under {args.hdp_output}", file=sys.stderr)
         return 1
-    print(f"Found {len(hero_files)} hero JSON file(s) in {args.hdp_output}")
 
     overrides = load_existing_json(os.path.join(args.data_dir, HERO_OVERRIDES_FILENAME))
 
     heroes: dict[str, dict] = {}
     talents_by_slug: dict[str, dict[int, list[dict]]] = {}
+    abilities_by_slug: dict[str, list[AbilityEntry]] = {}
     parsed = HeroDataSet({}, {}, {})
 
-    for path in hero_files:
-        loaded = load_hero(path)
-        if loaded is None:
-            print(f"  Skipped (no name field): {os.path.basename(path)}")
-            continue
-        slug, hero = loaded
+    loaded_heroes = load_heroes(data_file)
+    print(f"Found {len(loaded_heroes)} hero record(s) in {os.path.basename(data_file)}")
 
+    for slug, hero in loaded_heroes:
         talents_by_tier = collect_talents_by_tier(hero)
+        abilities = collect_abilities(hero)
         heroes[slug] = hero
         talents_by_slug[slug] = talents_by_tier
+        abilities_by_slug[slug] = abilities
 
-        record = build_hero_info(hero, talents_by_tier, overrides.get(slug, {}))
+        record = build_hero_info(hero, talents_by_tier, abilities, overrides.get(slug, {}))
         parsed.info[slug] = record
         parsed.names[slug] = build_talent_names(record["talents"])
         parsed.descriptions[slug] = build_talent_descriptions(record["talents"])
@@ -679,7 +856,7 @@ def main() -> int:
 
     for slug in sorted(written):
         p, t, a, m = sync_hero_images(
-            heroes[slug], slug, talents_by_slug[slug],
+            heroes[slug], slug, talents_by_slug[slug], abilities_by_slug[slug],
             args.hdp_output, args.img_dir, args.dry_run,
         )
         total_portraits += p
