@@ -285,8 +285,8 @@ Decoding `m_items`:
 unitIndex = m_firstUnitIndex
 for i = 0 to len(m_items) step 3:
     unitIndex += m_items[i]    // unit index delta
-    x = m_items[i+1] * 4      // X coordinate
-    y = m_items[i+2] * 4      // Y coordinate
+    x = m_items[i+1]          // X coordinate, map units
+    y = m_items[i+2]          // Y coordinate, map units
 ```
 
 This is the primary source for player heatmaps. Resolution is ~15 seconds. Units that have not dealt or taken damage are omitted from that snapshot.
@@ -672,7 +672,7 @@ Observers appear in `m_playerList` but NOT in tracker events (no PlayerInit). Th
 | Windows File Time to date | `date = new Date(filetime / 10000 - 11644473600000)` |
 | Fixed data to actual value | `value = m_fixedData / 4096` |
 | Unit tag from index/recycle | `unitTag = protocol.unit_tag(index, recycle)` |
-| SUnitPositionsEvent coords | `x = m_items[i+1] * 4`, `y = m_items[i+2] * 4` |
+| SUnitPositionsEvent coords | `x = m_items[i+1]`, `y = m_items[i+2]` (map units, same scale as SUnitDiedEvent `m_x`/`m_y`; the `* 4` in the s2protocol README is SC2's scale) |
 | PlayerDeath coords | `x = m_fixedData[0] / 4096`, `y = m_fixedData[1] / 4096` |
 | Region codes | 1=NA, 2=EU, 3=Asia, 98=PTR |
 

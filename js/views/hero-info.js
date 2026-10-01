@@ -5,6 +5,9 @@ var HeroInfoView = (function() {
 	var defaults = { role: "", franchise: "", search: "", scaleLevel: "0" };
 	var heroInfo = null;
 
+	// Shared with the per-hero subpages, which ignore alts the same way.
+	var HERO_INFO_NO_ALTS_REASON = "Alts are not tracked on the Hero Info pages.";
+
 	// Form-switching / multi-character heroes that need extra rows on the main page.
 	// All synthesised rows route to the canonical hero's subpage.
 	var HERO_ROW_EXPANSIONS = {
@@ -389,26 +392,10 @@ var HeroInfoView = (function() {
 		});
 	}
 
-	function setNoAltsToggleDisabled(disabled) {
-		var toggle = document.getElementById("global-no-alts-toggle");
-		if (!toggle) return;
-		toggle.disabled = disabled;
-		var label = toggle.parentElement;
-		if (disabled) {
-			label.classList.add("disabled");
-			label.title = "Alts are not tracked on the Hero Info page.";
-		} else {
-			label.classList.remove("disabled");
-			label.title = "Hide matches containing alt accounts";
-		}
-	}
-
 	async function render() {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading hero info...</div>';
-
-		setNoAltsToggleDisabled(true);
-		GlobalFilters.stripNoAltsFromURL();
+		GlobalFilters.lockNoAltsToggle(HERO_INFO_NO_ALTS_REASON);
 
 		try {
 			heroInfo = await Data.heroInfo();
@@ -419,12 +406,5 @@ var HeroInfoView = (function() {
 		}
 	}
 
-	// Called by the router before dispatching any view so this page's
-	// overrides don't leak into the next page.
-	function restoreNoAltsToggle() {
-		setNoAltsToggleDisabled(false);
-		GlobalFilters.writeNoAltsToURL();
-	}
-
-	return { render: render, restoreNoAltsToggle: restoreNoAltsToggle };
+	return { render: render, noAltsReason: HERO_INFO_NO_ALTS_REASON };
 })();

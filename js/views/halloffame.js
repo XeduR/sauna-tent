@@ -34,12 +34,15 @@ var HallOfFameView = (function() {
 		deathsByMonsters:   { src: "hof" },
 	};
 
-	// Heroes excluded from specific single-game record categories (the raw stat is
-	// garbage/meaningless for them, e.g. Gall shares Cho's body so soaks nothing).
+	// Gall shares Cho's body and Abathur stays out of fights, so their deaths and
+	// damage taken say nothing about the player. Every card built on an excluded
+	// stat ends its description with "*", which the page footnote explains.
+	var EXCLUDED_HEROES = { "Abathur": true, "Gall": true };
+
 	var HOF_HERO_EXCLUSIONS = {
-		damageSoaked:    { "Gall": true },
-		damageSoakedMin: { "Gall": true, "Abathur": true },
-		deaths:          { "Abathur": true, "Gall": true },
+		damageSoaked: EXCLUDED_HEROES,
+		damageSoakedMin: EXCLUDED_HEROES,
+		deaths: EXCLUDED_HEROES,
 	};
 
 	// Labels for stat cards (mirrors pipeline labels)
@@ -68,11 +71,11 @@ var HallOfFameView = (function() {
 		heroDamage: "Damage dealt to enemy heroes.",
 		siegeDamage: "Damage to structures, minions, and summons.",
 		healing: "Healing done to allied heroes.",
-		damageSoaked: "Damage taken in a single game.",
-		damageSoakedMin: "This player avoids fights the most (excl. Abathur & Gall).",
+		damageSoaked: "Damage taken in a single game.*",
+		damageSoakedMin: "This player avoids fights the most.*",
 		kills: "Killing blows on enemy heroes.",
 		xpContribution: "Personal XP from lanes, mercs, and kills.",
-		deaths: "Most deaths in a single game (excl. Abathur & Gall).",
+		deaths: "Most deaths in a single game.*",
 		timeSpentDead: "Total time spent dead in a single game.",
 		chatMessages: "Chat messages sent in a single game.",
 		pings: "Pings sent in a single game.",
@@ -84,28 +87,6 @@ var HallOfFameView = (function() {
 		deathsByMonsters: "Deaths to bosses, map objectives, and monsters.",
 	};
 
-	// Single-game stats that also get a per-minute record variant (value/duration*60).
-	var PER_MINUTE_STATS = ["heroDamage", "siegeDamage", "healing", "xpContribution"];
-
-	var PER_MINUTE_LABELS = {
-		heroDamage:     "Most Hero Damage / min",
-		siegeDamage:    "Most Siege Damage / min",
-		healing:        "Most Healing / min",
-		xpContribution: "Most XP / min",
-	};
-
-	var PER_MINUTE_DESC = {
-		heroDamage:     "Hero damage per minute in a single game.",
-		siegeDamage:    "Siege damage per minute in a single game.",
-		healing:        "Healing per minute in a single game.",
-		xpContribution: "XP contribution per minute in a single game.",
-	};
-
-	// Per-minute values display with one decimal and thousands grouping.
-	function formatPerMinute(v) {
-		return v.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-	}
-
 	// Tie-break for single-game / single-match record lists: when two records share
 	// the same value, the earlier match holds the record.
 	function byEarlierMatch(a, b) {
@@ -116,8 +97,7 @@ var HallOfFameView = (function() {
 
 	// Compute top-N single-game records for a stat from filtered matches.
 	// invert=true means lowest value wins (for damageSoakedMin).
-	// perMinute=true rescales the raw value to a per-minute rate (value/duration*60).
-	function computeSingleGameRecords(filtered, statKey, topN, invert, perMinute) {
+	function computeSingleGameRecords(filtered, statKey, topN, invert) {
 		var excluded = HOF_HERO_EXCLUSIONS[statKey] || {};
 		var srcKey = statKey === "damageSoakedMin" ? "damageSoaked" : statKey;
 		var srcSpec = SINGLE_GAME_STATS[srcKey];
@@ -139,10 +119,6 @@ var HallOfFameView = (function() {
 				}
 
 				if (val <= 0) continue;
-				if (perMinute) {
-					if (!m.durationSeconds) continue;
-					val = val / m.durationSeconds * 60;
-				}
 
 				records.push({
 					value: val,
@@ -200,7 +176,7 @@ var HallOfFameView = (function() {
 			'<div class="text-muted">This record is not available in the chosen game mode.</div></div>';
 	}
 
-	function renderStatCard(category, records, description, valueFormat) {
+	function renderStatCard(category, records, description) {
 		var label = category.label || category;
 		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
 
@@ -214,14 +190,9 @@ var HallOfFameView = (function() {
 			html += '<div class="hof-list">';
 			for (var i = 0; i < top.length; i++) {
 				var r = top[i];
-				var value;
-				if (valueFormat) {
-					value = valueFormat(r.value);
-				} else {
-					value = r.value;
-					if (typeof value === "number" && value >= 1000) {
-						value = formatNumber(value);
-					}
+				var value = r.value;
+				if (typeof value === "number" && value >= 1000) {
+					value = formatNumber(value);
 				}
 				html += '<div class="hof-entry">' +
 					'<span class="hof-rank">' + (i + 1) + '</span>' +
@@ -362,26 +333,58 @@ var HallOfFameView = (function() {
 		return records;
 	}
 
-	// Sorted proportion records (value/games). Ordered by Wilson lower bound so a
-	// perfect record over a few games can't outrank a strong one over many; the
-	// displayed percentage stays the raw val/games. Players below the minimum game
-	// floor are excluded entirely.
-	function cumTopByPercent(cum, key) {
+	// Ranks { playerName, value, games } entries by value/games. Ordered by Wilson
+	// lower bound so a perfect record over a few games can't outrank a strong one
+	// over many; the displayed percentage stays the raw value/games. Players below
+	// the minimum game floor are excluded entirely.
+	function rankByPercent(entries) {
 		// Coerce so a browser holding a cached settings.json without the floor key
 		// degrades to unfloored rather than blanking every percentage card.
 		var minGames = AppSettings.hallOfFame.percentageMinGames || 0;
 		var records = [];
-		for (var name in cum.games) {
-			var val = cum.stats[name][key] || 0;
-			var g = cum.games[name];
-			if (g >= minGames && val > 0) {
-				records.push({ playerName: name, pct: val / g, value: val, games: g });
+		for (var i = 0; i < entries.length; i++) {
+			var e = entries[i];
+			if (e.games >= minGames && e.value > 0) {
+				records.push({ playerName: e.playerName, pct: e.value / e.games, value: e.value, games: e.games });
 			}
 		}
 		records.sort(function(a, b) {
 			return wilsonLowerBound(b.value, b.games) - wilsonLowerBound(a.value, a.games) || b.games - a.games;
 		});
 		return records;
+	}
+
+	function cumTopByPercent(cum, key) {
+		var entries = [];
+		for (var name in cum.games) {
+			entries.push({ playerName: name, value: cum.stats[name][key] || 0, games: cum.games[name] });
+		}
+		return rankByPercent(entries);
+	}
+
+	// Zero-death games per player, split into won and lost games. Heroes whose death
+	// count is meaningless and games the player left for good count on neither side.
+	function aggregateDeathless(filtered) {
+		var byResult = { win: {}, loss: {} };
+		for (var i = 0; i < filtered.length; i++) {
+			var match = filtered[i];
+			if (match.hasAlt) continue;
+			for (var j = 0; j < match.rosterPlayers.length; j++) {
+				var rp = match.rosterPlayers[j];
+				if (rp.isAlt || HOF_HERO_EXCLUSIONS.deaths[rp.hero]) continue;
+				if (rp.hof && rp.hof.disconnectedAtEnd) continue;
+
+				var side = byResult[rp.result];
+				if (!side) continue;
+				if (!side[rp.name]) side[rp.name] = { playerName: rp.name, value: 0, games: 0 };
+				side[rp.name].games++;
+				if (rp.deaths === 0) side[rp.name].value++;
+			}
+		}
+		return {
+			win: rankByPercent(Object.values(byResult.win)),
+			loss: rankByPercent(Object.values(byResult.loss)),
+		};
 	}
 
 	function hasCumStat(cum, key) {
@@ -415,7 +418,9 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	function renderPercentCard(title, records, description, detailLabel) {
+	// gamesLabel names the denominator in the detail text; defaults to "games".
+	function renderPercentCard(title, records, description, detailLabel, gamesLabel) {
+		gamesLabel = gamesLabel || "games";
 		var top = records.slice(0, AppSettings.hallOfFame.topEntries);
 
 		var html = '<div class="hof-card card">' +
@@ -431,7 +436,7 @@ var HallOfFameView = (function() {
 				html += '<div class="hof-entry"><span class="hof-rank">' + (i + 1) + '</span>' +
 					'<div class="hof-entry-main"><span class="hof-value">' + (e.pct * 100).toFixed(1) + '%</span> ' +
 					'<a href="' + appLink('/player/' + slugify(e.playerName)) + '">' + escapeHtml(e.playerName) + '</a>' +
-					' <span class="text-muted">(' + e.value + ' ' + detailLabel + ' in ' + e.games + ' games)</span></div></div>';
+					' <span class="text-muted">(' + e.value + ' ' + detailLabel + ' in ' + e.games + ' ' + gamesLabel + ')</span></div></div>';
 			}
 			html += '</div>';
 		}
@@ -584,65 +589,6 @@ var HallOfFameView = (function() {
 		return html;
 	}
 
-	// Client-side aggregation of named end-of-match awards from the match index.
-	// Each rosterPlayer may carry an `awards` list (award names); this counts them
-	// per player per award and tracks each player's total games for the "(N games)"
-	// detail. Mirrors aggregateCumulative's mode + alt filtering.
-	function aggregateNamedAwards(filtered, mode) {
-		var byAward = {};
-		var games = {};
-		for (var i = 0; i < filtered.length; i++) {
-			var match = filtered[i];
-			if (match.hasAlt) continue;
-			if (mode !== "Overall" && match.gameMode !== mode) continue;
-			for (var j = 0; j < match.rosterPlayers.length; j++) {
-				var rp = match.rosterPlayers[j];
-				if (rp.isAlt) continue;
-				games[rp.name] = (games[rp.name] || 0) + 1;
-				var awards = rp.awards;
-				if (!awards) continue;
-				for (var k = 0; k < awards.length; k++) {
-					var an = awards[k];
-					if (!byAward[an]) byAward[an] = {};
-					byAward[an][rp.name] = (byAward[an][rp.name] || 0) + 1;
-				}
-			}
-		}
-		return { byAward: byAward, games: games };
-	}
-
-	// Award identities arrive as the library's MatchAwardType enum names
-	// ("MostSiegeDamageDone"), so split them into words for display. The second
-	// pass keeps acronyms whole: "MostXPContribution" -> "Most XP Contribution".
-	function awardLabel(name) {
-		return name
-			.replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-			.replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2");
-	}
-
-	// Named-award leaderboard section: one card per award name, top players by
-	// award count. Self-hides entirely when the index carries no award data.
-	function renderNamedAwards(filtered, mode) {
-		var agg = aggregateNamedAwards(filtered, mode);
-		var awardNames = Object.keys(agg.byAward).sort();
-		if (awardNames.length === 0) return "";
-
-		var html = '<h3 class="section-title">Named Awards</h3><div class="hof-grid">';
-		for (var a = 0; a < awardNames.length; a++) {
-			var an = awardNames[a];
-			var counts = agg.byAward[an];
-			var records = [];
-			for (var name in counts) {
-				records.push({ playerName: name, value: counts[name], games: agg.games[name] || 0 });
-			}
-			records.sort(function(x, y) { return y.value - x.value || y.games - x.games; });
-			var label = awardLabel(an);
-			html += renderCumulativeCard(label, records, "Times awarded " + label + " at the end of a match.");
-		}
-		html += '</div>';
-		return html;
-	}
-
 	function renderContent() {
 		var app = document.getElementById("app");
 		var mode = getMode();
@@ -686,12 +632,6 @@ var HallOfFameView = (function() {
 		for (var i = 0; i < statKeys.length; i++) {
 			var records = computeSingleGameRecords(filtered, statKeys[i], topN, false);
 			html += renderStatCard({ label: STAT_LABELS[statKeys[i]] }, records, STAT_DESC[statKeys[i]]);
-		}
-		// Per-minute counterparts, shown alongside the totals (same tie-break + hero exclusions).
-		for (var pm = 0; pm < PER_MINUTE_STATS.length; pm++) {
-			var pmKey = PER_MINUTE_STATS[pm];
-			var pmRecords = computeSingleGameRecords(filtered, pmKey, topN, false, true);
-			html += renderStatCard({ label: PER_MINUTE_LABELS[pmKey] }, pmRecords, PER_MINUTE_DESC[pmKey], formatPerMinute);
 		}
 		html += renderGameCard("Shortest Games Won", computeGameDurationRecords(filtered, topN, "win", true), "Fastest victory.");
 		html += renderGameCard("Longest Games Won", computeGameDurationRecords(filtered, topN, "win", false), "Longest match ending in victory.");
@@ -746,6 +686,13 @@ var HallOfFameView = (function() {
 		if (hasCumStat(cum, "awardMVP")) {
 			html += renderPercentCard("MVP Percentage", cumTopByPercent(cum, "awardMVP"), "Percentage of games awarded MVP.", "MVPs");
 		}
+
+		var deathless = aggregateDeathless(filtered);
+		html += renderPercentCard("Zero Deaths in Games Won", deathless.win,
+			"Percentage of won games without dying once.*", "deathless", "wins");
+		html += renderPercentCard("Zero Deaths in Games Lost", deathless.loss,
+			"Percentage of lost games without dying once.*", "deathless", "losses");
+
 		if (hasCumStat(cum, "regenGlobes")) {
 			html += renderCumulativeCard("A Game of Globes", cumTopByValue(cum, "regenGlobes"), "Total number of globes collected.");
 		}
@@ -753,9 +700,6 @@ var HallOfFameView = (function() {
 			html += renderPercentCard("Gender Equality", cumTopByPercent(cum, "femaleHero"), "Percentage of games played with female characters.", "female hero games");
 		}
 		html += '</div>';
-
-		// Named awards; the section self-hides when the index carries no award data.
-		html += renderNamedAwards(filtered, mode);
 
 		// Hall of Shame
 		html += '<div class="hof-shame-divider"></div>';
@@ -821,33 +765,16 @@ var HallOfFameView = (function() {
 		html += '</div>';
 
 		html += '<p class="hof-footnote">Rate boards (win rates and percentages) are ordered by their Wilson 95% lower bound, so a few lucky games can\'t outrank a long, consistent record. Single-game record ties go to the earlier match.</p>';
+		html += '<p class="hof-footnote">* Abathur and Gall aren\'t counted towards these feats: Gall can\'t die, and Abathur is a coward hiding behind walls or in the Hall of Storms.</p>';
 
 		app.innerHTML = html;
 		attachPageFilterListeners(app, filters, defaults, function() { renderContent(); });
 	}
 
-	function setNoAltsToggleDisabled(disabled) {
-		var toggle = document.getElementById("global-no-alts-toggle");
-		if (!toggle) return;
-		toggle.disabled = disabled;
-		var label = toggle.parentElement;
-		if (disabled) {
-			label.classList.add("disabled");
-			label.title = "Alts are not tracked for Hall of Fame.";
-		} else {
-			label.classList.remove("disabled");
-			label.title = "Hide matches containing alt accounts";
-		}
-	}
-
 	async function render() {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading Hall of Fame...</div>';
-
-		setNoAltsToggleDisabled(true);
-		// HoF ignores the global noAlts toggle, so the `na` URL param is meaningless here.
-		// Underlying GlobalFilters state and localStorage are preserved; only the URL is cleaned.
-		GlobalFilters.stripNoAltsFromURL();
+		GlobalFilters.lockNoAltsToggle("Alts are not tracked for Hall of Fame.");
 
 		try {
 			var results = await Promise.all([Data.matchIndex(), Data.settings()]);
@@ -859,12 +786,5 @@ var HallOfFameView = (function() {
 		}
 	}
 
-	// Called by Router before dispatching any view so HoF's overrides
-	// don't leak into the next page (toggle disabled state, missing `na` param).
-	function restoreNoAltsToggle() {
-		setNoAltsToggleDisabled(false);
-		GlobalFilters.writeNoAltsToURL();
-	}
-
-	return { render: render, restoreNoAltsToggle: restoreNoAltsToggle };
+	return { render: render };
 })();

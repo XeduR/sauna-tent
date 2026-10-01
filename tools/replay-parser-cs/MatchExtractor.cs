@@ -707,8 +707,8 @@ internal static class MatchExtractor {
 	}
 
 	// SUnitPositionsEvent: structure[0] = firstUnitIndex, structure[1] = flat
-	// array decoded as (indexDelta, x, y) triplets. Triplet scale unconfirmed,
-	// so the raw decoded values are stored verbatim (preservation-first).
+	// array decoded as (indexDelta, x, y) triplets; x/y are map units (unscaled,
+	// unlike SC2's * 4), stored verbatim (preservation-first).
 	private static void HandleUnitPositions(Heroes.StormReplayParser.Decoders.VersionedDecoder decoder,
 			int gameLoop, MatchJson match) {
 		var structure = decoder.Structure!;

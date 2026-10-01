@@ -494,8 +494,7 @@ def analyze_raw(raw: dict) -> dict:
 			"heroLevel": raw_player.get("heroLevel"),
 			"talentChoices": _trim_talents(raw_player.get("talentChoices", [])),
 			"stats": dict(raw_player.get("stats", {})),
-			# Tier-1 named end-of-match awards (empty until game-event parsing is
-			# on). output.py copies this into the match-index awards list.
+			# Tier-1 named end-of-match awards (empty until game-event parsing is on).
 			"matchAwardsList": list(raw_player.get("matchAwardsList") or []),
 		})
 

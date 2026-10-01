@@ -305,6 +305,7 @@ var HeroInfoDetailView = (function() {
 	async function render(slug) {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading hero info...</div>';
+		GlobalFilters.lockNoAltsToggle(HeroInfoView.noAltsReason);
 		level = 0;
 
 		try {

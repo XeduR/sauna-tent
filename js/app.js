@@ -38,7 +38,7 @@ var GlobalFilters = (function() {
 		history.replaceState(null, "", newURL);
 	}
 
-	// Remove `na` from URL without changing stored state (for HoF view).
+	// Remove `na` from URL without changing stored state.
 	function stripNoAltsFromURL() {
 		var params = new URLSearchParams(window.location.search);
 		if (!params.has(URL_KEY)) return;
@@ -48,11 +48,35 @@ var GlobalFilters = (function() {
 		history.replaceState(null, "", newURL);
 	}
 
+	function setToggleLocked(locked, reason) {
+		var toggle = document.getElementById("global-no-alts-toggle");
+		if (!toggle) return;
+		var label = toggle.parentElement;
+		if (label.dataset.defaultTitle === undefined) label.dataset.defaultTitle = label.title;
+		toggle.disabled = locked;
+		label.classList.toggle("disabled", locked);
+		label.title = locked ? reason : label.dataset.defaultTitle;
+	}
+
+	// For views whose data ignores alts: the `na` param is meaningless there, so it
+	// leaves the URL while the stored state survives for the next view.
+	function lockNoAltsToggle(reason) {
+		setToggleLocked(true, reason);
+		stripNoAltsFromURL();
+	}
+
+	// The router calls this before every view so one view's lock never leaks into the next.
+	function unlockNoAltsToggle() {
+		setToggleLocked(false);
+		writeNoAltsToURL();
+	}
+
 	return {
 		getNoAlts: getNoAlts,
 		setNoAlts: setNoAlts,
 		writeNoAltsToURL: writeNoAltsToURL,
-		stripNoAltsFromURL: stripNoAltsFromURL,
+		lockNoAltsToggle: lockNoAltsToggle,
+		unlockNoAltsToggle: unlockNoAltsToggle,
 	};
 })();
 window.GlobalFilters = GlobalFilters;

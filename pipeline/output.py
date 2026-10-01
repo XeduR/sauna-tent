@@ -80,10 +80,6 @@ def _build_match_index_entry(match: dict) -> dict:
 		}
 		if hof:
 			rp["hof"] = hof
-		# Compact per-player named-award list (only when the parser supplied one).
-		awards = p.get("matchAwardsList") or []
-		if awards:
-			rp["awards"] = awards
 		roster_players.append(rp)
 
 	# All 10 players as hero/team pairs for team comp display
