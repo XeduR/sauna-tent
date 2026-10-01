@@ -289,10 +289,25 @@ var OverviewView = (function() {
 
 		html += renderMetaStats(MatchIndexUtils.computeMetaStats(filtered));
 
+		// Hours under the game floor are blanked so their noisy win rates never draw a bar.
+		var minHourGames = AppSettings.overview.timeOfDayMinGames;
+		var shownHourly = [];
+		var shownHourGames = 0;
 		var hourly = MatchIndexUtils.computeHourlyWinrates(filtered);
+		for (var hi = 0; hi < hourly.length; hi++) {
+			var hourBucket = hourly[hi].games >= minHourGames ? hourly[hi] : { games: 0, wins: 0 };
+			shownHourly.push(hourBucket);
+			shownHourGames += hourBucket.games;
+		}
+
 		if (filtered.length > 0) {
 			html += '<h2 class="section-title">Win Rate by Time of Day</h2>' +
-				'<div class="chart-container"><canvas id="overview-hour-chart"></canvas></div>';
+				'<div class="text-muted chart-desc">Only hours with at least ' + minHourGames + ' games are shown.</div>';
+			if (shownHourGames > 0) {
+				html += '<div class="chart-container"><canvas id="overview-hour-chart"></canvas></div>';
+			} else {
+				html += '<div class="text-muted">No hour has enough games with the current filters.</div>';
+			}
 		}
 		html += renderStreakStats(filtered);
 
@@ -309,8 +324,8 @@ var OverviewView = (function() {
 		if (monthlyData.sortedMonths.length >= 2) {
 			heroChart = ChartUtils.createHeroPopularityChart("overview-hero-pop-chart", monthlyData, heroColors);
 		}
-		if (filtered.length > 0) {
-			hourChart = ChartUtils.createHourlyWinrateChart("overview-hour-chart", hourly, filtered.length);
+		if (filtered.length > 0 && shownHourGames > 0) {
+			hourChart = ChartUtils.createHourlyWinrateChart("overview-hour-chart", shownHourly, shownHourGames);
 		}
 		if (compTable) compTable.attachListeners(app);
 		attachAllSortableListeners(app);

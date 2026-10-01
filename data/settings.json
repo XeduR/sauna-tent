@@ -6,7 +6,8 @@
 		"topCompositionsCount": 10,
 		"minGamesForComposition": 3,
 		"timeOfDayTimeZone": "Europe/Helsinki",
-		"timeOfDayLabel": "Finnish time"
+		"timeOfDayLabel": "Finnish time",
+		"timeOfDayMinGames": 10
 	},
 	"matchFactors": {
 		"counterKillWindowSeconds": 120
