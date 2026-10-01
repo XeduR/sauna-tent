@@ -764,13 +764,16 @@ def report_missing_static_entries(heroes: dict[str, dict], data_dir: str) -> Non
 
 
 def write_json(path: str, data: dict, dry_run: bool) -> None:
-    """Compact JSON write matching the existing format (no indent, ensure_ascii=False)."""
+    """Tab-indented JSON with sorted keys, so a patch's text and value changes diff line by line."""
     if dry_run:
         print(f"  Would write: {path}")
         return
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+
+    # LF on every platform, so a Windows refresh produces the same bytes.
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(data, f, ensure_ascii=False, indent="\t", sort_keys=True)
+        f.write("\n")
     print(f"  Written: {path}")
 
 

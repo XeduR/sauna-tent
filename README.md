@@ -175,7 +175,7 @@ Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by abil
 ### What it does
 
 1. Invokes HDP against Blizzard's CDN (`online`, plus `--download-ptr` for the PTR channel), extracting hero data + images into `.scratch/hots-data-output/`, or `.scratch/hots-data-output-ptr/` with `-ptr` (both gitignored).
-2. Translates HDP's hero data file into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`.
+2. Translates HDP's hero data file into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`. These three files are tab-indented with sorted keys, so a patch's talent text and ability value changes show up line by line in `git diff`.
 3. Downscales every icon from 128x128 to 64x64 with Lanczos resampling, re-encodes with PNG `optimize=True`, and writes them to `img/hero/{slug}/avatar.png`, `img/hero/{slug}/talent{tier}_{choice}.png`, and `img/hero/{slug}/abilities/{ability-id}.png`. Existing files are MD5-compared against the new output and skipped if identical.
 4. Reports any hero missing from the static lookup tables.
 
