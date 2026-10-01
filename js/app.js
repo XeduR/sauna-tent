@@ -466,6 +466,46 @@ function renderMetaFactorTable(title, dataRows, conditionSortFn, descriptionHTML
 	return '<h2 class="section-title">' + title + '</h2>' + description + table.buildHTML();
 }
 
+// Match Factors rows shared by the overview, maps, and map pages
+function buildMatchFactorRows(metaStats) {
+	var side = metaStats.teamSide;
+	var fb = metaStats.firstBlood;
+	var counter = metaStats.firstBloodCounterKill;
+	var boss = metaStats.firstBoss;
+	var merc = metaStats.firstMerc;
+	var lp = metaStats.loungePick;
+	var counterMinutes = AppSettings.matchFactors.counterKillWindowSeconds / 60;
+	var rows = [];
+
+	if (side.left.games > 0 || side.right.games > 0) {
+		rows.push(["Spawned Left Side", side.left]);
+		rows.push(["Spawned Right Side", side.right]);
+	}
+
+	if (fb.got.games > 0 || fb.gave.games > 0) {
+		rows.push(["Got First Blood", fb.got]);
+		rows.push(["Gave First Blood", fb.gave]);
+	}
+
+	if (counter.gotClean.games > 0) rows.push(["Got First Blood, no counter kill in " + counterMinutes + " min", counter.gotClean]);
+	if (counter.gaveClean.games > 0) rows.push(["Gave First Blood, no counter kill in " + counterMinutes + " min", counter.gaveClean]);
+	if (counter.traded.games > 0) rows.push(["First Blood traded within " + counterMinutes + " min", counter.traded]);
+
+	if (boss.got.games > 0 || boss.gave.games > 0) {
+		rows.push(["Got First Boss", boss.got]);
+		rows.push(["Gave First Boss", boss.gave]);
+	}
+
+	if (merc.got.games > 0 || merc.gave.games > 0) {
+		rows.push(["Got First Merc", merc.got]);
+		rows.push(["Gave First Merc", merc.gave]);
+	}
+
+	if (lp.mapPick.games > 0) rows.push(["Lounge: map pick", lp.mapPick]);
+	if (lp.firstPick.games > 0) rows.push(["Lounge: first pick", lp.firstPick]);
+	return rows;
+}
+
 function renderLevelLeadTable(levelLead) {
 	if (!levelLead) return "";
 	var tiers = ["4", "7", "10", "13", "16", "20"];

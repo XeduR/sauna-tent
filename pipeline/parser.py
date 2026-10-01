@@ -451,6 +451,38 @@ def _assert_tier1_coverage(match: dict) -> None:
 	_tier1_coverage_checked = True
 
 
+def _first_blood(raw: dict) -> tuple[int | None, float | None]:
+	"""Derive (firstBloodTeam, firstBloodCounterKillSeconds) from the kill feed.
+
+	The counter kill is the first later kill whose victim is on the first-blood
+	team, i.e. the team that gave up first blood getting a kill back.
+	"""
+	kill_feed = sorted(raw.get("killFeed") or [], key=lambda k: k.get("gameloop", 0))
+	if not kill_feed:
+		return None, None
+
+	raw_players = raw.get("players", [])
+
+	def victim_team(kill: dict) -> int | None:
+		victim = kill.get("victim")
+		if not isinstance(victim, int) or not 0 <= victim < len(raw_players):
+			return None
+		team = raw_players[victim].get("team")
+		return team if team in (0, 1) else None
+
+	first = kill_feed[0]
+	first_victim_team = victim_team(first)
+	if first_victim_team is None:
+		return None, None
+	first_blood_team = 1 - first_victim_team
+
+	for kill in kill_feed[1:]:
+		if victim_team(kill) == first_blood_team:
+			loops = kill.get("gameloop", 0) - first.get("gameloop", 0)
+			return first_blood_team, round(loops / _LOOPS_PER_SECOND, 1)
+	return first_blood_team, None
+
+
 def analyze_raw(raw: dict) -> dict:
 	"""Apply Sauna Tent analysis to an already-fetched raw sidecar dict.
 
@@ -521,6 +553,8 @@ def analyze_raw(raw: dict) -> dict:
 		assists = s.get("assists", 0)
 		s["kda"] = round((kills + assists) / max(deaths, 1), 2)
 
+	first_blood_team, first_blood_counter_seconds = _first_blood(raw)
+
 	match = {
 		"map": map_name,
 		"timestamp": raw.get("timestamp", ""),
@@ -529,7 +563,8 @@ def analyze_raw(raw: dict) -> dict:
 		"gameMode": game_mode,
 		"randomSeed": raw.get("randomSeed", 0),
 		"players": players,
-		"firstBloodTeam": raw.get("firstBloodTeam"),
+		"firstBloodTeam": first_blood_team,
+		"firstBloodCounterKillSeconds": first_blood_counter_seconds,
 		"firstToLevel": raw.get("firstToLevel", {}),
 		"teamLevels": raw.get("teamLevels"),
 		"firstBossTeam": raw.get("firstBossTeam"),

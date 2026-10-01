@@ -7,15 +7,18 @@
 # Subcommands:
 #   process       Classify + parse new replays, write match JSON (default)
 #   retag         Re-derive roster/alt tags on every committed match in place
+#   rederive      Re-run analysis on every committed match from its tier-2 archive
 #   remove-match  Delete one match from data/matches/
 #
 # Usage:
 #   python -m pipeline.batch process [--reprocess] [--generate] [--pretty]
 #                                    [--ci] [--summary-out PATH]
 #   python -m pipeline.batch retag [--pretty]
+#   python -m pipeline.batch rederive [--archive-dir DIR] [--pretty] [--generate]
 #   python -m pipeline.batch remove-match <matchId>
 
 import argparse
+import gzip
 import hashlib
 import json
 import os
@@ -683,6 +686,74 @@ def retag_matches(config: dict, output_dir: str | None = None, pretty: bool = Fa
 	return {"retagged": retagged, "failed": len(errors)}
 
 
+def rederive_matches(
+	config: dict,
+	output_dir: str | None = None,
+	archive_dir: str | None = None,
+	pretty: bool = False,
+) -> dict:
+	"""Re-run analyze_raw on every committed match from its tier-2 archive.
+
+	Rebuilds each tier-1 match JSON from the archived sidecar dict with the
+	current parser and config, so derived fields pick up analysis changes without
+	the source replays. Every committed match must have an archive; if any are
+	missing, nothing is written.
+	"""
+	out_dir = output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
+	archive_dir = archive_dir or DEFAULT_ARCHIVE_DIR
+	matches_dir = os.path.join(out_dir, "matches")
+	if not os.path.isdir(matches_dir):
+		print(f"No matches directory: {matches_dir}")
+		return {"rederived": 0, "failed": 0, "missing": 0}
+
+	fnames = sorted(f for f in os.listdir(matches_dir) if f.endswith(".json") and f != "index.json")
+	match_ids = [fname[:-len(".json")] for fname in fnames]
+	total = len(match_ids)
+
+	missing = [mid for mid in match_ids if not os.path.isfile(archive_path(archive_dir, mid))]
+	if missing:
+		print(f"Missing tier-2 archives for {len(missing)} of {total} committed matches "
+			  f"in {_display_path(archive_dir)}; nothing written:")
+		for mid in missing:
+			print(f"    {mid}")
+		return {"rederived": 0, "failed": 0, "missing": len(missing)}
+
+	print(f"Rederiving {total} matches from tier-2 archives in {_display_path(archive_dir)}...")
+
+	rederived = 0
+	errors: list[tuple[str, str]] = []
+	start = time.monotonic()
+	last_report = start
+
+	for i, match_id in enumerate(match_ids):
+		try:
+			with gzip.open(archive_path(archive_dir, match_id), "rt", encoding="utf-8") as f:
+				record = json.load(f)
+			match = analyze_raw(record)
+			match["matchId"] = record["matchId"]
+			match["replayFile"] = record["replayFile"]
+			derived_id = generate_match_id(match)
+			if derived_id != match_id:
+				raise ValueError(f"archive derives matchId {derived_id}")
+			tag_players(match, config)
+			write_match(match, out_dir, pretty)
+			rederived += 1
+		except (ValueError, KeyError, OSError, EOFError) as e:
+			errors.append((match_id, str(e)))
+
+		now = time.monotonic()
+		if now - last_report >= 5:
+			print(f"  [{i + 1}/{total}] {rederived} rederived", flush=True)
+			last_report = now
+
+	print(f"  Rederived {rederived} matches in place ({_format_time(time.monotonic() - start)}).")
+	if errors:
+		print(f"  Failed on {len(errors)} matches:")
+		for match_id, err in errors[:20]:
+			print(f"    {match_id}: {err}")
+	return {"rederived": rederived, "failed": len(errors), "missing": 0}
+
+
 def remove_match(match_id: str, out_dir: str, archive_dir: str | None = None) -> bool:
 	"""Delete one match's tier-1 JSON + tier-2 archive and tombstone its id.
 
@@ -787,6 +858,20 @@ def _cmd_retag(args) -> None:
 	retag_matches(config, args.output_dir, args.pretty)
 
 
+def _cmd_rederive(args) -> None:
+	config = _load_config_or_exit(args.config)
+	result = rederive_matches(config, args.output_dir, args.archive_dir, args.pretty)
+	if result["missing"] or result["failed"]:
+		sys.exit(1)
+
+	if args.generate:
+		print("\nGenerating dashboard")
+		generate_output(config, args.output_dir, args.pretty)
+	else:
+		print("  Aggregates are now stale. Regenerate with:")
+		print("    python -m pipeline.batch process --generate")
+
+
 def _cmd_remove_match(args) -> None:
 	config = _load_config_or_exit(args.config)
 	out_dir = args.output_dir or os.path.join(PROJECT_ROOT, config["outputDirectory"])
@@ -818,6 +903,13 @@ def main():
 	r.add_argument("--output-dir", default=None, help="Override output directory")
 	r.add_argument("--pretty", action="store_true", help="Pretty-print rewritten match JSON")
 
+	rd = sub.add_parser("rederive", help="Re-run analysis on every committed match from its tier-2 archive")
+	rd.add_argument("--config", default=DEFAULT_CONFIG_PATH, help="Pipeline config path")
+	rd.add_argument("--output-dir", default=None, help="Override output directory")
+	rd.add_argument("--archive-dir", default=None, help="Override tier-2 archive directory (default: repo-root archive/)")
+	rd.add_argument("--pretty", action="store_true", help="Pretty-print rewritten match JSON")
+	rd.add_argument("--generate", action="store_true", help="Aggregate + write dashboard output after rederiving")
+
 	rm = sub.add_parser("remove-match", help="Delete one match from data/matches/")
 	rm.add_argument("matchId", help="Match ID (data/matches/<matchId>.json)")
 	rm.add_argument("--config", default=DEFAULT_CONFIG_PATH, help="Pipeline config path")
@@ -827,12 +919,14 @@ def main():
 	# Default to `process` when no subcommand is given, so bare invocation and
 	# the old flag-only form (--reprocess --generate) still work.
 	argv = sys.argv[1:]
-	if not argv or argv[0] not in {"process", "retag", "remove-match", "-h", "--help"}:
+	if not argv or argv[0] not in {"process", "retag", "rederive", "remove-match", "-h", "--help"}:
 		argv = ["process"] + argv
 	args = parser.parse_args(argv)
 
 	if args.command == "retag":
 		_cmd_retag(args)
+	elif args.command == "rederive":
+		_cmd_rederive(args)
 	elif args.command == "remove-match":
 		_cmd_remove_match(args)
 	else:

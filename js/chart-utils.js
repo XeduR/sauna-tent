@@ -130,8 +130,118 @@ var ChartUtils = (function() {
 		});
 	}
 
+	// Draws "NN%" above each bar, skipping bars too narrow to fit the text.
+	var barPercentLabels = {
+		id: "barPercentLabels",
+		afterDatasetsDraw: function(chartInstance) {
+			var context = chartInstance.ctx;
+			var meta = chartInstance.getDatasetMeta(0);
+			var values = chartInstance.data.datasets[0].data;
+
+			context.save();
+			context.font = "11px " + Chart.defaults.font.family;
+			context.fillStyle = TableConfig.CHART.textColor;
+			context.textAlign = "center";
+			context.textBaseline = "bottom";
+			for (var index = 0; index < meta.data.length; index++) {
+				if (values[index] == null) continue;
+
+				var bar = meta.data[index];
+				var text = values[index] + "%";
+				if (bar.width < context.measureText(text).width) continue;
+				context.fillText(text, bar.x, bar.y - 2);
+			}
+			context.restore();
+		}
+	};
+
+	function padHour(hour) {
+		return (hour < 10 ? "0" : "") + hour;
+	}
+
+	// Win rate per start hour; hourly is 24 {games, wins} buckets.
+	function createHourlyWinrateChart(canvasId, hourly, totalGames) {
+		var chart = TableConfig.CHART;
+		var ctx = document.getElementById(canvasId);
+		if (!ctx) return null;
+
+		var labels = [];
+		var values = [];
+		var colors = [];
+		for (var hour = 0; hour < hourly.length; hour++) {
+			var bucket = hourly[hour];
+			labels.push(padHour(hour));
+			if (bucket.games > 0) {
+				values.push(Math.round(bucket.wins / bucket.games * 100));
+				colors.push(winrateColor(bucket.wins / bucket.games));
+			} else {
+				values.push(null);
+				colors.push(chart.gridColor);
+			}
+		}
+
+		var titleText = totalGames.toLocaleString() + (totalGames === 1 ? " game" : " games") +
+			", by game start (" + AppSettings.overview.timeOfDayLabel + ")";
+
+		return new Chart(ctx, {
+			type: "bar",
+			data: {
+				labels: labels,
+				datasets: [{
+					data: values,
+					backgroundColor: colors,
+					borderColor: colors,
+					borderWidth: 1,
+					borderRadius: 2
+				}]
+			},
+			plugins: [barPercentLabels],
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				// Room for the percent label above a 100% bar
+				layout: { padding: { top: 18 } },
+				scales: {
+					x: { ticks: { color: chart.textColor }, grid: { color: chart.gridColor } },
+					y: {
+						min: 0,
+						max: 100,
+						ticks: {
+							color: chart.textColor,
+							callback: function(value) { return value + "%"; }
+						},
+						grid: { color: chart.gridColor }
+					}
+				},
+				plugins: {
+					legend: { display: false },
+					title: {
+						display: true,
+						text: titleText,
+						color: chart.textColor,
+						font: { weight: "normal" }
+					},
+					tooltip: {
+						backgroundColor: "rgb(0, 0, 0)",
+						callbacks: {
+							title: function(items) {
+								var hourText = padHour(items[0].dataIndex);
+								return hourText + ":00-" + hourText + ":59";
+							},
+							label: function(item) {
+								var games = hourly[item.dataIndex].games;
+								return [item.raw + "% win rate", games.toLocaleString() + (games === 1 ? " game" : " games")];
+							}
+						}
+					}
+				}
+			}
+		});
+	}
+
 	return {
 		createHeroPopularityChart: createHeroPopularityChart,
-		createHeroPickChart: createHeroPickChart
+		createHeroPickChart: createHeroPickChart,
+		createHourlyWinrateChart: createHourlyWinrateChart
 	};
 })();

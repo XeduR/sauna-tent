@@ -143,6 +143,9 @@ def _build_match_index_entry(match: dict) -> dict:
 		entry["rosterSide"] = roster_side
 	if roster_got_first_blood is not None:
 		entry["rosterFirstBlood"] = roster_got_first_blood
+		# Null means never answered, so a match file without the key must omit it rather than emit null.
+		if "firstBloodCounterKillSeconds" in match:
+			entry["firstBloodCounterKillSeconds"] = match["firstBloodCounterKillSeconds"]
 
 	# Level lead from roster perspective
 	first_to_level = match.get("firstToLevel")

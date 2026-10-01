@@ -4,7 +4,18 @@
 	"overview": {
 		"topHeroesCount": 10,
 		"topCompositionsCount": 10,
-		"minGamesForComposition": 3
+		"minGamesForComposition": 3,
+		"timeOfDayTimeZone": "Europe/Helsinki",
+		"timeOfDayLabel": "Finnish time"
+	},
+	"matchFactors": {
+		"counterKillWindowSeconds": 120
+	},
+	"streaks": {
+		"maxGapMinutes": 20,
+		"minPlayers": 3,
+		"maxDroppedPlayers": 1,
+		"lengths": [1, 2, 3]
 	},
 	"matches": {
 		"pageSize": 50

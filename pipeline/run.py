@@ -25,8 +25,8 @@ DEFAULT_ARCHIVE_DIR = os.path.join(PROJECT_ROOT, "archive")
 # in with game-event parsing on).
 _TIER1_TOPLEVEL_KEYS = (
 	"map", "timestamp", "durationSeconds", "build", "gameMode", "randomSeed",
-	"players", "firstBloodTeam", "firstToLevel", "teamLevels", "firstBossTeam",
-	"firstMercTeam", "draft", "matchId", "replayFile",
+	"players", "firstBloodTeam", "firstBloodCounterKillSeconds", "firstToLevel",
+	"teamLevels", "firstBossTeam", "firstMercTeam", "draft", "matchId", "replayFile",
 )
 _TIER1_PLAYER_KEYS = (
 	"name", "hero", "team", "result", "toon", "heroLevel", "talentChoices",

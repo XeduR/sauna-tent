@@ -7,6 +7,7 @@ var OverviewView = (function() {
 	var roster = null;
 	var summary = null;
 	var heroChart = null;
+	var hourChart = null;
 	var heroColors = null;
 
 	function renderPlayerCard(p, ps, isAlt) {
@@ -107,37 +108,8 @@ var OverviewView = (function() {
 	}
 
 	function renderMetaStats(metaStats) {
-		var side = metaStats.teamSide;
-		var fb = metaStats.firstBlood;
-		var boss = metaStats.firstBoss;
-		var merc = metaStats.firstMerc;
 		var html = "";
-
-		// Match Factors table: team side, first blood, first boss, first merc
-		var factorRows = [];
-		if (side.left.games > 0 || side.right.games > 0) {
-			factorRows.push(["Spawned Left Side", side.left]);
-			factorRows.push(["Spawned Right Side", side.right]);
-		}
-		if (fb.got.games > 0 || fb.gave.games > 0) {
-			factorRows.push(["Got First Blood", fb.got]);
-			factorRows.push(["Gave First Blood", fb.gave]);
-		}
-		if (boss.got.games > 0 || boss.gave.games > 0) {
-			factorRows.push(["Got First Boss", boss.got]);
-			factorRows.push(["Gave First Boss", boss.gave]);
-		}
-		if (merc.got.games > 0 || merc.gave.games > 0) {
-			factorRows.push(["Got First Merc", merc.got]);
-			factorRows.push(["Gave First Merc", merc.gave]);
-		}
-		var lp = metaStats.loungePick;
-		if (lp.mapPick.games > 0) {
-			factorRows.push(["Lounge: map pick", lp.mapPick]);
-		}
-		if (lp.firstPick.games > 0) {
-			factorRows.push(["Lounge: first pick", lp.firstPick]);
-		}
+		var factorRows = buildMatchFactorRows(metaStats);
 		if (factorRows.length > 0) {
 			html += renderMetaFactorTable("Match Factors", factorRows);
 		}
@@ -193,6 +165,41 @@ var OverviewView = (function() {
 		}
 		rows.sort(function(a, b) { return b.winrate - a.winrate || b.games - a.games; });
 		return rows.slice(0, AppSettings.overview.topCompositionsCount);
+	}
+
+	function streakRowLabel(length, isWin) {
+		if (isWin) return "After " + length + (length === 1 ? " win" : " wins");
+		return "After " + length + (length === 1 ? " loss" : " losses");
+	}
+
+	function renderStreakStats(filtered) {
+		var streaks = MatchIndexUtils.computeStreakStats(matchIndex, filtered);
+		var lengths = AppSettings.streaks.lengths;
+		var rows = [];
+		var rowOrder = [];
+		for (var wi = 0; wi < lengths.length; wi++) {
+			var winLabel = streakRowLabel(lengths[wi], true);
+			rowOrder.push(winLabel);
+			if (streaks.afterWins[lengths[wi]].games > 0) rows.push([winLabel, streaks.afterWins[lengths[wi]]]);
+		}
+		for (var li = 0; li < lengths.length; li++) {
+			var lossLabel = streakRowLabel(lengths[li], false);
+			rowOrder.push(lossLabel);
+			if (streaks.afterLosses[lengths[li]].games > 0) rows.push([lossLabel, streaks.afterLosses[lengths[li]]]);
+		}
+		if (rows.length === 0) return "";
+
+		var config = AppSettings.streaks;
+		var description = '<p class="text-muted section-description">' +
+			'Win rate of the next game when the previous games in a back-to-back run were all won or all lost. ' +
+			'Every game in the run has at least ' + config.minPlayers + ' roster players (alt accounts count when shown). ' +
+			'Each game starts within ' + config.maxGapMinutes + ' minutes of the previous one ending, ' +
+			'in the same game mode, with at most ' + config.maxDroppedPlayers + (config.maxDroppedPlayers === 1 ? ' player' : ' players') + ' leaving (joining players are fine), ' +
+			'and no continuing player played another game in between. ' +
+			'Every game in the run must also match the current filters.' +
+			'</p>';
+		var conditionSortFn = function(condition) { return rowOrder.indexOf(condition); };
+		return renderMetaFactorTable("Win Rate After Consecutive Results", rows, conditionSortFn, description);
 	}
 
 	function renderChatStats(filtered) {
@@ -281,6 +288,14 @@ var OverviewView = (function() {
 		}
 
 		html += renderMetaStats(MatchIndexUtils.computeMetaStats(filtered));
+
+		var hourly = MatchIndexUtils.computeHourlyWinrates(filtered);
+		if (filtered.length > 0) {
+			html += '<h2 class="section-title">Win Rate by Time of Day</h2>' +
+				'<div class="chart-container"><canvas id="overview-hour-chart"></canvas></div>';
+		}
+		html += renderStreakStats(filtered);
+
 		html += renderChatStats(filtered);
 
 		// Only show mode table if not filtering by a specific mode
@@ -289,9 +304,13 @@ var OverviewView = (function() {
 		}
 
 		if (heroChart) { heroChart.destroy(); heroChart = null; }
+		if (hourChart) { hourChart.destroy(); hourChart = null; }
 		app.innerHTML = html;
 		if (monthlyData.sortedMonths.length >= 2) {
 			heroChart = ChartUtils.createHeroPopularityChart("overview-hero-pop-chart", monthlyData, heroColors);
+		}
+		if (filtered.length > 0) {
+			hourChart = ChartUtils.createHourlyWinrateChart("overview-hour-chart", hourly, filtered.length);
 		}
 		if (compTable) compTable.attachListeners(app);
 		attachAllSortableListeners(app);

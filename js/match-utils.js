@@ -295,6 +295,8 @@ var MatchIndexUtils = (function() {
 	function computeMetaStats(matches) {
 		var side = { left: { games: 0, wins: 0 }, right: { games: 0, wins: 0 } };
 		var firstBlood = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
+		var counterKill = { gotClean: { games: 0, wins: 0 }, gaveClean: { games: 0, wins: 0 }, traded: { games: 0, wins: 0 } };
+		var counterKillWindow = AppSettings.matchFactors.counterKillWindowSeconds;
 		var firstBoss = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
 		var firstMerc = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
 		// Heroes Lounge: Custom games only - firstPick means roster drafted first, mapPick means roster chose the map instead
@@ -318,6 +320,15 @@ var MatchIndexUtils = (function() {
 				var fbKey = m.rosterFirstBlood ? "got" : "gave";
 				firstBlood[fbKey].games++;
 				if (isWin) firstBlood[fbKey].wins++;
+
+				var counterSeconds = m.firstBloodCounterKillSeconds;
+				if (counterSeconds !== undefined) {
+					var ckKey;
+					if (counterSeconds !== null && counterSeconds <= counterKillWindow) ckKey = "traded";
+					else ckKey = m.rosterFirstBlood ? "gotClean" : "gaveClean";
+					counterKill[ckKey].games++;
+					if (isWin) counterKill[ckKey].wins++;
+				}
 			}
 
 			if (m.rosterFirstBoss != null) {
@@ -357,6 +368,7 @@ var MatchIndexUtils = (function() {
 		}
 		for (var s in side) finalize(side[s]);
 		for (var k in firstBlood) finalize(firstBlood[k]);
+		for (var k in counterKill) finalize(counterKill[k]);
 		for (var k in firstBoss) finalize(firstBoss[k]);
 		for (var k in firstMerc) finalize(firstMerc[k]);
 		for (var k in loungePick) finalize(loungePick[k]);
@@ -368,6 +380,7 @@ var MatchIndexUtils = (function() {
 		return {
 			teamSide: side,
 			firstBlood: firstBlood,
+			firstBloodCounterKill: counterKill,
 			firstBoss: firstBoss,
 			firstMerc: firstMerc,
 			loungePick: loungePick,
@@ -471,6 +484,202 @@ var MatchIndexUtils = (function() {
 		return { months: months, sortedMonths: Object.keys(months).sort() };
 	}
 
+	var hourFormatter = null;
+	var hourFormatterZone = null;
+	var hourCache = {};
+
+	function matchStartMs(m) {
+		return Date.parse(m.timestamp) - m.durationSeconds * 1000;
+	}
+
+	function matchEndMs(m) {
+		return Date.parse(m.timestamp);
+	}
+
+	function startHour(m) {
+		var zone = AppSettings.overview.timeOfDayTimeZone;
+		if (!hourFormatter || hourFormatterZone !== zone) {
+			hourFormatter = new Intl.DateTimeFormat("en-GB", { timeZone: zone, hour: "2-digit", hourCycle: "h23" });
+			hourFormatterZone = zone;
+			hourCache = {};
+		}
+
+		var cached = hourCache[m.matchId];
+		if (cached !== undefined) return cached;
+
+		var parts = hourFormatter.formatToParts(new Date(matchStartMs(m)));
+		var hour = 0;
+		for (var pi = 0; pi < parts.length; pi++) {
+			if (parts[pi].type === "hour") hour = parseInt(parts[pi].value, 10);
+		}
+		hourCache[m.matchId] = hour;
+		return hour;
+	}
+
+	// 24 win/game buckets by the local hour the game started in
+	function computeHourlyWinrates(matches) {
+		var buckets = [];
+		for (var hour = 0; hour < 24; hour++) {
+			buckets.push({ games: 0, wins: 0 });
+		}
+
+		for (var i = 0; i < matches.length; i++) {
+			var bucket = buckets[startHour(matches[i])];
+			bucket.games++;
+			if (matches[i].result === "win") bucket.wins++;
+		}
+		return buckets;
+	}
+
+	function playerNames(m) {
+		var names = [];
+		for (var j = 0; j < m.rosterPlayers.length; j++) {
+			names.push(m.rosterPlayers[j].name);
+		}
+		return names;
+	}
+
+	// Index of the last entry whose end is <= limitMs in an end-sorted list, or -1
+	function lastEndingAtOrBefore(list, limitMs) {
+		var low = 0;
+		var high = list.length - 1;
+		var found = -1;
+		while (low <= high) {
+			var mid = (low + high) >> 1;
+			if (list[mid].end <= limitMs) {
+				found = mid;
+				low = mid + 1;
+			} else {
+				high = mid - 1;
+			}
+		}
+		return found;
+	}
+
+	function byEnd(first, second) {
+		return first.end - second.end;
+	}
+
+	// Map from each eligible game to the game it continues in the same session
+	function buildPredecessorMap(allMatches) {
+		var config = AppSettings.streaks;
+		var maxGapMs = config.maxGapMinutes * 60000;
+		var eligible = [];
+		var timelines = {};
+
+		for (var i = 0; i < allMatches.length; i++) {
+			var m = allMatches[i];
+			var record = { match: m, start: matchStartMs(m), end: matchEndMs(m), players: playerNames(m) };
+
+			// Every game counts toward a player's timeline, so a continuing player's small-party game in between breaks the link
+			for (var j = 0; j < record.players.length; j++) {
+				var name = record.players[j];
+				if (!timelines[name]) timelines[name] = [];
+				timelines[name].push(record);
+			}
+			if (record.players.length >= config.minPlayers) eligible.push(record);
+		}
+
+		eligible.sort(byEnd);
+		for (var name in timelines) timelines[name].sort(byEnd);
+
+		var predecessors = new Map();
+		for (var gi = 0; gi < eligible.length; gi++) {
+			var game = eligible[gi];
+			var previous = null;
+			for (var ci = lastEndingAtOrBefore(eligible, game.start); ci >= 0; ci--) {
+				var candidate = eligible[ci];
+				if (game.start - candidate.end > maxGapMs) break;
+
+				var dropped = 0;
+				for (var pi = 0; pi < candidate.players.length; pi++) {
+					if (game.players.indexOf(candidate.players[pi]) === -1) dropped++;
+				}
+				if (dropped <= config.maxDroppedPlayers) {
+					previous = candidate;
+					break;
+				}
+			}
+			if (!previous || previous.match.gameMode !== game.match.gameMode) continue;
+
+			var continuous = true;
+			for (var pj = 0; pj < previous.players.length && continuous; pj++) {
+				var player = previous.players[pj];
+				if (game.players.indexOf(player) === -1) continue;
+
+				var timeline = timelines[player];
+				var latest = lastEndingAtOrBefore(timeline, game.start);
+				if (latest === -1 || timeline[latest] !== previous) continuous = false;
+			}
+			if (continuous) predecessors.set(game.match, previous.match);
+		}
+		return predecessors;
+	}
+
+	var predecessorSource = null;
+	var predecessorMap = null;
+
+	function emptyStreakRows(lengths) {
+		var rows = {};
+		for (var li = 0; li < lengths.length; li++) {
+			rows[lengths[li]] = { games: 0, wins: 0 };
+		}
+		return rows;
+	}
+
+	// Next-game results after N consecutive wins or losses within one session.
+	// Sessions are linked over allMatches; samples count only when the whole chain is in filteredMatches.
+	function computeStreakStats(allMatches, filteredMatches) {
+		if (predecessorSource !== allMatches) {
+			predecessorMap = buildPredecessorMap(allMatches);
+			predecessorSource = allMatches;
+		}
+
+		var lengths = AppSettings.streaks.lengths;
+		var maxLength = Math.max.apply(null, lengths);
+		var afterWins = emptyStreakRows(lengths);
+		var afterLosses = emptyStreakRows(lengths);
+		var inFilter = new Set(filteredMatches);
+
+		for (var i = 0; i < filteredMatches.length; i++) {
+			var game = filteredMatches[i];
+			var isWin = game.result === "win";
+			var chain = [];
+			var current = predecessorMap.get(game);
+			while (current && inFilter.has(current) && chain.length < maxLength) {
+				chain.push(current.result);
+				current = predecessorMap.get(current);
+			}
+
+			for (var li = 0; li < lengths.length; li++) {
+				var length = lengths[li];
+				if (chain.length < length) continue;
+
+				var allWins = true;
+				var allLosses = true;
+				for (var ci = 0; ci < length; ci++) {
+					if (chain[ci] === "win") allLosses = false;
+					else allWins = false;
+				}
+
+				var target = allWins ? afterWins[length] : (allLosses ? afterLosses[length] : null);
+				if (target) {
+					target.games++;
+					if (isWin) target.wins++;
+				}
+			}
+		}
+
+		for (var key in afterWins) finalizeStreak(afterWins[key]);
+		for (var key in afterLosses) finalizeStreak(afterLosses[key]);
+		return { afterWins: afterWins, afterLosses: afterLosses };
+	}
+
+	function finalizeStreak(acc) {
+		acc.losses = acc.games - acc.wins;
+		acc.winrate = acc.games > 0 ? acc.wins / acc.games : 0;
+	}
+
 	return {
 		filter: filter,
 		groupByPlayer: groupByPlayer,
@@ -483,6 +692,8 @@ var MatchIndexUtils = (function() {
 		computeChatStats: computeChatStats,
 		computePartyBreakdowns: computePartyBreakdowns,
 		computeMonthlyHeroStats: computeMonthlyHeroStats,
+		computeHourlyWinrates: computeHourlyWinrates,
+		computeStreakStats: computeStreakStats,
 		totals: totals,
 	};
 })();

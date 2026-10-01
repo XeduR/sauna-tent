@@ -80,6 +80,9 @@ Same as above but writes human-readable (indented) JSON. Useful for inspecting o
 # Re-derive roster/alt tags on every committed match (after a roster/alt rename)
 python -m pipeline.batch retag
 
+# Re-run analysis on every committed match from its tier-2 archive, then regenerate output
+python -m pipeline.batch rederive --generate
+
 # Remove one match permanently (tombstones it so it never returns)
 python -m pipeline.batch remove-match <matchId>
 
@@ -91,6 +94,8 @@ python -m pipeline.batch process --generate
 ```
 
 `retag` rewrites `isRoster` / `rosterName` / `isAlt` / `altName` / `partySize` / `partyMembers` in place from the toon IDs stored in each match file plus the current `pipeline.json`; it needs no replays. Run it after renaming a player in `pipeline.json`, then regenerate output.
+
+`rederive` rebuilds every committed match file from its tier-2 archive in `archive/` with the current parser and `pipeline.json`, so analysis changes reach the committed data without the replays. It refuses to write anything if any committed match lacks an archive. Add `--generate` to regenerate output afterwards.
 
 `remove-match` deletes `data/matches/<matchId>.json` and appends the id to `data/removed-matches.json`, a committed tombstone registry. Tombstoned matches are never re-created by `process` or `--reprocess`, nor by a re-uploaded overlapping replay. To un-remove a match, delete its id from `data/removed-matches.json` and run `process --reprocess`. Regenerate aggregates afterwards.
 
@@ -111,6 +116,7 @@ A change to `roster`, `alts`, or `cutoffDate` in `pipeline.json` prints guidance
 |---|---|
 | `process` (default) | Classify + parse new replays, write match JSON |
 | `retag` | Re-derive roster/alt tags on every committed match in place |
+| `rederive` | Re-run analysis on every committed match from its tier-2 archive |
 | `remove-match <id>` | Delete one match and tombstone it |
 
 `process` flags:
