@@ -8,6 +8,7 @@ from pipeline.aggregate import (
 	slugify, load_matches, HOF_INDEX_STAT_KEYS, HOF_SENTINEL_THRESHOLD,
 )
 from pipeline.herodata import ARAM_MAP_NAMES, FEMALE_HEROES, HERO_ROLES
+from pipeline.lounge import build_stamps
 
 
 def _write_json(data: dict | list, path: str, pretty: bool = False) -> None:
@@ -18,7 +19,7 @@ def _write_json(data: dict | list, path: str, pretty: bool = False) -> None:
 		json.dump(data, f, indent=indent, ensure_ascii=False)
 
 
-def _build_match_index_entry(match: dict) -> dict:
+def _build_match_index_entry(match: dict, lounge_stamp: dict | None = None) -> dict:
 	"""Build a lightweight index entry for a match.
 
 	Contains fields for match history display, filtering, and client-side
@@ -164,8 +165,8 @@ def _build_match_index_entry(match: dict) -> dict:
 	if first_merc is not None and roster_team_id is not None:
 		entry["rosterFirstMerc"] = first_merc == roster_team_id
 
-	# Heroes Lounge: first-pick team for Custom games (the other team picks the map)
-	if raw_mode == "Custom" and roster_team_id is not None:
+	# Heroes Lounge: first-pick team for registered Lounge games (the other team picks the map)
+	if lounge_stamp is not None and roster_team_id is not None:
 		for d in match.get("draft", []):
 			if d.get("type") == "pick":
 				first_pick_team = d.get("team")
@@ -208,7 +209,24 @@ def _build_match_index_entry(match: dict) -> dict:
 		else:
 			entry["chatToxicity"] = "clean"
 
+	if lounge_stamp is not None:
+		entry["lounge"] = lounge_stamp
+
 	return entry
+
+
+def _load_lounge_stamps(output_dir: str, matches: list[dict]) -> dict[str, dict]:
+	"""Stamps from the Lounge registry; warns about registered ids with no match file."""
+	path = os.path.join(output_dir, "lounge.json")
+	if not os.path.isfile(path):
+		return {}
+	with open(path, encoding="utf-8") as f:
+		stamps = build_stamps(json.load(f))
+	present = {m.get("matchId") for m in matches}
+	for match_id in sorted(stamps):
+		if match_id not in present:
+			print(f"  WARNING: lounge.json registers {match_id}, which has no match file")
+	return stamps
 
 
 def write_output(
@@ -358,8 +376,9 @@ def write_output(
 
 	# matches/index.json - lightweight match list from the matches loaded above
 	cutoff_date = config.get("cutoffDate")
+	lounge_stamps = _load_lounge_stamps(output_dir, matches)
 	index_entries = [
-		_build_match_index_entry(m) for m in matches
+		_build_match_index_entry(m, lounge_stamps.get(m.get("matchId"))) for m in matches
 		if m.get("gameMode") != "CustomStandard"
 		and (not cutoff_date or m.get("timestamp", "") >= cutoff_date)
 	]

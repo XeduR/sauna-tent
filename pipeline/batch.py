@@ -9,6 +9,7 @@
 #   retag         Re-derive roster/alt tags on every committed match in place
 #   rederive      Re-run analysis on every committed match from its tier-2 archive
 #   remove-match  Delete one match from data/matches/
+#   lounge        Register Heroes Lounge series from the team or one match page
 #
 # Usage:
 #   python -m pipeline.batch process [--reprocess] [--generate] [--pretty]
@@ -16,6 +17,8 @@
 #   python -m pipeline.batch retag [--pretty]
 #   python -m pipeline.batch rederive [--archive-dir DIR] [--pretty] [--generate]
 #   python -m pipeline.batch remove-match <matchId>
+#   python -m pipeline.batch lounge [URL] [--mode series|team] [--generate] [--pretty] [--ci]
+#                                   [--recheck] [--dry-run]
 
 import argparse
 import gzip
@@ -24,13 +27,17 @@ import json
 import os
 import re
 import sys
+import tempfile
 import time
 from collections import Counter
+from collections.abc import Callable
+from dataclasses import dataclass, field
 
 from pipeline.run import (
 	load_config, tag_players, write_match, write_match_archive, archive_path,
 	generate_match_id, PROJECT_ROOT, DEFAULT_CONFIG_PATH, DEFAULT_ARCHIVE_DIR,
 )
+from pipeline.lounge import load_official_registered_ids
 from pipeline.parser import ensure_parser_available, parse_replay_raw, analyze_raw, resolve_game_mode
 from replay_utils import find_replays
 
@@ -79,7 +86,9 @@ _REJECTION_LABELS = {
 	"ai_detected": "AI players detected",
 	"incomplete": "Incomplete games",
 	"no_sauna_player": "No Sauna Tent player",
+	"custom_not_lounge": "Custom game outside Heroes Lounge seasons",
 	"custom_no_5stack": "Custom without 3+ roster (or alt present)",
+	"page-mismatch": "Heroes Lounge page mismatch",
 	"unparseable": "Failed to parse",
 }
 
@@ -197,11 +206,18 @@ def load_manifest(manifest_path: str) -> dict:
 def save_manifest(manifest: dict, manifest_path: str) -> None:
 	"""Write the manifest to disk."""
 	manifest["version"] = MANIFEST_VERSION
-	parent = os.path.dirname(manifest_path)
-	if parent:
-		os.makedirs(parent, exist_ok=True)
-	with open(manifest_path, "w", encoding="utf-8") as f:
-		json.dump(manifest, f, indent=2, ensure_ascii=False)
+	parent = os.path.dirname(os.path.abspath(manifest_path))
+	os.makedirs(parent, exist_ok=True)
+	# Temp file plus os.replace: an interrupted write never truncates the manifest.
+	fd, tmp_path = tempfile.mkstemp(prefix=".manifest-", suffix=".tmp", dir=parent)
+	try:
+		with os.fdopen(fd, "w", encoding="utf-8") as f:
+			json.dump(manifest, f, indent=2, ensure_ascii=False)
+		os.replace(tmp_path, manifest_path)
+	except BaseException:
+		if os.path.exists(tmp_path):
+			os.remove(tmp_path)
+		raise
 
 
 # Legacy dotted time separator in committed timestamps, e.g. 2024-05-24T19.12.17.
@@ -290,6 +306,8 @@ def classify_replay(
 	seen_match_ids: set[str],
 	match_id: str,
 	removed_ids: frozenset[str] | set[str] = frozenset(),
+	lounge_ids: frozenset[str] | set[str] = frozenset(),
+	allow_custom: bool = False,
 ) -> tuple[bool, str]:
 	"""Classify a raw sidecar dict against every acceptance rule.
 
@@ -352,12 +370,137 @@ def classify_replay(
 	if not has_sauna_player:
 		return (False, "no_sauna_player")
 
-	# Custom games: require 3+ roster players and no alts.
+	# Custom games: only registered official Heroes Lounge games (or one the intake is
+	# registering), then 3+ roster players and no alts.
 	if mode in ("CustomDraft", "CustomStandard"):
+		if not allow_custom and match_id not in lounge_ids:
+			return (False, "custom_not_lounge")
 		if alt_in_match or roster_count < 3:
 			return (False, "custom_no_5stack")
 
 	return (True, mode)
+
+
+@dataclass
+class ReplayContext:
+	"""Run-wide state shared by every process_replay call; files, seen_match_ids
+	and errors are mutated in place."""
+	config: dict
+	files: dict
+	roster_toons: frozenset[str]
+	alt_toons: frozenset[str]
+	cutoff_date: str | None
+	seen_match_ids: set[str]
+	removed_ids: set[str]
+	out_dir: str
+	archive_dir: str
+	pretty: bool
+	errors: list[tuple[str, str]] = field(default_factory=list)
+	lounge_ids: set[str] = field(default_factory=set)
+
+
+def process_replay(
+	replay_path: str,
+	ctx: ReplayContext,
+	allow_custom: bool = False,
+	precheck: Callable[[dict], str | None] | None = None,
+) -> tuple[str, str | None, str | None]:
+	"""Classify one replay, write its match + archive when accepted, record its manifest entry.
+
+	Returns (status, reason, matchId). status is "new" (written this call),
+	"cached" (unchanged file whose cached verdict is accepted), "duplicate" or
+	"rejected" (reason holds the category). matchId is None when unknown.
+	allow_custom accepts a Custom game outside ctx.lounge_ids. precheck runs on the
+	analysed, tagged match before anything is written; a non-None result records
+	the replay as rejected "page-mismatch" and writes nothing.
+	"""
+	files = ctx.files
+	rel = _cache_key(replay_path)
+	try:
+		content_hash = _file_content_hash(replay_path)
+	except OSError as e:
+		ctx.errors.append((rel, str(e)))
+		return ("rejected", "unparseable", None)
+
+	existing = files.get(rel)
+	# A Lounge copy cached as custom_not_lounge before its series registered is classified afresh.
+	if allow_custom and existing and existing.get("reason") == "custom_not_lounge":
+		existing = None
+	if existing and existing.get("contentHash") == content_hash:
+		# Unchanged file: reuse the cached verdict (never re-parsed).
+		status = existing.get("status")
+		mid = existing.get("matchId")
+		if mid and mid in ctx.removed_ids:
+			# Tombstoned since it was cached: report as removed, don't count
+			# it as on-record (its match file is already gone).
+			return ("rejected", "removed", mid)
+		if status == "accepted":
+			if mid:
+				ctx.seen_match_ids.add(mid)
+			return ("cached", None, mid)
+		if existing.get("reason") == "duplicate":
+			return ("duplicate", "duplicate", mid)
+		if existing.get("reason") == "custom_not_lounge" and mid in ctx.lounge_ids:
+			# Rejected before the intake registered the Lounge copy of the same match.
+			files[rel] = {"contentHash": content_hash, "matchId": mid, "status": "rejected", "reason": "duplicate"}
+			return ("duplicate", "duplicate", mid)
+		return ("rejected", existing.get("reason", "unparseable"), mid)
+
+	# New or changed file: classify with a single sidecar parse.
+	if "Sandbox" in os.path.basename(replay_path):
+		files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unwanted_mode"}
+		return ("rejected", "unwanted_mode", None)
+
+	try:
+		raw = parse_replay_raw(replay_path)
+	except (ValueError, FileNotFoundError) as e:
+		files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unparseable"}
+		ctx.errors.append((rel, str(e)))
+		return ("rejected", "unparseable", None)
+
+	match_id = generate_match_id(raw)
+	accepted, reason = classify_replay(
+		raw, ctx.roster_toons, ctx.alt_toons, ctx.cutoff_date, ctx.seen_match_ids, match_id, ctx.removed_ids,
+		ctx.lounge_ids, allow_custom,
+	)
+	if not accepted:
+		files[rel] = {
+			"contentHash": content_hash,
+			"matchId": match_id,
+			"status": "rejected",
+			"reason": reason,
+		}
+		if reason == "duplicate":
+			return ("duplicate", reason, match_id)
+		return ("rejected", reason, match_id)
+
+	try:
+		match_data = analyze_raw(raw)
+		match_data["matchId"] = match_id
+		match_data["replayFile"] = os.path.basename(replay_path)
+		tag_players(match_data, ctx.config)
+		if precheck is not None and precheck(match_data):
+			files[rel] = {"contentHash": content_hash, "matchId": match_id, "status": "rejected", "reason": "page-mismatch"}
+			return ("rejected", "page-mismatch", match_id)
+		write_match(match_data, ctx.out_dir, ctx.pretty)
+		# Tier-2: full extract archived at the repo-root archive
+		# dir, so the replay becomes disposable.
+		write_match_archive(raw, match_id, os.path.basename(replay_path), ctx.archive_dir)
+	except (ValueError, KeyError, OSError) as e:
+		# A replay that classified as accepted but fails analysis/write
+		# is recorded as unparseable so one bad file cannot abort the run.
+		files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unparseable"}
+		ctx.errors.append((rel, str(e)))
+		return ("rejected", "unparseable", None)
+
+	ctx.seen_match_ids.add(match_id)
+	files[rel] = {
+		"contentHash": content_hash,
+		"matchId": match_id,
+		"timestamp": match_data.get("timestamp", ""),
+		"status": "accepted",
+	}
+	return ("new", None, match_id)
 
 
 def process_replays(
@@ -448,86 +591,24 @@ def process_replays(
 	start_time = time.monotonic()
 	last_report = start_time
 
-	for i, replay_path in enumerate(all_replays):
-		rel = _cache_key(replay_path)
-		try:
-			content_hash = _file_content_hash(replay_path)
-		except OSError as e:
-			rejected["unparseable"] += 1
-			errors.append((rel, str(e)))
-			continue
+	ctx = ReplayContext(
+		config=config, files=files, roster_toons=roster_toons, alt_toons=alt_toons,
+		cutoff_date=cutoff_date, seen_match_ids=seen_match_ids, removed_ids=removed_ids,
+		out_dir=out_dir, archive_dir=archive_dir, pretty=pretty, errors=errors,
+		lounge_ids=load_official_registered_ids(out_dir),
+	)
 
-		existing = files.get(rel)
-		if existing and existing.get("contentHash") == content_hash:
-			# Unchanged file: reuse the cached verdict (never re-parsed).
-			status = existing.get("status")
-			mid = existing.get("matchId")
-			if mid and mid in removed_ids:
-				# Tombstoned since it was cached: report as removed, don't count
-				# it as on-record (its match file is already gone).
-				rejected["removed"] += 1
-			elif status == "accepted":
-				if mid:
-					seen_match_ids.add(mid)
-				skipped += 1
-			elif existing.get("reason") == "duplicate":
-				duplicates += 1
-			else:
-				rejected[existing.get("reason", "unparseable")] += 1
+	for i, replay_path in enumerate(all_replays):
+		status, reason, match_id = process_replay(replay_path, ctx)
+		if status == "new":
+			processed += 1
+			new_match_ids.append(match_id)
+		elif status == "cached":
+			skipped += 1
+		elif status == "duplicate":
+			duplicates += 1
 		else:
-			# New or changed file: classify with a single sidecar parse.
-			if "Sandbox" in os.path.basename(replay_path):
-				files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unwanted_mode"}
-				rejected["unwanted_mode"] += 1
-			else:
-				try:
-					raw = parse_replay_raw(replay_path)
-				except (ValueError, FileNotFoundError) as e:
-					files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unparseable"}
-					rejected["unparseable"] += 1
-					errors.append((rel, str(e)))
-				else:
-					match_id = generate_match_id(raw)
-					accepted, reason = classify_replay(
-						raw, roster_toons, alt_toons, cutoff_date, seen_match_ids, match_id, removed_ids,
-					)
-					if accepted:
-						try:
-							match_data = analyze_raw(raw)
-							match_data["matchId"] = match_id
-							match_data["replayFile"] = os.path.basename(replay_path)
-							tag_players(match_data, config)
-							write_match(match_data, out_dir, pretty)
-							# Tier-2: full extract archived at the repo-root archive
-							# dir, so the replay becomes disposable.
-							write_match_archive(raw, match_id, os.path.basename(replay_path), archive_dir)
-						except (ValueError, KeyError, OSError) as e:
-							# A replay that classified as accepted but fails analysis/write
-							# is recorded as unparseable so one bad file cannot abort the run.
-							files[rel] = {"contentHash": content_hash, "status": "rejected", "reason": "unparseable"}
-							rejected["unparseable"] += 1
-							errors.append((rel, str(e)))
-						else:
-							seen_match_ids.add(match_id)
-							files[rel] = {
-								"contentHash": content_hash,
-								"matchId": match_id,
-								"timestamp": match_data.get("timestamp", ""),
-								"status": "accepted",
-							}
-							processed += 1
-							new_match_ids.append(match_id)
-					else:
-						files[rel] = {
-							"contentHash": content_hash,
-							"matchId": match_id,
-							"status": "rejected",
-							"reason": reason,
-						}
-						if reason == "duplicate":
-							duplicates += 1
-						else:
-							rejected[reason] += 1
+			rejected[reason] += 1
 
 		now = time.monotonic()
 		if now - last_report >= 5:
@@ -880,6 +961,19 @@ def _cmd_remove_match(args) -> None:
 		sys.exit(1)
 
 
+def _cmd_lounge(args) -> None:
+	from pipeline.lounge import run_intake
+
+	config = _load_config_or_exit(args.config)
+	code = run_intake(
+		config, args.url, output_dir=args.output_dir, archive_dir=args.archive_dir,
+		manifest_path=args.manifest, generate=args.generate, pretty=args.pretty, ci=args.ci,
+		recheck=args.recheck, dry_run=args.dry_run, mode=args.mode,
+	)
+	if code:
+		sys.exit(code)
+
+
 def main():
 	parser = argparse.ArgumentParser(
 		prog="python -m pipeline.batch",
@@ -916,10 +1010,23 @@ def main():
 	rm.add_argument("--output-dir", default=None, help="Override output directory")
 	rm.add_argument("--archive-dir", default=None, help="Override tier-2 archive directory (default: repo-root archive/)")
 
+	lg = sub.add_parser("lounge", help="Register Heroes Lounge series from the team page or one match page")
+	lg.add_argument("url", nargs="?", default=None, help="Team or match page URL (default: the configured team page)")
+	lg.add_argument("--config", default=DEFAULT_CONFIG_PATH, help="Pipeline config path")
+	lg.add_argument("--output-dir", default=None, help="Override output directory")
+	lg.add_argument("--archive-dir", default=None, help="Override tier-2 archive directory (default: repo-root archive/)")
+	lg.add_argument("--manifest", default=DEFAULT_MANIFEST_PATH, help="Cache manifest path")
+	lg.add_argument("--generate", action="store_true", help="Aggregate + write dashboard output when anything changed")
+	lg.add_argument("--pretty", action="store_true", help="Pretty-print JSON output")
+	lg.add_argument("--ci", action="store_true", help="Non-interactive: never prompt (auto-install sidecar)")
+	lg.add_argument("--recheck", action="store_true", help="Re-fetch every played match with a game lacking a replay")
+	lg.add_argument("--dry-run", action="store_true", help="Fetch and report only; download and write nothing")
+	lg.add_argument("--mode", choices=("series", "team"), default=None, help="series: URL must be a match page; team: URL must be a team page or omitted")
+
 	# Default to `process` when no subcommand is given, so bare invocation and
 	# the old flag-only form (--reprocess --generate) still work.
 	argv = sys.argv[1:]
-	if not argv or argv[0] not in {"process", "retag", "rederive", "remove-match", "-h", "--help"}:
+	if not argv or argv[0] not in {"process", "retag", "rederive", "remove-match", "lounge", "-h", "--help"}:
 		argv = ["process"] + argv
 	args = parser.parse_args(argv)
 
@@ -929,6 +1036,8 @@ def main():
 		_cmd_rederive(args)
 	elif args.command == "remove-match":
 		_cmd_remove_match(args)
+	elif args.command == "lounge":
+		_cmd_lounge(args)
 	else:
 		_cmd_process(args)
 

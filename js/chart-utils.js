@@ -130,94 +130,96 @@ var ChartUtils = (function() {
 		});
 	}
 
-	// Draws "NN%" above each bar, skipping bars too narrow to fit the text.
-	var barPercentLabels = {
-		id: "barPercentLabels",
-		afterDatasetsDraw: function(chartInstance) {
-			var context = chartInstance.ctx;
-			var meta = chartInstance.getDatasetMeta(0);
-			var values = chartInstance.data.datasets[0].data;
+	// Draws each bar's formatted value above it. All labels are skipped when any one is wider
+	// than its bar, so narrow charts never show a scattered few.
+	function barValueLabels(format) {
+		return {
+			id: "barValueLabels",
+			afterDatasetsDraw: function(chartInstance) {
+				var context = chartInstance.ctx;
+				var meta = chartInstance.getDatasetMeta(0);
+				var values = chartInstance.data.datasets[0].data;
 
-			context.save();
-			context.font = "11px " + Chart.defaults.font.family;
-			context.fillStyle = TableConfig.CHART.textColor;
-			context.textAlign = "center";
-			context.textBaseline = "bottom";
-			for (var index = 0; index < meta.data.length; index++) {
-				if (values[index] == null) continue;
+				context.save();
+				context.font = "11px " + Chart.defaults.font.family;
+				context.fillStyle = TableConfig.CHART.textColor;
+				context.textAlign = "center";
+				context.textBaseline = "bottom";
 
-				var bar = meta.data[index];
-				var text = values[index] + "%";
-				if (bar.width < context.measureText(text).width) continue;
-				context.fillText(text, bar.x, bar.y - 2);
+				var labels = [];
+				for (var index = 0; index < meta.data.length; index++) {
+					if (values[index] == null) continue;
+
+					var bar = meta.data[index];
+					var text = format(values[index]);
+					if (bar.width < context.measureText(text).width) {
+						labels = [];
+						break;
+					}
+					labels.push({ text: text, x: bar.x, y: bar.y - 2 });
+				}
+
+				for (var li = 0; li < labels.length; li++) {
+					context.fillText(labels[li].text, labels[li].x, labels[li].y);
+				}
+				context.restore();
 			}
-			context.restore();
-		}
-	};
+		};
+	}
 
 	function padHour(hour) {
 		return (hour < 10 ? "0" : "") + hour;
 	}
 
-	// Win rate per start hour; hourly is 24 {games, wins} buckets.
-	function createHourlyWinrateChart(canvasId, hourly, totalGames) {
+	function gamesText(games) {
+		return games.toLocaleString() + (games === 1 ? " game" : " games");
+	}
+
+	// Bar chart over the 24 start hours. The y-axis width is pinned so stacked
+	// time-of-day charts keep their hour columns aligned.
+	function createHourBarChart(canvasId, config) {
 		var chart = TableConfig.CHART;
 		var ctx = document.getElementById(canvasId);
 		if (!ctx) return null;
 
 		var labels = [];
-		var values = [];
-		var colors = [];
-		for (var hour = 0; hour < hourly.length; hour++) {
-			var bucket = hourly[hour];
+		for (var hour = 0; hour < config.values.length; hour++) {
 			labels.push(padHour(hour));
-			if (bucket.games > 0) {
-				values.push(Math.round(bucket.wins / bucket.games * 100));
-				colors.push(winrateColor(bucket.wins / bucket.games));
-			} else {
-				values.push(null);
-				colors.push(chart.gridColor);
-			}
 		}
 
-		var titleText = totalGames.toLocaleString() + (totalGames === 1 ? " game" : " games") +
-			", by game start (" + AppSettings.overview.timeOfDayLabel + ")";
+		var yScale = Object.assign({
+			grid: { color: chart.gridColor },
+			afterFit: function(scale) { scale.width = chart.hourAxisWidth; }
+		}, config.yScale);
+		yScale.ticks = Object.assign({ color: chart.textColor }, config.yScale.ticks);
 
 		return new Chart(ctx, {
 			type: "bar",
 			data: {
 				labels: labels,
 				datasets: [{
-					data: values,
-					backgroundColor: colors,
-					borderColor: colors,
+					data: config.values,
+					backgroundColor: config.colors,
+					borderColor: config.colors,
 					borderWidth: 1,
 					borderRadius: 2
 				}]
 			},
-			plugins: [barPercentLabels],
+			plugins: [barValueLabels(config.formatLabel)],
 			options: {
 				responsive: true,
 				maintainAspectRatio: false,
-				// Room for the percent label above a 100% bar
+				// Room for the value label above the tallest bar
 				layout: { padding: { top: 18 } },
 				scales: {
 					x: { ticks: { color: chart.textColor }, grid: { color: chart.gridColor } },
-					y: {
-						min: 0,
-						max: 100,
-						ticks: {
-							color: chart.textColor,
-							callback: function(value) { return value + "%"; }
-						},
-						grid: { color: chart.gridColor }
-					}
+					y: yScale
 				},
 				plugins: {
 					legend: { display: false },
 					title: {
 						display: true,
-						text: titleText,
+						text: gamesText(config.totalGames) + ", by game start (" + AppSettings.overview.timeOfDayLabel + ")",
 						color: chart.textColor,
 						font: { weight: "normal" }
 					},
@@ -228,10 +230,7 @@ var ChartUtils = (function() {
 								var hourText = padHour(items[0].dataIndex);
 								return hourText + ":00-" + hourText + ":59";
 							},
-							label: function(item) {
-								var games = hourly[item.dataIndex].games;
-								return [item.raw + "% win rate", games.toLocaleString() + (games === 1 ? " game" : " games")];
-							}
+							label: config.tooltipLabel
 						}
 					}
 				}
@@ -239,9 +238,61 @@ var ChartUtils = (function() {
 		});
 	}
 
+	// Win rate per start hour; hourly is 24 {games, wins} buckets.
+	function createHourlyWinrateChart(canvasId, hourly, totalGames) {
+		var values = [];
+		var colors = [];
+		for (var hour = 0; hour < hourly.length; hour++) {
+			var bucket = hourly[hour];
+			if (bucket.games > 0) {
+				values.push(Math.round(bucket.wins / bucket.games * 100));
+				colors.push(winrateColor(bucket.wins / bucket.games));
+			} else {
+				values.push(null);
+				colors.push(TableConfig.CHART.gridColor);
+			}
+		}
+
+		return createHourBarChart(canvasId, {
+			values: values,
+			colors: colors,
+			totalGames: totalGames,
+			formatLabel: function(value) { return value + "%"; },
+			yScale: {
+				min: 0,
+				max: 100,
+				ticks: { callback: function(value) { return value + "%"; } }
+			},
+			tooltipLabel: function(item) {
+				return [item.raw + "% win rate", gamesText(hourly[item.dataIndex].games)];
+			}
+		});
+	}
+
+	// Games per start hour; hourly is 24 {games, wins} buckets.
+	function createHourlyGamesChart(canvasId, hourly, totalGames) {
+		var values = [];
+		for (var hour = 0; hour < hourly.length; hour++) {
+			values.push(hourly[hour].games > 0 ? hourly[hour].games : null);
+		}
+
+		return createHourBarChart(canvasId, {
+			values: values,
+			colors: TableConfig.CHART.accentColor,
+			totalGames: totalGames,
+			formatLabel: function(value) { return value.toLocaleString(); },
+			yScale: {
+				beginAtZero: true,
+				ticks: { precision: 0 }
+			},
+			tooltipLabel: function(item) { return gamesText(item.raw); }
+		});
+	}
+
 	return {
 		createHeroPopularityChart: createHeroPopularityChart,
 		createHeroPickChart: createHeroPickChart,
-		createHourlyWinrateChart: createHourlyWinrateChart
+		createHourlyWinrateChart: createHourlyWinrateChart,
+		createHourlyGamesChart: createHourlyGamesChart
 	};
 })();

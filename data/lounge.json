@@ -1,0 +1,4185 @@
+{
+	"site": "https://heroeslounge.gg",
+	"team": "ST",
+	"matches": [
+		{
+			"id": 4989,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 1 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "PN",
+				"name": "Placeholder Name"
+			},
+			"scheduled": "2019-04-03T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5090,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 2 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "VIP",
+				"name": "Vacation in Purgatory"
+			},
+			"scheduled": "2019-04-10T17:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5251,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 3 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "GD!",
+				"name": "GodDammit!"
+			},
+			"scheduled": "2019-04-15T19:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5333,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 4 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TV",
+				"name": "Trait Value"
+			},
+			"scheduled": "2019-04-24T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5473,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 5 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "EterelZ",
+				"name": "EterelZ"
+			},
+			"scheduled": "2019-05-03T18:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5599,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 6 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TNN",
+				"name": "Team NoobNoob"
+			},
+			"scheduled": "2019-05-08T19:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5754,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 7 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Hotsy",
+				"name": "Team Hotsy"
+			},
+			"scheduled": "2019-05-15T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 5884,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 8 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "KKC",
+				"name": "KittyKat Crusaders"
+			},
+			"scheduled": "2019-05-22T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 6003,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 9 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "WWG",
+				"name": "Wonder William Gang"
+			},
+			"scheduled": "2019-05-29T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 6139,
+			"event": "[EU]Season 9 - Division 3",
+			"title": "[EU]Season 9 Round 10 Division 3",
+			"season": "Season 9",
+			"seasonNumber": 9,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "JPDF",
+				"name": "JAI PLUS DE FORCE"
+			},
+			"scheduled": "2019-06-05T19:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 6674,
+			"event": "[EU]Season 10 - Division 3",
+			"title": "[EU]Season 10 Round 1 Division 3",
+			"season": "Season 10",
+			"seasonNumber": 10,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DRS",
+				"name": "dears"
+			},
+			"scheduled": "2019-08-02T13:37:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8103,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 1 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "SIN",
+				"name": "StunnedInHeaven"
+			},
+			"scheduled": "2019-12-09T17:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8206,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 2 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TFA",
+				"name": "The Forever Alones"
+			},
+			"scheduled": "2019-12-20T18:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8299,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 3 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "KKC",
+				"name": "KittyKat Crusaders"
+			},
+			"scheduled": "2020-01-10T19:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8393,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 4 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Div3",
+				"name": "Divison 3"
+			},
+			"scheduled": "2020-01-15T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8479,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 5 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LS",
+				"name": "Lumpensammler"
+			},
+			"scheduled": "2020-01-24T20:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8558,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 6 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "BoB",
+				"name": "Band of Brewers"
+			},
+			"scheduled": "2020-01-31T17:30:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8635,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 7 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HPMS",
+				"name": "Hippopotamus"
+			},
+			"scheduled": "2020-02-05T19:30:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8715,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 8 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "BBB",
+				"name": "Battle Beasts Boys"
+			},
+			"scheduled": "2020-02-15T18:30:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8786,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 9 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "The%20Problem",
+				"name": "#wearetheproblem"
+			},
+			"scheduled": "2020-02-21T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 8869,
+			"event": "[EU]Season 11 - Division 2",
+			"title": "[EU]Season 11 Round 10 Division 2",
+			"season": "Season 11",
+			"seasonNumber": 11,
+			"division": "2",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "bye",
+				"name": "BYE!"
+			},
+			"scheduled": "2020-02-16T12:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": null,
+			"status": "pre-cutoff",
+			"games": []
+		},
+		{
+			"id": 22512,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 1 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "VC-B",
+				"name": "Vic-Team B"
+			},
+			"scheduled": "2024-05-24T18:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "f9eed4bbba87beca6c21ecd76a5e92f2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/665/0ee/9cb/6650ee9cb7425562627512.stormreplay",
+					"replayFile": "22512_G1_Infernal-Shrines_vs-Vic-Team-B.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "registered",
+					"matchId": "9e8b7a08a88b3cfcfcbd1cc6dfb89394",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/665/0ee/b06/6650eeb060e43832646717.stormreplay",
+					"replayFile": "22512_G2_Dragon-Shire_vs-Vic-Team-B.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22587,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 2 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Requiem",
+				"name": "Requiem"
+			},
+			"scheduled": "2024-06-05T17:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "ef8efb456af73a4637e17aa337a9bfc3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/0af/37c/6660af37c5a87213693319.stormreplay",
+					"replayFile": "22587_G1_Cursed-Hollow_vs-Requiem.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "fdc55d690a383d71271340f74b8cc800",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/0af/464/6660af464251e943887672.stormreplay",
+					"replayFile": "22587_G2_Infernal-Shrines_vs-Requiem.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22653,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 3 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "KlubR",
+				"name": "KlubR"
+			},
+			"scheduled": "2024-06-09T17:30:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Volskaya Foundry",
+					"won": false,
+					"status": "registered",
+					"matchId": "c5e36863df7c9f7b2b4b92322f27f507",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/5f1/17e/6665f117e5155724333273.stormreplay",
+					"replayFile": "22653_G1_Volskaya-Foundry_vs-KlubR.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "e35490d3c7ac16cb856641982a6ac6a1",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/5f1/24c/6665f124cdabd314428279.stormreplay",
+					"replayFile": "22653_G2_Infernal-Shrines_vs-KlubR.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22726,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 4 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LaS",
+				"name": "Lazer Sharks"
+			},
+			"scheduled": "2024-06-12T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "daa3be8bad34631f2f36ea44c81b3678",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/9f9/6a1/6669f96a11767772312274.stormreplay",
+					"replayFile": "22726_G1_Garden-of-Terror_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "9d19f0bdb0e8fc40e0d3d09dca394de1",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/9f9/797/6669f97978283113304345.stormreplay",
+					"replayFile": "22726_G2_Infernal-Shrines_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "cd4ffcc01746f3e7ff8e7ec1b679dfc7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/666/9f9/8d1/6669f98d18179431203087.stormreplay",
+					"replayFile": "22726_G3_Towers-of-Doom_vs-Lazer-Sharks.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22797,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 5 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HTC",
+				"name": "Hit The Core"
+			},
+			"scheduled": "2024-06-27T19:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "063335a3a7df912ad9a1f6216da27383",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/667/dc8/18f/667dc818f1bd8098519284.stormreplay",
+					"replayFile": "22797_G1_Garden-of-Terror_vs-Hit-The-Core.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "64367dc0605b20a0147835c44b6fadaa",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/667/dc8/2bb/667dc82bb1f3c583204112.stormreplay",
+					"replayFile": "22797_G2_Infernal-Shrines_vs-Hit-The-Core.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22868,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 6 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LUZ",
+				"name": "Luz Bluz"
+			},
+			"scheduled": "2024-07-02T17:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "83e67a7e1867146bba01ebb7790fff4b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/668/447/10a/66844710a31e1594337443.stormreplay",
+					"replayFile": "22868_G1_Towers-of-Doom_vs-Luz-Bluz.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "8512db91b3e4048f7cedd0e6ff3927b2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/668/447/1fb/6684471fb5679514658484.stormreplay",
+					"replayFile": "22868_G2_Infernal-Shrines_vs-Luz-Bluz.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22933,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 7 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TRP",
+				"name": "Thé riz porte"
+			},
+			"scheduled": "2024-07-11T17:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "registered",
+					"matchId": "f9d16c5b88c74cd54c871d903db2a608",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/022/bea/669022beaa1f0035868534.stormreplay",
+					"replayFile": "22933_G1_Dragon-Shire_vs-Th-riz-porte.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "ad9ebb9234e3643fbe45f82a64ba50e5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/022/cf7/669022cf7aab5738000307.stormreplay",
+					"replayFile": "22933_G2_Towers-of-Doom_vs-Th-riz-porte.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "b32c79a066a6ff563c56f6ab4ffcab0c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/022/df3/669022df31858157252466.stormreplay",
+					"replayFile": "22933_G3_Braxis-Holdout_vs-Th-riz-porte.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 22996,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 8 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "helheim",
+				"name": "Helheim"
+			},
+			"scheduled": "2024-07-18T17:30:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "243f329c9b44fa1ea78cf991c7a43373",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/967/79d/66996779d76ef544712732.stormreplay",
+					"replayFile": "22996_G1_Alterac-Pass_vs-Helheim.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "9150693e2c35119ce77291875cb62ee8",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/967/8a2/6699678a28a27395456918.stormreplay",
+					"replayFile": "22996_G2_Towers-of-Doom_vs-Helheim.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Cursed Hollow",
+					"won": false,
+					"status": "registered",
+					"matchId": "271a0de41112410e088bb6413eb5981e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/967/955/669967955ee52808211595.stormreplay",
+					"replayFile": "22996_G3_Cursed-Hollow_vs-Helheim.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23070,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 9 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LCS",
+				"name": "Los calientes"
+			},
+			"scheduled": "2024-07-22T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "f210a13eadbef1c19712326e935f06f0",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/ea8/840/669ea8840ccb9840873028.stormreplay",
+					"replayFile": "23070_G1_Cursed-Hollow_vs-Los-calientes.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Braxis Holdout",
+					"won": true,
+					"status": "registered",
+					"matchId": "1fde09ac28fde8f15144cc1e7abc8bbe",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/669/ea8/8e7/669ea88e7f50d706812132.stormreplay",
+					"replayFile": "23070_G2_Braxis-Holdout_vs-Los-calientes.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23146,
+			"event": "[EU] Season 24 - Division 3",
+			"title": "[EU] Season 24 Round 10 Division 3",
+			"season": "Season 24",
+			"seasonNumber": 24,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HG",
+				"name": "HaukiGaming"
+			},
+			"scheduled": "2024-07-29T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "e95aa986d902b5aa923da56332f5a695",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66a/7f1/aca/66a7f1aca0225201855689.stormreplay",
+					"replayFile": "23146_G1_Towers-of-Doom_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "c497f41753e9a55178c1702ebf83c5dd",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66a/7f1/c8c/66a7f1c8c2468008200844.stormreplay",
+					"replayFile": "23146_G2_Infernal-Shrines_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Braxis Holdout",
+					"won": true,
+					"status": "registered",
+					"matchId": "346a6b02b8fc497be96c7b2882623296",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66a/7f1/d5b/66a7f1d5b67c3203010305.stormreplay",
+					"replayFile": "23146_G3_Braxis-Holdout_vs-HaukiGaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23315,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 1 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LaS",
+				"name": "Lazer Sharks"
+			},
+			"scheduled": "2024-09-13T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Dragon Shire",
+					"won": false,
+					"status": "registered",
+					"matchId": "1025c6f0f5ca4fd41cfda5ffcb60705f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66e/48c/4a1/66e48c4a17693280181386.stormreplay",
+					"replayFile": "23315_G1_Dragon-Shire_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "d1223295302f1bfc1a1d808c8457b938",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66e/48c/578/66e48c5783dce405935125.stormreplay",
+					"replayFile": "23315_G2_Infernal-Shrines_vs-Lazer-Sharks.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23381,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 2 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Clown",
+				"name": "Jelly's Dancing Clowns"
+			},
+			"scheduled": "2024-09-20T17:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "registered",
+					"matchId": "e029adae18dd38ea8cab869962d70165",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66e/dbd/027/66edbd0278cfb502952143.stormreplay",
+					"replayFile": "23381_G1_Dragon-Shire_vs-Jelly-s-Dancing-Clowns.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Cursed Hollow",
+					"won": false,
+					"status": "registered",
+					"matchId": "b430f8076430a46876ee008490b75113",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66e/dbd/173/66edbd17399f0410645949.stormreplay",
+					"replayFile": "23381_G2_Cursed-Hollow_vs-Jelly-s-Dancing-Clowns.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "4b15af7e2a58d605e4dfa6be3fa8659e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66e/dbd/224/66edbd2247a97321965982.stormreplay",
+					"replayFile": "23381_G3_Infernal-Shrines_vs-Jelly-s-Dancing-Clowns.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23460,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 3 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "SwaM",
+				"name": "Something with a Murky"
+			},
+			"scheduled": "2024-09-26T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "1454e8ff622b35902c22befdd90da981",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66f/5ad/84c/66f5ad84cdb9b161874660.stormreplay",
+					"replayFile": "23460_G1_Cursed-Hollow_vs-Something-with-a-Murky.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "cd144249f0de6ec5bf1d9c2415f22078",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/66f/5ad/9b4/66f5ad9b439b6575764151.stormreplay",
+					"replayFile": "23460_G2_Alterac-Pass_vs-Something-with-a-Murky.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23521,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 4 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HG",
+				"name": "HaukiGaming"
+			},
+			"scheduled": "2024-10-06T16:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Braxis Holdout",
+					"won": true,
+					"status": "registered",
+					"matchId": "e9f471b7461d1055f136c81b6d489d2c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/670/2bf/c18/6702bfc18c92d842894543.stormreplay",
+					"replayFile": "23521_G1_Braxis-Holdout_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "d318730d5102670df8cf1788638c2488",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/670/2bf/cf9/6702bfcf9e29d163716741.stormreplay",
+					"replayFile": "23521_G2_Garden-of-Terror_vs-HaukiGaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23587,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 5 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Harm",
+				"name": "Harmless toddlers"
+			},
+			"scheduled": "2024-10-12T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "forfeit",
+			"games": []
+		},
+		{
+			"id": 23647,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 6 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "wiw",
+				"name": "water is wet"
+			},
+			"scheduled": "2024-10-26T17:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": false,
+					"status": "registered",
+					"matchId": "e16183696f4e4acbfa8e1f9c85f2ae08",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/671/d2e/a5c/671d2ea5ccc83709457538.stormreplay",
+					"replayFile": "23647_G1_Cursed-Hollow_vs-water-is-wet.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "61ac72da4d1b6aea7b581991effb214a",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/671/d2e/ae5/671d2eae5931e404199621.stormreplay",
+					"replayFile": "23647_G2_Infernal-Shrines_vs-water-is-wet.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23712,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 7 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "helheim",
+				"name": "Helheim"
+			},
+			"scheduled": "2024-11-02T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "bee87f8530996d54025e2012adab318e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/672/67d/4b1/67267d4b18d03389625481.stormreplay",
+					"replayFile": "23712_G1_Cursed-Hollow_vs-Helheim.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "048c1fa75c389db1959d4f497b7a0f10",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/672/67d/595/67267d595a7e6764727016.stormreplay",
+					"replayFile": "23712_G2_Infernal-Shrines_vs-Helheim.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23782,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 8 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "UwU%20Fighters",
+				"name": "UwU Fighters"
+			},
+			"scheduled": "2024-11-08T20:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "2521ab4f912deed45569d94625d2f4f8",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/672/e7c/15d/672e7c15d4622044455556.stormreplay",
+					"replayFile": "23782_G1_Towers-of-Doom_vs-UwU-Fighters.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "65a0717d6ac9821f5f0b8aacd4265703",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/672/e7c/224/672e7c224ae6c249544484.stormreplay",
+					"replayFile": "23782_G2_Infernal-Shrines_vs-UwU-Fighters.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23845,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 9 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DysD",
+				"name": "Dyslexic Denefneders"
+			},
+			"scheduled": "2024-11-17T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "a764893fe30f9245476804ede12560b5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/673/a3d/7c1/673a3d7c12afe400422894.stormreplay",
+					"replayFile": "23845_G1_Infernal-Shrines_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "3def2437e6a97520e691811839450952",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/673/a3d/87b/673a3d87b6e1e828024768.stormreplay",
+					"replayFile": "23845_G2_Cursed-Hollow_vs-Dyslexic-Denefneders.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 23927,
+			"event": "[EU] Season 25 - Division 3",
+			"title": "[EU] Season 25 Round 10 Division 3",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "GB",
+				"name": "CoB Geile Banger"
+			},
+			"scheduled": "2024-11-19T19:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "33afc2a7417d6507abdeee23b0879016",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/673/cf7/ebd/673cf7ebd83ce680433763.stormreplay",
+					"replayFile": "23927_G1_Towers-of-Doom_vs-CoB-Geile-Banger.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "935ed54d57773c9b2ddb976f7b013fff",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/673/cf7/fbc/673cf7fbcfb0a500320733.stormreplay",
+					"replayFile": "23927_G2_Braxis-Holdout_vs-CoB-Geile-Banger.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "31ebd5b226b3868a52c49dfbadaf35ad",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/673/cf8/243/673cf8243ddb6852330465.stormreplay",
+					"replayFile": "23927_G3_Infernal-Shrines_vs-CoB-Geile-Banger.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24007,
+			"event": "[EU] Season 25 - Division 3 Cup",
+			"title": "[EU] Season 25 - Division 3 Cup Winner Bracket Round 1 - Match 2",
+			"season": "Season 25",
+			"seasonNumber": 25,
+			"division": "3",
+			"round": "Winner Bracket Round 1 - Match 2",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "DysD",
+				"name": "Dyslexic Denefneders"
+			},
+			"scheduled": "2024-11-26T19:00:00+00:00",
+			"score": [
+				2,
+				3
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "d276c8e68b42dbc7daeb97f12c662c63",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/674/642/714/674642714edb0152558950.stormreplay",
+					"replayFile": "24007_G1_Infernal-Shrines_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "0e9d35a7fb3c60bdafc45959f6c5c4ba",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/674/642/839/674642839a8e1060465524.stormreplay",
+					"replayFile": "24007_G2_Garden-of-Terror_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "5168c6eda678d06662e98aca973f312f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/674/642/902/6746429029ac9368013233.stormreplay",
+					"replayFile": "24007_G3_Towers-of-Doom_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "0791e7bfe65cdc95d6fe8cdfc4c235cc",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/674/642/ad5/674642ad566cc537830177.stormreplay",
+					"replayFile": "24007_G4_Battlefield-of-Eternity_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 5,
+					"map": "Cursed Hollow",
+					"won": false,
+					"status": "registered",
+					"matchId": "5465f80f596caec8f0b63212158c8f1a",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/674/642/b93/674642b93e433525823886.stormreplay",
+					"replayFile": "24007_G5_Cursed-Hollow_vs-Dyslexic-Denefneders.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24118,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 1 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "GCG",
+				"name": "GigaChadGods"
+			},
+			"scheduled": "2025-01-27T19:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "e1e01320898bac194e995b7a44f3e4db",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/679/7fa/1e6/6797fa1e61c87831292510.stormreplay",
+					"replayFile": "24118_G1_Infernal-Shrines_vs-GigaChadGods.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Dragon Shire",
+					"won": false,
+					"status": "registered",
+					"matchId": "e7582863c08727fc54fa1b89f3a8c81d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/679/7fa/2d3/6797fa2d3f6d0339285992.stormreplay",
+					"replayFile": "24118_G2_Dragon-Shire_vs-GigaChadGods.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24192,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 2 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DysD",
+				"name": "Dyslexic Denefneders"
+			},
+			"scheduled": "2025-02-01T15:15:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/679/e50/8ed/679e508ed5277380170677.stormreplay",
+					"replayFile": "24192_G1_Infernal-Shrines_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "4701864beb8225a3a582867f4f97450e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/679/e50/9c2/679e509c22eff159592601.stormreplay",
+					"replayFile": "24192_G2_Towers-of-Doom_vs-Dyslexic-Denefneders.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/679/e50/a70/679e50a70cb53586368004.stormreplay",
+					"replayFile": "24192_G3_Dragon-Shire_vs-Dyslexic-Denefneders.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24266,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 3 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "bye",
+				"name": "BYE!"
+			},
+			"scheduled": "2025-02-02T12:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": null,
+			"status": "forfeit",
+			"games": []
+		},
+		{
+			"id": 24399,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 4 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Gankme",
+				"name": "Handsome Human Commoners"
+			},
+			"scheduled": "2025-02-21T19:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "ef5c4d6da2d551092e902e2da8768920",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67b/8e5/bd6/67b8e5bd66e8e718531170.stormreplay",
+					"replayFile": "24399_G1_Braxis-Holdout_vs-Handsome-Human-Commoners.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "bf56376d97f80ab47492da79523a8abf",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67b/8e5/c69/67b8e5c699bff150111309.stormreplay",
+					"replayFile": "24399_G2_Infernal-Shrines_vs-Handsome-Human-Commoners.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "24958dad339d5b7776c89feb7068f2b2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67b/8e5/d0d/67b8e5d0dfa60080426226.stormreplay",
+					"replayFile": "24399_G3_Garden-of-Terror_vs-Handsome-Human-Commoners.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24471,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 5 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Snow",
+				"name": "Snowdrops"
+			},
+			"scheduled": "2025-02-24T18:15:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "d13eb0920bbf7233f66be98b4d2ef90f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67b/cc2/824/67bcc2824e5f3986302702.stormreplay",
+					"replayFile": "24471_G1_Infernal-Shrines_vs-Snowdrops.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "acacb3308d897a68452724aa29e20aa7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67b/cc2/8eb/67bcc28ebf597888075640.stormreplay",
+					"replayFile": "24471_G2_Battlefield-of-Eternity_vs-Snowdrops.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24536,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 6 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LaS",
+				"name": "Lazer Sharks"
+			},
+			"scheduled": "2025-03-05T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Tomb of the Spider Queen",
+					"won": false,
+					"status": "registered",
+					"matchId": "ca09a201b36aa571b52fff61fcceedb7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/8bb/994/67c8bb99491ea386535000.stormreplay",
+					"replayFile": "24536_G1_Tomb-of-the-Spider-Queen_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "fca242b0a6c252296778425cddc50e4b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/8bb/a90/67c8bba908bc9156347086.stormreplay",
+					"replayFile": "24536_G2_Infernal-Shrines_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "621a59d7a5ddda7a6aa9f5322d834bda",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/8bb/b4d/67c8bbb4dc5d5513428043.stormreplay",
+					"replayFile": "24536_G3_Garden-of-Terror_vs-Lazer-Sharks.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24609,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 7 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LCC",
+				"name": "La chips croustillante"
+			},
+			"scheduled": "2025-03-09T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Dragon Shire",
+					"won": false,
+					"status": "registered",
+					"matchId": "7e079a4be6778e809b8e5cb0311da6d3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/dfb/0a3/67cdfb0a380ac689017428.stormreplay",
+					"replayFile": "24609_G1_Dragon-Shire_vs-La-chips-croustillante.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "be3306e15e82aa7c75adca4b481614a0",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/dfb/1f1/67cdfb1f16983592018542.stormreplay",
+					"replayFile": "24609_G2_Infernal-Shrines_vs-La-chips-croustillante.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "aff82bd938ef45fda727d07c23d37f35",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67c/dfb/29e/67cdfb29e495d522849507.stormreplay",
+					"replayFile": "24609_G3_Towers-of-Doom_vs-La-chips-croustillante.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24702,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 8 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "NuTy",
+				"name": "Neo Unity"
+			},
+			"scheduled": "2025-03-16T19:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "18ee59eeef909bc4bf32443aa515541c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67d/731/6ab/67d7316abaf88955802144.stormreplay",
+					"replayFile": "24702_G1_Cursed-Hollow_vs-Neo-Unity.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "669093a62ba0946aa24e07caa703aa9d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67d/731/770/67d731770e3f9484194869.stormreplay",
+					"replayFile": "24702_G2_Garden-of-Terror_vs-Neo-Unity.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24764,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 9 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TW&CG",
+				"name": "CallOfTwilight"
+			},
+			"scheduled": "2025-03-20T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "6b9d9471586fa4cb835f386b5377e748",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67d/c67/c61/67dc67c61874a078205565.stormreplay",
+					"replayFile": "24764_G1_Infernal-Shrines_vs-CallOfTwilight.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "fe153b8f0cc48f2cdd192b0528c5cbb3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67d/c67/d18/67dc67d18fc64628950770.stormreplay",
+					"replayFile": "24764_G2_Garden-of-Terror_vs-CallOfTwilight.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 24886,
+			"event": "[EU] Season 26 - Division 3",
+			"title": "[EU] Season 26 Round 10 Division 3",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HG",
+				"name": "HaukiGaming"
+			},
+			"scheduled": "2025-03-31T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Cursed Hollow",
+					"won": false,
+					"status": "registered",
+					"matchId": "88553081dbdcc1148651771ab125be15",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67e/aee/58f/67eaee58f1a5d212111587.stormreplay",
+					"replayFile": "24886_G1_Cursed-Hollow_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "17a5436dc7265744c495b4857237c984",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67e/aee/674/67eaee67478a2341238151.stormreplay",
+					"replayFile": "24886_G2_Battlefield-of-Eternity_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "79cc4000686fb4d869ee6ecb18544fbe",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67e/aee/774/67eaee774638e880751124.stormreplay",
+					"replayFile": "24886_G3_Braxis-Holdout_vs-HaukiGaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25099,
+			"event": "[EU] Season 26 - Division 3 Cup",
+			"title": "[EU] Season 26 - Division 3 Cup Winner Bracket Round 1 - Match 4",
+			"season": "Season 26",
+			"seasonNumber": 26,
+			"division": "3",
+			"round": "Winner Bracket Round 1 - Match 4",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "TW&CG",
+				"name": "CallOfTwilight"
+			},
+			"scheduled": "2025-04-14T18:00:00+00:00",
+			"score": [
+				2,
+				3
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "76ec67aae834ef93d0bfeb56bdbad29d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67f/d71/6ed/67fd716edbaf4329027406.stormreplay",
+					"replayFile": "25099_G1_Infernal-Shrines_vs-CallOfTwilight.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "ff582370a623906582d39f871eea5b87",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67f/d71/794/67fd717945a93194754047.stormreplay",
+					"replayFile": "25099_G2_Battlefield-of-Eternity_vs-CallOfTwilight.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "5cbda3e2f4611b1279b291a62139ec4e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67f/d71/832/67fd718327bf0611185338.stormreplay",
+					"replayFile": "25099_G3_Towers-of-Doom_vs-CallOfTwilight.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "d08bc2c9707ab0eeb6f427678f4b1887",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67f/d71/8e9/67fd718e94311599338984.stormreplay",
+					"replayFile": "25099_G4_Braxis-Holdout_vs-CallOfTwilight.StormReplay"
+				},
+				{
+					"game": 5,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "e3213b4d56cbbe7d646a07eb33d38949",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/67f/d71/9a1/67fd719a1e9cc955063684.stormreplay",
+					"replayFile": "25099_G5_Alterac-Pass_vs-CallOfTwilight.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25306,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 1 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "BUF",
+				"name": "Brawl until Fall"
+			},
+			"scheduled": "2025-07-02T17:30:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "b2f20c0853bfa21bbfa104f5038575ff",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/587/e3d/686587e3d5a64007253298.stormreplay",
+					"replayFile": "25306_G1_Battlefield-of-Eternity_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "3542eb0047b8735ce7a79c12703a48ed",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/587/f19/686587f191127817478180.stormreplay",
+					"replayFile": "25306_G2_Infernal-Shrines_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "ee257957926f38b417b4a404fd64e440",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/587/fcb/686587fcba22f440314220.stormreplay",
+					"replayFile": "25306_G3_Tomb-of-the-Spider-Queen_vs-Brawl-until-Fall.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25350,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 2 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "RTH",
+				"name": "Release the Hydra"
+			},
+			"scheduled": "2025-07-03T17:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "8e45b8e02a62fa1756d6310c4b236add",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/6ce/837/6866ce8375d50436881147.stormreplay",
+					"replayFile": "25350_G1_Tomb-of-the-Spider-Queen_vs-Release-the-Hydra.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "3967e58c47b059eb53e3a76743fbc465",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/6ce/930/6866ce93057a8056886923.stormreplay",
+					"replayFile": "25350_G2_Battlefield-of-Eternity_vs-Release-the-Hydra.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25387,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 3 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "helheim",
+				"name": "Helheim"
+			},
+			"scheduled": "2025-07-09T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "f2287937f9d1fa67e16af7b99ce65676",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/ebe/dfb/686ebedfb0a8b685242808.stormreplay",
+					"replayFile": "25387_G1_Tomb-of-the-Spider-Queen_vs-Helheim.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/686/ebe/ebc/686ebeebcb918086384384.stormreplay",
+					"replayFile": "25387_G2_Cursed-Hollow_vs-Helheim.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25460,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 4 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "FAM",
+				"name": "FeelsAbzeerMan"
+			},
+			"scheduled": "2025-07-25T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "9805311f139c78630a6dd8efd7760386",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/3dd/3bc/6883dd3bc1b39891481841.stormreplay",
+					"replayFile": "25460_G1_Infernal-Shrines_vs-FeelsAbzeerMan.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "745aef7d0b2787529bfef96da381b380",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/3dd/600/6883dd6001ec5432774022.stormreplay",
+					"replayFile": "25460_G2_Alterac-Pass_vs-FeelsAbzeerMan.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25505,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 5 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Renaissance",
+				"name": "Renaissance"
+			},
+			"scheduled": "2025-07-30T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "8a1cbc4dca222c804011a5938e4bd955",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/a79/f19/688a79f19db4d667518931.stormreplay",
+					"replayFile": "25505_G1_Towers-of-Doom_vs-Renaissance.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "f1645bf4c2c6a9787b0f194577bf54cf",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/a79/fec/688a79fec851b515626837.stormreplay",
+					"replayFile": "25505_G2_Garden-of-Terror_vs-Renaissance.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25561,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 6 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "T7",
+				"name": "T7 Gaming"
+			},
+			"scheduled": "2025-07-28T19:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "1a2f78436fc249aca1412c140920cbfd",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/7d8/90e/6887d890e13d9622862405.stormreplay",
+					"replayFile": "25561_G1_Battlefield-of-Eternity_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "1c5f63465bde6487d2453a9d318d615f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/688/7d8/9ad/6887d89ad6389736877301.stormreplay",
+					"replayFile": "25561_G2_Infernal-Shrines_vs-T7-Gaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25604,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 7 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HTC",
+				"name": "Hit The Core"
+			},
+			"scheduled": "2025-08-11T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "c3b3c5f0ec04bc2211b7d2efc52dffe0",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/689/a3f/0a4/689a3f0a47645294649036.stormreplay",
+					"replayFile": "25604_G1_Infernal-Shrines_vs-Hit-The-Core.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "92f95545040c4ec5ad690545ccb25b7e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/689/a3f/15b/689a3f15b6330062685544.stormreplay",
+					"replayFile": "25604_G2_Garden-of-Terror_vs-Hit-The-Core.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25647,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 8 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Super%20Unstoppabros",
+				"name": "Super Unstoppabros"
+			},
+			"scheduled": "2025-08-18T17:30:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "a8c28557fb8621ad8561d8f4ec8002f2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68a/37c/a93/68a37ca93858b832989368.stormreplay",
+					"replayFile": "25647_G1_Alterac-Pass_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "e371ccf59bef1f2593e1f3805aa1b981",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68a/37c/d3a/68a37cd3aedc0973157564.stormreplay",
+					"replayFile": "25647_G2_Battlefield-of-Eternity_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "9ab47c7529ffbc5e0bf9e4fa0e14743c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68a/37c/df3/68a37cdf35245237641418.stormreplay",
+					"replayFile": "25647_G3_Infernal-Shrines_vs-Super-Unstoppabros.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25688,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 9 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "AFK",
+				"name": "AFK For Cocoa"
+			},
+			"scheduled": "2025-08-27T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "9311f96fbb83b9d4c3316eda746d41ec",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68a/f55/508/68af555087725127496967.stormreplay",
+					"replayFile": "25688_G1_Garden-of-Terror_vs-AFK-For-Cocoa.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "82c1695cf86a26dc5f10f4a0865c6676",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68a/f55/5c4/68af555c4ae3a083049503.stormreplay",
+					"replayFile": "25688_G2_Infernal-Shrines_vs-AFK-For-Cocoa.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25731,
+			"event": "[EU] Season 27 - Division 3",
+			"title": "[EU] Season 27 Round 10 Division 3",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LaS",
+				"name": "Lazer Sharks"
+			},
+			"scheduled": "2025-09-03T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "d37286f501c863b43f891aed639cf20e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68b/894/4a1/68b8944a14d06402937288.stormreplay",
+					"replayFile": "25731_G1_Infernal-Shrines_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "7530a7f36896bf1d51de2fcc93d2b116",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68b/894/562/68b89456243ad288385296.stormreplay",
+					"replayFile": "25731_G2_Garden-of-Terror_vs-Lazer-Sharks.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25764,
+			"event": "[EU] Season 27 - Division 3 Cup",
+			"title": "[EU] Season 27 - Division 3 Cup Winner Bracket Round 1 - Match 2",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Winner Bracket Round 1 - Match 2",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "T7",
+				"name": "T7 Gaming"
+			},
+			"scheduled": "2025-09-15T18:00:00+00:00",
+			"score": [
+				3,
+				1
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68c/873/d68/68c873d68838d778608179.stormreplay",
+					"replayFile": "25764_G1_Infernal-Shrines_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "309ca54636e7aeff10c52b2d2a3032a2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68c/873/ebd/68c873ebd439b786663448.stormreplay",
+					"replayFile": "25764_G2_Battlefield-of-Eternity_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "9f2542a62b8a47922c64376531677331",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68c/873/f99/68c873f99c8a2233688730.stormreplay",
+					"replayFile": "25764_G3_Garden-of-Terror_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "19620e629ecc1c67b620459768c82cf6",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68c/874/068/68c874068ce1e251933496.stormreplay",
+					"replayFile": "25764_G4_Alterac-Pass_vs-T7-Gaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25767,
+			"event": "[EU] Season 27 - Division 3 Cup",
+			"title": "[EU] Season 27 - Division 3 Cup Winner Bracket Round 2 - Match 1",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Winner Bracket Round 2 - Match 1",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "Super%20Unstoppabros",
+				"name": "Super Unstoppabros"
+			},
+			"scheduled": "2025-09-22T17:30:00+00:00",
+			"score": [
+				3,
+				2
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "99d2db38661543bdd7bec4c33378c922",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/1b0/66e/68d1b066e7947041606670.stormreplay",
+					"replayFile": "25767_G1_Infernal-Shrines_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "ef9ae21c221ebc622e9a3b3188be08c5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/1b0/7a4/68d1b07a4a113497045986.stormreplay",
+					"replayFile": "25767_G2_Alterac-Pass_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "1f47e9f3a8cee9518e4654671e251727",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/1b0/92e/68d1b092e5da3684788780.stormreplay",
+					"replayFile": "25767_G3_Battlefield-of-Eternity_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "7f521042cf216535d8bf77b9d8a9c9de",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/1b0/a3a/68d1b0a3a4d29022428375.stormreplay",
+					"replayFile": "25767_G4_Garden-of-Terror_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 5,
+					"map": "Volskaya Foundry",
+					"won": true,
+					"status": "registered",
+					"matchId": "cbd01b4704924a5cc1807bbecd9f32c4",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/1b0/aec/68d1b0aec2cb7591553517.stormreplay",
+					"replayFile": "25767_G5_Volskaya-Foundry_vs-Super-Unstoppabros.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25769,
+			"event": "[EU] Season 27 - Division 3 Cup",
+			"title": "[EU] Season 27 - Division 3 Cup Winner Bracket Round 3 - Match 1",
+			"season": "Season 27",
+			"seasonNumber": 27,
+			"division": "3",
+			"round": "Winner Bracket Round 3 - Match 1",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "BUF",
+				"name": "Brawl until Fall"
+			},
+			"scheduled": "2025-09-26T17:00:00+00:00",
+			"score": [
+				2,
+				3
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "e65dcc259a8e576df6f6967c0ea54871",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/7d5/69d/68d7d569db5cd892633394.stormreplay",
+					"replayFile": "25769_G1_Infernal-Shrines_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "085b5b84f83105f217a9272efa6245aa",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/7d5/94d/68d7d594da6c1312439080.stormreplay",
+					"replayFile": "25769_G2_Battlefield-of-Eternity_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "152cd24f326383f912cffab28864134e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/7d5/bc2/68d7d5bc20eb4050795878.stormreplay",
+					"replayFile": "25769_G3_Alterac-Pass_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Volskaya Foundry",
+					"won": false,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/7d5/e6a/68d7d5e6a227c077887467.stormreplay",
+					"replayFile": "25769_G4_Volskaya-Foundry_vs-Brawl-until-Fall.StormReplay"
+				},
+				{
+					"game": 5,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "24d75531be9ead02c6ae7edb50f1e9bc",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/68d/7d6/0a3/68d7d60a32af7220936727.stormreplay",
+					"replayFile": "25769_G5_Braxis-Holdout_vs-Brawl-until-Fall.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25845,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 1 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "RTH",
+				"name": "Release the Hydra"
+			},
+			"scheduled": "2025-10-30T19:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "367d4094c345997948a85622714ec4c9",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/690/3c6/e10/6903c6e10f73b514034769.stormreplay",
+					"replayFile": "25845_G1_Infernal-Shrines_vs-Release-the-Hydra.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "97aebbdbbdad36ae6bc400e215c0c8a7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/690/3c6/f6b/6903c6f6b4073035551970.stormreplay",
+					"replayFile": "25845_G2_Towers-of-Doom_vs-Release-the-Hydra.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25901,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 2 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Late",
+				"name": "Always Late"
+			},
+			"scheduled": "2025-11-03T19:30:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "6634d6b3092323ed333a6a51e9993ed7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/690/90f/c17/69090fc17bf01117469403.stormreplay",
+					"replayFile": "25901_G1_Infernal-Shrines_vs-Always-Late.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Tomb of the Spider Queen",
+					"won": false,
+					"status": "registered",
+					"matchId": "39197b346549bef68ade72ddf5ea4812",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/690/90f/cc5/69090fcc5e880170079781.stormreplay",
+					"replayFile": "25901_G2_Tomb-of-the-Spider-Queen_vs-Always-Late.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 25975,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 3 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "LaS",
+				"name": "Lazer Sharks"
+			},
+			"scheduled": "2025-11-12T19:15:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "registered",
+					"matchId": "435819550c52622fbf80a3f21f61b3e6",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/691/4f6/57a/6914f657a7bb6666357675.stormreplay",
+					"replayFile": "25975_G1_Dragon-Shire_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "1d9c22b15652b1c49b2326fb392baca5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/691/4f6/641/6914f66415732377485690.stormreplay",
+					"replayFile": "25975_G2_Alterac-Pass_vs-Lazer-Sharks.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "8b157211be43ba83eb8ad99518ba423c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/691/4f6/761/6914f676131a7064715382.stormreplay",
+					"replayFile": "25975_G3_Braxis-Holdout_vs-Lazer-Sharks.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26027,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 4 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "NuTy",
+				"name": "Neo Unity"
+			},
+			"scheduled": "2025-11-23T21:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "forfeit",
+			"games": []
+		},
+		{
+			"id": 26074,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 5 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Dutchmen",
+				"name": "The Trying Dutchmen"
+			},
+			"scheduled": "2025-11-27T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "63ebb0ecf5521216813f76615b0a7481",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/8aa/072/6928aa072ff56098717023.stormreplay",
+					"replayFile": "26074_G1_Infernal-Shrines_vs-The-Trying-Dutchmen.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "9baa1e99ed9ef9f02d46b2a82468442e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/8b3/5ed/6928b35edfd7b193254363.stormreplay",
+					"replayFile": "26074_G2_Battlefield-of-Eternity_vs-The-Trying-Dutchmen.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "3e4d7f56793de0e0aec3e2328f6af7db",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/8b8/f45/6928b8f455672513856935.stormreplay",
+					"replayFile": "26074_G3_Towers-of-Doom_vs-The-Trying-Dutchmen.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26119,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 6 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "GCG",
+				"name": "GigaChadGods"
+			},
+			"scheduled": "2025-11-26T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "55f30d7bb1c1286dcf715889c7f56c5a",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/764/d4d/692764d4d9bc9301895978.stormreplay",
+					"replayFile": "26119_G1_Battlefield-of-Eternity_vs-GigaChadGods.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "85fc365de85d1092b1476b2663e0bed9",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/764/e57/692764e571d97872282120.stormreplay",
+					"replayFile": "26119_G2_Garden-of-Terror_vs-GigaChadGods.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "2b8ea27f039d2d5f1e8a58cdd516f588",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/692/764/f55/692764f55762b376687922.stormreplay",
+					"replayFile": "26119_G3_Infernal-Shrines_vs-GigaChadGods.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26163,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 7 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "WNAH",
+				"name": "WhoNeedsAHeropool"
+			},
+			"scheduled": "2025-12-11T19:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "a4ccfacb29cc93e7d401894016d059dd",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/693/bfb/955/693bfb9557199674793334.stormreplay",
+					"replayFile": "26163_G1_Battlefield-of-Eternity_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "eb865807e27a10765480e34c695c0669",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/693/bfb/9fd/693bfb9fd6ae9022782638.stormreplay",
+					"replayFile": "26163_G2_Alterac-Pass_vs-WhoNeedsAHeropool.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26209,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 8 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "T7",
+				"name": "T7 Gaming"
+			},
+			"scheduled": "2025-12-18T19:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "52a21f515498b6593e9b4acd9281afbe",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/694/468/e75/694468e75740a108021086.stormreplay",
+					"replayFile": "26209_G1_Tomb-of-the-Spider-Queen_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "b4f85d8ed58cf6d2e9eda7b2a259a9dc",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/694/468/fc0/694468fc0f498394630716.stormreplay",
+					"replayFile": "26209_G2_Battlefield-of-Eternity_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "83808e5993135c07e2cab48e23b1f6eb",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/694/469/126/694469126061f133139389.stormreplay",
+					"replayFile": "26209_G3_Garden-of-Terror_vs-T7-Gaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26257,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 9 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HAC",
+				"name": "Hopium Academy"
+			},
+			"scheduled": "2026-01-04T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "2dff98160545f3f48d65999cb5dff10b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/695/ac3/a5c/695ac3a5c81e9169727048.stormreplay",
+					"replayFile": "26257_G1_Alterac-Pass_vs-Hopium-Academy.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "b437a836c11743cf0b8691aae556d421",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/695/ac3/ceb/695ac3ceb4624475576016.stormreplay",
+					"replayFile": "26257_G2_Infernal-Shrines_vs-Hopium-Academy.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Braxis Holdout",
+					"won": true,
+					"status": "registered",
+					"matchId": "48d47c00c22af9b41e3a7a9af56e035d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/695/ac3/e01/695ac3e01f9c9545329795.stormreplay",
+					"replayFile": "26257_G3_Braxis-Holdout_vs-Hopium-Academy.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26296,
+			"event": "[EU] Season 28 - Division 3",
+			"title": "[EU] Season 28 Round 10 Division 3",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "AFK",
+				"name": "AFK For Cocoa"
+			},
+			"scheduled": "2026-01-08T19:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "33b0796605eb86f9e1d21be9c6a0b4b0",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/696/014/bec/696014bec1d04828841299.stormreplay",
+					"replayFile": "26296_G1_Alterac-Pass_vs-AFK-For-Cocoa.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "a1180a1fb51abf2e3fe01ad001096495",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/696/014/c7a/696014c7a30d8798197642.stormreplay",
+					"replayFile": "26296_G2_Battlefield-of-Eternity_vs-AFK-For-Cocoa.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "f2f2b7db456a830a43918811a07098a2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/696/014/de6/696014de6b27c829111008.stormreplay",
+					"replayFile": "26296_G3_Infernal-Shrines_vs-AFK-For-Cocoa.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26351,
+			"event": "[EU] Season 28 - Division 3 Cup",
+			"title": "[EU] Season 28 - Division 3 Cup Winner Bracket Round 1 - Match 4",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Winner Bracket Round 1 - Match 4",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "Late",
+				"name": "Always Late"
+			},
+			"scheduled": "2026-01-21T19:00:00+00:00",
+			"score": [
+				3,
+				1
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "4c84b88380dc759ea377726b68895bee",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/144/e5e/697144e5edeae464263036.stormreplay",
+					"replayFile": "26351_G1_Battlefield-of-Eternity_vs-Always-Late.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "b7454f4038eb766374148d6656e4b1fa",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/144/f5b/697144f5bb9e6085914957.stormreplay",
+					"replayFile": "26351_G2_Garden-of-Terror_vs-Always-Late.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "fab7095eb745559c8e488bfce4f24aac",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/145/01d/69714501da57d237947608.stormreplay",
+					"replayFile": "26351_G3_Infernal-Shrines_vs-Always-Late.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Dragon Shire",
+					"won": true,
+					"status": "registered",
+					"matchId": "17a51d8ac0f1f25b96b59d34a0252728",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/145/126/6971451269db0305538909.stormreplay",
+					"replayFile": "26351_G4_Dragon-Shire_vs-Always-Late.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26353,
+			"event": "[EU] Season 28 - Division 3 Cup",
+			"title": "[EU] Season 28 - Division 3 Cup Winner Bracket Round 2 - Match 2",
+			"season": "Season 28",
+			"seasonNumber": 28,
+			"division": "3",
+			"round": "Winner Bracket Round 2 - Match 2",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "WNAH",
+				"name": "WhoNeedsAHeropool"
+			},
+			"scheduled": "2026-01-28T18:00:00+00:00",
+			"score": [
+				2,
+				3
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Volskaya Foundry",
+					"won": false,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/a7a/fa6/697a7afa60de3982298681.stormreplay",
+					"replayFile": "26353_G1_Volskaya-Foundry_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "f3fde59e276d965a034177514fb03329",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/a7b/070/697a7b07008b1149701846.stormreplay",
+					"replayFile": "26353_G2_Battlefield-of-Eternity_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "d61dfedbee77fb4969eb731b412ffac3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/a7b/147/697a7b14770ac657024334.stormreplay",
+					"replayFile": "26353_G3_Garden-of-Terror_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "fca4dc72f417efcf66f8bf351eddf809",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/a7b/1fc/697a7b1fc7c46840642917.stormreplay",
+					"replayFile": "26353_G4_Infernal-Shrines_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 5,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "23f389701fb69b8d161c745cc9623f5e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/697/a7b/2c5/697a7b2c56d2c609348930.stormreplay",
+					"replayFile": "26353_G5_Towers-of-Doom_vs-WhoNeedsAHeropool.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26423,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 1 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "T7",
+				"name": "T7 Gaming"
+			},
+			"scheduled": "2026-02-24T19:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "bcefcd0d44ab605f6a0253720be51b33",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/699/e09/8c0/699e098c0f4bf300859621.stormreplay",
+					"replayFile": "26423_G1_Infernal-Shrines_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "55a9f562f9dc6229f194078712236356",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/699/e09/992/699e099926379791559477.stormreplay",
+					"replayFile": "26423_G2_Battlefield-of-Eternity_vs-T7-Gaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26472,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 2 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DS-2",
+				"name": "Dirty Squad"
+			},
+			"scheduled": "2026-03-10T19:15:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "a48d1e33bb14756a5154b5d5573cc8e2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69b/081/9ed/69b0819edaf05239507439.stormreplay",
+					"replayFile": "26472_G1_Battlefield-of-Eternity_vs-Dirty-Squad.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "registered",
+					"matchId": "0d46e47efc8a3963025db14a749044a7",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69b/081/bfb/69b081bfbb6b1429025678.stormreplay",
+					"replayFile": "26472_G2_Alterac-Pass_vs-Dirty-Squad.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26523,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 3 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "OCQLP",
+				"name": "OnfaitCeQuelonpeut"
+			},
+			"scheduled": "2026-03-22T19:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "b5e349a52156bf4ea47b6e5614dd38e2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/052/cc7/69c052cc75b7b814494476.stormreplay",
+					"replayFile": "26523_G1_Infernal-Shrines_vs-OnfaitCeQuelonpeut.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "1b06240313739d45f84eab75ef14e238",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/052/de8/69c052de81d3f189691518.stormreplay",
+					"replayFile": "26523_G2_Battlefield-of-Eternity_vs-OnfaitCeQuelonpeut.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26575,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 4 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "HG",
+				"name": "HaukiGaming"
+			},
+			"scheduled": "2026-03-22T17:30:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "1eecaf766befdbd361f9089b9b017bbf",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/052/836/69c052836c5ac192539900.stormreplay",
+					"replayFile": "26575_G1_Towers-of-Doom_vs-HaukiGaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "51e778d39d70f7329a6759754e7a03d4",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/052/99c/69c05299c62f1167089050.stormreplay",
+					"replayFile": "26575_G2_Battlefield-of-Eternity_vs-HaukiGaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26621,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 5 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "WNT",
+				"name": "Washed & Tilted"
+			},
+			"scheduled": "2026-03-24T19:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "ed05b5c7939784f2dd55b9baa5cd65d3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/2ee/2a8/69c2ee2a8af11201435577.stormreplay",
+					"replayFile": "26621_G1_Towers-of-Doom_vs-Washed-Tilted.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Cursed Hollow",
+					"won": true,
+					"status": "registered",
+					"matchId": "6b7be7c4bd201cf68741b53716d2342d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/2ee/358/69c2ee358e346192212921.stormreplay",
+					"replayFile": "26621_G2_Cursed-Hollow_vs-Washed-Tilted.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26672,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 6 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "OI",
+				"name": "OLBRZYM IDZIE."
+			},
+			"scheduled": "2026-04-02T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "e2884c22effd3d24cb38345a05506228",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/ecd/e93/69cecde936928512887423.stormreplay",
+					"replayFile": "26672_G1_Infernal-Shrines_vs-OLBRZYM-IDZIE.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "ec98445798efbe08c6decb4ce7af371b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/ecd/f7b/69cecdf7b1d0e950802438.stormreplay",
+					"replayFile": "26672_G2_Towers-of-Doom_vs-OLBRZYM-IDZIE.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "f648b36f226d73f57cd108646f98bfaf",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69c/ece/078/69cece078ad0c190555821.stormreplay",
+					"replayFile": "26672_G3_Garden-of-Terror_vs-OLBRZYM-IDZIE.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26717,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 7 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "TS4SD",
+				"name": "Taco Supreme & the 4 Side dishes"
+			},
+			"scheduled": "2026-04-12T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "5626cad1a98e4dde879b9b2b11b80481",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69d/bfa/121/69dbfa1216cf0334340893.stormreplay",
+					"replayFile": "26717_G1_Battlefield-of-Eternity_vs-Taco-Supreme-the-4-Side-dishes.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "f75db7b3232916d1a8e64752bbbc6518",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69d/bfa/227/69dbfa2271f61890184889.stormreplay",
+					"replayFile": "26717_G2_Infernal-Shrines_vs-Taco-Supreme-the-4-Side-dishes.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Volskaya Foundry",
+					"won": true,
+					"status": "registered",
+					"matchId": "cbdc2cc5994cf2fc549306d9e085666f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69d/bfa/2dc/69dbfa2dc2116423936648.stormreplay",
+					"replayFile": "26717_G3_Volskaya-Foundry_vs-Taco-Supreme-the-4-Side-dishes.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26764,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 8 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Super%20Unstoppabros",
+				"name": "Super Unstoppabros"
+			},
+			"scheduled": "2026-04-19T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "f4ff978e1f7c0c4c1e0e9c108437076c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69e/52e/ab6/69e52eab67a08998342570.stormreplay",
+					"replayFile": "26764_G1_Battlefield-of-Eternity_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "e17a208696045fd37cf7c49407da7af8",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69e/52f/1d9/69e52f1d9a51c247429377.stormreplay",
+					"replayFile": "26764_G2_Alterac-Pass_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "107e25d4ab1a5ab33fe369af6a09b26b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69e/52f/296/69e52f296d3ae459906035.stormreplay",
+					"replayFile": "26764_G3_Infernal-Shrines_vs-Super-Unstoppabros.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26816,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 9 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "IBM",
+				"name": "Iberian Meta"
+			},
+			"scheduled": "2026-04-29T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "f466d7ee9921db25da15eca5580d50b6",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69f/25a/343/69f25a343e1ab592319154.stormreplay",
+					"replayFile": "26816_G1_Battlefield-of-Eternity_vs-Iberian-Meta.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "54207c8288031b3d6bdebfe07aacffc2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69f/25a/4ab/69f25a4abb8c3705246871.stormreplay",
+					"replayFile": "26816_G2_Infernal-Shrines_vs-Iberian-Meta.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26863,
+			"event": "[EU] Season 29 - Division 3",
+			"title": "[EU] Season 29 Round 10 Division 3",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DNF",
+				"name": "Diamonds Never Finish"
+			},
+			"scheduled": "2026-05-07T18:30:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "29bb69291e27ba59f93738600be609bb",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69f/cf3/9a5/69fcf39a572d5018430797.stormreplay",
+					"replayFile": "26863_G1_Towers-of-Doom_vs-Diamonds-Never-Finish.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "552883a44392c39184e256215d549f7b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69f/cf3/b3e/69fcf3b3e7be1589913938.stormreplay",
+					"replayFile": "26863_G2_Infernal-Shrines_vs-Diamonds-Never-Finish.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Alterac Pass",
+					"won": true,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/69f/cf3/bf0/69fcf3bf0000d753691467.stormreplay",
+					"replayFile": "26863_G3_Alterac-Pass_vs-Diamonds-Never-Finish.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26950,
+			"event": "[EU] Season 29 - Division 3 Cup",
+			"title": "[EU] Season 29 - Division 3 Cup Winner Bracket Round 1 - Match 4",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Winner Bracket Round 1 - Match 4",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "DNF",
+				"name": "Diamonds Never Finish"
+			},
+			"scheduled": "2026-05-13T19:00:00+00:00",
+			"score": [
+				3,
+				1
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "ca97896fac25042c9ccc20db14042a51",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/4f2/29c/6a04f229c6416417745563.stormreplay",
+					"replayFile": "26950_G1_Infernal-Shrines_vs-Diamonds-Never-Finish.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "f00f358970b1a45a24960e57460d599d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/4f2/376/6a04f2376113d484258628.stormreplay",
+					"replayFile": "26950_G2_Alterac-Pass_vs-Diamonds-Never-Finish.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "aae42fdc539c5fa9a995cd7cf79c761e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/4f2/43b/6a04f243baf96195742750.stormreplay",
+					"replayFile": "26950_G3_Towers-of-Doom_vs-Diamonds-Never-Finish.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Volskaya Foundry",
+					"won": true,
+					"status": "registered",
+					"matchId": "b5f43ed5a444f2bdee9b54fdeddc38c3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/4f2/4f0/6a04f24f0b801377925388.stormreplay",
+					"replayFile": "26950_G4_Volskaya-Foundry_vs-Diamonds-Never-Finish.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26952,
+			"event": "[EU] Season 29 - Division 3 Cup",
+			"title": "[EU] Season 29 - Division 3 Cup Winner Bracket Round 2 - Match 2",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Winner Bracket Round 2 - Match 2",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "Super%20Unstoppabros",
+				"name": "Super Unstoppabros"
+			},
+			"scheduled": "2026-05-20T18:00:00+00:00",
+			"score": [
+				3,
+				1
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Sky Temple",
+					"won": true,
+					"status": "registered",
+					"matchId": "c6a081d9ed07381cac3e8b480e82c0de",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/e1c/20e/6a0e1c20e2522791661166.stormreplay",
+					"replayFile": "26952_G1_Sky-Temple_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "6f6a05b7363a9cfa4e050e218cac331b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/e1c/2c0/6a0e1c2c0e52f832410757.stormreplay",
+					"replayFile": "26952_G2_Infernal-Shrines_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "ef1be135f59580fbf98562efaef7e85b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/e1c/395/6a0e1c395853c246620211.stormreplay",
+					"replayFile": "26952_G3_Battlefield-of-Eternity_vs-Super-Unstoppabros.StormReplay"
+				},
+				{
+					"game": 4,
+					"map": "Garden of Terror",
+					"won": true,
+					"status": "registered",
+					"matchId": "626c2483c77fdfdf0cfeedc6e43e792b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a0/e1c/445/6a0e1c44591fa733764442.stormreplay",
+					"replayFile": "26952_G4_Garden-of-Terror_vs-Super-Unstoppabros.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 26953,
+			"event": "[EU] Season 29 - Division 3 Cup",
+			"title": "[EU] Season 29 - Division 3 Cup Winner Bracket Round 3 - Match 1",
+			"season": "Season 29",
+			"seasonNumber": 29,
+			"division": "3",
+			"round": "Winner Bracket Round 3 - Match 1",
+			"stage": "bracket",
+			"opponent": {
+				"slug": "OI",
+				"name": "OLBRZYM IDZIE."
+			},
+			"scheduled": "2026-05-29T17:00:00+00:00",
+			"score": [
+				0,
+				3
+			],
+			"bestOf": 5,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "rejected",
+					"reason": "unparseable",
+					"matchId": null,
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a1/9ce/a43/6a19cea43da00698891630.stormreplay",
+					"replayFile": "26953_G1_Battlefield-of-Eternity_vs-OLBRZYM-IDZIE.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "3f4209869ec12eacde91f458d937a847",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a1/9d8/74e/6a19d874e8ce9817800575.stormreplay",
+					"replayFile": "26953_G2_Garden-of-Terror_vs-OLBRZYM-IDZIE.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "086b996db3a5b7044a77c66e3f9ff36f",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a1/9df/21c/6a19df21c0886733552644.stormreplay",
+					"replayFile": "26953_G3_Infernal-Shrines_vs-OLBRZYM-IDZIE.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27011,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 1 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 1",
+			"stage": "regular",
+			"opponent": {
+				"slug": "DS-2",
+				"name": "Dirty Squad"
+			},
+			"scheduled": "2026-06-30T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "b1af919aabb5fdc34bcd4704cccaae73",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/41b/3d8/6a441b3d837cb108160008.stormreplay",
+					"replayFile": "27011_G1_Infernal-Shrines_vs-Dirty-Squad.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "f2ed5b1ed720e8cee935592749907dd6",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/41b/49b/6a441b49b0139065982440.stormreplay",
+					"replayFile": "27011_G2_Battlefield-of-Eternity_vs-Dirty-Squad.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "38b4c80c7efbb2a35eac24b783d30443",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/41b/542/6a441b5429731884814382.stormreplay",
+					"replayFile": "27011_G3_Towers-of-Doom_vs-Dirty-Squad.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27052,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 2 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 2",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Plot",
+				"name": "For the Plot"
+			},
+			"scheduled": "2026-07-08T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "5b283d16bba5fb583a922f578c5cfa44",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/eb1/8f7/6a4eb18f76314475111343.stormreplay",
+					"replayFile": "27052_G1_Infernal-Shrines_vs-For-the-Plot.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Braxis Holdout",
+					"won": false,
+					"status": "registered",
+					"matchId": "13c2cd908930bf70bd477f162fddfa3c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/eb1/9a8/6a4eb19a8b75c155302911.stormreplay",
+					"replayFile": "27052_G2_Braxis-Holdout_vs-For-the-Plot.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "e470630ecc74d4dd68b4af5e746e05fc",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a4/eb1/a79/6a4eb1a797486087695256.stormreplay",
+					"replayFile": "27052_G3_Battlefield-of-Eternity_vs-For-the-Plot.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27098,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 3 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 3",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Booty%20call",
+				"name": "Blackheart's Booty Call"
+			},
+			"scheduled": "2026-07-14T18:00:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "b7ee2447d07e06dd43211a71f567fab3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a5/691/276/6a56912767fec138619438.stormreplay",
+					"replayFile": "27098_G1_Towers-of-Doom_vs-Blackheart-s-Booty-Call.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "b14b6fa74debb59fac3fe993ec1cc6a3",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a5/691/339/6a56913396055167921806.stormreplay",
+					"replayFile": "27098_G2_Infernal-Shrines_vs-Blackheart-s-Booty-Call.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "73bfe9dd645e70611585d1e1329ebd2b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a5/691/403/6a56914035953161835603.stormreplay",
+					"replayFile": "27098_G3_Tomb-of-the-Spider-Queen_vs-Blackheart-s-Booty-Call.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27141,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 4 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 4",
+			"stage": "regular",
+			"opponent": {
+				"slug": "OI",
+				"name": "OLBRZYM IDZIE."
+			},
+			"scheduled": "2026-07-21T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "b9b0510b8e24a9bffac1ae1d75ead2fd",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a5/fc3/423/6a5fc3423a9d0334764949.stormreplay",
+					"replayFile": "27141_G1_Alterac-Pass_vs-OLBRZYM-IDZIE.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "748970a4b4496e3d0acfe40b8fdd5232",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a5/fc3/4c5/6a5fc34c58c4f765833551.stormreplay",
+					"replayFile": "27141_G2_Garden-of-Terror_vs-OLBRZYM-IDZIE.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27185,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 5 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 5",
+			"stage": "regular",
+			"opponent": {
+				"slug": "WNAH",
+				"name": "WhoNeedsAHeropool"
+			},
+			"scheduled": "2026-08-02T15:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": true,
+					"status": "registered",
+					"matchId": "20c8a9ab212c3a717c1f82074bbe0886",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a6/f70/af7/6a6f70af7c4b1416545621.stormreplay",
+					"replayFile": "27185_G1_Battlefield-of-Eternity_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "0d47d75718f191b29342ea46f12ed6b5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a6/f70/ba0/6a6f70ba0ba50479943012.stormreplay",
+					"replayFile": "27185_G2_Alterac-Pass_vs-WhoNeedsAHeropool.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": false,
+					"status": "registered",
+					"matchId": "2ecb243ade9fd43d6178da4e211d00a2",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a6/f70/ca6/6a6f70ca63d29180260304.stormreplay",
+					"replayFile": "27185_G3_Infernal-Shrines_vs-WhoNeedsAHeropool.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27231,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 6 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 6",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Quack",
+				"name": "Quack Team"
+			},
+			"scheduled": "2026-08-05T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "46c85a4cf5187594b17dc00b881f0bf4",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a7/3a0/cc0/6a73a0cc0d629573530129.stormreplay",
+					"replayFile": "27231_G1_Infernal-Shrines_vs-Quack-Team.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "ad8c637be013f1ae63a030af3c4ddf75",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a7/3a0/da5/6a73a0da57191498475189.stormreplay",
+					"replayFile": "27231_G2_Battlefield-of-Eternity_vs-Quack-Team.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Towers of Doom",
+					"won": false,
+					"status": "registered",
+					"matchId": "0b8c0d440858d91578d0ba62e7226861",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a7/3a0/eb9/6a73a0eb921bf672420374.stormreplay",
+					"replayFile": "27231_G3_Towers-of-Doom_vs-Quack-Team.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27276,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 7 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 7",
+			"stage": "regular",
+			"opponent": {
+				"slug": "AH",
+				"name": "Apes Hunters"
+			},
+			"scheduled": "2026-08-16T18:00:00+00:00",
+			"score": [
+				1,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "389c1cf236dc9b94ace11c2c63720d3c",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/225/4f8/6a82254f83d5f708902257.stormreplay",
+					"replayFile": "27276_G1_Garden-of-Terror_vs-Apes-Hunters.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "e86f659386c18546d7f390746176e6b5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/225/594/6a8225594648c582746625.stormreplay",
+					"replayFile": "27276_G2_Battlefield-of-Eternity_vs-Apes-Hunters.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": null,
+					"won": true,
+					"status": "no-replay",
+					"matchId": null,
+					"replayUrl": null,
+					"replayFile": null
+				}
+			]
+		},
+		{
+			"id": 27319,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 8 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 8",
+			"stage": "regular",
+			"opponent": {
+				"slug": "Snack",
+				"name": "Snack Attack"
+			},
+			"scheduled": "2026-08-17T17:30:00+00:00",
+			"score": [
+				2,
+				1
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Battlefield of Eternity",
+					"won": false,
+					"status": "registered",
+					"matchId": "6b628c3406b2e07f0b0dc1910dedc0fa",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/35e/0bb/6a835e0bbacb5655166621.stormreplay",
+					"replayFile": "27319_G1_Battlefield-of-Eternity_vs-Snack-Attack.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Towers of Doom",
+					"won": true,
+					"status": "registered",
+					"matchId": "4786a28de10ca5d7292beef19477689d",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/35e/192/6a835e1921f03154527769.stormreplay",
+					"replayFile": "27319_G2_Towers-of-Doom_vs-Snack-Attack.StormReplay"
+				},
+				{
+					"game": 3,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "317b6e6ac22526f788892759ea3316a5",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/35e/23c/6a835e23c4849838715275.stormreplay",
+					"replayFile": "27319_G3_Infernal-Shrines_vs-Snack-Attack.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27359,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 9 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 9",
+			"stage": "regular",
+			"opponent": {
+				"slug": "T7",
+				"name": "T7 Gaming"
+			},
+			"scheduled": "2026-08-25T18:00:00+00:00",
+			"score": [
+				2,
+				0
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Tomb of the Spider Queen",
+					"won": true,
+					"status": "registered",
+					"matchId": "698fcce90636dd2c9910845f4d844260",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/deb/527/6a8deb5277f73039241323.stormreplay",
+					"replayFile": "27359_G1_Tomb-of-the-Spider-Queen_vs-T7-Gaming.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Infernal Shrines",
+					"won": true,
+					"status": "registered",
+					"matchId": "c2b501f7363e46aebd9073edba44d72e",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a8/deb/5fd/6a8deb5fdd4dc305399343.stormreplay",
+					"replayFile": "27359_G2_Infernal-Shrines_vs-T7-Gaming.StormReplay"
+				}
+			]
+		},
+		{
+			"id": 27399,
+			"event": "[EU] Season 30 - Division 2",
+			"title": "[EU] Season 30 Round 10 Division 2",
+			"season": "Season 30",
+			"seasonNumber": 30,
+			"division": "2",
+			"round": "Round 10",
+			"stage": "regular",
+			"opponent": {
+				"slug": "RGA",
+				"name": "Ruby Goose Agents"
+			},
+			"scheduled": "2026-09-03T18:00:00+00:00",
+			"score": [
+				0,
+				2
+			],
+			"bestOf": 3,
+			"status": "played",
+			"games": [
+				{
+					"game": 1,
+					"map": "Alterac Pass",
+					"won": false,
+					"status": "registered",
+					"matchId": "e52207cf03fbddd68165929b26bdf234",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/ddc/6a99c1ddcf066862094303.stormreplay",
+					"replayFile": "27399_G1_Alterac-Pass_vs-Ruby-Goose-Agents.StormReplay"
+				},
+				{
+					"game": 2,
+					"map": "Garden of Terror",
+					"won": false,
+					"status": "registered",
+					"matchId": "a0cf5fa10a145aed77f82610681c253b",
+					"replayUrl": "https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/f44/6a99c1f4447c2725094939.stormreplay",
+					"replayFile": "27399_G2_Garden-of-Terror_vs-Ruby-Goose-Agents.StormReplay"
+				}
+			]
+		}
+	]
+}

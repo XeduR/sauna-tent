@@ -536,6 +536,21 @@ th.num {
 	font-size: 0.9rem;
 }
 
+/* Lounge mode: season and series grouping on the Matches page */
+.lounge-season {
+	margin-top: 2.5rem;
+}
+
+.lounge-series {
+	margin-bottom: 1.5rem;
+}
+
+.lounge-series-heading {
+	font-size: 0.95rem;
+	font-weight: 400;
+	margin-bottom: 0.5rem;
+}
+
 
 /* Player cards */
 .player-card {
@@ -717,6 +732,14 @@ th.num {
 }
 
 .text-muted {
+	color: var(--text-muted);
+}
+
+.match-row-missing td {
+	font-style: italic;
+}
+
+.match-row-missing td:not(.win):not(.loss) {
 	color: var(--text-muted);
 }
 
@@ -2341,7 +2364,7 @@ tfoot {
 	margin-top: 1.5rem;
 }
 
-/* Popularity charts */
+/* Charts */
 .chart-container {
 	position: relative;
 	aspect-ratio: 2 / 1;
@@ -2350,4 +2373,11 @@ tfoot {
 	border-radius: var(--radius);
 	padding: 1rem;
 	margin-bottom: 1.5rem;
+}
+
+/* A short chart would be too cramped on phones, so it shrinks only on wider screens */
+@media (min-width: 769px) {
+	.chart-container-short {
+		aspect-ratio: 3 / 1;
+	}
 }

@@ -71,7 +71,7 @@ var DraftView = (function() {
 			mapSet[rawMatchIndex[i].map] = true;
 		}
 		var maps = Object.keys(mapSet).sort();
-		if (filters.mode === "StormLeague") {
+		if (filters.mode === "StormLeague" || filters.mode === "Lounge") {
 			return maps.filter(function(m) { return aramMaps.indexOf(m) === -1; });
 		}
 		return maps;
@@ -512,7 +512,7 @@ var DraftView = (function() {
 			mode: true,
 			modeOptions: [
 				{ value: "StormLeague", label: "Storm League" },
-				{ value: "Custom", label: "Custom" }
+				{ value: "Lounge", label: "Lounge" }
 			],
 			mapOptions: getAvailableMaps(),
 			dateFrom: true, dateTo: true

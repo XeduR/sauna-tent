@@ -4,13 +4,15 @@ var Data = (function() {
 	var pending = {};
 	var BASE = "data";
 
-	async function fetchJSON(path) {
-		if (cache[path]) return cache[path];
+	// allowMissing resolves null on 404 for files that legitimately may not exist yet.
+	async function fetchJSON(path, allowMissing) {
+		if (cache.hasOwnProperty(path)) return cache[path];
 
 		if (pending[path]) return pending[path];
 
 		pending[path] = fetch(`${BASE}/${path}`)
 			.then(function(res) {
+				if (allowMissing && res.status === 404) return null;
 				if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
 				return res.json();
 			})
@@ -76,6 +78,10 @@ var Data = (function() {
 		return fetchJSON("seasons.json");
 	}
 
+	function lounge() {
+		return fetchJSON("lounge.json", true);
+	}
+
 	function settings() {
 		return fetchJSON("settings.json").then(function(data) {
 			window.AppSettings = data;
@@ -91,6 +97,7 @@ var Data = (function() {
 		map: map,
 		matchIndex: matchIndex,
 		match: match,
+		lounge: lounge,
 		heroColors: heroColors,
 		talentNames: talentNames,
 		talentDescriptions: talentDescriptions,

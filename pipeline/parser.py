@@ -7,6 +7,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 
 from pipeline.herodata import HERO_NAMES, MAP_NAMES, ARAM_MAP_IDS
@@ -14,6 +15,7 @@ from pipeline.toxicity import is_toxic
 
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TOOL_COMMAND = "heroes-replay-parser-cs"
+SIDECAR_TIMEOUT_SECONDS = 120
 _PARSER_SOURCE_DIR = os.path.join(_PROJECT_ROOT, "tools", "replay-parser-cs")
 _NUPKG_DIR = os.path.join(_PARSER_SOURCE_DIR, "nupkg")
 _CSPROJ_PATH = os.path.join(_PARSER_SOURCE_DIR, "HeroesReplayParserCs.csproj")
@@ -231,12 +233,25 @@ def ensure_parser_available(non_interactive: bool = False) -> None:
 		)
 
 
-def _run_sidecar(replay_path: str) -> dict:
+def _kill_process_tree(proc: subprocess.Popen) -> None:
+	if os.name == "posix":
+		try:
+			os.killpg(proc.pid, signal.SIGKILL)
+		except ProcessLookupError:
+			pass
+	else:
+		proc.kill()
+
+
+def _run_sidecar(replay_path: str, timeout: float = SIDECAR_TIMEOUT_SECONDS, command: list[str] | None = None) -> dict:
 	"""Invoke the C# sidecar and return its JSON output as a dict."""
+	argv = command if command is not None else [_TOOL_COMMAND, replay_path]
 	try:
-		proc = subprocess.run(
-			[_TOOL_COMMAND, replay_path],
-			capture_output=True, text=True, encoding="utf-8",
+		# A new session lets a timeout kill the whole process group, not just the shim.
+		proc = subprocess.Popen(
+			argv,
+			stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8",
+			start_new_session=os.name == "posix",
 		)
 	except FileNotFoundError as e:
 		# Environment fault, not a bad replay: SystemExit aborts the run instead
@@ -246,13 +261,20 @@ def _run_sidecar(replay_path: str) -> dict:
 			f"ERROR: '{_TOOL_COMMAND}' was not found on PATH.\n\n" + _TOOL_PATH_GUIDANCE
 		) from e
 
+	try:
+		stdout, stderr = proc.communicate(timeout=timeout)
+	except subprocess.TimeoutExpired:
+		_kill_process_tree(proc)
+		proc.communicate()
+		raise ValueError("Replay parser timed out")
+
 	if proc.returncode != 0:
 		raise ValueError(
-			f"Replay parser failed (exit {proc.returncode}): {proc.stderr.strip()}"
+			f"Replay parser failed (exit {proc.returncode}): {stderr.strip()}"
 		)
 
 	try:
-		return json.loads(proc.stdout)
+		return json.loads(stdout)
 	except json.JSONDecodeError as e:
 		raise ValueError(f"Replay parser emitted invalid JSON: {e}") from e
 

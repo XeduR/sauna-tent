@@ -526,9 +526,9 @@ var PlayerView = (function() {
 	}
 
 	function renderPlayerChatStats(playerMatches) {
-		if (filters.mode === "Custom") {
+		if (isCustomMode(filters.mode)) {
 			return '<h2 class="section-title">Chat Statistics</h2>' +
-				'<div class="text-muted">Chat win rate correlation is not available for Custom games.</div>';
+				'<div class="text-muted">Chat win rate correlation is not available for Lounge games.</div>';
 		}
 
 		var chatStats = MatchIndexUtils.computeChatStats(playerMatches);

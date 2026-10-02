@@ -217,6 +217,37 @@ var MatchView = (function() {
 		return html;
 	}
 
+	// Registered Lounge match containing this replay, or null.
+	function findLoungeMatch(registry, matchId) {
+		if (!registry || !registry.matches) return null;
+		for (var i = 0; i < registry.matches.length; i++) {
+			var games = registry.matches[i].games || [];
+			for (var j = 0; j < games.length; j++) {
+				if (games[j].matchId === matchId && games[j].status === "registered") return registry.matches[i];
+			}
+		}
+		return null;
+	}
+
+	function buildLoungeLink(loungeMatch) {
+		var parts = [];
+		if (loungeMatch.season) parts.push(loungeMatch.season);
+		if (loungeMatch.round) parts.push(loungeMatch.round);
+		var text = parts.length > 0 ? parts.join(", ") : "Heroes Lounge match";
+		return '<a href="https://heroeslounge.gg/match/view/' + encodeURIComponent(String(loungeMatch.id)) +
+			'" target="_blank" rel="nofollow noopener" class="external-link">' + escapeHtml(text) + '</a>';
+	}
+
+	// The registry is optional enrichment, so its failure must never fail the match page.
+	async function loadLoungeMatch(matchId) {
+		try {
+			return findLoungeMatch(await Data.lounge(), matchId);
+		} catch (err) {
+			console.error("Heroes Lounge registry unavailable:", err);
+			return null;
+		}
+	}
+
 	async function render(id) {
 		var app = document.getElementById("app");
 		app.innerHTML = '<div class="loading">Loading match...</div>';
@@ -226,6 +257,13 @@ var MatchView = (function() {
 			var data = results[0];
 			var roster = results[1];
 			talentData = { names: results[2], descriptions: results[3] };
+
+			var loungeMatch = null;
+			// Match files carry the raw replay mode (CustomDraft) where the index says Custom.
+			if (data.gameMode === "Custom" || data.gameMode === "CustomDraft") {
+				loungeMatch = await loadLoungeMatch(data.matchId || id);
+			}
+			var modeName = loungeMatch ? displayModeName("Lounge") : displayModeName(data.gameMode);
 
 			// Build roster name to slug lookup (includes alts for clickable links)
 			var rosterLookup = {};
@@ -297,7 +335,8 @@ var MatchView = (function() {
 				'<h1><a href="' + appLink('/map/' + mapSlug) + '">' + escapeHtml(displayMapName(data.map)) + '</a></h1>' +
 				'<div class="subtitle">' +
 				escapeHtml(formatDate(data.timestamp)) +
-				' | ' + escapeHtml(displayModeName(data.gameMode)) +
+				' | ' + escapeHtml(modeName) +
+				(loungeMatch ? ' | ' + buildLoungeLink(loungeMatch) : '') +
 				' | ' + formatDuration(data.durationSeconds) +
 				' | Build ' + data.build +
 				' | <span class="' + resultClass + '">' + escapeHtml(resultText) + '</span>' +
@@ -306,7 +345,7 @@ var MatchView = (function() {
 			// Stat summary boxes
 			html += '<div class="stat-row">';
 			html += statBox("Map", '<a href="' + appLink('/map/' + mapSlug) + '">' + escapeHtml(displayMapName(data.map)) + '</a>');
-			html += statBox("Mode", escapeHtml(displayModeName(data.gameMode)));
+			html += statBox("Mode", escapeHtml(modeName));
 			html += statBox("Duration", formatDuration(data.durationSeconds));
 			html += statBox("Date", formatDateFinnish(data.timestamp));
 			html += '</div>';

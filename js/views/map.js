@@ -231,8 +231,8 @@ var MapView = (function() {
 
 		var isAram = !!ARAM_MAPS[mapName];
 		var modeOptions = isAram
-			? [{ value: "ARAM", label: "ARAM" }, { value: "Custom", label: "Custom" }]
-			: [{ value: "StormLeague", label: "Storm League" }, { value: "Custom", label: "Custom" }];
+			? [{ value: "ARAM", label: "ARAM" }]
+			: [{ value: "StormLeague", label: "Storm League" }, { value: "Lounge", label: "Lounge" }];
 
 		html += buildPageFilterBar(filters, {
 			mode: true, modeOptions: modeOptions, partySize: true, dateFrom: true, dateTo: true, minGames: true
@@ -327,7 +327,7 @@ var MapView = (function() {
 			currentWrl = StandardTable.readWrlFromURL();
 			if (filters.mode) {
 				var isAram = !!ARAM_MAPS[mapName];
-				if (isAram && filters.mode === "StormLeague") filters.mode = "";
+				if (isAram && (filters.mode === "StormLeague" || filters.mode === "Lounge")) filters.mode = "";
 				if (!isAram && filters.mode === "ARAM") filters.mode = "";
 			}
 			renderContent();

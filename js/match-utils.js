@@ -3,6 +3,13 @@
 // stats from the cached match index rather than pre-computed aggregates.
 
 var MatchIndexUtils = (function() {
+	// Lounge games are stamped Custom games, so "Custom" still matches them.
+	function matchesMode(entry, mode) {
+		if (!mode) return true;
+		if (mode === "Lounge") return !!entry.lounge;
+		return entry.gameMode === mode;
+	}
+
 	// Filter match index entries by criteria.
 	// Supported keys: noAlts, mode, map, dateFrom, dateTo, seasons, partySize.
 	// noAlts defaults to window.GlobalFilters.getNoAlts() when not explicitly set.
@@ -33,7 +40,7 @@ var MatchIndexUtils = (function() {
 		for (var i = 0; i < matches.length; i++) {
 			var m = matches[i];
 			if (noAlts && m.hasAlt) continue;
-			if (filters.mode && m.gameMode !== filters.mode) continue;
+			if (!matchesMode(m, filters.mode)) continue;
 			if (filters.map && m.map !== filters.map) continue;
 			if (filters.dateFrom && m.timestamp.substring(0, 10) < filters.dateFrom) continue;
 			if (filters.dateTo && m.timestamp.substring(0, 10) > filters.dateTo) continue;
@@ -299,7 +306,7 @@ var MatchIndexUtils = (function() {
 		var counterKillWindow = AppSettings.matchFactors.counterKillWindowSeconds;
 		var firstBoss = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
 		var firstMerc = { got: { games: 0, wins: 0 }, gave: { games: 0, wins: 0 } };
-		// Heroes Lounge: Custom games only - firstPick means roster drafted first, mapPick means roster chose the map instead
+		// Heroes Lounge: registered Lounge games only - firstPick means roster drafted first, mapPick means roster chose the map instead
 		var loungePick = { mapPick: { games: 0, wins: 0 }, firstPick: { games: 0, wins: 0 } };
 		var tiers = ["4", "7", "10", "13", "16", "20"];
 		var levelLead = {};
@@ -681,6 +688,7 @@ var MatchIndexUtils = (function() {
 	}
 
 	return {
+		matchesMode: matchesMode,
 		filter: filter,
 		groupByPlayer: groupByPlayer,
 		groupByHero: groupByHero,

@@ -8,8 +8,20 @@ var MatchesView = (function() {
 	var currentPage = 0;
 	var aramMaps = [];
 	var filterOptions = { heroes: [], maps: [], modes: [] };
+	var loungeRegistry = null;
+	var loungeRegistryFailed = false;
+	var loungeRegistryById = {};
+	var loungeIndexedGames = {};
 
 	var TOTAL_ROSTER = 6;
+
+	var SERIES_PATH_ROWS = [
+		{ label: "Game 1", game: 1, prior: [] },
+		{ label: "Game 2 after winning game 1", game: 2, prior: ["win"] },
+		{ label: "Game 2 after losing game 1", game: 2, prior: ["loss"] },
+		{ label: "Game 3 after win-loss", game: 3, prior: ["win", "loss"] },
+		{ label: "Game 3 after loss-win", game: 3, prior: ["loss", "win"] }
+	];
 
 	function defaultFilters() {
 		return {
@@ -32,10 +44,13 @@ var MatchesView = (function() {
 		var heroSet = {};
 		var mapSet = {};
 		var modeSet = {};
+		var hasLounge = false;
 		for (var i = 0; i < matches.length; i++) {
 			var m = matches[i];
 			mapSet[m.map] = true;
-			modeSet[m.gameMode] = true;
+			// Custom games surface only as the Lounge option.
+			if (m.gameMode !== "Custom") modeSet[m.gameMode] = true;
+			if (m.lounge) hasLounge = true;
 			for (var t in m.teams) {
 				for (var j = 0; j < m.teams[t].length; j++) {
 					heroSet[m.teams[t][j].hero] = true;
@@ -45,6 +60,34 @@ var MatchesView = (function() {
 		filterOptions.heroes = Object.keys(heroSet).sort();
 		filterOptions.maps = Object.keys(mapSet).sort();
 		filterOptions.modes = Object.keys(modeSet).sort();
+		if (hasLounge) filterOptions.modes = withLoungeMode(filterOptions.modes);
+	}
+
+	function withLoungeMode(modes) {
+		if (modes.indexOf("Lounge") !== -1) return modes;
+		return modes.concat(["Lounge"]);
+	}
+
+	function indexLoungeData(matches, registry) {
+		loungeRegistry = registry;
+		loungeRegistryById = {};
+		loungeIndexedGames = {};
+		if (registry && registry.matches) {
+			for (var i = 0; i < registry.matches.length; i++) {
+				loungeRegistryById[registry.matches[i].id] = registry.matches[i];
+			}
+		}
+
+		for (var j = 0; j < matches.length; j++) {
+			var stamp = matches[j].lounge;
+			if (!stamp) continue;
+			if (!loungeIndexedGames[stamp.id]) loungeIndexedGames[stamp.id] = {};
+			loungeIndexedGames[stamp.id][stamp.game] = true;
+		}
+	}
+
+	function displayEntryMode(m) {
+		return m.lounge ? "Lounge" : displayModeName(m.gameMode);
 	}
 
 	// --- Filter logic ---
@@ -155,7 +198,7 @@ var MatchesView = (function() {
 	function getSortValue(m, key) {
 		if (key === "timestamp") return m.timestamp;
 		if (key === "map") return m.map;
-		if (key === "gameMode") return displayModeName(m.gameMode);
+		if (key === "gameMode") return displayEntryMode(m);
 		if (key === "duration") return m.durationSeconds;
 		if (key === "result") return m.result;
 		if (key === "partySize") {
@@ -267,25 +310,19 @@ var MatchesView = (function() {
 		if (filters.mode === "ARAM") {
 			return filterOptions.maps.filter(function(m) { return aramMaps.indexOf(m) !== -1; });
 		}
-		if (filters.mode === "StormLeague") {
+		if (filters.mode === "StormLeague" || filters.mode === "Lounge") {
 			return filterOptions.maps.filter(function(m) { return aramMaps.indexOf(m) === -1; });
 		}
 		return filterOptions.maps;
 	}
 
 	function getPartyRange() {
-		var min = Math.max(1, filters.players.include.length);
+		var min = Math.max(isCustomMode(filters.mode) ? CUSTOM_MIN_PARTY_SIZE : 1, filters.players.include.length);
 		var max = Math.min(5, TOTAL_ROSTER - filters.players.exclude.length);
 		return { min: min, max: max };
 	}
 
 	function buildPartySelect() {
-		if (filters.mode === "Custom") {
-			filters.partySize = "5";
-			return '<div class="filter-field">' +
-				'<label>Party Size</label>' +
-				'<select id="filter-party" disabled title="Custom games only support 5-stacks"><option value="5" selected>5-stack</option></select></div>';
-		}
 		var range = getPartyRange();
 		var options = [];
 		for (var s = range.min; s <= range.max; s++) {
@@ -309,9 +346,11 @@ var MatchesView = (function() {
 		html += '<div class="filter-bar-section">' +
 			'<div class="filter-bar-heading">General</div>';
 
+		// Before the first intake no entry is stamped, yet m=Lounge must still show as selected.
+		var modes = filters.mode === "Lounge" ? withLoungeMode(filterOptions.modes) : filterOptions.modes;
 		var modeOptions = [];
-		for (var i = 0; i < filterOptions.modes.length; i++) {
-			var raw = filterOptions.modes[i];
+		for (var i = 0; i < modes.length; i++) {
+			var raw = modes[i];
 			modeOptions.push({ value: raw, text: displayModeName(raw) });
 		}
 
@@ -404,61 +443,70 @@ var MatchesView = (function() {
 
 	// --- Table ---
 
+	var MATCH_COLUMNS = [
+		{ key: "timestamp", label: "Date" },
+		{ key: "matchId", label: "Match ID", noSort: true },
+		{ key: "map", label: "Map" },
+		{ key: "gameMode", label: "Mode" },
+		{ key: "players", label: "Players" },
+		{ key: "duration", label: "Duration" },
+		{ key: "partySize", label: "Party" },
+		{ key: "result", label: "Result" }
+	];
+
+	function buildTableHead(sortable) {
+		var html = '<thead><tr>';
+		for (var c = 0; c < MATCH_COLUMNS.length; c++) {
+			var col = MATCH_COLUMNS[c];
+			var cls = "no-sort";
+			if (sortable && !col.noSort) {
+				cls = col.key === sortKey ? (sortDesc ? "sort-desc" : "sort-asc") : "";
+			}
+			html += '<th data-sort-key="' + col.key + '" class="' + cls + '">' + col.label + '</th>';
+		}
+		return html + '</tr></thead>';
+	}
+
+	function resultCellClass(result) {
+		return result === "win" ? "win" : (result === "loss" ? "loss" : "");
+	}
+
+	function buildMatchRow(m) {
+		var maxParty = 0;
+		var playerParts = [];
+		for (var j = 0; j < m.rosterPlayers.length; j++) {
+			var rp = m.rosterPlayers[j];
+			var playerHref = appLink('/player/' + slugify(rp.name));
+			var heroHref = appLink('/hero/' + slugify(rp.hero));
+			playerParts.push('<a href="' + playerHref + '">' + escapeHtml(rp.name) + '</a>' +
+				' <a href="' + heroHref + '" class="hero-name">' + heroIconHtml(rp.hero) + escapeHtml(rp.hero) + '</a>');
+			if (rp.partySize > maxParty) maxParty = rp.partySize;
+		}
+
+		var partyText = m.rosterPlayers.length > 0 ? (PARTY_LABELS[maxParty] || maxParty + "-stack") : "-";
+		var playersCell = m.rosterPlayers.length > 0 ? playerParts.join(", ") : '<span class="text-muted">No roster players</span>';
+		var mapHref = appLink('/map/' + slugify(m.map));
+
+		return '<tr class="match-row" data-match-id="' + m.matchId + '">' +
+			'<td>' + formatDateFinnish(m.timestamp) + '</td>' +
+			'<td class="match-id-cell"><a href="' + appLink('/match/' + m.matchId) + '">' + m.matchId.substring(0, 8) + '</a></td>' +
+			'<td><a href="' + mapHref + '">' + escapeHtml(displayMapName(m.map)) + '</a></td>' +
+			'<td>' + escapeHtml(displayEntryMode(m)) + '</td>' +
+			'<td class="players-cell">' + playersCell + '</td>' +
+			'<td class="num">' + formatDuration(m.durationSeconds) + '</td>' +
+			'<td class="num">' + escapeHtml(partyText) + '</td>' +
+			'<td class="' + resultCellClass(m.result) + '">' + escapeHtml(m.result) + '</td>' +
+			'</tr>';
+	}
+
 	function buildTable() {
 		var start = currentPage * PAGE_SIZE;
 		var end = Math.min(start + PAGE_SIZE, filtered.length);
 		var page = filtered.slice(start, end);
 
-		var columns = [
-			{ key: "timestamp", label: "Date" },
-			{ key: "matchId", label: "Match ID", noSort: true },
-			{ key: "map", label: "Map" },
-			{ key: "gameMode", label: "Mode" },
-			{ key: "players", label: "Players" },
-			{ key: "duration", label: "Duration" },
-			{ key: "partySize", label: "Party" },
-			{ key: "result", label: "Result" }
-		];
-
-		var html = '<div class="table-wrap"><table id="matches-table"><thead><tr>';
-		for (var c = 0; c < columns.length; c++) {
-			var col = columns[c];
-			var cls = col.noSort ? "no-sort" : "";
-			if (!col.noSort && col.key === sortKey) {
-				cls = sortDesc ? "sort-desc" : "sort-asc";
-			}
-			html += '<th data-sort-key="' + col.key + '" class="' + cls + '">' + col.label + '</th>';
-		}
-		html += '</tr></thead><tbody>';
-
+		var html = '<div class="table-wrap"><table id="matches-table">' + buildTableHead(true) + '<tbody>';
 		for (var i = 0; i < page.length; i++) {
-			var m = page[i];
-			var resultClass = m.result === "win" ? "win" : (m.result === "loss" ? "loss" : "");
-			var maxParty = 0;
-			var playerParts = [];
-			for (var j = 0; j < m.rosterPlayers.length; j++) {
-				var rp = m.rosterPlayers[j];
-				var playerHref = appLink('/player/' + slugify(rp.name));
-				var heroHref = appLink('/hero/' + slugify(rp.hero));
-				playerParts.push('<a href="' + playerHref + '">' + escapeHtml(rp.name) + '</a>' +
-					' <a href="' + heroHref + '" class="hero-name">' + heroIconHtml(rp.hero) + escapeHtml(rp.hero) + '</a>');
-				if (rp.partySize > maxParty) maxParty = rp.partySize;
-			}
-
-			var partyText = m.rosterPlayers.length > 0 ? (PARTY_LABELS[maxParty] || maxParty + "-stack") : "-";
-			var playersCell = m.rosterPlayers.length > 0 ? playerParts.join(", ") : '<span class="text-muted">No roster players</span>';
-			var mapHref = appLink('/map/' + slugify(m.map));
-
-			html += '<tr class="match-row" data-match-id="' + m.matchId + '">' +
-				'<td>' + formatDateFinnish(m.timestamp) + '</td>' +
-				'<td class="match-id-cell"><a href="' + appLink('/match/' + m.matchId) + '">' + m.matchId.substring(0, 8) + '</a></td>' +
-				'<td><a href="' + mapHref + '">' + escapeHtml(displayMapName(m.map)) + '</a></td>' +
-				'<td>' + escapeHtml(displayModeName(m.gameMode)) + '</td>' +
-				'<td class="players-cell">' + playersCell + '</td>' +
-				'<td class="num">' + formatDuration(m.durationSeconds) + '</td>' +
-				'<td class="num">' + escapeHtml(partyText) + '</td>' +
-				'<td class="' + resultClass + '">' + escapeHtml(m.result) + '</td>' +
-				'</tr>';
+			html += buildMatchRow(page[i]);
 		}
 
 		if (page.length === 0) {
@@ -467,6 +515,199 @@ var MatchesView = (function() {
 
 		html += '</tbody></table></div>';
 		return html;
+	}
+
+	// --- Lounge mode ---
+
+	function buildMissingGameRow(stamp, gameNumber) {
+		var registryMatch = loungeRegistryById[stamp.id];
+		var registryGame = null;
+		if (registryMatch && registryMatch.games) {
+			for (var g = 0; g < registryMatch.games.length; g++) {
+				if (registryMatch.games[g].game === gameNumber) registryGame = registryMatch.games[g];
+			}
+		}
+
+		// A rejected or removed replay exists upstream, so only no-replay may claim the upload is missing.
+		var reason = registryGame && registryGame.status === "no-replay" ? "No replay uploaded" : "Not in the dataset";
+		var mapName = registryGame && registryGame.map ? displayMapName(registryGame.map) : "-";
+		var result = stamp.results[gameNumber - 1] || "";
+
+		return '<tr class="match-row-missing">' +
+			'<td>' + (stamp.scheduled ? escapeHtml(formatDateFinnish(stamp.scheduled)) : "-") + '</td>' +
+			'<td>-</td>' +
+			'<td>' + escapeHtml(mapName) + '</td>' +
+			'<td>Lounge</td>' +
+			'<td class="players-cell">' + reason + '</td>' +
+			'<td class="num">-</td>' +
+			'<td class="num">-</td>' +
+			'<td class="' + resultCellClass(result) + '">' + escapeHtml(result || "-") + '</td>' +
+			'</tr>';
+	}
+
+	function loungeSeriesHeading(series, forfeit) {
+		var text = (series.stage === "bracket" ? "Playoffs: " : "") + (series.round || "") +
+			" vs " + (series.opponent ? series.opponent.name : "");
+		if (series.scheduled) text += " - " + formatDateFinnish(series.scheduled);
+
+		var score = series.score ? series.score[0] + "-" + series.score[1] : "";
+		if (forfeit) text += " (forfeit" + (score ? ", " + score : "") + ")";
+		else if (score) text += " (" + score + ")";
+		return escapeHtml(text);
+	}
+
+	function forfeitsVisible() {
+		var defaults = defaultFilters();
+		for (var key in defaults) {
+			if (key === "mode" || key === "dateFrom" || key === "dateTo") continue;
+			if (JSON.stringify(filters[key]) !== JSON.stringify(defaults[key])) return false;
+		}
+		return true;
+	}
+
+	function scheduledPassesDates(scheduled) {
+		if (!filters.dateFrom && !filters.dateTo) return true;
+		if (!scheduled) return false;
+		var day = scheduled.substring(0, 10);
+		if (filters.dateFrom && day < filters.dateFrom) return false;
+		if (filters.dateTo && day > filters.dateTo) return false;
+		return true;
+	}
+
+	function collectLoungeSeries() {
+		var byId = {};
+		var list = [];
+		for (var i = 0; i < filtered.length; i++) {
+			var stamp = filtered[i].lounge;
+			if (!stamp) continue;
+			if (!byId[stamp.id]) {
+				byId[stamp.id] = { info: stamp, games: [], forfeit: false, sortTime: 0 };
+				list.push(byId[stamp.id]);
+			}
+			byId[stamp.id].games.push(filtered[i]);
+		}
+
+		if (loungeRegistry && loungeRegistry.matches && forfeitsVisible()) {
+			for (var f = 0; f < loungeRegistry.matches.length; f++) {
+				var match = loungeRegistry.matches[f];
+				if (match.status !== "forfeit" || !scheduledPassesDates(match.scheduled)) continue;
+				list.push({ info: match, games: [], forfeit: true, sortTime: 0 });
+			}
+		}
+
+		for (var s = 0; s < list.length; s++) {
+			var series = list[s];
+			series.games.sort(function(a, b) { return a.lounge.game - b.lounge.game; });
+			if (series.info.scheduled) {
+				series.sortTime = Date.parse(series.info.scheduled);
+			} else {
+				for (var g = 0; g < series.games.length; g++) {
+					series.sortTime = Math.max(series.sortTime, Date.parse(series.games[g].timestamp));
+				}
+			}
+		}
+		list.sort(function(a, b) { return b.sortTime - a.sortTime; });
+		return list;
+	}
+
+	function buildLoungeSeries(series) {
+		if (series.forfeit) {
+			return '<div class="lounge-series"><h3 class="lounge-series-heading text-muted">' +
+				loungeSeriesHeading(series.info, true) + '</h3></div>';
+		}
+
+		var stamp = series.info;
+		var indexed = loungeIndexedGames[stamp.id] || {};
+		var html = '<div class="lounge-series"><h3 class="lounge-series-heading">' + loungeSeriesHeading(stamp, false) + '</h3>' +
+			'<div class="table-wrap"><table>' + buildTableHead(false) + '<tbody>';
+
+		var next = 0;
+		var played = stamp.results ? stamp.results.length : 0;
+		for (var n = 1; n <= played; n++) {
+			if (!indexed[n]) {
+				html += buildMissingGameRow(stamp, n);
+				continue;
+			}
+			while (next < series.games.length && series.games[next].lounge.game <= n) {
+				if (series.games[next].lounge.game === n) html += buildMatchRow(series.games[next]);
+				next++;
+			}
+		}
+
+		// Games beyond the stamped results list still render rather than vanish.
+		for (; next < series.games.length; next++) {
+			html += buildMatchRow(series.games[next]);
+		}
+		return html + '</tbody></table></div></div>';
+	}
+
+	function buildLoungeSeasons() {
+		var seriesList = collectLoungeSeries();
+		if (seriesList.length === 0) {
+			return '<div class="text-muted table-empty">No matches found</div>';
+		}
+
+		// The series list is newest first, so first appearance orders seasons by their latest series.
+		var seasons = [];
+		var bySeason = {};
+		for (var i = 0; i < seriesList.length; i++) {
+			var label = seriesList[i].info.season || "Unknown season";
+			if (!bySeason[label]) {
+				bySeason[label] = [];
+				seasons.push(label);
+			}
+			bySeason[label].push(seriesList[i]);
+		}
+
+		var html = "";
+		for (var s = 0; s < seasons.length; s++) {
+			html += '<section class="lounge-season"><h2 class="section-title">' + escapeHtml(seasons[s]) + '</h2>';
+			for (var j = 0; j < bySeason[seasons[s]].length; j++) {
+				html += buildLoungeSeries(bySeason[seasons[s]][j]);
+			}
+			html += '</section>';
+		}
+		return html;
+	}
+
+	function buildSeriesPathTable() {
+		var counts = [];
+		for (var c = 0; c < SERIES_PATH_ROWS.length; c++) counts.push({ games: 0, wins: 0 });
+
+		for (var i = 0; i < filtered.length; i++) {
+			var stamp = filtered[i].lounge;
+			if (!stamp || stamp.stage !== "regular" || typeof stamp.seasonNumber !== "number" || stamp.bestOf !== 3) continue;
+			var results = stamp.results || [];
+			for (var r = 0; r < SERIES_PATH_ROWS.length; r++) {
+				var row = SERIES_PATH_ROWS[r];
+				if (stamp.game !== row.game) continue;
+				var pathMatches = true;
+				for (var p = 0; p < row.prior.length; p++) {
+					if (results[p] !== row.prior[p]) { pathMatches = false; break; }
+				}
+				if (!pathMatches) continue;
+				counts[r].games++;
+				if (filtered[i].result === "win") counts[r].wins++;
+			}
+		}
+
+		var rows = [];
+		var rowOrder = [];
+		for (var k = 0; k < SERIES_PATH_ROWS.length; k++) {
+			rowOrder.push(SERIES_PATH_ROWS[k].label);
+			if (counts[k].games === 0) continue;
+			counts[k].winrate = counts[k].wins / counts[k].games;
+			rows.push([SERIES_PATH_ROWS[k].label, counts[k]]);
+		}
+		if (rows.length === 0) return "";
+
+		var description = '<p class="text-muted section-description">' +
+			'Win rate of each game in main-season best-of-3 series, split by the results of the earlier games in the same series. ' +
+			'Playoffs, cups, offseason and special events are excluded. ' +
+			'Every counted game must also match the current filters.' +
+			'</p>';
+		var conditionSortFn = function(condition) { return rowOrder.indexOf(condition); };
+		return renderMetaFactorTable("Win Rate by Series Path", rows, conditionSortFn, description);
 	}
 
 	// --- Pagination ---
@@ -534,7 +775,7 @@ var MatchesView = (function() {
 		var splitNonEmpty = function(val) {
 			return val ? val.split(",") : [];
 		};
-		if (params.has("m")) filters.mode = params.get("m");
+		if (params.has("m")) filters.mode = canonicalMode(params.get("m"));
 		if (params.has("r")) filters.result = params.get("r");
 		if (params.has("ps")) filters.partySize = params.get("ps");
 		if (params.has("df")) filters.dateFrom = params.get("df");
@@ -561,10 +802,19 @@ var MatchesView = (function() {
 			allMatches.length.toLocaleString() + ' matches</div></div>';
 
 		html += buildFilterBar(roster);
-		html += buildTable();
-		html += buildPagination();
+		if (filters.mode === "Lounge") {
+			html += buildSeriesPathTable();
+			if (loungeRegistryFailed) {
+				html += '<p class="text-muted">Heroes Lounge registry failed to load; forfeits and missing-game details are not shown.</p>';
+			}
+			html += buildLoungeSeasons();
+		} else {
+			html += buildTable();
+			html += buildPagination();
+		}
 
 		app.innerHTML = html;
+		attachAllSortableListeners(app);
 		attachListeners(roster);
 	}
 
@@ -604,10 +854,7 @@ var MatchesView = (function() {
 	}
 
 	function onFilterChange(roster) {
-		// Custom mode requires 5-stack
-		if (filters.mode === "Custom") {
-			filters.partySize = "5";
-		} else if (filters.partySize) {
+		if (filters.partySize) {
 			// Clamp party size if outside valid range
 			var range = getPartyRange();
 			var ps = Number(filters.partySize);
@@ -816,9 +1063,23 @@ var MatchesView = (function() {
 			PAGE_SIZE = AppSettings.matches.pageSize;
 			TOTAL_ROSTER = AppSettings.rosterSize;
 
+			// The registry only adds Lounge detail, so its failure must not take down the match list.
+			var registry = null;
+			loungeRegistryFailed = false;
+			if (allMatches.some(function(m) { return !!m.lounge; })) {
+				try {
+					registry = await Data.lounge();
+				} catch (registryErr) {
+					console.error("Heroes Lounge registry failed to load:", registryErr);
+					loungeRegistryFailed = true;
+				}
+			}
+			indexLoungeData(allMatches, registry);
+
 			aramMaps = summary.aramMaps || [];
 			collectFilterOptions(allMatches);
 			readMatchFiltersFromURL();
+			clampPartySizeForMode(filters, defaultFilters());
 			applyFilters();
 			renderContent(roster);
 		} catch (err) {

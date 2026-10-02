@@ -215,7 +215,7 @@ var TableConfig = (function() {
 		}
 	};
 
-	// Chart visual config for heroes-main popularity chart
+	// Chart visual config; colours mirror the CSS custom properties
 	var CHART = {
 		seriesColors: [
 			"rgb(59, 130, 246)", "rgb(239, 68, 68)", "rgb(34, 197, 94)",
@@ -224,7 +224,11 @@ var TableConfig = (function() {
 			"rgb(20, 184, 166)"
 		],
 		textColor: "#D8DAE0",
-		gridColor: "#2A2F3A"
+		gridColor: "#2A2F3A",
+		accentColor: "#E87A3A",
+
+		// Fits "100%" and a 4-digit game count, so stacked hour charts align
+		hourAxisWidth: 48
 	};
 
 	return {

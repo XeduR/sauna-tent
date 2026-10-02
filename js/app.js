@@ -334,14 +334,34 @@ function positionTooltip(anchor) {
 var MODE_DISPLAY_NAMES = {
 	"StormLeague": "Storm League",
 	"ARAM": "ARAM",
-	"Custom": "Custom"
+	"Custom": "Lounge",
+	"CustomDraft": "Lounge",
+	"Lounge": "Lounge"
 };
 
 function displayModeName(raw) {
 	return MODE_DISPLAY_NAMES[raw] || raw;
 }
 
+// Lounge games are Custom games, so Custom-only behaviour applies to both.
+function isCustomMode(mode) {
+	return mode === "Custom" || mode === "Lounge";
+}
+
+// The dataset's only Custom games are Lounge games, so old m=Custom links read as Lounge.
+function canonicalMode(mode) {
+	return mode === "Custom" ? "Lounge" : mode;
+}
+
 var PARTY_LABELS = { 1: "Solo", 2: "Duo", 3: "3-stack", 4: "4-stack", 5: "5-stack" };
+
+// Custom and Lounge games are team games, so smaller parties never occur there.
+var CUSTOM_MIN_PARTY_SIZE = 3;
+
+function clampPartySizeForMode(filters, defaults) {
+	if (!filters.partySize || !isCustomMode(filters.mode)) return;
+	if (Number(filters.partySize) < CUSTOM_MIN_PARTY_SIZE) filters.partySize = defaults.partySize || "";
+}
 
 // ARAM map lookup, populated when summary loads
 var ARAM_MAPS = {};
@@ -731,7 +751,7 @@ function buildPageFilterBar(filters, options) {
 		var modeOptions = options.modeOptions || [
 			{ value: "StormLeague", label: "Storm League" },
 			{ value: "ARAM", label: "ARAM" },
-			{ value: "Custom", label: "Custom" }
+			{ value: "Lounge", label: "Lounge" }
 		];
 		for (var mi = 0; mi < modeOptions.length; mi++) {
 			var mo = modeOptions[mi];
@@ -789,7 +809,8 @@ function buildPageFilterBar(filters, options) {
 			'<label for="pf-party">Party Size</label>' +
 			'<select id="pf-party">' +
 			'<option value="">All</option>';
-		for (var s = 1; s <= 5; s++) {
+		var minParty = isCustomMode(filters.mode) ? CUSTOM_MIN_PARTY_SIZE : 1;
+		for (var s = minParty; s <= 5; s++) {
 			var label = PARTY_LABELS[s] || s + "-stack";
 			html += '<option value="' + s + '"' + (filters.partySize === String(s) ? " selected" : "") + '>' + label + '</option>';
 		}
@@ -905,12 +926,14 @@ function readFiltersFromURL(filters, defaults) {
 			filters[key] = params.get(urlKey);
 		}
 	}
+	if (filters.hasOwnProperty("mode")) filters.mode = canonicalMode(filters.mode);
 	// Enforce season/date mutual exclusivity
 	if (filters.hasOwnProperty("seasons") && filters.seasons) {
 		filters.mode = "StormLeague";
 		filters.dateFrom = "";
 		filters.dateTo = "";
 	}
+	clampPartySizeForMode(filters, defaults);
 }
 
 function writeFiltersToURL(filters, defaults) {
@@ -960,26 +983,10 @@ function attachPageFilterListeners(container, filters, defaults, onChange) {
 			filters.seasons = "";
 			_seasonDropdownOpen = false;
 		}
-		if (party) {
-			if (this.value === "Custom") {
-				filters.partySize = "5";
-				party.value = "5";
-				party.disabled = true;
-				party.title = "Custom games only support 5-stacks";
-			} else {
-				party.disabled = false;
-				party.title = "";
-			}
-		}
+		clampPartySizeForMode(filters, defaults);
 		onChange();
 	});
 	if (party) {
-		if (filters.mode === "Custom") {
-			filters.partySize = "5";
-			party.value = "5";
-			party.disabled = true;
-			party.title = "Custom games only support 5-stacks";
-		}
 		party.addEventListener("change", function() { filters.partySize = this.value; onChange(); });
 	}
 	if (dateFrom) dateFrom.addEventListener("change", function() {

@@ -36,7 +36,11 @@ Replays from before 7 December 2021 are excluded. This is the start date of Stor
 
 ### Custom game inclusion
 
-Custom games require at least 3 roster players in the match, with no alt players. Games with fewer roster players are excluded during replay processing. See `pipeline/README.md` for all acceptance criteria.
+The only Custom games processed or committed are Heroes Lounge official season and season-cup games: events named `[EU] Season N - Division M` or `[EU] Season N - Division M Cup` (matched case-insensitively, with an optional single space after `[EU]`). Other Custom games, including Heroes 10th, Khaldor Underdog Cup, Offseason and Legendary Cup events, are rejected with reason `custom_not_lounge`.
+
+A Custom game is accepted only when its match is a registered official game in `data/lounge.json`, or while the [Heroes Lounge](#heroes-lounge) intake registers it. Accepted Custom games also need at least 3 roster players and no alt players. See `pipeline/README.md` for all acceptance criteria.
+
+The weekly order is: `process` (or `run-pipeline.bat`) sees your own copy of the series replays first and rejects them as `custom_not_lounge`; the intake then downloads the Lounge copy and commits it. The next `process` run re-records your own copies as duplicates of the registered matches.
 
 ## Usage
 
@@ -99,9 +103,44 @@ python -m pipeline.batch process --generate
 
 `remove-match` deletes `data/matches/<matchId>.json` and appends the id to `data/removed-matches.json`, a committed tombstone registry. Tombstoned matches are never re-created by `process` or `--reprocess`, nor by a re-uploaded overlapping replay. To un-remove a match, delete its id from `data/removed-matches.json` and run `process --reprocess`. Regenerate aggregates afterwards.
 
+### Heroes Lounge
+
+Sauna Tent's [Heroes Lounge](https://heroeslounge.gg/) series are registered with `fetch-lounge.bat` (Windows) or the `lounge` subcommand. The batch file first asks for a mode:
+
+- `1: Download one series` asks for a match page URL and registers that series only: it fetches the team page for the event and score, that match page, and that series' replays. This is the weekly step after a played series, and it also picks up a late replay upload.
+- `2: Download all series by a team` asks for a team page URL, or blank for the configured team page, and registers every new or unresolved official match listed there. Matches from other events are reported as `skipped (not an official season)` without a fetch and are never registered.
+
+Invalid input returns to the mode prompt with nothing done. On the command line, `--mode series` requires a match URL and `--mode team` requires a team URL or none; any other combination exits with code 2 before any network access. Without `--mode`, the URL form alone decides:
+
+```bash
+# Register one series
+python -m pipeline.batch lounge --mode series https://heroeslounge.gg/match/view/27399 --generate
+
+# Scan the configured team page and register every new or unresolved match
+python -m pipeline.batch lounge --mode team --generate
+
+# Report what would be downloaded and registered, writing nothing
+python -m pipeline.batch lounge --mode series https://heroeslounge.gg/match/view/27399 --dry-run
+```
+
+Accepted URL forms are `https://heroeslounge.gg/team/view/<slug>` and `https://heroeslounge.gg/match/view/<id>`. Any other scheme, host, port, query, fragment or path exits with code 2, as does a team slug that differs from `lounge.teamSlug`. Every redirect target must pass the same scheme and host checks, so redirects off the site are refused. Replay links on a match page must additionally point under `/storage/app/uploads/public/` and end in `.stormreplay`; redirect targets of a download get the scheme and host checks only. Downloads are capped at 64 MB, and a body shorter than its `Content-Length` counts as a failed download.
+
+Only official season and season-cup series are registered; a series URL from any other event exits with code 2 after the team-page fetch and registers nothing. Each played match's replays are downloaded to `replays/lounge/` and go through the same classification as `process`, with the series' Custom games allowed. A game registers only when it passes these checks:
+
+- The replay passes every other acceptance rule, including the [Custom game rule](#custom-game-inclusion) (at least 3 roster players, no alts), so a game with an alt sub registers as rejected with reason `custom_no_5stack`.
+- The match's map, ten heroes and Sauna Tent's result equal the match page; otherwise it registers as rejected with reason `page-mismatch`. A new match is checked before anything is written, so a mismatching replay never reaches `data/matches/`; a match already on record is checked from its committed file.
+- Replay end times follow the game order within the series; otherwise the series is reported as `conflict`, left unregistered, and the run exits 1.
+- A replay more than three days from the scheduled time is registered with a warning, since matches are rescheduled.
+
+Matches scheduled before `cutoffDate` register as `pre-cutoff` without downloads, forfeits and byes as `forfeit`, and games with no uploaded replay as `no-replay`. A match with a `no-replay` game is re-fetched for 14 days after its scheduled time; `--recheck` re-fetches every such match regardless of age. A team-page run fetches the team page, then every listed match that is new, not yet played, or has a `no-replay` game inside the recheck window; matches already resolved as played, forfeit or pre-cutoff are skipped without a fetch. Requests are sequential, one per second.
+
+The first team-page run is the backfill: it downloads every post-cutoff replay of an official series and registers the games already in `data/matches/` as duplicates of those matches. Exit code 0 means every fetched match resolved; 1 means a fetch, download, parse, structure or conflict failure, and a re-run retries it.
+
+Never run the intake at the same time as `run-pipeline.bat`: both write `manifest.json`. Afterwards, commit `data/lounge.json`, the new match files and the regenerated `data/` by hand.
+
 ### Processing model
 
-The committed `data/matches/*.json` files plus `data/matches/index.json` are the canonical registry of processed matches. `manifest.json` (gitignored) is a local performance cache keyed by each replay's content hash, so unchanged replays are never re-parsed. The pipeline never deletes replay files, and it never deletes a committed match file because a replay went missing. Replays are disposable inputs: the pipeline runs fine with `replays/` absent or empty, working from the committed data alone.
+The committed `data/matches/*.json` files plus `data/matches/index.json` are the canonical registry of processed matches. `manifest.json` (gitignored) is a local performance cache keyed by each replay's content hash, so unchanged replays are never re-parsed. The pipeline never deletes replay files, and it never deletes a committed match file because a replay went missing. Replays are disposable inputs: the pipeline runs fine with `replays/` absent or empty, working from the committed data alone. `data/lounge.json` is the committed Heroes Lounge registry: one entry per series with its season, round, opponent, score and per-game status, written only by the `lounge` subcommand. Output generation stamps each registered game's index entry with its series context.
 
 `process` runs, in order:
 
@@ -118,6 +157,7 @@ A change to `roster`, `alts`, or `cutoffDate` in `pipeline.json` prints guidance
 | `retag` | Re-derive roster/alt tags on every committed match in place |
 | `rederive` | Re-run analysis on every committed match from its tier-2 archive |
 | `remove-match <id>` | Delete one match and tombstone it |
+| `lounge [URL]` | Register Heroes Lounge series (see [Heroes Lounge](#heroes-lounge); flags `--mode series\|team`, `--generate`, `--pretty`, `--ci`, `--recheck`, `--dry-run`) |
 
 `process` flags:
 
@@ -246,11 +286,12 @@ All displayed data must be filterable by the user's active filters. The match in
   ],
   "cutoffDate": "2021-12-07",
   "replayDirectory": "replays",
-  "outputDirectory": "data"
+  "outputDirectory": "data",
+  "lounge": {"teamSlug": "ST", "replayDirectory": "replays/lounge"}
 }
 ```
 
-Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The optional `heroesProfile` field is an external profile URL surfaced on the player page; omit it if not applicable. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date.
+Each roster entry can have multiple toon IDs (for players with accounts across regions). The `name` field is the display name used throughout the dashboard. The optional `heroesProfile` field is an external profile URL surfaced on the player page; omit it if not applicable. The `alts` array lists loose team members whose matches are tracked separately and excluded from baseline stats by default. The `cutoffDate` excludes replays before the given date. The `lounge` object is required by the `lounge` subcommand only: `teamSlug` is the team's Heroes Lounge slug and `replayDirectory` is where its replays are downloaded, which must sit inside `replayDirectory`.
 
 ## Local scratch directory
 
@@ -268,6 +309,7 @@ Other contents that may accumulate here (debug reports, code reviews, probe scri
 - **Replay parsing**: [Heroes.StormReplayParser](https://github.com/HeroesToolChest/Heroes.StormReplayParser) by HeroesToolChest, wrapped by the `tools/replay-parser-cs/` sidecar.
 - **Hero data and images**: [HeroesDataParser](https://github.com/HeroesToolChest/HeroesDataParser) reading the game build from Blizzard's CDN (Blizzard game assets).
 - **Role icons**: [Heroes of the Storm Wiki](https://heroesofthestorm.fandom.com/) (Blizzard game assets).
+- **Heroes Lounge series**: [Heroes Lounge](https://heroeslounge.gg/) team and match pages, read by the `lounge` subcommand.
 - **Ranked season dates**: [The Nexus Compendium](https://nexuscompendium.com/ranked).
 
 ## Trademarks

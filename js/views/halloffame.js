@@ -300,7 +300,7 @@ var HallOfFameView = (function() {
 		for (var i = 0; i < filtered.length; i++) {
 			var match = filtered[i];
 			if (match.hasAlt) continue;
-			if (mode !== "Overall" && match.gameMode !== mode) continue;
+			if (mode !== "Overall" && !MatchIndexUtils.matchesMode(match, mode)) continue;
 			for (var j = 0; j < match.rosterPlayers.length; j++) {
 				var rp = match.rosterPlayers[j];
 				if (rp.isAlt) continue;
@@ -595,10 +595,10 @@ var HallOfFameView = (function() {
 		var filtered = MatchIndexUtils.filter(matchIndex, filters);
 		var cum = aggregateCumulative(filtered, mode);
 		// Accidental Team Chats is always about Custom games regardless of mode filter.
-		// Filter with mode cleared so date/season still apply but mode doesn't blank it.
+		// Filter with mode cleared so date/season still apply but mode doesn't blank it; Lounge narrows it to Lounge games.
 		var customFilters = {};
 		for (var key in filters) customFilters[key] = filters[key];
-		customFilters.mode = "";
+		customFilters.mode = filters.mode === "Lounge" ? "Lounge" : "";
 		var filteredForCustom = MatchIndexUtils.filter(matchIndex, customFilters);
 		var cumCustom = aggregateCumulative(filteredForCustom, "Custom");
 
@@ -649,15 +649,15 @@ var HallOfFameView = (function() {
 			if (hasCumStat(cum, "pings")) {
 				html += renderCumulativeCard("Total Pings", cumTopByValue(cum, "pings"), "Pings sent across all games.");
 			}
-			if (filters.mode !== "" && filters.mode !== "Custom") {
+			if (filters.mode !== "" && !isCustomMode(filters.mode)) {
 				html += renderUnavailableCard("Total All Chat", 'Friendly messages sent to other team, e.g. "gl & hf".');
-				html += renderUnavailableCard("Accidental Team Chats", "Team chat in Custom games (probably meant for all chat).");
+				html += renderUnavailableCard("Accidental Team Chats", "Team chat in Lounge games (probably meant for all chat).");
 			} else {
 				if (hasCumStat(cumCustom, "chatMessagesAll")) {
 					html += renderCumulativeCard("Total All Chat", cumTopByValue(cumCustom, "chatMessagesAll"), 'Friendly messages sent to other team, e.g. "gl & hf".');
 				}
 				html += renderCumulativeCard("Accidental Team Chats", cumTopByValue(cumCustom, "chatMessagesTeam"),
-					"Team chat in Custom games (probably meant for all chat).");
+					"Team chat in Lounge games (probably meant for all chat).");
 			}
 			if (hasCumStat(cum, "chatGlhf")) {
 				html += renderPercentCard("Sportsmanlike Start", cumTopByPercent(cum, "chatGlhf"),
@@ -743,11 +743,11 @@ var HallOfFameView = (function() {
 			html += renderPercentCard("Most Toxic Conversationalist", cumTopByPercent(cum, "chatGamesToxic"),
 				"Percentage of games where the player sent a toxic message.", "toxic games");
 		}
-		if (filters.mode !== "" && filters.mode !== "Custom") {
-			html += renderUnavailableCard("Offensive GG", "Percentage of Custom games with an early or premature \"gg\".");
+		if (filters.mode !== "" && !isCustomMode(filters.mode)) {
+			html += renderUnavailableCard("Offensive GG", "Percentage of Lounge games with an early or premature \"gg\".");
 		} else if (hasCumStat(cumCustom, "chatOffensiveGg")) {
 			html += renderPercentCard("Offensive GG", cumTopByPercent(cumCustom, "chatOffensiveGg"),
-				"Percentage of Custom games with an early or premature \"gg\".", "offensive ggs");
+				"Percentage of Lounge games with an early or premature \"gg\".", "offensive ggs");
 		}
 		html += '</div>';
 

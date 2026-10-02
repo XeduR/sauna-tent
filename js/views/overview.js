@@ -8,6 +8,7 @@ var OverviewView = (function() {
 	var summary = null;
 	var heroChart = null;
 	var hourChart = null;
+	var hourGamesChart = null;
 	var heroColors = null;
 
 	function renderPlayerCard(p, ps, isAlt) {
@@ -203,9 +204,9 @@ var OverviewView = (function() {
 	}
 
 	function renderChatStats(filtered) {
-		if (filters.mode === "Custom") {
+		if (isCustomMode(filters.mode)) {
 			return '<h2 class="section-title">Chat Statistics</h2>' +
-				'<div class="text-muted">Chat win rate correlation is not available for Custom games.</div>';
+				'<div class="text-muted">Chat win rate correlation is not available for Lounge games.</div>';
 		}
 
 		var chatStats = MatchIndexUtils.computeChatStats(filtered);
@@ -308,7 +309,11 @@ var OverviewView = (function() {
 			} else {
 				html += '<div class="text-muted">No hour has enough games with the current filters.</div>';
 			}
+
+			html += '<h2 class="section-title">Games Played by Time of Day</h2>' +
+				'<div class="chart-container chart-container-short"><canvas id="overview-hour-games-chart"></canvas></div>';
 		}
+
 		html += renderStreakStats(filtered);
 
 		html += renderChatStats(filtered);
@@ -320,12 +325,16 @@ var OverviewView = (function() {
 
 		if (heroChart) { heroChart.destroy(); heroChart = null; }
 		if (hourChart) { hourChart.destroy(); hourChart = null; }
+		if (hourGamesChart) { hourGamesChart.destroy(); hourGamesChart = null; }
 		app.innerHTML = html;
 		if (monthlyData.sortedMonths.length >= 2) {
 			heroChart = ChartUtils.createHeroPopularityChart("overview-hero-pop-chart", monthlyData, heroColors);
 		}
 		if (filtered.length > 0 && shownHourGames > 0) {
 			hourChart = ChartUtils.createHourlyWinrateChart("overview-hour-chart", shownHourly, shownHourGames);
+		}
+		if (filtered.length > 0) {
+			hourGamesChart = ChartUtils.createHourlyGamesChart("overview-hour-games-chart", hourly, filtered.length);
 		}
 		if (compTable) compTable.attachListeners(app);
 		attachAllSortableListeners(app);

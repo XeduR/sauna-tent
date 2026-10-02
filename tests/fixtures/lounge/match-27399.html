@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>View Match &#124; Heroes Lounge</title>
+
+<link rel="stylesheet" href="https://heroeslounge.gg/combine/5cc4e36658c621fc33fe07930a255131-1590081882" type="text/css" media="all">
+<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Lato%3A400%2C400i%2C700%2C700i%2C900%2C900i&#038;ver=4.6.1'
+    type='text/css' media='all' />
+
+<link rel="stylesheet" href="https://heroeslounge.gg/plugins/rikki/loungestatistics/assets/css/datatables.min.css">
+<link rel="apple-touch-icon" sizes="180x180" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="194x194" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/favicon-194x194.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/safari-pinned-tab.svg" color="#2e93cd">
+<link rel="shortcut icon" href="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/favicon.ico">
+
+
+<meta name="msapplication-config" content="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff"><meta name="twitter:widgets:theme" content="light">
+<meta name="twitter:widgets:link-color" content="#2e93cd">
+<meta name="twitter:widgets:border-color" content="#2e93cd"></head>
+<body class="match-view page page-match-view layout-plain-with-sidebar ">
+
+    <div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 header-left">
+                <ul id="menu-top-left" class="top-menu">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="tel:"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6 header-right">
+                <ul class="locale-menu">
+            </ul>                <ul id="menu-top-right" class="social-menu top-menu">
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="https://www.facebook.com/heroeslounge.gg/" rel="noopener" target="_blank">Facebook</a>
+                    </li>
+                                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="https://twitter.com/HeroesloungeGG" rel="noopener" target="_blank">Twitter</a>
+                    </li>
+                                                                            </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-toggle"><i class="fa fa-angle-down"></i></div><div class="nav-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom" style="z-index:5">
+        <div class="container no-margin-xs">
+            <a class="navbar-brand text-logo" href="https://heroeslounge.gg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.91785 380.83549" height="36"
+                    class="d-inline-block align-top" style="background-color:transparent">
+                    <path fill="#2e93cd"
+                        d="M238.54971,228.90468h56.65118a8.01669,8.01669,0,0,0,8.01669-8.01669V115.24087a8.01669,8.01669,0,0,0-4.00834-6.94266L242.55805,75.59064a8.01669,8.01669,0,0,0-12.025,6.94266V220.888A8.01669,8.01669,0,0,0,238.54971,228.90468Z" />
+                    <path fill="white"
+                        d="M174.38169,343.54553a7.11339,7.11339,0,0,1-8.76306-6.91577V160.32025a20.99757,20.99757,0,0,0-21.72089-20.98492c-11.40265.3833-20.27344,10.12134-20.27344,21.53046v20.77075a12.70333,12.70333,0,0,1-12.70337,12.70331H100.27275a10.36391,10.36391,0,0,1-10.364-10.36389V82.74176a13.61107,13.61107,0,0,1,4.97363-10.51239L40.38151,103.6a5.66578,5.66578,0,0,1,7.533,5.346v143.988a20.99716,20.99716,0,0,0,41.99432,0V229.78864a10.50479,10.50479,0,0,1,10.50482-10.50476h12.34308a10.86762,10.86762,0,0,1,10.86761,10.86761V312.1059a7.26493,7.26493,0,0,1-9.37811,6.94623l51.71271,29.76575,8.65637-4.98261C174.53385,343.74164,174.45707,343.64429,174.38169,343.54553Z" />
+                    <path fill="white"
+                        d="M303.21757,215.87995v5.008a8.01672,8.01672,0,0,1-8.01672,8.01672H238.54972a8.01672,8.01672,0,0,1-8.01672-8.01672V82.53327A8.00649,8.00649,0,0,1,241.9514,75.293c.03638-.05707.07117-.115.10962-.1709l-60.3988-34.7655c-.0094.01978-.017.04077-.02673.0603l.53064.30634a12.74119,12.74119,0,0,1,6.3725,11.03516V252.28754c0,11.42456,8.90613,21.149,20.32513,21.5058a20.95856,20.95856,0,0,0,19.4046-11.53943,11.79264,11.79264,0,0,1,10.524-6.51074H293.422a9.79549,9.79549,0,0,1,9.79553,9.79547,6.824,6.824,0,0,1-.04724.712,5.66858,5.66858,0,0,1,.6886.03107V215.77661A5.718,5.718,0,0,1,303.21757,215.87995Z" />
+
+
+                    <path fill="#2e93cd"
+                        d="M228.26835,262.25393a20.95859,20.95859,0,0,1-19.40458,11.53944c-11.419-.35682-20.32514-10.08123-20.32514-21.5058,0-38.24748,0-168.15177,0-200.52912a12.74119,12.74119,0,0,0-6.37255-11.03516l-10.46457-6.04173a12.16579,12.16579,0,0,0-12.1658,0l-62.819,36.26858a13.61583,13.61583,0,0,0-6.80791,11.79166V183.976a10.3639,10.3639,0,0,0,10.3639,10.3639H110.921a12.70333,12.70333,0,0,0,12.70333-12.70333V160.86577c0-11.40911,8.87078-21.14714,20.27344-21.53042a20.99755,20.99755,0,0,1,21.72088,20.98492V336.62979a7.10778,7.10778,0,0,0,10.66167,6.15552L299.7887,271.47766a6.85774,6.85774,0,0,0,3.42887-5.939h0a9.7955,9.7955,0,0,0-9.7955-9.7955H238.79241A11.79274,11.79274,0,0,0,228.26835,262.25393Z" />
+
+                    <path fill="#2e93cd"
+                        d="M112.75666,219.28389H100.4136a10.50478,10.50478,0,0,0-10.50478,10.50478V252.9341a20.99714,20.99714,0,0,1-20.99714,20.99714h0A20.99714,20.99714,0,0,1,47.9145,252.9341v-143.988a5.66954,5.66954,0,0,0-8.50431-4.91l-5.44107,3.1414a11.899,11.899,0,0,0-5.94952,10.30487V261.96652A13.04489,13.04489,0,0,0,34.542,273.26373l78.17945,45.13693a7.26853,7.26853,0,0,0,10.9028-6.29473v-81.9544A10.86763,10.86763,0,0,0,112.75666,219.28389Z" />
+
+                    <path fill="#2e93cd"
+                        d="M165.0112,0,.10462,95.20886V285.62664L165.0112,380.83549l164.90665-95.20886V95.20886ZM314.91233,276.80725l-150.237,86.73931L14.43846,276.80725V103.32856l150.2369-86.73937,150.237,86.73937Z" />
+
+                    <path fill="white"
+                        d="M164.67533,16.58917,14.43846,103.32855v173.4787l150.23688,86.73932,150.23694-86.73932V103.32855ZM303.4589,269.31787l-3.19238,1.84c-.15723.10925-.3103.22314-.47778.31982L176.28031,342.78528a7.21675,7.21675,0,0,1-1.26306.56171l-9.05835,5.22089L115.11106,319.261a7.26668,7.26668,0,0,1-2.38959-.86041L34.542,273.26374a13.02751,13.02751,0,0,1-2.49042-1.87512l-3.59271-2.07074v-3.99982a13.03359,13.03359,0,0,1-.43927-3.35156V117.48236a11.87972,11.87972,0,0,1,.43927-3.18494v-3.47955l3.07214-1.77069a11.886,11.886,0,0,1,2.438-1.86969l5.4411-3.14142a5.66326,5.66326,0,0,1,2.03442-.7027l52.48761-30.252a13.60274,13.60274,0,0,1,2.78448-2.13129l62.819-36.26862a12.12853,12.12853,0,0,1,3.23651-1.277l3.18665-1.83667,3.98389,2.29614a12.11654,12.11654,0,0,1,1.75873.8175l10.4646,6.04175a12.73893,12.73893,0,0,1,1.629,1.12469l57.58813,33.19177a8.21864,8.21864,0,0,1,1.1748.5509l56.65112,32.70758a7.9877,7.9877,0,0,1,.75537.50562l3.49438,2.014Z" />
+
+                </svg>
+                Heroes Lounge
+            </a>
+            <button class="navbar-toggler navbar-toggler-right mt-1" style="background-color:#FFF;" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="seasons" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">EU League</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                                                                                    <li class="dropdown-item dropdown-submenu">
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                    id="season_96">[EU] Offseason 30-31</a>
+                                <div class="dropdown-menu" aria-labelledby="#season_96">
+                                                                        <a class="dropdown-item"
+                                        href="https://heroeslounge.gg/offseason-30-31/group-a ">Group A</a>
+                                                                        <a class="dropdown-item"
+                                        href="https://heroeslounge.gg/offseason-30-31/group-b ">Group B</a>
+                                                                        <a class="dropdown-item"
+                                        href="https://heroeslounge.gg/offseason-30-31/group-c ">Group C</a>
+                                                                        <a class="dropdown-item"
+                                        href="https://heroeslounge.gg/offseason-30-31/group-d ">Group D</a>
+                                                                                                        </div>
+                            </li>
+                                                                                                                <a class="dropdown-item"
+                                href="https://heroeslounge.gg/eu-season-31">[EU] Season 31</a>
+                                                        
+                                                        <a class="dropdown-item" href="https://heroeslounge.gg/general/ruleset">Ruleset</a>
+                                                        <a class="dropdown-item" href="https://heroeslounge.gg/general/playoff-rules-new">Playoff Rules</a>
+                                                        <a class="dropdown-item" href="https://heroeslounge.gg/general/schedule">Schedule</a>
+                                                        <a class="dropdown-item" href="https://heroeslounge.gg/general/seeding-rules">Seeding Information</a>
+                            
+                                                    </ul>
+                    </li>                         
+
+                                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Events</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                                                                                        <a class="dropdown-item" href="https://heroeslounge.gg/KODC0826/playoff/Khaldor%20Big%20Dog%20Cup%20August.26">Khaldor Big Cup Bracket</a>
+			                                                                                            <a class="dropdown-item" href="/tournament/Nexus-Rumble-Open-Table">Open Rumble Standings</a>
+			                                                                                            <a class="dropdown-item" href="https://heroeslounge.gg/offseason-30-31/group-a">Offseason 30-31 Group A</a>
+			                                                                                            <a class="dropdown-item" href="https://heroeslounge.gg/offseason-30-31/group-b">Offseason 30-31 Group B</a>
+			                                                                                            <a class="dropdown-item" href="https://heroeslounge.gg/offseason-30-31/group-c">Offseason 30-31 Group C</a>
+			                                                                                            <a class="dropdown-item" href="https://heroeslounge.gg/offseason-30-31/group-d">Offseason 30-31 Group D</a>
+			                                                                                            <a class="dropdown-item" href="/aram-ruleset">Offseason Ruleset</a>
+			                                                        </ul>
+                    </li>
+                                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Guides</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                                                                                        <a class="dropdown-item" href="/guides/signup-guide">Signup Guide</a>
+			                                                                                            <a class="dropdown-item" href="/guides/captains-guide">Captain&#039;s Guide</a>
+			                                                                                            <a class="dropdown-item" href="/guides/scheduling-and-reporting-matches">Scheduling and Reporting Matches</a>
+			                                                                                            <a class="dropdown-item" href="/guides/scheduling-and-playing-your-first-game">Scheduling and Playing Your First Game</a>
+			                                                                                            <a class="dropdown-item" href="https://heroeslounge.gg/guides/heroicsloth">HeroicSloth - Commands &amp; more</a>
+			                                                                                            <a class="dropdown-item" href="/faq">FAQ</a>
+			                                                                                            <a class="dropdown-item" href="/guides/uploading-replays">Uploading Replays</a>
+			                                                        </ul>
+                    </li>
+                                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">About us</a>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                                                                                        <a class="dropdown-item" href="/general/staff">Our volunteers</a>
+			                                                                                            <a class="dropdown-item" href="/general/hall-of-fame-eu">Hall of Fame EU</a>
+			                                                                                            <a class="dropdown-item" href="/general/hall-of-fame-na">Hall of Fame NA</a>
+			                                                                                            <a class="dropdown-item" href="/general/nexus-rumble-hall-of-fame">Nexus Rumble Hall of Fame</a>
+			                                                                                            <a class="dropdown-item" href="/events/archive">Event archive</a>
+			                                                                                            <a class="dropdown-item" href="/season/archive">Season archive</a>
+			                                                        </ul>
+                    </li>
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://heroeslounge.gg/calendar">Calendar</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://heroeslounge.gg/blog">Blog</a>
+                    </li>
+
+                                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navSignIn" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Login</a>
+                        <div class="dropdown-menu p-3" aria-labelledby="navSignIn">
+                            <form method="POST" action="https://heroeslounge.gg/match/view/27399" accept-charset="UTF-8"><input name="_handler" type="hidden" value="onSignIn"><input name="_session_key" type="hidden" value="CCwqDzXJorIB0GA9NMJfzl9PG2wiWkibQlOCv3gE"><input name="_token" type="hidden" value="r1lXjueV4ZbDyroHVD2m2wqIhmz5n9m6daxMqWC0">
+                            <div class="form-group">
+                                <label for="userSigninLogin">Username</label>
+                                <input name="login" type="text" class="form-control" id="userSigninLogin"
+                                    placeholder="Enter your username" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="userSigninPassword">Password</label>
+                                <input name="password" type="password" class="form-control" id="userSigninPassword"
+                                    placeholder="Enter your password" />
+                            </div>
+                            <div style="display:flex">
+                                <button type="submit"
+                                    class="btn btn-primary menu-user-widget-signin-btn">Login</button>
+                                </form>
+                                <a class="btn btn-default" href="https://heroeslounge.gg/user"
+                                    title="Register"><i class="fa fa-sign-in"
+                                        aria-hidden="true"></i></a> &nbsp;
+                                <a class="btn btn-default" href="https://heroeslounge.gg/user/forgotpassword"
+                                    title="Reset Password"><i
+                                        class="fa fa-question" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                                        
+
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="fixed-top container" style="z-index:9999999;top:5%">
+    <div class="row">
+
+            </div>
+
+</div> 
+    <div class="section page-content bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="clearfix page type-page status-publish hentry">
+                        <div class="page-content">
+                                        <h1>
+            <a href="">
+                [EU] Season 30
+            </a>
+            Round 10
+        </h1>
+    
+                        <h2>
+                <a href="https://heroeslounge.gg/eu-season-30/division-2">
+                    Division 2
+                </a>
+            </h2>
+            
+    
+    
+    
+            <div id="matchtime" class="mb-3">
+            <h4>Scheduled for 03 Sep 2026 18:00</h4>
+            (UTC +00:00)
+        </div>
+    
+                    <div class="row mb-3 justify-content-center">
+            <div class="col-5">
+                <div class="media align-items-center justify-content-end">
+                    <h2><a href="https://heroeslounge.gg/team/view/RGA">
+                        Ruby Goose Agents
+                    </a></h2>
+                    <img src="/plugins/rikki/heroeslounge/assets/img/profile-icon.png"
+                        class="d-flex align-self-start ml-2" style="max-height: 50px" alt="Ruby Goose Agents" title="Ruby Goose Agents">
+                </div>
+            </div>
+            <div class="col-1 align-items-center text-center">
+                <h3 class="mt-2">VS</h3>
+            </div>
+            <div class="col-5">
+                <div class="media align-items-center justify-content-start">
+                    <img src="https://heroeslounge.gg/storage/app/uploads/public/6a9/067/39b/6a906739babf3071466445.png"
+                        class="d-flex align-self-start mr-2" style="max-height: 50px" alt="Sauna Tent" title="Sauna Tent">
+                    <h2><a href="https://heroeslounge.gg/team/view/ST">
+                        Sauna Tent
+                    </a></h2>
+                </div>
+            </div>
+        </div>
+        
+        
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-header">
+                <a class="navbar-brand d-lg-none">Games</a>
+                <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#gameNav"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Games">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse justify-content-center" id="gameNav">
+                <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                        <a class="nav-link active" href="#game63435" data-toggle="tab" role="tab">Game 1</a>
+                    </li>
+                                        <li class="nav-item">
+                        <a class="nav-link " href="#game63436" data-toggle="tab" role="tab">Game 2</a>
+                    </li>
+                                    </ul>
+            </div>
+        </nav>
+        
+        <div class="tab-content">
+                        <div class="tab-pane active" id="game63435" role="tabpanel">
+                <div class="row">
+    <div class="col">
+        <span class="float-left badge badge-info">
+            First Pick</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Johanna.png" title="Johanna" alt="Johanna" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Louka">
+                                <a href="https://heroeslounge.gg/user/view/5793">
+                    Louka
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Sylvanas.png" title="Sylvanas" alt="Sylvanas" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Hat">
+                                <a href="https://heroeslounge.gg/user/view/3563">
+                    Hat
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" title="Blaze" alt="Blaze" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Fish">
+                                <a href="https://heroeslounge.gg/user/view/5736">
+                    Fish
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Leoric.png" title="Leoric" alt="Leoric" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Kratodel">
+                                <a href="https://heroeslounge.gg/user/view/2549">
+                    Kratodel
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Uther.png" title="Uther" alt="Uther" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="McGibblets">
+                                <a href="https://heroeslounge.gg/user/view/13367">
+                    McGibblets
+                </a>             </figcaption>
+        </figure>
+            </div>
+
+    <div class="col">
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Hogger.png" title="Hogger" alt="Hogger" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="invertebrate">
+                                <a href="https://heroeslounge.gg/user/view/6707">
+                        invertebrate
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Brightwing.png" title="Brightwing" alt="Brightwing" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="quuood">
+                                <a href="https://heroeslounge.gg/user/view/6702">
+                        quuood
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Guldan.png" title="Gul&#039;dan" alt="Gul&#039;dan" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="XeduR">
+                                <a href="https://heroeslounge.gg/user/view/6701">
+                        XeduR
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Arthas.png" title="Arthas" alt="Arthas" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Lhy">
+                                <a href="https://heroeslounge.gg/user/view/5993">
+                        Lhy
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Malthael.png" title="Malthael" alt="Malthael" class="rounded Icon75x" loading=auto />
+            <figcaption class="figure-caption text-center text-truncate" title="Antss">
+                                <a href="https://heroeslounge.gg/user/view/6704">
+                        Antss
+                    </a>             </figcaption>
+        </figure>
+            </div>
+</div>
+
+<div class="row mx-3">
+    <div class="col">
+        <span class="badge badge-danger float-left">Bans</span>
+    </div>
+    <div class="col">
+        <span class="badge badge-danger float-right">Bans</span>
+    </div>
+</div>
+<div class="row mx-3">
+    <div class="col">
+                <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Junkrat.png" title="Junkrat" alt="Junkrat"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+        <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Falstad.png" title="Falstad" alt="Falstad"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+                        <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Chromie.png" title="Chromie" alt="Chromie"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+            </div>
+    <div class="col">
+                <div class="text-center">
+            <figure class="fixure mx-auto mb-0">
+                                    <a href="https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/ddc/6a99c1ddcf066862094303.stormreplay" download>
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/maps/bg_alterac-pass.jpg" class=" figure-img rounded" alt="" title="Click to download the replay file"
+                            style="max-width:234px" loading=auto>
+                    </a>
+                    <figcaption class="figure-caption">
+                        <span class="badge badge-info">Alterac Pass</span>
+                        <a href="https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/ddc/6a99c1ddcf066862094303.stormreplay" download>
+                            <span class="badge badge-success">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Replay File
+                            </span>
+                        </a>
+                    </figcaption>
+                            </figure>
+        </div>
+    </div>
+    <div class="col">
+                <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tyrael.png" title="Tyrael" alt="Tyrael"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+        <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Yrel.png" title="Yrel" alt="Yrel"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+                        <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/SgtHammer.png" title="Sgt. Hammer" alt="Sgt. Hammer"
+                class="rounded Icon75x" loading=auto />
+        </figure>
+            </div>
+</div>
+
+
+<div class="row my-2">
+    <div class="col-12">
+        <div class="card border">
+            <div class="card-header bg-primary">
+                <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#game_63435" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Toggle Statistics
+                </button>
+            </div>
+            <div class="collapse" id="game_63435">
+                <div class="row text-center align-middle mx-3 mt-2">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3>
+                                    <a href="https://heroeslounge.gg/team/view/RGA" class="text-primary">
+                                        Ruby Goose Agents
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="col-3">
+                                <h1>21</h1>
+                            </div>
+                            <div class="col-3">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/crossed-swords.svg" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <p>                            <p>Duration: 15:14</p></p>
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="row">
+
+                            <div class="col-3">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/crossed-swords.svg" alt="" loading="lazy">
+                            </div>
+                            <div class="col-3">
+                                <h1>3</h1>
+                            </div>
+                            <div class="col-6">
+                                <h3>
+                                    <a href="https://heroeslounge.gg/team/view/ST" class="text-danger">
+                                        Sauna Tent
+                                     </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mb-2">
+                    <div class="col-6">
+                        <span class="badge badge-info float-right mx-2">Level 19</span>                         <span class="badge badge-success float-right">Winner</span>                     </div>
+                    <div class="col-6">
+                        <span class="badge badge-info float-left mx-2">Level 16</span>                     </div>
+                </div>
+                <table class="table table-bordered table-responsive table-sm m-0" style="width:100%" id="game_63435_stat_table">
+                    <thead class="thead-default">
+                        <tr>
+                            <th class="text-center">
+                                Hero
+                            </th>
+                            <th class="text-center">
+                                Player
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/skull_swords.svg" class="Icon24x mx-1" title="Kills" alt="Kills" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/palm.svg" class="Icon24x mx-1" title="Assists" alt="Assists" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/skull.svg" class="Icon24x mx-1" title="Deaths" alt="Deaths" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                Siege Dmg
+                            </th>
+                            <th class="text-center">
+                                Hero Dmg
+                            </th>
+                            <th class="text-center">
+                                Healing
+                            </th>
+                            <th class="text-center">
+                                Dmg Taken
+                            </th>
+                            <th class="text-center" title="Experience Contribution">
+                                Exp
+                            </th>
+                            <th class="d-none">
+                                TGroup
+                            </th>
+                        </tr>
+                        <tbody>
+                                                          <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Johanna.png" class="Icon50x" alt="Johanna" title="Johanna" loading="lazy">
+                                    <p class="d-none">Johanna</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5793" alt="Player Profile" class="text-white">
+                                        Loukas
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">16</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">74,594</td>
+                                <td class="align-middle">23,574</td>
+                                <td class="align-middle">12,207</td>
+                                <td class="align-middle">44,700</td>
+                                <td class="align-middle">13,018</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Sylvanas.png" class="Icon50x" alt="Sylvanas" title="Sylvanas" loading="lazy">
+                                    <p class="d-none">Sylvanas</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/3563" alt="Player Profile" class="text-white">
+                                        Hat
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">86,605</td>
+                                <td class="align-middle">60,860</td>
+                                <td class="align-middle">2,984</td>
+                                <td class="align-middle">22,034</td>
+                                <td class="align-middle">9,472</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" class="Icon50x" alt="Blaze" title="Blaze" loading="lazy">
+                                    <p class="d-none">Blaze</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5736" alt="Player Profile" class="text-white">
+                                        Fish777
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">16</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">55,734</td>
+                                <td class="align-middle">24,919</td>
+                                <td class="align-middle">8,134</td>
+                                <td class="align-middle">32,657</td>
+                                <td class="align-middle">7,511</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Leoric.png" class="Icon50x" alt="Leoric" title="Leoric" loading="lazy">
+                                    <p class="d-none">Leoric</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/2549" alt="Player Profile" class="text-white">
+                                        Kratodel
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">7</td>
+                                <td class="align-middle">12</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">92,196</td>
+                                <td class="align-middle">35,023</td>
+                                <td class="align-middle">15,928</td>
+                                <td class="align-middle">58,032</td>
+                                <td class="align-middle">12,706</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Uther.png" class="Icon50x" alt="Uther" title="Uther" loading="lazy">
+                                    <p class="d-none">Uther</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/13367" alt="Player Profile" class="text-white">
+                                        DHMcGibblets
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">18</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">12,824</td>
+                                <td class="align-middle">14,511</td>
+                                <td class="align-middle">40,389</td>
+                                <td class="align-middle">31,104</td>
+                                <td class="align-middle">4,693</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                           <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Hogger.png" class="Icon50x" alt="Hogger" title="Hogger" loading="lazy">
+                                    <p class="d-none">Hogger</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6707" alt="Player Profile" class="text-white">
+                                        invertebrate
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">4</td>
+                                <td class="align-middle">62,053</td>
+                                <td class="align-middle">21,905</td>
+                                <td class="align-middle">13,165</td>
+                                <td class="align-middle">41,551</td>
+                                <td class="align-middle">8,311</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Brightwing.png" class="Icon50x" alt="Brightwing" title="Brightwing" loading="lazy">
+                                    <p class="d-none">Brightwing</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6702" alt="Player Profile" class="text-white">
+                                        quuood
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">14,560</td>
+                                <td class="align-middle">10,982</td>
+                                <td class="align-middle">54,951</td>
+                                <td class="align-middle">19,627</td>
+                                <td class="align-middle">2,225</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Guldan.png" class="Icon50x" alt="Gul&#039;dan" title="Gul&#039;dan" loading="lazy">
+                                    <p class="d-none">Gul&#039;dan</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6701" alt="Player Profile" class="text-white">
+                                        XeduR
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">97,383</td>
+                                <td class="align-middle">64,447</td>
+                                <td class="align-middle">8,764</td>
+                                <td class="align-middle">22,218</td>
+                                <td class="align-middle">8,902</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Arthas.png" class="Icon50x" alt="Arthas" title="Arthas" loading="lazy">
+                                    <p class="d-none">Arthas</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5993" alt="Player Profile" class="text-white">
+                                        Lhy
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">6</td>
+                                <td class="align-middle">33,836</td>
+                                <td class="align-middle">30,294</td>
+                                <td class="align-middle">6,331</td>
+                                <td class="align-middle">55,654</td>
+                                <td class="align-middle">5,823</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Malthael.png" class="Icon50x" alt="Malthael" title="Malthael" loading="lazy">
+                                    <p class="d-none">Malthael</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6704" alt="Player Profile" class="text-white">
+                                        Antss
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">6</td>
+                                <td class="align-middle">55,620</td>
+                                <td class="align-middle">30,545</td>
+                                <td class="align-middle">10,223</td>
+                                <td class="align-middle">39,225</td>
+                                <td class="align-middle">8,793</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                             
+                        </tbody>
+                    </thead>
+                </table>
+                <table class="table table-bordered table-responsive table-sm" style="width:100%">
+                    <thead class="thead-default">
+                        <tr>
+                            <th class="text-center">
+                                Hero
+                            </th>
+                            <th class="text-center">
+                                Player
+                            </th>
+                            <th class="text-center">
+                                1
+                            </th>
+                            <th class="text-center">
+                                4
+                            </th>
+                            <th class="text-center">
+                                7
+                            </th>
+                            <th class="text-center">
+                                10
+                            </th>
+                            <th class="text-center">
+                                13
+                            </th>
+                            <th class="text-center">
+                                16
+                            </th>
+                            <th class="text-center">
+                                20
+                            </th>
+                            <th class="d-none">
+                                TGroup
+                            </th>
+                        </tr>
+                        <tbody>
+                                                          <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Johanna.png" class="Icon50x" alt="Johanna" title="Johanna" loading="lazy">
+                                    <p class="d-none">Johanna</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5793" alt="Player Profile" class="text-white">
+                                        Loukas
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_shield_glare.png" class="Icon32x" alt="Zealous Glare" title="Zealous Glare" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_punish.png" class="Icon32x" alt="Subdue" title="Subdue" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_condemn.png" class="Icon32x" alt="Conviction" title="Conviction" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_blessed_shield.png" class="Icon32x" alt="Blessed Shield" title="Blessed Shield" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_punish.png" class="Icon32x" alt="Roar" title="Roar" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_johanna_shield_glare.png" class="Icon32x" alt="Holy Renewal" title="Holy Renewal" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Sylvanas.png" class="Icon50x" alt="Sylvanas" title="Sylvanas" loading="lazy">
+                                    <p class="d-none">Sylvanas</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/3563" alt="Player Profile" class="text-white">
+                                        Hat
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_shadowdagger.png" class="Icon32x" alt="Unrelenting Torment" title="Unrelenting Torment" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_blackarrows_b.png" class="Icon32x" alt="Haunting Arrows" title="Haunting Arrows" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_shadowdagger.png" class="Icon32x" alt="Lost Soul" title="Lost Soul" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_mindcontrol.png" class="Icon32x" alt="Mind Control" title="Mind Control" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_blackarrows.png" class="Icon32x" alt="Remorseless" title="Remorseless" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_sylvanas_witheringfire.png" class="Icon32x" alt="Evasive Fire" title="Evasive Fire" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" class="Icon50x" alt="Blaze" title="Blaze" loading="lazy">
+                                    <p class="d-none">Blaze</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5736" alt="Player Profile" class="text-white">
+                                        Fish777
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_stim_2.png" class="Icon32x" alt="Adrenaline Stimpack" title="Adrenaline Stimpack" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_building.png" class="Icon32x" alt="Incinerator Gauntlets" title="Incinerator Gauntlets" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_flame.png" class="Icon32x" alt="Suppressive Fire" title="Suppressive Fire" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_bunker.png" class="Icon32x" alt="Bunker Drop" title="Bunker Drop" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_jet.png" class="Icon32x" alt="Collision Course" title="Collision Course" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_vanadium_plating.png" class="Icon32x" alt="Juggernaut Plating" title="Juggernaut Plating" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Leoric.png" class="Icon50x" alt="Leoric" title="Leoric" loading="lazy">
+                                    <p class="d-none">Leoric</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/2549" alt="Player Profile" class="text-white">
+                                        Kratodel
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_skeletalswing.png" class="Icon32x" alt="Consume Vitality" title="Consume Vitality" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_skeletalswing.png" class="Icon32x" alt="Ghastly Reach" title="Ghastly Reach" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_drainhope_var2.png" class="Icon32x" alt="Hopelessness" title="Hopelessness" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_entomb.png" class="Icon32x" alt="Entomb" title="Entomb" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_wraithwalk.png" class="Icon32x" alt="Ominous Wraith" title="Ominous Wraith" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_leoric_wraithwalk.png" class="Icon32x" alt="Royal Focus" title="Royal Focus" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Uther.png" class="Icon50x" alt="Uther" title="Uther" loading="lazy">
+                                    <p class="d-none">Uther</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/13367" alt="Player Profile" class="text-white">
+                                        DHMcGibblets
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_uther_holyradiance.png" class="Icon32x" alt="Wave of Light" title="Wave of Light" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_uther_hammerofjustice.png" class="Icon32x" alt="Pursuit of Justice" title="Pursuit of Justice" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_cleanse.png" class="Icon32x" alt="Hand of Protection" title="Hand of Protection" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_uther_divineshield.png" class="Icon32x" alt="Divine Shield" title="Divine Shield" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_uther_hammerofjustice.png" class="Icon32x" alt="Well Met" title="Well Met" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_uther_benediction.png" class="Icon32x" alt="Benediction" title="Benediction" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">1</td>
+                            </tr>
+                                                           <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Hogger.png" class="Icon50x" alt="Hogger" title="Hogger" loading="lazy">
+                                    <p class="d-none">Hogger</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6707" alt="Player Profile" class="text-white">
+                                        invertebrate
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_rage.png" class="Icon32x" alt="On The Prowl" title="On The Prowl" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_rage.png" class="Icon32x" alt="Hogger&#039;s Joggers" title="Hogger&#039;s Joggers" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_trait.png" class="Icon32x" alt="Garbage Fire" title="Garbage Fire" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_r2.png" class="Icon32x" alt="Shockwave" title="Shockwave" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_e_variant.png" class="Icon32x" alt="Pummel" title="Pummel" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_hogger_q.png" class="Icon32x" alt="Headbanger" title="Headbanger" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Brightwing.png" class="Icon50x" alt="Brightwing" title="Brightwing" loading="lazy">
+                                    <p class="d-none">Brightwing</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6702" alt="Player Profile" class="text-white">
+                                        quuood
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_hypershift.png" class="Icon32x" alt="Hyper Shift" title="Hyper Shift" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_arcaneflare.png" class="Icon32x" alt="Dream Shot" title="Dream Shot" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_hypershift.png" class="Icon32x" alt="Peekaboo!" title="Peekaboo!" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_blinkheal.png" class="Icon32x" alt="Blink Heal" title="Blink Heal" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_pixiedust_b.png" class="Icon32x" alt="Pixie Power" title="Pixie Power" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_brightwing_polymorph.png" class="Icon32x" alt="Critterize" title="Critterize" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Guldan.png" class="Icon50x" alt="Gul&#039;dan" title="Gul&#039;dan" loading="lazy">
+                                    <p class="d-none">Gul&#039;dan</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6701" alt="Player Profile" class="text-white">
+                                        XeduR
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_felflame.png" class="Icon32x" alt="Pursuit of Flame" title="Pursuit of Flame" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_lifetap.png" class="Icon32x" alt="Improved Life Tap" title="Improved Life Tap" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_hungerforpower.png" class="Icon32x" alt="Hunger for Power" title="Hunger for Power" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_horrify.png" class="Icon32x" alt="Horrify" title="Horrify" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_healthstone.png" class="Icon32x" alt="Healthstone" title="Healthstone" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_guldan_felflame.png" class="Icon32x" alt="Rampant Hellfire" title="Rampant Hellfire" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Arthas.png" class="Icon50x" alt="Arthas" title="Arthas" loading="lazy">
+                                    <p class="d-none">Arthas</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5993" alt="Player Profile" class="text-white">
+                                        Lhy
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_arthas_howlingblast.png" class="Icon32x" alt="Frost Presence" title="Frost Presence" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_arthas_howlingblast.png" class="Icon32x" alt="Shattered Armor" title="Shattered Armor" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_arthas_deathcoil.png" class="Icon32x" alt="Immortal Coil" title="Immortal Coil" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_arthas_summonsindragosa.png" class="Icon32x" alt="Summon Sindragosa" title="Summon Sindragosa" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_arthas_howlingblast.png" class="Icon32x" alt="Deathchill" title="Deathchill" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_temp_war3_btnantimagicshell.png" class="Icon32x" alt="Anti-Magic Shell" title="Anti-Magic Shell" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Malthael.png" class="Icon50x" alt="Malthael" title="Malthael" loading="lazy">
+                                    <p class="d-none">Malthael</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6704" alt="Player Profile" class="text-white">
+                                        Antss
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_onpalehorse.png" class="Icon32x" alt="On a Pale Horse" title="On a Pale Horse" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_soulrip.png" class="Icon32x" alt="Die Alone" title="Die Alone" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_touchofdeath.png" class="Icon32x" alt="Touch of Death" title="Touch of Death" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_tormentedsoul.png" class="Icon32x" alt="Tormented Souls" title="Tormented Souls" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_inevitableend.png" class="Icon32x" alt="Inevitable End" title="Inevitable End" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_malthael_wraithstrike.png" class="Icon32x" alt="Mortality" title="Mortality" loading="lazy">
+                                </td>
+                                                                 <td></td>
+                                                                  <td class="d-none">2</td>
+                            </tr>
+                             
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+             </div>
+                        <div class="tab-pane " id="game63436" role="tabpanel">
+                <div class="row">
+    <div class="col">
+        <span class="float-right badge badge-info">
+            First Pick</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Dehaka.png" title="Dehaka" alt="Dehaka" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Kratodel">
+                                <a href="https://heroeslounge.gg/user/view/2549">
+                    Kratodel
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Yrel.png" title="Yrel" alt="Yrel" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Fish">
+                                <a href="https://heroeslounge.gg/user/view/5736">
+                    Fish
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Lúcio.png" title="Lúcio" alt="Lúcio" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="McGibblets">
+                                <a href="https://heroeslounge.gg/user/view/13367">
+                    McGibblets
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Greymane.png" title="Greymane" alt="Greymane" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Hat">
+                                <a href="https://heroeslounge.gg/user/view/3563">
+                    Hat
+                </a>             </figcaption>
+        </figure>
+                <figure class="figure float-left m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/DVa.png" title="D.Va" alt="D.Va" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Louka">
+                                <a href="https://heroeslounge.gg/user/view/5793">
+                    Louka
+                </a>             </figcaption>
+        </figure>
+            </div>
+
+    <div class="col">
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tyrael.png" title="Tyrael" alt="Tyrael" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Lhy">
+                                <a href="https://heroeslounge.gg/user/view/5993">
+                        Lhy
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" title="Blaze" alt="Blaze" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="invertebrate">
+                                <a href="https://heroeslounge.gg/user/view/6707">
+                        invertebrate
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Rehgar.png" title="Rehgar" alt="Rehgar" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="quuood">
+                                <a href="https://heroeslounge.gg/user/view/6702">
+                        quuood
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tychus.png" title="Tychus" alt="Tychus" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="XeduR">
+                                <a href="https://heroeslounge.gg/user/view/6701">
+                        XeduR
+                    </a>             </figcaption>
+        </figure>
+                <figure class="figure float-right m-1" style="max-width:70px">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Cassia.png" title="Cassia" alt="Cassia" class="rounded Icon75x" loading=lazy />
+            <figcaption class="figure-caption text-center text-truncate" title="Antss">
+                                <a href="https://heroeslounge.gg/user/view/6704">
+                        Antss
+                    </a>             </figcaption>
+        </figure>
+            </div>
+</div>
+
+<div class="row mx-3">
+    <div class="col">
+        <span class="badge badge-danger float-left">Bans</span>
+    </div>
+    <div class="col">
+        <span class="badge badge-danger float-right">Bans</span>
+    </div>
+</div>
+<div class="row mx-3">
+    <div class="col">
+                <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/SgtHammer.png" title="Sgt. Hammer" alt="Sgt. Hammer"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+        <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Junkrat.png" title="Junkrat" alt="Junkrat"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+                        <figure class="figure float-left m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Chromie.png" title="Chromie" alt="Chromie"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+            </div>
+    <div class="col">
+                <div class="text-center">
+            <figure class="fixure mx-auto mb-0">
+                                    <a href="https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/f44/6a99c1f4447c2725094939.stormreplay" download>
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/maps/bg_garden-of-terror.jpg" class=" figure-img rounded" alt="" title="Click to download the replay file"
+                            style="max-width:234px" loading=lazy>
+                    </a>
+                    <figcaption class="figure-caption">
+                        <span class="badge badge-info">Garden of Terror</span>
+                        <a href="https://heroeslounge.gg/storage/app/uploads/public/6a9/9c1/f44/6a99c1f4447c2725094939.stormreplay" download>
+                            <span class="badge badge-success">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Replay File
+                            </span>
+                        </a>
+                    </figcaption>
+                            </figure>
+        </div>
+    </div>
+    <div class="col">
+                <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Falstad.png" title="Falstad" alt="Falstad"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+        <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Johanna.png" title="Johanna" alt="Johanna"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+                        <figure class="figure float-right m-1">
+                        <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Sylvanas.png" title="Sylvanas" alt="Sylvanas"
+                class="rounded Icon75x" loading=lazy />
+        </figure>
+            </div>
+</div>
+
+
+<div class="row my-2">
+    <div class="col-12">
+        <div class="card border">
+            <div class="card-header bg-primary">
+                <button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#game_63436" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Toggle Statistics
+                </button>
+            </div>
+            <div class="collapse" id="game_63436">
+                <div class="row text-center align-middle mx-3 mt-2">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3>
+                                    <a href="https://heroeslounge.gg/team/view/RGA" class="text-primary">
+                                        Ruby Goose Agents
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="col-3">
+                                <h1>11</h1>
+                            </div>
+                            <div class="col-3">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/crossed-swords.svg" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <p>                            <p>Duration: 19:44</p></p>
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="row">
+
+                            <div class="col-3">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/crossed-swords.svg" alt="" loading="lazy">
+                            </div>
+                            <div class="col-3">
+                                <h1>12</h1>
+                            </div>
+                            <div class="col-6">
+                                <h3>
+                                    <a href="https://heroeslounge.gg/team/view/ST" class="text-danger">
+                                        Sauna Tent
+                                     </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mb-2">
+                    <div class="col-6">
+                        <span class="badge badge-info float-right mx-2">Level 22</span>                         <span class="badge badge-success float-right">Winner</span>                     </div>
+                    <div class="col-6">
+                        <span class="badge badge-info float-left mx-2">Level 21</span>                     </div>
+                </div>
+                <table class="table table-bordered table-responsive table-sm m-0" style="width:100%" id="game_63436_stat_table">
+                    <thead class="thead-default">
+                        <tr>
+                            <th class="text-center">
+                                Hero
+                            </th>
+                            <th class="text-center">
+                                Player
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/skull_swords.svg" class="Icon24x mx-1" title="Kills" alt="Kills" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/palm.svg" class="Icon24x mx-1" title="Assists" alt="Assists" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/icons/skull.svg" class="Icon24x mx-1" title="Deaths" alt="Deaths" loading="lazy" />
+                            </th>
+                            <th class="text-center">
+                                Siege Dmg
+                            </th>
+                            <th class="text-center">
+                                Hero Dmg
+                            </th>
+                            <th class="text-center">
+                                Healing
+                            </th>
+                            <th class="text-center">
+                                Dmg Taken
+                            </th>
+                            <th class="text-center" title="Experience Contribution">
+                                Exp
+                            </th>
+                            <th class="d-none">
+                                TGroup
+                            </th>
+                        </tr>
+                        <tbody>
+                                                          <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Dehaka.png" class="Icon50x" alt="Dehaka" title="Dehaka" loading="lazy">
+                                    <p class="d-none">Dehaka</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/2549" alt="Player Profile" class="text-white">
+                                        Kratodel
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">123,059</td>
+                                <td class="align-middle">21,950</td>
+                                <td class="align-middle">24,231</td>
+                                <td class="align-middle">51,244</td>
+                                <td class="align-middle">15,873</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Yrel.png" class="Icon50x" alt="Yrel" title="Yrel" loading="lazy">
+                                    <p class="d-none">Yrel</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5736" alt="Player Profile" class="text-white">
+                                        Fish777
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">120,629</td>
+                                <td class="align-middle">36,053</td>
+                                <td class="align-middle">29,619</td>
+                                <td class="align-middle">74,978</td>
+                                <td class="align-middle">13,306</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Lúcio.png" class="Icon50x" alt="Lúcio" title="Lúcio" loading="lazy">
+                                    <p class="d-none">Lúcio</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/13367" alt="Player Profile" class="text-white">
+                                        DHMcGibblets
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">8</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">25,428</td>
+                                <td class="align-middle">21,407</td>
+                                <td class="align-middle">58,246</td>
+                                <td class="align-middle">29,321</td>
+                                <td class="align-middle">6,630</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Greymane.png" class="Icon50x" alt="Greymane" title="Greymane" loading="lazy">
+                                    <p class="d-none">Greymane</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/3563" alt="Player Profile" class="text-white">
+                                        Hat
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">5</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">125,086</td>
+                                <td class="align-middle">58,609</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">41,701</td>
+                                <td class="align-middle">9,040</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/DVa.png" class="Icon50x" alt="D.Va" title="D.Va" loading="lazy">
+                                    <p class="d-none">D.Va</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5793" alt="Player Profile" class="text-white">
+                                        Loukas
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">140,508</td>
+                                <td class="align-middle">37,600</td>
+                                <td class="align-middle">2,053</td>
+                                <td class="align-middle">73,498</td>
+                                <td class="align-middle">17,449</td>
+                                <td class="d-none">1</td>
+                            </tr>
+                                                           <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tyrael.png" class="Icon50x" alt="Tyrael" title="Tyrael" loading="lazy">
+                                    <p class="d-none">Tyrael</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5993" alt="Player Profile" class="text-white">
+                                        Lhy
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">8</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">52,806</td>
+                                <td class="align-middle">31,387</td>
+                                <td class="align-middle">27,068</td>
+                                <td class="align-middle">78,286</td>
+                                <td class="align-middle">10,285</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" class="Icon50x" alt="Blaze" title="Blaze" loading="lazy">
+                                    <p class="d-none">Blaze</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6707" alt="Player Profile" class="text-white">
+                                        invertebrate
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">9</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">171,436</td>
+                                <td class="align-middle">30,637</td>
+                                <td class="align-middle">6,298</td>
+                                <td class="align-middle">61,584</td>
+                                <td class="align-middle">17,020</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Rehgar.png" class="Icon50x" alt="Rehgar" title="Rehgar" loading="lazy">
+                                    <p class="d-none">Rehgar</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6702" alt="Player Profile" class="text-white">
+                                        quuood
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">10</td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">33,856</td>
+                                <td class="align-middle">13,971</td>
+                                <td class="align-middle">53,233</td>
+                                <td class="align-middle">26,454</td>
+                                <td class="align-middle">7,963</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tychus.png" class="Icon50x" alt="Tychus" title="Tychus" loading="lazy">
+                                    <p class="d-none">Tychus</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6701" alt="Player Profile" class="text-white">
+                                        XeduR
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">3</td>
+                                <td class="align-middle">8</td>
+                                <td class="align-middle">2</td>
+                                <td class="align-middle">142,379</td>
+                                <td class="align-middle">58,123</td>
+                                <td class="align-middle">0</td>
+                                <td class="align-middle">26,515</td>
+                                <td class="align-middle">11,045</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Cassia.png" class="Icon50x" alt="Cassia" title="Cassia" loading="lazy">
+                                    <p class="d-none">Cassia</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6704" alt="Player Profile" class="text-white">
+                                        Antss
+                                    </a>
+                                                                    </td>
+                                <td class="align-middle">4</td>
+                                <td class="align-middle">7</td>
+                                <td class="align-middle">1</td>
+                                <td class="align-middle">88,093</td>
+                                <td class="align-middle">95,310</td>
+                                <td class="align-middle">6,892</td>
+                                <td class="align-middle">25,835</td>
+                                <td class="align-middle">12,470</td>
+                                <td class="d-none">2</td>
+                            </tr>
+                             
+                        </tbody>
+                    </thead>
+                </table>
+                <table class="table table-bordered table-responsive table-sm" style="width:100%">
+                    <thead class="thead-default">
+                        <tr>
+                            <th class="text-center">
+                                Hero
+                            </th>
+                            <th class="text-center">
+                                Player
+                            </th>
+                            <th class="text-center">
+                                1
+                            </th>
+                            <th class="text-center">
+                                4
+                            </th>
+                            <th class="text-center">
+                                7
+                            </th>
+                            <th class="text-center">
+                                10
+                            </th>
+                            <th class="text-center">
+                                13
+                            </th>
+                            <th class="text-center">
+                                16
+                            </th>
+                            <th class="text-center">
+                                20
+                            </th>
+                            <th class="d-none">
+                                TGroup
+                            </th>
+                        </tr>
+                        <tbody>
+                                                          <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Dehaka.png" class="Icon50x" alt="Dehaka" title="Dehaka" loading="lazy">
+                                    <p class="d-none">Dehaka</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/2549" alt="Player Profile" class="text-white">
+                                        Kratodel
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_brushstalker.png" class="Icon32x" alt="Enhanced Agility" title="Enhanced Agility" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_essencecollection.png" class="Icon32x" alt="One-Who-Collects" title="One-Who-Collects" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_drag.png" class="Icon32x" alt="Feeding Frenzy" title="Feeding Frenzy" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_isolation.png" class="Icon32x" alt="Isolation" title="Isolation" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_trample.png" class="Icon32x" alt="Ferocious Stalker" title="Ferocious Stalker" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_burrow.png" class="Icon32x" alt="Tunneling Claws" title="Tunneling Claws" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dehaka_isolation.png" class="Icon32x" alt="Contagion" title="Contagion" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Yrel.png" class="Icon50x" alt="Yrel" title="Yrel" loading="lazy">
+                                    <p class="d-none">Yrel</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5736" alt="Player Profile" class="text-white">
+                                        Fish777
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_vindication.png" class="Icon32x" alt="Light of Karabor" title="Light of Karabor" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_avenging_wrath.png" class="Icon32x" alt="Aegis of Light" title="Aegis of Light" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_righteous_hammer.png" class="Icon32x" alt="Righteous Momentum" title="Righteous Momentum" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_sacred_ground.png" class="Icon32x" alt="Sacred Ground" title="Sacred Ground" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_vindication.png" class="Icon32x" alt="Aldor Peacekeeper" title="Aldor Peacekeeper" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_righteous_hammer.png" class="Icon32x" alt="Templar&#039;s Verdict" title="Templar&#039;s Verdict" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_yrel_seraphim.png" class="Icon32x" alt="Seraphim" title="Seraphim" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Lúcio.png" class="Icon50x" alt="Lúcio" title="Lúcio" loading="lazy">
+                                    <p class="d-none">Lúcio</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/13367" alt="Player Profile" class="text-white">
+                                        DHMcGibblets
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_wallride.png" class="Icon32x" alt="Accelerando" title="Accelerando" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_soundwave_a.png" class="Icon32x" alt="Off the Wall" title="Off the Wall" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_fineshrine.png" class="Icon32x" alt="Boombox" title="Boombox" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_highfive.png" class="Icon32x" alt="High Five" title="High Five" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_accelerando.png" class="Icon32x" alt="Heavy Casters" title="Heavy Casters" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_ampitup_b.png" class="Icon32x" alt="Up the Frequency" title="Up the Frequency" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_lucio_crossfade_a.png" class="Icon32x" alt="Summer Anthem" title="Summer Anthem" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Greymane.png" class="Icon50x" alt="Greymane" title="Greymane" loading="lazy">
+                                    <p class="d-none">Greymane</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/3563" alt="Player Profile" class="text-white">
+                                        Hat
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_beastfocus_var1.png" class="Icon32x" alt="Viciousness" title="Viciousness" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_beastfocus.png" class="Icon32x" alt="Insatiable" title="Insatiable" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_curseoftheworgen_var1.png" class="Icon32x" alt="Wizened Duelist" title="Wizened Duelist" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_goforthethroat.png" class="Icon32x" alt="Go for the Throat" title="Go for the Throat" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_beastfocus.png" class="Icon32x" alt="On the Prowl" title="On the Prowl" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_damage.png" class="Icon32x" alt="Lord of His Pack" title="Lord of His Pack" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_greymane_curseoftheworgen.png" class="Icon32x" alt="Hunter&#039;s Blunderbuss" title="Hunter&#039;s Blunderbuss" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">1</td>
+                            </tr>
+                                                         <tr class="bg-primary text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/DVa.png" class="Icon50x" alt="D.Va" title="D.Va" loading="lazy">
+                                    <p class="d-none">D.Va</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5793" alt="Player Profile" class="text-white">
+                                        Loukas
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_mechmode_b.png" class="Icon32x" alt="Liquid Cooling" title="Liquid Cooling" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_selfdestruct.png" class="Icon32x" alt="Nuclear Option" title="Nuclear Option" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_defensematrix.png" class="Icon32x" alt="Fusion Generator" title="Fusion Generator" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_bunnyhop.png" class="Icon32x" alt="Bunny Hop" title="Bunny Hop" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_defensematrix.png" class="Icon32x" alt="Target Locked" title="Target Locked" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_defensematrix.png" class="Icon32x" alt="Diverting Power" title="Diverting Power" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_dva_bunnyhop.png" class="Icon32x" alt="Stop and Pop" title="Stop and Pop" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">1</td>
+                            </tr>
+                                                           <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tyrael.png" class="Icon50x" alt="Tyrael" title="Tyrael" loading="lazy">
+                                    <p class="d-none">Tyrael</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/5993" alt="Player Profile" class="text-white">
+                                        Lhy
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_righteousness_var1.png" class="Icon32x" alt="Justice for All" title="Justice for All" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_righteousness.png" class="Icon32x" alt="Reciprocate" title="Reciprocate" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_smite_a.png" class="Icon32x" alt="Swift Retribution" title="Swift Retribution" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_sanctification.png" class="Icon32x" alt="Sanctification" title="Sanctification" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_eldruinsmight_b.png" class="Icon32x" alt="Holy Ground" title="Holy Ground" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_cooldown.png" class="Icon32x" alt="Horadric Reforging" title="Horadric Reforging" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tyrael_sanctification.png" class="Icon32x" alt="Holy Arena" title="Holy Arena" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Blaze.png" class="Icon50x" alt="Blaze" title="Blaze" loading="lazy">
+                                    <p class="d-none">Blaze</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6707" alt="Player Profile" class="text-white">
+                                        invertebrate
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_stim_2.png" class="Icon32x" alt="Adrenaline Stimpack" title="Adrenaline Stimpack" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_building.png" class="Icon32x" alt="Incinerator Gauntlets" title="Incinerator Gauntlets" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_oil.png" class="Icon32x" alt="Nanomachine Coating" title="Nanomachine Coating" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_bunker.png" class="Icon32x" alt="Bunker Drop" title="Bunker Drop" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_jet.png" class="Icon32x" alt="Collision Course" title="Collision Course" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_jet.png" class="Icon32x" alt="Thermal Protection" title="Thermal Protection" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_blaze_bunker.png" class="Icon32x" alt="Fortified Bunker" title="Fortified Bunker" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Rehgar.png" class="Icon50x" alt="Rehgar" title="Rehgar" loading="lazy">
+                                    <p class="d-none">Rehgar</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6702" alt="Player Profile" class="text-white">
+                                        quuood
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_earthbindtotem.png" class="Icon32x" alt="Colossal Totem" title="Colossal Totem" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_chainheal.png" class="Icon32x" alt="Earthliving Enchant" title="Earthliving Enchant" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_earthbindtotem.png" class="Icon32x" alt="Grounded Totem" title="Grounded Totem" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_bloodlust.png" class="Icon32x" alt="Bloodlust" title="Bloodlust" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_chainheal.png" class="Icon32x" alt="Tidal Waves" title="Tidal Waves" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_earthbindtotem.png" class="Icon32x" alt="Earthgrasp Totem" title="Earthgrasp Totem" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_rehgar_bloodlust.png" class="Icon32x" alt="Gladiator&#039;s War Shout" title="Gladiator&#039;s War Shout" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Tychus.png" class="Icon50x" alt="Tychus" title="Tychus" loading="lazy">
+                                    <p class="d-none">Tychus</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6701" alt="Player Profile" class="text-white">
+                                        XeduR
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tychus_fraggrenade.png" class="Icon32x" alt="Quarterback" title="Quarterback" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_speed.png" class="Icon32x" alt="Master Assassin" title="Master Assassin" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tychus_fraggrenade.png" class="Icon32x" alt="Melting Point" title="Melting Point" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tychus_commandeerodin.png" class="Icon32x" alt="Commandeer Odin" title="Commandeer Odin" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_temp_btn-upgrade-terran-neosteelframe.png" class="Icon32x" alt="Neosteel Coating" title="Neosteel Coating" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tychus_fraggrenade.png" class="Icon32x" alt="Titan Grenade" title="Titan Grenade" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_tychus_commandeerodin.png" class="Icon32x" alt="Big Red Button" title="Big Red Button" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">2</td>
+                            </tr>
+                                                         <tr class="bg-danger text-white text-center">
+                                <th scope="row" class="text-center">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/heroes/Cassia.png" class="Icon50x" alt="Cassia" title="Cassia" loading="lazy">
+                                    <p class="d-none">Cassia</p>
+                                </th>
+                                <td class="align-middle">
+                                                                        <a href="https://heroeslounge.gg/user/view/6704" alt="Player Profile" class="text-white">
+                                        Antss
+                                    </a>
+                                                                    </td>
+                                                                 <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_new_chargedstrikes.png" class="Icon32x" alt="Charged Strikes" title="Charged Strikes" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_avoidance_b.png" class="Icon32x" alt="Plate of the Whale" title="Plate of the Whale" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_avoidance_b.png" class="Icon32x" alt="Surge of Light" title="Surge of Light" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_balllightning.png" class="Icon32x" alt="Ball Lightning" title="Ball Lightning" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_new_gloves.png" class="Icon32x" alt="Gloves Of Alacrity" title="Gloves Of Alacrity" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_talent_autoattack_searing.png" class="Icon32x" alt="Martial Law" title="Martial Law" loading="lazy">
+                                </td>
+                                                                  <td class="align-middle">
+                                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/talents/storm_ui_icon_cassia_avoidance_b.png" class="Icon32x" alt="Titan&#039;s Revenge" title="Titan&#039;s Revenge" loading="lazy">
+                                </td>
+                                                                 <td class="d-none">2</td>
+                            </tr>
+                             
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+             </div>
+                    </div>
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('set', { 'cookie_domain': 'auto' });
+    gtag('config', '');
+</script>
+ 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 sidebar">
+                    <div class="sidebar-widgets">
+
+    <!-- SEARCH -->
+    <div id="search-3" class="widget widget_search">
+        <h3 class="widget-title">Search</h3>
+        <form role="search" method="get" class="search-form" name="form" action="https://heroeslounge.gg/search">
+            <input
+                type="search"
+                class="search-field form-control"
+                placeholder="Search..."
+                value="" name="q" title="Search for:"  />
+            <button class="btn btn-primary-custom" type="submit">
+                <i class="fa fa-search" aria-hidden="true" color="white"></i>
+            </button>
+        </form>
+    </div>
+
+
+
+    <!-- RECENT POSTS -->
+    <div id="recent-posts-3" class="widget widget_recent_entries">
+        <h3 class="widget-title">Recent Posts</h3>
+                        <ul class="post-list">
+                            <li>
+                    <a href="https://heroeslounge.gg/blog/post/master-maps-tournament">Master of Maps Tournament</a>
+                </li>
+                            <li>
+                    <a href="https://heroeslounge.gg/blog/post/signups-open-season-31">Signups open for Season 31!</a>
+                </li>
+                            <li>
+                    <a href="https://heroeslounge.gg/blog/post/signups-open-season-30">Signups open for Season 30!</a>
+                </li>
+                            <li>
+                    <a href="https://heroeslounge.gg/blog/post/introducing-khaldors-underdog-cup-div-5-150-prize-pool">Introducing: Khaldor&#039;s Underdog Cup Div 5 - €150 prize pool!</a>
+                </li>
+                    </ul>
+
+            </div>
+    <!-- CATEGORIES -->
+     <div id="categories-3" class="widget widget_recent_entries">
+        <h3 class="widget-title">Blog Categories</h3>
+           </div>
+    
+     <div id="tags-3" class="widget widget_tag_cloud">
+        <h3 class="widget-title">Tag Cloud</h3>
+       <div class="tagcloud">
+	     	<div class="no-post">
+    		No post found
+    	</div>
+    </div>    </div>
+
+
+
+
+</div>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-widgets bg-footer">
+    <div class="container">
+        <div class="row">
+
+            <!-- Footer Col 1 -->
+            <div class="col-md-3 footer-widget footer-widget-col-1 wow">
+                <div id="text-2" class="widget widget_text">
+                    <h3 class="widget-title">About Heroes Lounge</h3>
+                    <div class="textwidget">
+                        <p>Heroes Lounge is the largest amateur league for Heroes of the Storm for all skill levels with live streamed games almost every day on twitch.</p>                                                <a href="https://www.facebook.com/heroeslounge.gg/" class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+                                                                                                <a href="https://twitter.com/HeroesloungeGG" class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+                                                                                            </div>
+                </div>
+            </div>
+            <!-- /Footer Col 1 -->
+
+            <!-- Footer Col 2 -->
+            <div class="col-md-3 footer-widget footer-widget-col-2 wow">
+        
+            </div>
+            <!-- /Footer Col 2 -->
+
+            <!-- Footer Col 3 -->
+            <div class="col-md-3 footer-widget footer-widget-col-3 wow">
+            </div>
+            <!-- /Footer Col 3 -->
+
+            <!-- Footer Col 4 -->
+            <div class="col-md-3 footer-widget footer-widget-col-4 wow">
+                <a class="btn btn-primary mt-1" href="https://www.facebook.com/heroeslounge.gg" style="height: 54px; width: 120px;">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-primary mt-1" href="https://twitter.com/HeroesLoungeGG" style="height: 54px; width: 120px;">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-primary mt-1" href="https://www.patreon.com/heroesloungegg">
+                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/btns/Patreon wordmark (white).png" height="28" width="78">
+                </a>
+                <a class="btn btn-primary mt-1" href="https://discordapp.com/invite/aePkBsZ">
+                    <img src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/img/btns/Discord-Logo+Wordmark-White.svg" height="28" width="78">
+                </a>
+            </div>
+            <!-- /Footer Col 4 -->
+
+        </div>
+    </div>
+</div> 
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Navigation -->
+            <div class="col-md-8">
+                <ul id="menu-footer" class="nav-foot">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <a href="/privacy-statement">Privacy Statement</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Copyright and Credits -->
+            <div class="col-md-4">
+                <div class="copyright">
+                    Copyright 2017-2024<br />
+                    Heroes Lounge
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> 
+<div id="back_to_top">
+    <div class="container">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
+    </div>
+</div><script type="text/javascript">
+    /* <![CDATA[ */
+    var jpfbembed = { "appid": "249643311490", "locale": "en_US" };
+/* ]]> */
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.4/umd/popper.min.js"></script>
+
+<script src="https://heroeslounge.gg/combine/21aee8d94d0f2add0ad660757776c6a7-1518358576">
+
+</script>
+
+<script type="text/javascript" async src="https://heroeslounge.gg/combine/c0e2e5b938e73d38b2e112cb29ca1f82-1518358575"></script>
+ <script type="text/javascript" src="https://heroeslounge.gg/themes/HeroesLounge-Theme/assets/js/jquery-ui.min.js" async ></script>
+
+
+
+
+
+
+<script src="/modules/system/assets/js/framework.combined-min.js"></script>
+<link rel="stylesheet" property="stylesheet" href="/modules/system/assets/css/framework.extras-min.css">
+ <script src="https://heroeslounge.gg/plugins/rikki/loungestatistics/assets/js/datatables.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#game_63435>#game_63435_stat_table').DataTable
+            ({
+                order: [[10, 'asc']],
+                searching: false,
+                paging: false,
+                info: false
+            });
+        jQuery('.dataTables_wrapper').removeClass('container-fluid');
+    });
+
+</script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#game_63436>#game_63436_stat_table').DataTable
+            ({
+                order: [[10, 'asc']],
+                searching: false,
+                paging: false,
+                info: false
+            });
+        jQuery('.dataTables_wrapper').removeClass('container-fluid');
+    });
+
+</script>
+<script type="text/javascript">
+jQuery.request('SetTimezone::onTimezoneDetection', {
+    data: {timezone: Intl.DateTimeFormat().resolvedOptions().timeZone}
+});
+</script> 
+    </body>
+</html>

@@ -22,5 +22,10 @@
 	],
 	"cutoffDate": "2021-12-07",
 	"replayDirectory": "replays",
-	"outputDirectory": "data"
+	"outputDirectory": "data",
+
+	"lounge": {
+		"teamSlug": "ST",
+		"replayDirectory": "replays/lounge"
+	}
 }
