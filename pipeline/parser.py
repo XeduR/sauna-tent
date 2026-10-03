@@ -287,7 +287,17 @@ def _trim_talents(choices: list) -> list:
 	return choices[:end]
 
 
-def _apply_chat_analysis(players: list, chat_records: list, elapsed_loops: int, game_mode: str) -> None:
+def _game_end_loop(raw: dict) -> int | None:
+	"""Gameloop of the core's death, identical in every copy of a match."""
+	for event in raw.get("statEvents") or []:
+		if event.get("name") == "EndOfGameTalentChoices":
+			return event.get("gameloop")
+	return None
+
+
+def _apply_chat_analysis(
+	players: list, chat_records: list, elapsed_loops: int, game_end_loop: int | None, game_mode: str,
+) -> None:
 	"""Run toxicity + glhf + offensive-gg analysis from raw chat records."""
 	num_players = len(players)
 	chat_late_threshold = elapsed_loops - _CHAT_LATE_GAME_LOOPS
@@ -336,8 +346,11 @@ def _apply_chat_analysis(players: list, chat_records: list, elapsed_loops: int, 
 				players[pi]["stats"]["chatGlhf"] = 1
 
 	# Offensive gg only meaningful in custom games (all-chat available)
-	if game_mode != "Custom":
+	if not game_mode.startswith("Custom"):
 		return
+
+	if game_end_loop is None:
+		raise ValueError("No end-of-game stat event to place the core's death")
 
 	winning_team = None
 	losing_team = None
@@ -349,7 +362,9 @@ def _apply_chat_analysis(players: list, chat_records: list, elapsed_loops: int, 
 		if winning_team is not None and losing_team is not None:
 			break
 
-	gg_early_threshold = elapsed_loops - _GG_EARLY_BUFFER_LOOPS
+	# The recording runs on for as long as its owner stayed on the score screen,
+	# so "early" counts back from the core's death.
+	gg_early_threshold = game_end_loop - _GG_EARLY_BUFFER_LOOPS
 
 	loser_first_gg_loop = None
 	if losing_team is not None:
@@ -556,7 +571,7 @@ def analyze_raw(raw: dict) -> dict:
 	# chatRecords array emitted by the C# sidecar).
 	chat_records = raw.get("chatRecords", [])
 	elapsed_loops = raw.get("elapsedGameLoops", 0)
-	_apply_chat_analysis(players, chat_records, elapsed_loops, game_mode)
+	_apply_chat_analysis(players, chat_records, elapsed_loops, _game_end_loop(raw), game_mode)
 
 	# Resolve draft hero names (same internal-ID mapping as played heroes)
 	draft = []
