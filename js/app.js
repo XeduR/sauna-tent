@@ -1110,6 +1110,15 @@ function renderPlayersNavMenu() {
 	}
 }
 
+// The filter bar only draws the Season filter when seasons are loaded, so the first view waits for them.
+async function loadSeasons() {
+	try {
+		window.AppSeasons = await Data.seasons();
+	} catch (err) {
+		// Non-critical; season filter won't render if unavailable
+	}
+}
+
 // Populate nav dropdown menus from roster/data
 async function populateNav() {
 	var summary;
@@ -1121,17 +1130,11 @@ async function populateNav() {
 		// Nav population is non-critical
 	}
 
-	// Load settings and seasons early so they're available when views render
+	// Load settings early so they're available when views render
 	try {
 		await Data.settings();
 	} catch (err) {
 		// Non-critical; views will await Data.settings() independently
-	}
-
-	try {
-		window.AppSeasons = await Data.seasons();
-	} catch (err) {
-		// Non-critical; season filter won't render if unavailable
 	}
 
 	// Populate ARAM map lookup from summary
@@ -1333,7 +1336,9 @@ document.addEventListener("click", function(e) {
 	});
 });
 
-Router.start();
+loadSeasons().then(function() {
+	Router.start();
+});
 
 // Auto-attach top scrollbars when #app content changes
 (function() {

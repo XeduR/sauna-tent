@@ -2,6 +2,10 @@
 
 A static analytics dashboard for the Heroes of the Storm team "Sauna Tent". Parses `.StormReplay` files through a Python pipeline, produces pre-computed JSON, and serves it via a vanilla JS single-page app.
 
+Live dashboard: <https://xedur.github.io/sauna-tent/>
+
+![Sauna Tent dashboard overview page](img/dashboard.png)
+
 ## Requirements
 
 - Python 3.12+
