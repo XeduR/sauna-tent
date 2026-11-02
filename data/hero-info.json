@@ -23294,7 +23294,7 @@
 				{
 					"abilityType": "Heroic",
 					"cooldown": "Cooldown: 75 seconds",
-					"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 112~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 175~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds.",
+					"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 90~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 166~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds.",
 					"icon": "xalatathvoideruption.png",
 					"id": "XalatathVoidEruption",
 					"manaCost": "<s val=\"StandardTooltipDetails\">Mana: 80</s>",
@@ -23316,7 +23316,7 @@
 				{
 					"abilityType": "Trait",
 					"cooldown": "",
-					"description": "After attacking enemies with her Basic Attacks 5 times, Xal'atath can activate Void Volley to unleash a barrage of 6 Void Orbs at a target location, each dealing 90~~0.04~~ damage on impact.\n\nCharge fully decays if Xal’atath does not hit an enemy with a Basic Attack after 6 seconds.\n\nQuest: Hit enemy Heroes with Void Volley to grant 1 stack per hit and increases Void Volley's damage by 1%. Lose all stacks upon dying.\n\nReward (20 Stacks):\n   +2 Void Volley Range\n   Stack loss on death lowered to 6.\n\nReward (60 Stacks):\n   -1 Basic Attack required to charge Void Volley.\n\nMythic Reward (100 Stacks):\n   +50% Basic Attack and Void Volley Damage.\n   Void Volley projectiles Pierce all targets.\n\nStack loss will never cause the Hero to fall below a quest reward threshold.",
+					"description": "Every basic attack against heroes, and every 2 basic attacks against non-heroes generate charge. Once fully charged Xal'atath can activate Void Volley to unleash a barrage of 6 Void Orbs at a target location, each dealing 72~~0.04~~ damage on impact.\n\nCharge fully decays if Xal’atath does not hit an enemy with a Basic Attack after 6 seconds.\n\nQuest: Hit enemy Heroes with Void Volley to grant 1 stack per hit and increases Void Volley's damage by 1%. Lose all stacks upon dying.\n\nReward (20 Stacks):\n   +2 Void Volley Range\n   Stack loss on death lowered to 6.\n\nReward (60 Stacks):\n   -1 Basic Attack required to charge Void Volley.\n\nMythic Reward (100 Stacks):\n   +50% Basic Attack and Void Volley Damage.\n   Void Volley projectiles Pierce all targets.\n\nStack loss will never cause the Hero to fall below a quest reward threshold.",
 					"icon": "xalatathvoidvolley.png",
 					"id": "XalatathVoidVolley",
 					"manaCost": "<s val=\"StandardTooltipDetails\">Mana: 35</s>",
@@ -23345,7 +23345,7 @@
 		"talents": {
 			"10_1": {
 				"abilityType": "Heroic",
-				"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 112~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 175~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds.",
+				"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 90~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 166~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds.",
 				"icon": "talent10_1.png",
 				"isQuest": false,
 				"name": "Void Eruption"
@@ -23366,7 +23366,7 @@
 			},
 			"13_2": {
 				"abilityType": "W",
-				"description": "Casting Dark Heart Ritual Silences enemies inside its radius for 1 second.\n\nXal'atath and allied Heroes gain 30 Spell Armor while inside the Dark Heart's radius.",
+				"description": "Detonating the Dark Heart now Silences enemies inside its radius for 1 second.\n\nXal'atath and allied Heroes gain 30 Spell Armor while inside the Dark Heart's radius.",
 				"icon": "talent13_2.png",
 				"isQuest": false,
 				"name": "Dark Heart's Protection"
@@ -23408,7 +23408,7 @@
 			},
 			"1_2": {
 				"abilityType": "W",
-				"description": "Dark Heart Ritual:\n+50% Radius\n+25% Duration\n\nDark Heart's damage bounces 2 times from the primary target to nearby enemies, dealing 25~~0.04~~ damage.",
+				"description": "Dark Heart Ritual:\n+25% Radius\n+25% Duration\n\nDark Heart's damage bounces 2 times from the primary target to nearby enemies, dealing 25~~0.04~~ damage.",
 				"icon": "talent1_2.png",
 				"isQuest": false,
 				"name": "Anchored Core"
@@ -23429,7 +23429,7 @@
 			},
 			"20_2": {
 				"abilityType": "Heroic",
-				"description": "Void Convergence's Void Portal no longer has a life duration, raises the active Void Portal limit to 2, and can spawn and sustain up to 4 Void Minions.",
+				"description": "Void Convergence's Void Portal self decay is no longer lethal, raises the active Void Portal limit to 2, and can spawn and sustain up to 4 Void Minions.",
 				"icon": "talent20_2.png",
 				"isQuest": false,
 				"name": "Rift Invasion"
@@ -23464,7 +23464,7 @@
 			},
 			"4_2": {
 				"abilityType": "W",
-				"description": "Each time Dark Heart damages an enemy, Xal'atath gains a Shield equal to 2% of her maximum Health, up to 10%.",
+				"description": "Each time the Dark Heart damages an enemy Hero, Xal'atath gains a Shield equal to 2% of her maximum Health, up to 10%.",
 				"icon": "talent4_2.png",
 				"isQuest": false,
 				"name": "Dark Barrier"
@@ -23485,14 +23485,14 @@
 			},
 			"7_2": {
 				"abilityType": "E",
-				"description": "Activating Void Step summons a seal of void magic on the ground. When the seal completes, it deals 250~~0.04~~ damage to enemies inside and Silences them for 1 seconds.",
+				"description": "Activating Void Step summons a seal of void magic on the ground. When the seal completes, it deals 250~~0.04~~ damage to enemies inside and Silences them for 2 seconds.",
 				"icon": "talent7_2.png",
 				"isQuest": false,
 				"name": "Silence of the Lamb"
 			},
 			"7_3": {
 				"abilityType": "E",
-				"description": "Activating Void Step summons a single Void Minion in Xalatath's original postion. Void Minions are attracted to targets afflicted by Shadow Mark.\n\nVoid Minions automatically choose a nearby lane to push.\nVoid Minion Basic Attacks deal 50~~0.04~~ damage per hit.\nVoid Minion loses Health over 12 seconds.",
+				"description": "Activating Void Step summons a single Void Minion in Xal'atath's original postion. Void Minions are attracted to targets afflicted by Shadow Mark.\n\nVoid Minions automatically choose a nearby lane to push.\nVoid Minion Basic Attacks deal 50~~0.04~~ damage per hit.\nVoid Minion loses Health over 12 seconds.",
 				"icon": "talent7_3.png",
 				"isQuest": false,
 				"name": "Void Summoner"
