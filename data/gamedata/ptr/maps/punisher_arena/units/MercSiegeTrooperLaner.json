@@ -1,0 +1,47 @@
+{
+	"id": "MercSiegeTrooperLaner",
+	"name": "Impaler",
+	"damageType": "Merc",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 1400,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 12,
+		"radius": 1,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "MercSiegeTrooperLanerWeapon",
+			"range": 10,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 65,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": -0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

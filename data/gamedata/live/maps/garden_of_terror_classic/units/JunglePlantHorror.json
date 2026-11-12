@@ -1,0 +1,66 @@
+{
+	"id": "JunglePlantHorror",
+	"name": "Garden Terror",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapBoss",
+		"MapCreature"
+	],
+	"killXP": 350,
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 11000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 5,
+		"sight": 8,
+		"radius": 1.75,
+		"innerRadius": 1.75
+	},
+	"weapons": [
+		{
+			"nameId": "JunglePlantHorror",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.75,
+			"damage": 140,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "UnderworldBossRoots",
+				"name": "Binding Roots",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Roots roots roots"
+			},
+			{
+				"id": "UnderworldBossStun",
+				"name": "Mega Smash",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Slam the ground, dealing 0 damage to nearby enemies and stunning them."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

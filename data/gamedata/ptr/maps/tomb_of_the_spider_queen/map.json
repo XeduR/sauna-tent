@@ -1,0 +1,22 @@
+{
+	"id": "Crypts",
+	"name": "Tomb of the Spider Queen",
+	"size": {
+		"x": 248,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Collect Gems",
+			"description": "Enemy spider Minions and Heroes drop magical Gems upon death. Gather as many as you can."
+		},
+		{
+			"title": "Turn in Gems",
+			"description": "Relinquish your Gems at one of the Spider Queen's Altars or you will drop them all when you die!"
+		},
+		{
+			"title": "Summon Webweavers",
+			"description": "Whichever team turns in enough Gems first will unleash the Webweavers to destroy their enemy's defenses."
+		}
+	]
+}

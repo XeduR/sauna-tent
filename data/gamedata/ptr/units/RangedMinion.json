@@ -1,0 +1,52 @@
+{
+	"id": "RangedMinion",
+	"name": "Ranged Minion",
+	"damageType": "Minion",
+	"attributes": [
+		"Minion"
+	],
+	"description": "Attacks at long range. Deals more damage than other Minions.",
+	"stats": {
+		"life": {
+			"amount": 660,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "RangedMinion",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 40,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 0.8,
+				"Merc": 0.8,
+				"Minion": 0.8,
+				"Structure": 2,
+				"Summoned": 0.8
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

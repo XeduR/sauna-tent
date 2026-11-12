@@ -1,0 +1,44 @@
+{
+	"id": "OverwatchTurret",
+	"name": "Turret",
+	"damageType": "Minion",
+	"attributes": [
+		"Creep"
+	],
+	"stats": {
+		"life": {
+			"amount": 2930,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 0.75,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "OverwatchTurretWeapon",
+			"range": 7,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 36,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

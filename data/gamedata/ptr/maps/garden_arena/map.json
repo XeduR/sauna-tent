@@ -1,0 +1,18 @@
+{
+	"id": "ArenaModeGardenTerror",
+	"name": "Garden Arena",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Defeat Night Terrors",
+			"description": "Kill garden monsters to collect Seeds!"
+		},
+		{
+			"title": "Collect Seeds",
+			"description": "Collect 100 Seeds to win!"
+		}
+	]
+}

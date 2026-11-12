@@ -1,0 +1,366 @@
+{
+	"id": "Malthael",
+	"name": "Malthael",
+	"title": "Aspect of Death",
+	"unitId": "HeroMalthael",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2017-06-13",
+	"ratings": {
+		"complexity": 6,
+		"damage": 7,
+		"survivability": 6,
+		"utility": 4
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"DeadUpdater",
+		"EnergyImportant",
+		"Ganker",
+		"RoleAutoAttacker",
+		"SoloLaner",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1962,
+			"scale": 0.04,
+			"regenRate": 4.086,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "MalthaelHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.1,
+			"damage": 82,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MalthaelSoulRip",
+				"name": "Soul Rip",
+				"type": "Q",
+				"cooldown": "Cooldown: 2 seconds",
+				"cost": "Mana: 25",
+				"description": "Extract the souls of nearby enemies afflicted by Reaper's Mark, dealing 100~~0.04~~ damage and healing Malthael for 25~~0.04~~ per target hit. Heroic targets heal Malthael for an additional 4% of the Hero's maximum Health."
+			},
+			{
+				"id": "MalthaelWraithStrike",
+				"name": "Wraith Strike",
+				"type": "W",
+				"cooldown": "Cooldown: 5 seconds",
+				"cost": "Mana: 30",
+				"description": "Instantly teleport through an enemy afflicted by Reaper's Mark, dealing 59~~0.04~~ damage and refreshing Reaper's Mark."
+			},
+			{
+				"id": "MalthaelDeathShroud",
+				"name": "Death Shroud",
+				"type": "E",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 50",
+				"description": "After 0.25 seconds, unleash a wave of dark mist that applies Reaper's Mark to enemies it hits."
+			}
+		],
+		"heroic": [
+			{
+				"id": "MalthaelTormentedSouls",
+				"name": "Tormented Souls",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 20",
+				"description": "Unleash a torrent of souls, continually applying Reaper's Mark to nearby enemies for 4 seconds.\n\nTormented Souls resets the cooldown of Wraith Strike when activated, and while active, Wraith Strike costs no Mana its cooldown is reduced to 2 seconds."
+			},
+			{
+				"id": "MalthaelLastRites",
+				"name": "Last Rites",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 100",
+				"description": "Apply a death sentence to an enemy Hero that, after 2 seconds, deals damage equal to 50% of their missing Health.\n\nQuest: Enemies killed between the application of Last Rites and within 1.5 seconds of it dealing damage permanently reduce its cooldown by 5 seconds, to a minimum of 20 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "MalthaelReapersMark",
+				"name": "Reaper's Mark",
+				"type": "Trait",
+				"description": "Basic Attacks cleave in an area in front of Malthael and afflict non-Structure targets with Reaper's Mark for 4 seconds. Marked enemies are revealed and take damage equal to 2% of their maximum Health every 1 second."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "MalthaelFearTheReaper",
+				"name": "Fear the Reaper",
+				"type": "Active",
+				"parent": "Fear the Reaper",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Activate to increase Movement Speed by 25% and pass through other units for 4 seconds."
+			},
+			{
+				"id": "MalthaelTouchOfDeath",
+				"name": "Touch of Death",
+				"type": "Active",
+				"parent": "Touch of Death",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to reduce healing received by Heroes afflicted by Reaper's Mark by 50% for 4 seconds."
+			},
+			{
+				"id": "MalthaelInevitableEnd",
+				"name": "Inevitable End",
+				"type": "Active",
+				"parent": "Inevitable End",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to become Unstoppable for 2 seconds, but remove all active Reaper's Marks."
+			},
+			{
+				"id": "MalthaelShroudOfWisdom",
+				"name": "Shroud of Wisdom",
+				"type": "Active",
+				"parent": "Shroud of Wisdom",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "After 2 seconds, gain 50 Spell Armor for 4 seconds."
+			},
+			{
+				"id": "MalthaelNoOneCanStopDeath",
+				"name": "No One Can Stop Death",
+				"type": "Active",
+				"parent": "No One Can Stop Death",
+				"cooldown": "Cooldown: 180 seconds",
+				"description": "Activate while dead to immediately respawn at the Hall of Storms but increase Malthael's next respawn time by 25%."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "MalthaelDeathsReach",
+				"name": "Death's Reach",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MalthaelWraithStrike",
+				"description": "Increase Wraith Strike's range by 35%."
+			},
+			{
+				"id": "MalthaelOnAPaleHorse",
+				"name": "On a Pale Horse",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Gain an additional 20% Movement Speed while mounted."
+			},
+			{
+				"id": "MalthaelFearTheReaper",
+				"name": "Fear the Reaper",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MalthaelFearTheReaper",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Activate to increase Movement Speed by 25% and pass through other units for 4 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "MalthaelDieAlone",
+				"name": "Die Alone",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MalthaelSoulRip",
+				"description": "Soul Rip deals 50% more damage to Heroes if it hits only one Hero."
+			},
+			{
+				"id": "MalthaelThrowingShade",
+				"name": "Throwing Shade",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MalthaelDeathShroud",
+				"description": "Increase Death Shroud's range by 33%, reduce its cooldown by 3 seconds, and reduce its Mana cost from 50 to 30.\n\nDeath Shroud's initial impact deals 2% maximum Health as damage to non-Structure enemies."
+			},
+			{
+				"id": "MalthaelBlackHarvest",
+				"name": "Black Harvest",
+				"type": "Trait",
+				"isQuest": true,
+				"description": "Quest: Apply Reaper's Mark to Heroes for a total of 150 seconds.\n\nReward: Permanently increase Reaper's Mark's duration by 2 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "MalthaelColdHand",
+				"name": "Cold Hand",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MalthaelSoulRip",
+				"description": "Soul Rip Slows enemies by 20% for 2.5 seconds."
+			},
+			{
+				"id": "MalthaelMassacre",
+				"name": "Massacre",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MalthaelWraithStrike",
+				"description": "Wraith Strike now damages and applies Reaper's Mark to enemies around its target."
+			},
+			{
+				"id": "MalthaelTouchOfDeath",
+				"name": "Touch of Death",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MalthaelTouchOfDeath",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to reduce healing received by Heroes afflicted by Reaper's Mark by 50% for 4 seconds."
+			}
+		],
+		"level10": [
+			{
+				"id": "MalthaelTormentedSouls",
+				"name": "Tormented Souls",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MalthaelTormentedSouls",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 20",
+				"description": "Unleash a torrent of souls, continually applying Reaper's Mark to nearby enemies for 4 seconds.\n\nTormented Souls resets the cooldown of Wraith Strike when activated, and while active, Wraith Strike costs no Mana its cooldown is reduced to 2 seconds."
+			},
+			{
+				"id": "MalthaelLastRites",
+				"name": "Last Rites",
+				"type": "Heroic",
+				"isQuest": true,
+				"ability": "MalthaelLastRites",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 100",
+				"description": "Apply a death sentence to an enemy Hero that, after 2 seconds, deals damage equal to 50% of their missing Health.\n\nQuest: Enemies killed between the application of Last Rites and within 1.5 seconds of it dealing damage permanently reduce its cooldown by 5 seconds, to a minimum of 20 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "MalthaelSoulSiphon",
+				"name": "Soul Siphon",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MalthaelSoulRip",
+				"description": "Increase Soul Rip's bonus healing from Heroes to 4.75% of the Hero's maximum Health."
+			},
+			{
+				"id": "MalthaelEtherealExistence",
+				"name": "Ethereal Existence",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Gain 10 Physical Armor per enemy Hero afflicted by Reaper's Mark, up to a maximum of 30."
+			},
+			{
+				"id": "MalthaelInevitableEnd",
+				"name": "Inevitable End",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MalthaelInevitableEnd",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to become Unstoppable for 2 seconds, but remove all active Reaper's Marks."
+			},
+			{
+				"id": "MalthaelShroudOfWisdom",
+				"name": "Shroud of Wisdom",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MalthaelShroudOfWisdom",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "After 2 seconds, gain 50 Spell Armor for 4 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "MalthaelSoulCollector",
+				"name": "Soul Collector",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MalthaelSoulRip",
+				"description": "Reduce Soul Rip's cooldown by 0.5 seconds and increase its range by 25%."
+			},
+			{
+				"id": "MalthaelMortality",
+				"name": "Mortality",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MalthaelWraithStrike",
+				"description": "When damaging a Hero, Wraith Strike deals bonus damage equal to 8% of the Hero's maximum Health."
+			},
+			{
+				"id": "MalthaelMementoMori",
+				"name": "Memento Mori",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Reaper's Mark deals 60% increased damage after afflicting an enemy for more than 4 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "MalthaelReaperOfSouls",
+				"name": "Reaper of Souls",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MalthaelTormentedSouls",
+				"prerequisites": [
+					"MalthaelTormentedSouls"
+				],
+				"description": "Increase the duration of Tormented Souls to 6 seconds, and while Tormented Souls is active, Hero Takedowns refresh its duration.\n\nIf 2 or more enemy Heroes are in Tormented Souls' radius, it does not decay."
+			},
+			{
+				"id": "MalthaelAngelOfDeath",
+				"name": "Angel of Death",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MalthaelLastRites",
+				"prerequisites": [
+					"MalthaelLastRites"
+				],
+				"description": "Last Rites heals for 100% of the damage dealt, and its current and future cooldown reduction bonuses are doubled."
+			},
+			{
+				"id": "MalthaelFinalCurtain",
+				"name": "Final Curtain",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MalthaelDeathShroud",
+				"description": "Death Shroud leaves a trail in its wake for 4 seconds, applying Reaper's Mark to enemies in its area."
+			},
+			{
+				"id": "MalthaelNoOneCanStopDeath",
+				"name": "No One Can Stop Death",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MalthaelNoOneCanStopDeath",
+				"cooldown": "Cooldown: 180 seconds",
+				"description": "Activate while dead to immediately respawn at the Hall of Storms but increase Malthael's next respawn time by 25%."
+			}
+		]
+	}
+}

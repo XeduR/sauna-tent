@@ -1,0 +1,60 @@
+{
+	"id": "ZergUltralisk",
+	"name": "Ultralisk",
+	"damageType": "Monster",
+	"attributes": [
+		"Heroic"
+	],
+	"killXP": 150,
+	"stats": {
+		"life": {
+			"amount": 3000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 1.5,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "ZergUltraliskWeaponPvE",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 180,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "UltraliskCharge",
+				"name": "Ultralisk Charge",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Charges in the target direction until the Ultralisk hits unpathable terrain or reaches the max distance."
+			}
+		],
+		"heroic": [
+			{
+				"id": "move",
+				"name": "Ultralisk Charge",
+				"type": "Heroic",
+				"description": "Charges in the target direction until the Ultralisk hits unpathable terrain or reaches the max distance."
+			}
+		],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "MovePatrol",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

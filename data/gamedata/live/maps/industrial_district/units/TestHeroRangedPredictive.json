@@ -1,0 +1,91 @@
+{
+	"id": "TestHeroRangedPredictive",
+	"name": "",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 700,
+			"scale": 0,
+			"regenRate": 1.457,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "HeroDemonHunter",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.6,
+			"damage": 70,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TestDummyAbilityA",
+				"name": "",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "TestDummyAbilityC",
+				"name": "",
+				"type": "W",
+				"description": ""
+			},
+			{
+				"id": "TestDummyAbilityB",
+				"name": "",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [
+			{
+				"id": "TestDummyAbilityD",
+				"name": "",
+				"type": "Heroic",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [
+			{
+				"id": "Mount",
+				"name": "Summon Mount",
+				"type": "Z",
+				"cooldown": "Cooldown: 4 seconds",
+				"description": "After Channeling for 1 second, gain 30% Movement Speed."
+			},
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms."
+			}
+		]
+	}
+}

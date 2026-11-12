@@ -1,0 +1,30 @@
+{
+	"id": "ArchangelDropUltraliskUltraliskCocoon",
+	"name": "Ultralisk Cocoon",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"amount": 6000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

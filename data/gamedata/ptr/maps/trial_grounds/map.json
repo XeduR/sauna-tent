@@ -1,0 +1,22 @@
+{
+	"id": "TrialGrounds",
+	"name": "Trial Grounds",
+	"size": {
+		"x": 136,
+		"y": 80
+	},
+	"objectives": [
+		{
+			"title": "Trial By Fire",
+			"description": "Eliminate the enemy team to win the round."
+		},
+		{
+			"title": "Experimental Testing",
+			"description": "Shortly after the start of the round, an objective appears at the center of the battleground. Use its power to destroy your enemies!"
+		},
+		{
+			"title": "Health Packs",
+			"description": "Health packs placed around the battleground restore a large portion of health and resources when picked up."
+		}
+	]
+}

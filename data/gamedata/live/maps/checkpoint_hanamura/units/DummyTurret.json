@@ -1,0 +1,45 @@
+{
+	"id": "DummyTurret",
+	"name": "Dummy Turret",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Creates a turret that deals 43~~0.04~~ damage. Lasts for -1 seconds. Stores 0 charges.",
+	"stats": {
+		"life": {
+			"amount": 593,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 7,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "RockItTurret",
+			"range": 6,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 43,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TinkerRoboGoblinMechaLordTalentFocusTarget",
+				"name": "",
+				"type": "Q",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

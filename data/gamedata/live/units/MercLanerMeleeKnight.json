@@ -1,0 +1,52 @@
+{
+	"id": "MercLanerMeleeKnight",
+	"name": "Knight",
+	"damageType": "Merc",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 3300,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "MercLanerMeleeKnight",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 60,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MercLanerOgreBruiserTaunt",
+				"name": "Merc Laner Ogre Bruiser Taunt",
+				"type": "Q",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

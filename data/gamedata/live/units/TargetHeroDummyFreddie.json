@@ -1,0 +1,100 @@
+{
+	"id": "TargetHeroDummyFreddie",
+	"name": "Target Hero Dummy Freddie",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 100000,
+			"scale": 0,
+			"regenRate": 100030,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 100000,
+			"regenRate": 100000
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "ZeratulVoidPrison",
+				"name": "Void Prison",
+				"type": "Q",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 80",
+				"description": "Slows time in an area to a near standstill, placing allies and enemies in Time Stop for 5 seconds. Zeratul is not affected."
+			},
+			{
+				"id": "ZagaraDevouringMaw",
+				"name": "Devouring Maw",
+				"type": "W",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 70",
+				"description": "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 94~~0.04~~ damage per second.\n\nUsable on Unstoppable enemies."
+			},
+			{
+				"id": "AnubarakCocoon",
+				"name": "Cocoon",
+				"type": "E",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 70",
+				"description": "Wraps target enemy Hero in a cocoon, rendering them unable to act or be targeted for 7 seconds. Allies of the Hero can attack the cocoon to break it and free them early."
+			}
+		],
+		"heroic": [
+			{
+				"id": "StitchesGorge",
+				"name": "Gorge",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 65 seconds",
+				"cost": "Mana: 70",
+				"description": "Consume an enemy Hero, trapping them for 4 seconds. When Gorge ends, the enemy Hero takes 274~~0.04~~ damage. The trapped Hero cannot move or act and doesn't take damage from other sources."
+			}
+		],
+		"trait": [
+			{
+				"id": "ButcherLambToTheSlaughter",
+				"name": "Lamb to the Slaughter",
+				"type": "Trait",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 75",
+				"description": "Throw a hitching post that attaches to the nearest enemy Hero after a 1 second delay. This deals 171~~0.04~~ damage and causes the enemy to be chained to the post and Silenced for 3 seconds."
+			}
+		],
+		"mount": [
+			{
+				"id": "GuldanHorrify",
+				"name": "Horrify",
+				"type": "Z",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, deal 120~~0.04~~ damage to enemy Heroes in an area and Fear them for 2 seconds. While Feared, Heroes are Silenced and are forced to run away from Horrify's center."
+			}
+		],
+		"activable": [
+			{
+				"id": "VarianTaunt",
+				"name": "Taunt",
+				"type": "B",
+				"cooldown": "Cooldown: 16 seconds",
+				"cost": "Mana: 20",
+				"description": "Silence a target Hero and force them to attack Varian for 1.25 seconds.\n\nPassive: Maximum Health and Health Regeneration increased by 40%."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"AnubarakCocoonFat",
+		"AnubarakCocoonNormal",
+		"ButcherLambToTheSlaughterPost",
+		"ZeratulVoidPrisonDome",
+		"ZeratulVoidPrisonDomeProtectivePrison"
+	]
+}

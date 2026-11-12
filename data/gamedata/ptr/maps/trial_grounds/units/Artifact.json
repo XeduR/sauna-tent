@@ -1,0 +1,29 @@
+{
+	"id": "Artifact",
+	"name": "Artifact",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Heals for a large portion of health while greatly increasing your power and vulnerability.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.75,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

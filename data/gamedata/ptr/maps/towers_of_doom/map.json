@@ -1,0 +1,22 @@
+{
+	"id": "TowersOfDoom",
+	"name": "Towers of Doom",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Protected Cores",
+			"description": "Both Cores are protected by a barrier that cannot be attacked by Heroes. To be victorious, you must activate Altars."
+		},
+		{
+			"title": "Activate Altars",
+			"description": "Periodically Altars will rise across the battlefield. Activate them to have your Bell Towers fire upon the enemy's Core. "
+		},
+		{
+			"title": "Claim Bell Towers",
+			"description": "Destroy your enemy's Towers to bring them under your team's control. The more Towers you have, the more damage an altar will do."
+		}
+	]
+}

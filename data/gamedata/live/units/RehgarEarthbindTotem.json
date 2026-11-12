@@ -1,0 +1,30 @@
+{
+	"id": "RehgarEarthbindTotem",
+	"name": "Earthbind Totem",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Create a totem that Slows nearby enemies by 35%. The totem has 260~~0.04~~ Health and lasts for 6 seconds.",
+	"stats": {
+		"life": {
+			"amount": 260,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 7,
+		"radius": 0.125,
+		"innerRadius": 0.125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

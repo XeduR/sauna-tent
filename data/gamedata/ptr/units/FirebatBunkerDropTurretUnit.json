@@ -1,0 +1,46 @@
+{
+	"id": "FirebatBunkerDropTurretUnit",
+	"name": "Bunker",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.3984,
+		"sight": 7,
+		"radius": 0.0625,
+		"innerRadius": 0.0625
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "FirebatBunkerDropFlamethrower",
+				"name": "Flamethrower",
+				"type": "Q",
+				"cooldown": "Cooldown: 1 second",
+				"description": "Deal 150~~0.04~~ damage to enemies in a line."
+			},
+			{
+				"id": "FirebatBunkerDropFortifiedBunkerOilSpill",
+				"name": "Oil Spill",
+				"type": "W",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Vector Targeting\nDispense an Oil Spill that Slows enemies and can be set on fire by Blaze."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

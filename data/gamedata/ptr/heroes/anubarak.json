@@ -1,0 +1,341 @@
+{
+	"id": "Anubarak",
+	"name": "Anub'arak",
+	"title": "Traitor King",
+	"unitId": "HeroAnubarak",
+	"franchise": "Warcraft",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Tank",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2014-10-07",
+	"ratings": {
+		"complexity": 5,
+		"damage": 4,
+		"survivability": 7,
+		"utility": 6
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"EnergyImportant",
+		"Escaper",
+		"Ganker",
+		"Overconfident",
+		"RoleTank"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2150,
+			"scale": 0.04,
+			"regenRate": 4.4804,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1.0625,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "AnubarakHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 81,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "AnubarakImpale",
+				"name": "Impale",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 65",
+				"description": "Deals 90~~0.04~~ damage. Stuns for 1 second."
+			},
+			{
+				"id": "AnubarakHardenCarapace",
+				"name": "Harden Carapace",
+				"type": "W",
+				"cooldown": "Cooldown: 7 seconds",
+				"cost": "Mana: 25",
+				"description": "Gain a Shield that grants 40 Spell Armor and absorbs 340~~0.04~~ damage over 3 seconds."
+			},
+			{
+				"id": "AnubarakBurrowCharge",
+				"name": "Burrow Charge",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 65",
+				"description": "Burrow to the target location, dealing 91~~0.04~~ damage and briefly stunning enemies in a small area upon surfacing, slowing them by 25% for 2.5 seconds.\n\nBurrow Charge can be reactivated to surface early."
+			}
+		],
+		"heroic": [
+			{
+				"id": "AnubarakLocustSwarm",
+				"name": "Locust Swarm",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 75",
+				"description": "Deal 68~~0.04~~ damage per second to nearby enemies. Each enemy damaged restores 24~~0.04~~ Health. Lasts 6 seconds."
+			},
+			{
+				"id": "AnubarakCocoon",
+				"name": "Cocoon",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 70",
+				"description": "Wraps target enemy Hero in a cocoon, rendering them unable to act or be targeted for 7 seconds. Allies of the Hero can attack the cocoon to break it and free them early."
+			}
+		],
+		"trait": [
+			{
+				"id": "AnubarakLegionOfBeetlesVisual",
+				"name": "Scarab Host",
+				"type": "Trait",
+				"description": "Using an Ability spawns a Beetle which loses Health over 10 seconds, attacking nearby enemies for 20~~0.04~~ damage."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "AnubarakLegionOfBeetlesToggle",
+				"name": "Scarab Host",
+				"type": "Trait",
+				"parent": "Scarab Host",
+				"toggleCooldown": 0.5,
+				"description": "Press to toggle Legion of Beetles ON."
+			},
+			{
+				"id": "AnubarakTheTraitorKing",
+				"name": "The Traitor King",
+				"type": "Active",
+				"parent": "The Traitor King",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Gain 10% bonus maximum Health and 20 Spell Armor.\n\nActivate to gain 75 Armor for 4 seconds."
+			},
+			{
+				"id": "TalentRewind",
+				"name": "Rewind",
+				"type": "Active",
+				"parent": "Rewind",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to reset the cooldowns of your Basic Abilities."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "AnubarakNerubianArmor",
+				"name": "Nerubian Armor",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AnubarakHardenCarapace",
+				"description": "Increase Harden Carapace's Spell Armor by 25."
+			},
+			{
+				"id": "AnubarakCombatStyleLegionOfBeetles",
+				"name": "Legion of Beetles",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "AnubarakLegionOfBeetlesToggle",
+				"description": "Beetles have 30 Spell Armor. Automatically spawn a Beetle every 12 seconds. Can be toggled on and off."
+			},
+			{
+				"id": "GenericTalentRegenerationMaster",
+				"name": "Regeneration Master",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Quest: Gathering a Regeneration Globe increases your Health Regeneration by 1 per second, up to 30. \n\nReward: After gathering 25 Regeneration Globes, you also gain 500 Health."
+			}
+		],
+		"level4": [
+			{
+				"id": "AnubarakMasteryBedOfBarbs",
+				"name": "Bed of Barbs",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AnubarakImpale",
+				"description": "Create a bed of spikes along Impale's path that Slows enemies by 25% and deals 21~~0.04~~ damage per second. Spikes persist for 3.5 seconds."
+			},
+			{
+				"id": "AnubarakMasteryShedExoskeletonHardenCarapace",
+				"name": "Shed Exoskeleton",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AnubarakHardenCarapace",
+				"description": "Harden Carapace grants 30% increased Movement Speed for 3 seconds."
+			},
+			{
+				"id": "AnubarakMasteryUnderkingBurrowCharge",
+				"name": "Underking",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AnubarakBurrowCharge",
+				"description": "Increases Burrow Charge range by 20% and damage by 100%."
+			}
+		],
+		"level7": [
+			{
+				"id": "AnubarakCombatStyleChitinousPlating",
+				"name": "Chitinous Plating",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AnubarakHardenCarapace",
+				"description": "While Harden Carapace is active, taking damage from enemy Abilities reduces its cooldown by 1 second, up to 3 seconds."
+			},
+			{
+				"id": "AnubarakSubterraneanShield",
+				"name": "Subterranean Shield",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AnubarakBurrowCharge",
+				"description": "Burrow Charge also grants a 400~~0.04~~ point Shield for 5 seconds."
+			},
+			{
+				"id": "AnubarakMasteryLeechingScarabs",
+				"name": "Leeching Scarabs",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Beetles attacks deal 30% more damage and heal Anub'arak 50% of damage dealt if he is nearby."
+			}
+		],
+		"level10": [
+			{
+				"id": "AnubarakLocustSwarm",
+				"name": "Locust Swarm",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AnubarakLocustSwarm",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 75",
+				"description": "Deal 68~~0.04~~ damage per second to nearby enemies. Each enemy damaged restores 24~~0.04~~ Health. Lasts 6 seconds."
+			},
+			{
+				"id": "AnubarakHeroicAbilityCocoon",
+				"name": "Cocoon",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AnubarakCocoon",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 70",
+				"description": "Wraps target enemy Hero in a cocoon, rendering them unable to act or be targeted for 7 seconds. Allies of the Hero can attack the cocoon to break it and free them early."
+			}
+		],
+		"level13": [
+			{
+				"id": "AnubarakMasteryUrticatingSpines",
+				"name": "Urticating Spines",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AnubarakHardenCarapace",
+				"description": "Casting Harden Carapace will also deal 90~~0.04~~ damage to nearby enemies. Deals double damage against Heroes."
+			},
+			{
+				"id": "AnubarakBurningBeetles",
+				"name": "Burning Beetles",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Deal 21~~0.04~~ damage per second to nearby enemies. Beetles deal 6~~0.04~~ damage per second to nearby enemies."
+			},
+			{
+				"id": "AnubarakAcidDrenchedMandibles",
+				"name": "Acid-Drenched Mandibles",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Attacking a Hero that is Slowed, Rooted, or Stunned increases Anub'arak's Basic Attack damage by 80% for 4 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "AnubarakMasteryEpicenterBurrowCharge",
+				"name": "Epicenter",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AnubarakBurrowCharge",
+				"description": "Increases Burrow Charge impact area by 60% and lowers the cooldown by 1 second for each Hero hit."
+			},
+			{
+				"id": "AnubarakDebilitation",
+				"name": "Debilitation",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Enemy Heroes hit by Burrow Charge or Impale have their Spell Power reduced by 50% for 4 seconds."
+			},
+			{
+				"id": "AnubarakScarabHostBeetleJuiced",
+				"name": "Beetle, Juiced",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Passive: Beetles gain 30% increased health.\n\nEvery 4th Basic Attack spawns a Beetle."
+			}
+		],
+		"level20": [
+			{
+				"id": "AnubarakLocustSwarmHiveMaster",
+				"name": "Hive Master",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AnubarakLocustSwarm",
+				"prerequisites": [
+					"AnubarakLocustSwarm"
+				],
+				"description": "Gain a permanent Vampire Locust that attacks a nearby enemy every 3 seconds. The Vampire Locust deals 165~~0.04~~ damage and returns to heal Anub'arak for 80~~0.04~~ health."
+			},
+			{
+				"id": "AnubarakCocoonCryptweave",
+				"name": "Cryptweave",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AnubarakCocoon",
+				"prerequisites": [
+					"AnubarakHeroicAbilityCocoon"
+				],
+				"description": "Staying near the Cocoon allows Anub'arak to extend the duration by up to 6 seconds per Cocoon. Upon exiting the Cocoon, enemies take 60~~0.04~~ damage over 4 seconds. This damage is increased by 100% for each second that they were inside."
+			},
+			{
+				"id": "AnubarakTheTraitorKing",
+				"name": "The Traitor King",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AnubarakTheTraitorKing",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Gain 10% bonus maximum Health and 20 Spell Armor.\n\nActivate to gain 75 Armor for 4 seconds."
+			},
+			{
+				"id": "GenericTalentRewind",
+				"name": "Rewind",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "TalentRewind",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to reset the cooldowns of your Basic Abilities."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"AnubarakBeetleSpitBeetle",
+		"AnubarakCocoonFat",
+		"AnubarakCocoonNormal"
+	]
+}

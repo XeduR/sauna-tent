@@ -1,0 +1,29 @@
+{
+	"id": "StormDestructibleRocks6x6",
+	"name": "Destructible Rocks",
+	"attributes": [
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Structure"
+	],
+	"description": "A barrier that can be destroyed to allow access to new areas.",
+	"stats": {
+		"life": {
+			"amount": 1000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"id": "ArchangelToxicSludgling",
+	"name": "Toxic Sludgling",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Create a wall of Toxic Sludglings that sweep across the area damaging enemies",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 1,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "move",
+				"name": "Move",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "W",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"id": "VehiclePlantHorror",
+	"name": "Garden Terror",
+	"attributes": [
+		"Heroic",
+		"ImmuneToFriendlyAbilities"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 11000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 400,
+			"regenRate": 2.2187
+		},
+		"speed": 4.3984,
+		"sight": 2,
+		"radius": 1.5,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "VehiclePlantHorror",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 306,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "PlantHorrorLignify",
+				"name": "Queen's Curse",
+				"type": "Q",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "After 1 second, turn enemy Heroes in an area into Shamblers for 3 seconds, making them unable to attack, use Abilities, and slowing them by 30%."
+			},
+			{
+				"id": "PlantHorrorOvergrowthPlant",
+				"name": "Overgrowth",
+				"type": "W",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Spawn an Overgrowth that disables nearby Structures. You deal 200% bonus damage to Structures affected by Overgrowth. Slowly loses Health over 25 seconds."
+			},
+			{
+				"id": "PlantHorrorSprint",
+				"name": "Sprint",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Increase Movement Speed by 30% for 3 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "TerroroftheGarden",
+				"name": "",
+				"type": "Heroic",
+				"description": "Terror of the Garden (Trait)\n\nPermanently Unstoppable."
+			}
+		],
+		"trait": [
+			{
+				"id": "LeaveVehicle",
+				"name": "Leave Garden Terror",
+				"type": "Trait",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": "Leave the Garden Terror."
+			}
+		],
+		"mount": [],
+		"activable": []
+	},
+	"playstyles": [
+		"PowerfulLaner",
+		"Suicidal"
+	]
+}

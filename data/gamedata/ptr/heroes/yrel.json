@@ -1,0 +1,350 @@
+{
+	"id": "Yrel",
+	"name": "Yrel",
+	"title": "Light of Hope",
+	"unitId": "HeroYrel",
+	"franchise": "Warcraft",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2018-06-12",
+	"ratings": {
+		"complexity": 5,
+		"damage": 5,
+		"survivability": 10,
+		"utility": 4
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"Escaper",
+		"Ganker",
+		"Overconfident",
+		"RoleTank",
+		"SelfHealer",
+		"SoloLaner"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2678,
+			"scale": 0.04,
+			"regenRate": 5.418,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "YrelHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.3,
+			"damage": 155,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "YrelVindication",
+				"name": "Vindication",
+				"type": "Q",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 50",
+				"description": "Unleash holy energy around Yrel, dealing 48~~0.04~~ damage to nearby enemies and healing her for 111~~0.04~~.\n\nCharging up this Ability increases its damage up to 160~~0.04~~, and healing up to 370~~0.04~~."
+			},
+			{
+				"id": "YrelRighteousHammerChannel",
+				"name": "Righteous Hammer",
+				"type": "W",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 50",
+				"description": "Swing Yrel's hammer, dealing 42~~0.04~~ damage to enemies in front of her and knocking them away.\n\nCharging up this Ability increases its knockback distance, and damage up to 140~~0.04~~. Enemies hit at maximum charge are Stunned for 1 seconds."
+			},
+			{
+				"id": "YrelAvengingWrathChannel",
+				"name": "Avenging Wrath",
+				"type": "E",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 50",
+				"description": "Leap to a location, dealing 260~~0.04~~ damage to enemies in an area and Slowing them by 60% for 1 second.\n\nCharging up this Ability increases its range."
+			}
+		],
+		"heroic": [
+			{
+				"id": "YrelArdentDefender",
+				"name": "Ardent Defender",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"description": "Surround Yrel in a barrier for 3 seconds, absorbing all damage taken and healing her for 50% of the damage received."
+			},
+			{
+				"id": "YrelSacredGround",
+				"name": "Sacred Ground",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Yrel sanctifies the ground around her, gaining 50 Armor until she leaves the area."
+			}
+		],
+		"trait": [
+			{
+				"id": "YrelDivinePurpose",
+				"name": "Divine Purpose",
+				"type": "Trait",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Activate to instantly charge Yrel's next Basic Ability at no mana cost. Divine Purpose's cooldown is reduced by 3 seconds if Stunned or Silenced while charging her skills.\n\nPassive: Yrel's Basic Abilities charge up over 1.5 seconds, increasing in effectiveness, but reducing Yrel's Movement Speed by 25%."
+			},
+			{
+				"id": "YrelDivinePurposeActive",
+				"name": "Divine Purpose",
+				"type": "Trait",
+				"parent": "Divine Purpose",
+				"cooldown": "Cooldown: 16 seconds",
+				"description": "Activate to instantly charge Yrel's next Basic Ability at no mana cost. Divine Purpose's cooldown is reduced by 3 seconds if Stunned or Silenced while charging her skills.\n\nPassive: Yrel's Basic Abilities charge up over 1.5 seconds, increasing in effectiveness, but reducing Yrel's Movement Speed by 25%."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "YrelHandOfFreedom",
+				"name": "Hand of Freedom",
+				"type": "Active",
+				"parent": "Hand of Freedom",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Grant an allied Hero 25% Movement Speed for 3 seconds and remove all Slows and Roots from them."
+			},
+			{
+				"id": "YrelBubbleHearth",
+				"name": "Bubble Hearth",
+				"type": "Active",
+				"parent": "Bubble Hearth",
+				"cooldown": "Cooldown: 80 seconds",
+				"description": "After 1 second, Yrel becomes Invulnerable and casts Hearthstone. Cannot be canceled."
+			},
+			{
+				"id": "YrelSeraphim",
+				"name": "Seraphim",
+				"type": "Active",
+				"parent": "Seraphim",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to become Unstoppable for 2 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "YrelVindicationLightOfKarabor",
+				"name": "Light of Karabor",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "YrelVindication",
+				"description": "Increase Vindication's radius by 15%. Hitting an enemy Hero increases Vindication's healing by 35%. If more than one Hero is hit, the bonus is increased to 70%."
+			},
+			{
+				"id": "YrelDauntless",
+				"name": "Dauntless",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Casting a Basic Ability grants Yrel 35 Physical Armor for 2.5 seconds."
+			},
+			{
+				"id": "YrelMaraadsInsight",
+				"name": "Maraad's Insight",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "After damaging an enemy Hero with a Basic Ability, Yrel's next Basic Attack heals her for 160~~0.04~~."
+			}
+		],
+		"level4": [
+			{
+				"id": "YrelAvengingWrathAegisOfLight",
+				"name": "Aegis of Light",
+				"type": "E",
+				"isQuest": false,
+				"ability": "YrelAvengingWrath",
+				"description": "Upon landing, Avenging Wrath grants other nearby allied Heroes 40 Armor for 5 seconds."
+			},
+			{
+				"id": "YrelDivinePurposeGiftOfTheNaaru",
+				"name": "Gift of the Naaru",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "YrelDivinePurpose",
+				"description": "Divine Purpose heals the lowest Health nearby allied Hero other than Yrel for 275~~0.04~~."
+			},
+			{
+				"id": "YrelHandOfFreedom",
+				"name": "Hand of Freedom",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "YrelHandOfFreedom",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Grant an allied Hero 25% Movement Speed for 3 seconds and remove all Slows and Roots from them."
+			}
+		],
+		"level7": [
+			{
+				"id": "YrelRighteousHammerRighteousMomentum",
+				"name": "Righteous Momentum",
+				"type": "W",
+				"isQuest": false,
+				"ability": "YrelRighteousHammer",
+				"description": "Gain 5% Movement Speed. Yrel is no longer Slowed while Channeling Righteous Hammer, and instead this bonus is quadrupled."
+			},
+			{
+				"id": "YrelAvengingWrathHolyAvenger",
+				"name": "Holy Avenger",
+				"type": "E",
+				"isQuest": false,
+				"ability": "YrelAvengingWrath",
+				"description": "Hitting an enemy Hero with Avenging Wrath at maximum charge deals 25% more damage and reduces its cooldown to 1 second."
+			},
+			{
+				"id": "YrelDivineSteed",
+				"name": "Divine Steed",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "Mount",
+				"description": "Mounting is instant and grants 60% Movement Speed that decays over 4 seconds."
+			}
+		],
+		"level10": [
+			{
+				"id": "YrelArdentDefender",
+				"name": "Ardent Defender",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "YrelArdentDefender",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"description": "Surround Yrel in a barrier for 3 seconds, absorbing all damage taken and healing her for 50% of the damage received."
+			},
+			{
+				"id": "YrelSacredGround",
+				"name": "Sacred Ground",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "YrelSacredGround",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Yrel sanctifies the ground around her, gaining 50 Armor until she leaves the area."
+			}
+		],
+		"level13": [
+			{
+				"id": "YrelVindicationAldorPeacekeeper",
+				"name": "Aldor Peacekeeper",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "YrelVindication",
+				"description": "Enemy Heroes hit by Vindication at maximum charge deal 50% less damage for 4 seconds."
+			},
+			{
+				"id": "YrelAvengingWrathRepentance",
+				"name": "Repentance",
+				"type": "E",
+				"isQuest": false,
+				"ability": "YrelAvengingWrath",
+				"description": "Increase Avenging Wrath's Slow by 25% and duration by 0.75 seconds."
+			},
+			{
+				"id": "YrelVelensChosen",
+				"name": "Velen's Chosen",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Hitting an enemy Hero with a Basic Ability at maximum charge grants 7.5% Spell Power for 10 seconds, up to 30%."
+			}
+		],
+		"level16": [
+			{
+				"id": "YrelRighteousHammerTemplarsVerdict",
+				"name": "Templar's Verdict",
+				"type": "W",
+				"isQuest": false,
+				"ability": "YrelRighteousHammer",
+				"description": "Righteous Hammer reduces the Armor of enemy Heroes hit by 15 for 4 seconds and deals bonus damage equal to 6% of their maximum Health."
+			},
+			{
+				"id": "YrelDivinePurposeDivineFavor",
+				"name": "Divine Favor",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "YrelDivinePurpose",
+				"description": "Casting a Basic Ability reduces the cooldown of Divine Purpose by 2.5 seconds."
+			},
+			{
+				"id": "YrelHolyWrath",
+				"name": "Holy Wrath",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "After casting a Basic Ability, Yrel's next Basic Attack splashes for 35% increased damage around the target."
+			}
+		],
+		"level20": [
+			{
+				"id": "YrelArdentDefenderWordOfGlory",
+				"name": "Word of Glory",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "YrelArdentDefender",
+				"prerequisites": [
+					"YrelArdentDefender"
+				],
+				"description": "Increase the amount that Yrel heals from damage received from 50% to 75%. Ardent Defender heals nearby allied Heroes for 100% of the healing received by Yrel."
+			},
+			{
+				"id": "YrelSacredGroundHallowedGround",
+				"name": "Hallowed Ground",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "YrelSacredGround",
+				"prerequisites": [
+					"YrelSacredGround"
+				],
+				"description": "Casting Avenging Wrath while inside Sacred Ground moves Sacred Ground to Yrel's location upon landing."
+			},
+			{
+				"id": "YrelBubbleHearth",
+				"name": "Bubble Hearth",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "YrelBubbleHearth",
+				"cooldown": "Cooldown: 80 seconds",
+				"description": "After 1 second, Yrel becomes Invulnerable and casts Hearthstone. Cannot be canceled."
+			},
+			{
+				"id": "YrelSeraphim",
+				"name": "Seraphim",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "YrelSeraphim",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to become Unstoppable for 2 seconds."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"YrelSacredGround"
+	]
+}

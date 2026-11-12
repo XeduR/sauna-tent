@@ -1,0 +1,15 @@
+[
+	{
+		"id": "Mount",
+		"name": "Summon Mount",
+		"type": "Z",
+		"cooldown": "Cooldown: 4 seconds",
+		"description": "After Channeling for 1 second, gain 30% Movement Speed."
+	},
+	{
+		"id": "Hearthstone",
+		"name": "Hearthstone",
+		"type": "B",
+		"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms."
+	}
+]

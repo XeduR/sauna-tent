@@ -1,0 +1,46 @@
+{
+	"id": "MercDefenderHenchman3",
+	"name": "Henchman",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep",
+		"Merc"
+	],
+	"killXP": 80,
+	"stats": {
+		"life": {
+			"amount": 1300,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.625,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "HenchmanDefender",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 20,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

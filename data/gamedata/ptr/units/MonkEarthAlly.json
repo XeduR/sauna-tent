@@ -1,0 +1,30 @@
+{
+	"id": "MonkEarthAlly",
+	"name": "Earth Ally",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Place an Earth Ally that grants nearby allied Heroes 50 Physical Armor against Heroic Basic Attacks, reducing damage taken by 50%. Has 400~~0.04~~ Health and lasts 10 seconds. Kharazim can Radiant Dash to Earth Allies.",
+	"stats": {
+		"life": {
+			"amount": 400,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8.25,
+		"radius": 0.125,
+		"innerRadius": 0.125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

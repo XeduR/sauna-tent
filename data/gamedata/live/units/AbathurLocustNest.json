@@ -1,0 +1,43 @@
+{
+	"id": "AbathurLocustNest",
+	"name": "Locust Nest",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Charge Cooldown: 10 seconds\n\nSpawn a mine that becomes active after a short time. Deals 153~~0.04~~ damage and reveals the enemy for 4 seconds. Lasts 90 seconds.",
+	"stats": {
+		"life": {
+			"amount": 319,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "AbathurSpawnLocusts",
+				"name": "Locust Strain",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Spawns a Locust to attack down the nearest lane every 15 seconds.  Locusts heal for 20% of the damage they deal, and regain 20% of their Maximum health when a nearby minion dies.\n\nLocusts lose health over 17 seconds, have 225~~0.04~~ health and deal 36~~0.04~~ damage with each Basic Attack, dealing 100% bonus damage to enemy non-Heroes."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	},
+	"summonedUnitIds": [
+		"AbathurLocustAssaultStrain",
+		"AbathurLocustBombardStrain",
+		"AbathurLocustNormal"
+	]
+}

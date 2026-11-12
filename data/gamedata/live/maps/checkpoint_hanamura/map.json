@@ -1,0 +1,18 @@
+{
+	"id": "HanamuraPayloadPush",
+	"name": "Checkpoint: Hanamura",
+	"size": {
+		"x": 248,
+		"y": 232
+	},
+	"objectives": [
+		{
+			"title": "No Cores",
+			"description": "There are no Cores in this Brawl. The match ends when the Payload reaches the end or the timer runs out."
+		},
+		{
+			"title": "Escort Payload",
+			"description": "A Payload will only spawn for your team. Stand next to it to move it to the end before the timer runs out."
+		}
+	]
+}

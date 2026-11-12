@@ -12,7 +12,11 @@ REM data\matches\*.json files are the source of truth.
 REM
 REM Optional sub-steps (asked per run):
 REM   - Collect new replays from %USERPROFILE% before the pipeline (refresh-replays.bat)
-REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat), live or PTR
+REM   - Refresh static hero data after the pipeline (refresh-hero-data.bat), live or PTR.
+REM     It writes the site's three hero files, the hero images, and data\gamedata\
+REM     (heroes, units and maps for the channel, plus the version list). A PTR run
+REM     writes the full PTR game data there but adds only PTR-only heroes to the
+REM     three hero files.
 REM
 REM First-run prerequisites:
 REM   - .NET 8.0 SDK installed, for the replay parser sidecar:

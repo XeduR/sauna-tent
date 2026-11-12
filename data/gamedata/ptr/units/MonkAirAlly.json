@@ -1,0 +1,30 @@
+{
+	"id": "MonkAirAlly",
+	"name": "Air Ally",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Place an Air Ally that gives allied Heroes 20% Spell Power, grants vision, and reveals a large area around it. Has 300~~0.04~~ Health and lasts 10 seconds. Kharazim can Radiant Dash to Air Allies.",
+	"stats": {
+		"life": {
+			"amount": 300,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8.25,
+		"radius": 0.125,
+		"innerRadius": 0.125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

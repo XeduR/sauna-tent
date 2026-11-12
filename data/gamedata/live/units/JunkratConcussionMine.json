@@ -1,0 +1,32 @@
+{
+	"id": "JunkratConcussionMine",
+	"name": "Concussion Mine",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Place a mine on the ground. Junkrat's Trait can be activated to detonate the mine, dealing 180~~0.04~~ damage to nearby enemies and knocking them back. Junkrat can also be affected by Concussion Mine, but takes no damage.\n\nLimit 1 active mine.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"id": "Hatchery",
+	"name": "Hatchery",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"killXP": 400,
+	"stats": {
+		"life": {
+			"amount": 10000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 3,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

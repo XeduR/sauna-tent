@@ -1,0 +1,44 @@
+{
+	"id": "ZergBaneling",
+	"name": "Baneling",
+	"damageType": "Monster",
+	"stats": {
+		"life": {
+			"amount": 450,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.25,
+		"sight": 2,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "ZergBanelingWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 200,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": 0
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

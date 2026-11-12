@@ -1,0 +1,45 @@
+{
+	"id": "CloudSerpent",
+	"name": "Cloud Serpent",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 8,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1,
+		"innerRadius": 1
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "LiLiCloudSerpentAttack",
+				"name": "Cloud Serpent Attack",
+				"type": "Q",
+				"toggleCooldown": 0.75,
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,332 @@
+{
+	"id": "DemonHunter",
+	"name": "Valla",
+	"title": "Demon Hunter",
+	"unitId": "HeroDemonHunter",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 3,
+		"damage": 9,
+		"survivability": 4,
+		"utility": 1
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Ganker",
+		"RoleAutoAttacker",
+		"RoleCaster",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1340,
+			"scale": 0.04,
+			"regenRate": 2.793,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "HeroDemonHunter",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.6,
+			"damage": 70,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "DemonHunterHungeringArrow",
+				"name": "Hungering Arrow",
+				"type": "Q",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 60",
+				"description": "Fire an arrow that deals 140~~0.04~~ damage to the first target hit, then seeks up to 2 additional enemies, prioritizing Heroes, dealing 80~~0.04~~ damage. Can hit an enemy multiple times."
+			},
+			{
+				"id": "DemonHunterMultishot",
+				"name": "Multishot",
+				"type": "W",
+				"cooldown": "Cooldown: 13 seconds",
+				"cost": "Mana: 75",
+				"description": "Deal 159~~0.04~~ damage to enemies within the target area."
+			},
+			{
+				"id": "DemonHunterVault",
+				"name": "Vault",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 50",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": true
+				},
+				"description": "Dash to the target area. Valla's next Basic Attack within 2 seconds deals 6% increased damage per stack of Hatred."
+			}
+		],
+		"heroic": [
+			{
+				"id": "DemonHunterStrafe",
+				"name": "Strafe",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Rapidly attack enemies within 10 range for 70~~0.04~~ damage per hit, prioritizing Heroes over Minions. Valla is able to move and use Vault while strafing. Lasts for 4 seconds."
+			},
+			{
+				"id": "DemonHunterRainOfVengeance",
+				"name": "Rain of Vengeance",
+				"type": "Heroic",
+				"cooldown": "Charge Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"charges": {
+					"countMax": 2,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": false
+				},
+				"description": "Launch a wave of Shadow Beasts that deals 250~~0.04~~ damage and Stuns enemies in the target area for 0.5 seconds.\n\nStores up to 2 charges."
+			}
+		],
+		"trait": [
+			{
+				"id": "DemonHunterHatred",
+				"name": "Hatred",
+				"type": "Trait",
+				"description": "Basic Attacks grant a stack of Hatred, up to 10. Each Hatred stack increases Basic Attack damage by 8% and Movement Speed by 1%. Lasts 5 seconds."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "DemonHunterGloom",
+				"name": "Gloom",
+				"type": "Active",
+				"parent": "Gloom",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": "Activate to consume all Hatred, granting 3 Spell Armor per Hatred consumed for 5 seconds.\n\nPassive: Gain 15 Spell Armor, and each stack of Hatred heals for 1.2~~0.04~~ Health per second."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "DemonHunterMasteryPuncturingArrow",
+				"name": "Puncturing Arrow",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "DemonHunterHungeringArrow",
+				"description": "Increase the number of Hungering Arrow bounces by 1.\n\nQuest: Hitting an enemy Hero with the initial impact of Hungering Arrow refunds 40 Mana and permanently increases the damage of its initial impact by 6."
+			},
+			{
+				"id": "DemonHunterMultishotFireAtWill",
+				"name": "Fire At Will",
+				"type": "W",
+				"isQuest": true,
+				"ability": "DemonHunterMultishot",
+				"description": "Quest: Hitting a Hero with Multishot grants 2 Hatred and permanently increases its damage by 2.\n\nReward: After hitting 20 Heroes with Multishot, increase its damage by 40."
+			},
+			{
+				"id": "DemonHunterCreedoftheHunter",
+				"name": "Creed of the Hunter",
+				"type": "Trait",
+				"isQuest": true,
+				"description": "Quest: Every 50 Basic Attacks against Heroes increases Hatred's damage bonus per stack by 1%, up to 6%.\n\nGambit: Gain 25% bonus Attack Speed. Every death reduces this bonus by 5%."
+			}
+		],
+		"level4": [
+			{
+				"id": "DemonHunterMasteryArsenal",
+				"name": "Arsenal",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DemonHunterMultishot",
+				"description": "Increase the range of Multishot by 20%. Multishot also fires 3 grenades that deal 100~~0.04~~ damage and refund 25 Mana after hitting enemy Heroes."
+			},
+			{
+				"id": "DemonHunterDeathDealer",
+				"name": "Death Dealer",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DemonHunterVault",
+				"description": "Increase Vaults Basic Attack damage bonus from 6% to 15% per stack of Hatred. If this attack kills its victim within 1.5 seconds, the Mana cost and cooldown of Vault are refunded.\n\nPassive: Reduce the cooldown of Vault by 5 seconds."
+			},
+			{
+				"id": "DemonHunterMasteryRepeatingArrowVault",
+				"name": "Repeating Arrow",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DemonHunterVault",
+				"description": "Vault no longer has a Mana cost. Casting Vault resets the cooldown of Hungering Arrow."
+			}
+		],
+		"level7": [
+			{
+				"id": "DemonHunterMasteryMonsterHunterHungeringArrow",
+				"name": "Monster Hunter",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DemonHunterHungeringArrow",
+				"description": "Hungering Arrow deals 150% additional damage to Minions, Mercenaries, and Monsters."
+			},
+			{
+				"id": "DemonHunterMasteryFrostShot",
+				"name": "Frost Shot",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DemonHunterHungeringArrow",
+				"description": "Multishot Slows enemies by 20% for 2.5 seconds. Hungering Arrows deals 25% more damage to Slowed enemies."
+			},
+			{
+				"id": "DemonHunterCombatStyleHotPursuit",
+				"name": "Hot Pursuit",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increase the Movement Speed bonus of each stack of Hatred from 1% to 2%."
+			}
+		],
+		"level10": [
+			{
+				"id": "DemonHunterHeroicAbilityStrafe",
+				"name": "Strafe",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DemonHunterStrafe",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Rapidly attack enemies within 10 range for 70~~0.04~~ damage per hit, prioritizing Heroes over Minions. Valla is able to move and use Vault while strafing. Lasts for 4 seconds."
+			},
+			{
+				"id": "DemonHunterHeroicAbilityRainofVengeance",
+				"name": "Rain of Vengeance",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DemonHunterRainOfVengeance",
+				"cooldown": "Charge Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"description": "Launch a wave of Shadow Beasts that deals 250~~0.04~~ damage and Stuns enemies in the target area for 0.5 seconds.\n\nStores up to 2 charges."
+			}
+		],
+		"level13": [
+			{
+				"id": "DemonHunterMasterySiphoningArrow",
+				"name": "Siphoning Arrows",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DemonHunterHungeringArrow",
+				"description": "Hitting a Hero with Hungering Arrow heals Valla for 4% of her maximum Health, and Multishot heals for 2%."
+			},
+			{
+				"id": "DemonHunterCombatStyleTemperedByDiscipline",
+				"name": "Tempered by Discipline",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Basic Attacks heal for 10% of the damage dealt, increased by 2% per Hatred stack."
+			},
+			{
+				"id": "DemonHunterGloom",
+				"name": "Gloom",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "DemonHunterGloom",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": "Activate to consume all Hatred, granting 3 Spell Armor per Hatred consumed for 5 seconds.\n\nPassive: Gain 15 Spell Armor, and each stack of Hatred heals for 1.2~~0.04~~ Health per second."
+			}
+		],
+		"level16": [
+			{
+				"id": "DemonHunterPunishment",
+				"name": "Punishment",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DemonHunterMultishot",
+				"description": "While at max Hatred, Multishot's cooldown recharges 50% faster.\n\nPassive: Reduce Multishot's Mana cost from 75 to 55."
+			},
+			{
+				"id": "DemonHunterSeethingHatred",
+				"name": "Seething Hatred",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "While at max Hatred, increase all damage dealt by 10%."
+			},
+			{
+				"id": "DemonHunterManticore",
+				"name": "Manticore",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Every 3rd Basic Attack against the same Hero deals an additional 4% of their maximum Health as damage."
+			}
+		],
+		"level20": [
+			{
+				"id": "DemonHunterMasteryDeathSiphon",
+				"name": "Death Siphon",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DemonHunterStrafe",
+				"prerequisites": [
+					"DemonHunterHeroicAbilityStrafe"
+				],
+				"description": "Hitting an enemy Hero with Strafe increases its duration by 0.125 seconds. Strafe also fires penetrating bolts in a line for 34~~0.04~~ damage every 0.25 seconds."
+			},
+			{
+				"id": "DemonHunterMasteryStormofVengeance",
+				"name": "Storm of Vengeance",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DemonHunterRainOfVengeance",
+				"prerequisites": [
+					"DemonHunterHeroicAbilityRainofVengeance"
+				],
+				"description": "Basic Attacks against Heroes reduce the cooldown of Rain of Vengeance by 5 seconds.\n\nPassive: Each stack of Hatred increases your Attack Speed by 2%. While at max Hatred, gain an additional 30% Attack Speed."
+			},
+			{
+				"id": "DemonHunterVaultAcrobat",
+				"name": "Acrobat",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DemonHunterVault",
+				"description": "Gain 2 additional charges of Vault. Drop 3 Caltrops while Vaulting that deal 60~~0.04~~ damage and Slow enemies by 40% for 1 second."
+			},
+			{
+				"id": "DemonHunterFarflightQuiver",
+				"name": "Farflight Quiver",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Gain 20% Basic Attack range. While at max Hatred, gain an additional 30% Basic Attack range."
+			}
+		]
+	}
+}

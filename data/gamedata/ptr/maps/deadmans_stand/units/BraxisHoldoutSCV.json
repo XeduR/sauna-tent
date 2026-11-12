@@ -1,0 +1,46 @@
+{
+	"id": "BraxisHoldoutSCV",
+	"name": "Braxis Holdout SCV",
+	"damageType": "Minion",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"User1"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [
+			{
+				"id": "BraxisHoldoutSCVChannel",
+				"name": "SCV Channel",
+				"type": "Trait",
+				"description": ""
+			}
+		],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

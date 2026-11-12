@@ -1,0 +1,56 @@
+{
+	"id": "KingsCore",
+	"name": "Core",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"Structure"
+	],
+	"description": "Powerful, substantially tough structure. Deals high splash damage and has a shield that regenerates while not being attacked. Destroying this structure will result in victory.",
+	"stats": {
+		"life": {
+			"amount": 5,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 11,
+		"radius": 4,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "KingsCore",
+			"range": 8,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 220,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TowerMarkAttackTarget",
+				"name": "",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

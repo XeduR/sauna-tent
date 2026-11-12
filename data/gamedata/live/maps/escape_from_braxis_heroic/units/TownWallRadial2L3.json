@@ -1,0 +1,28 @@
+{
+	"id": "TownWallRadial2L3",
+	"name": "Wall",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 2100,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 5,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,38 @@
+{
+	"id": "ImperiusWrathOfTheAngirisCursorUnit",
+	"name": "Imperius - Wrath Of The Angiris (Cursor Unit)",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 5,
+		"sight": 2,
+		"radius": 0.8125,
+		"innerRadius": 0.8125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

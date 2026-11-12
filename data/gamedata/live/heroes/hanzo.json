@@ -1,0 +1,326 @@
+{
+	"id": "Hanzo",
+	"name": "Hanzo",
+	"title": "Master Assassin",
+	"unitId": "HeroHanzo",
+	"franchise": "Overwatch",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Hard",
+	"isMelee": false,
+	"releaseDate": "2017-12-12",
+	"ratings": {
+		"complexity": 6,
+		"damage": 8,
+		"survivability": 4,
+		"utility": 5
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"RoleAutoAttacker",
+		"RoleCaster"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1375,
+			"scale": 0.04,
+			"regenRate": 2.8632,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "HanzoHeroWeapon",
+			"range": 6.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 198,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "HanzoStormBowFireTargetPoint",
+				"name": "Storm Bow",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"cost": "Mana: 20",
+				"description": "Activate to charge an arrow that deals 291~~0.04~~ damage to the first enemy hit. Storm Bow's range increases the longer it is Channeled."
+			},
+			{
+				"id": "HanzoScatterArrow",
+				"name": "Scatter Arrow",
+				"type": "W",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 50",
+				"description": "Fire an arrow that deals 88~~0.04~~ to the first enemy Hero hit. Scatter Arrow can collide with terrain and Structures, splitting into 5 arrows that travel extra distance, ricochet up to 4 additional times, and deal 88~~0.04~~ damage each to the first enemy hit."
+			},
+			{
+				"id": "HanzoSonicArrow",
+				"name": "Sonic Arrow",
+				"type": "E",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 50",
+				"description": "Fire an arrow that grants vision in a large area for 5 seconds. Enemies inside are revealed for 1 second. If Sonic Arrow lands directly on an enemy, it deals 165~~0.04~~ damage to them and follows them as they move."
+			}
+		],
+		"heroic": [
+			{
+				"id": "HanzoDragonstrike",
+				"name": "Dragonstrike",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 84~~0.04~~ damage every 0.25 seconds to enemy Heroes in its area. Enemies in the center take 75% increased damage."
+			},
+			{
+				"id": "HanzoDragonsArrow",
+				"name": "Dragon's Arrow",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 90",
+				"description": "Fire a missile that travels across the battleground. Explodes upon hitting an enemy Hero, dealing 130~~0.04~~ damage to all nearby enemies and Stunning them for 0.5 seconds.\n\nAfter traveling a medium distance, the damage is increased to 260~~0.04~~ and the Stun duration to 1.25 seconds.\n\nAfter traveling a long distance, the damage is increased to 390~~0.04~~ and the Stun duration to 2 seconds."
+			},
+			{
+				"id": "HanzoPOTG",
+				"name": "Play of the Game",
+				"type": "Heroic",
+				"parent": "Play of the Game",
+				"toggleCooldown": 0.0625,
+				"description": "Activate to teleport to Hanzo's Dragon's Arrow."
+			}
+		],
+		"trait": [
+			{
+				"id": "HanzoNaturalAgilityButton",
+				"name": "Natural Agility",
+				"type": "Trait",
+				"cooldown": "Cooldown: 25 seconds",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 0.25,
+					"isCountHidden": true
+				},
+				"description": "Jump over unpathable terrain or Structures, up to a maximum range."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": []
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "HanzoTargetPractice",
+				"name": "Target Practice",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "HanzoStormBowFireTargetPoint",
+				"description": "Quest: Hit every enemy Hero with Storm Bow.\n\nReward: After hitting every enemy Hero once with Storm Bow, its range is increased by 30%.\n\nReward: After hitting every enemy Hero 3 times with Storm Bow, its damage is increased by 100."
+			},
+			{
+				"id": "HanzoSimpleGeometry",
+				"name": "Simple Geometry",
+				"type": "W",
+				"isQuest": true,
+				"ability": "HanzoScatterArrow",
+				"description": "Quest: Hit a Hero with multiple arrows from the same Scatter Arrow cast 20 times. Each arrow hit after the second grants additional progress.\n\nReward: Upon hitting terrain for the first time, Scatter Arrow creates 2 additional arrows."
+			},
+			{
+				"id": "HanzoRedemption",
+				"name": "Redemption",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Quest: Every 2 Basic Attacks against the same Hero within 10 seconds grants 1 Redemption, stacking up to 12. Dying decreases Redemption by 3, and Redemption can be lost even at maximum stacks.\n\nReward: At 12 Redemption, gain 50% Attack Speed."
+			}
+		],
+		"level4": [
+			{
+				"id": "HanzoExplosiveArrows",
+				"name": "Explosive Arrows",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "HanzoStormBowFireTargetPoint",
+				"description": "Upon hitting a Minion or Monster, Storm Bow deals 60% of its damage to enemies around its target."
+			},
+			{
+				"id": "HanzoSerratedArrows",
+				"name": "Serrated Arrows",
+				"type": "W",
+				"isQuest": false,
+				"ability": "HanzoScatterArrow",
+				"description": "Scatter Arrow deals 100% more damage to Minions, Mercenaries, and Monsters."
+			},
+			{
+				"id": "HanzoIgnoreAllDistractions",
+				"name": "Ignore All Distractions",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks instantly kill Minions and increase Hanzo's Basic Attack range by 2 for 3 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "HanzoTheDragonHungers",
+				"name": "The Dragon Hungers",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "HanzoStormBowFireTargetPoint",
+				"description": "Hitting a Hero with Storm Bow grants 5% Spell Power for 12 seconds, stacking up to 20%."
+			},
+			{
+				"id": "HanzoNeverOutmatched",
+				"name": "Never Outmatched",
+				"type": "W",
+				"isQuest": false,
+				"ability": "HanzoScatterArrow",
+				"description": "Reduce Scatter Arrow's Mana cost from 50 to 30. Basic Attacks against Heroes lower the cooldown of Scatter Arrow by 3 seconds."
+			},
+			{
+				"id": "HanzoSharpenedArrowheads",
+				"name": "Sharpened Arrowheads",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Hitting a Hero with Storm Bow or Basic Attacks reduces their Armor by 3 for 3 seconds, up to a maximum reduction of 20 Armor."
+			}
+		],
+		"level10": [
+			{
+				"id": "HanzoDragonstrike",
+				"name": "Dragonstrike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HanzoDragonstrike",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "After 1.5 seconds, summon a pair of Spirit Dragons which travel forward, dealing 84~~0.04~~ damage every 0.25 seconds to enemy Heroes in its area. Enemies in the center take 75% increased damage."
+			},
+			{
+				"id": "HanzoDragonsArrow",
+				"name": "Dragon's Arrow",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HanzoDragonsArrow",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 90",
+				"description": "Fire a missile that travels across the battleground. Explodes upon hitting an enemy Hero, dealing 130~~0.04~~ damage to all nearby enemies and Stunning them for 0.5 seconds.\n\nAfter traveling a medium distance, the damage is increased to 260~~0.04~~ and the Stun duration to 1.25 seconds.\n\nAfter traveling a long distance, the damage is increased to 390~~0.04~~ and the Stun duration to 2 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "HanzoFleetofFoot",
+				"name": "Fleet of Foot",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "HanzoStormBowFireTargetPoint",
+				"description": "Hitting a Hero with Storm Bow grants 10% Movement Speed for 6 seconds, up to 30%."
+			},
+			{
+				"id": "HanzoNinjaAssassin",
+				"name": "Ninja Assassin",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "HanzoNaturalAgilityButton",
+				"description": "Hitting Heroes with Storm Bow lowers Natural Agility's cooldown by 10 seconds. Additionally, Hero Takedowns reset Natural Agility's cooldown."
+			},
+			{
+				"id": "HanzoMountedArchery",
+				"name": "Mounted Archery",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Reduce the cooldown of Summon Mount by 2 seconds. Upon mounting, gain 25% additional Movement Speed for 5 seconds. Using Natural Agility instantly mounts."
+			}
+		],
+		"level16": [
+			{
+				"id": "HanzoFlawlessTechnique",
+				"name": "Flawless Technique",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Hitting Heroes with Storm Bow increases the damage of Hanzo's next Basic Attack within 5 seconds by 40%. Basic Attacks against Heroes increase the damage of Hanzo's next Storm Bow within 5 seconds by 40%."
+			},
+			{
+				"id": "HanzoPiercingArrows",
+				"name": "Piercing Arrows",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Storm Bow and Scatter Arrow pierce, hitting an additional enemy. Additionally, Scatter Arrow can pierce through 1 enemy each time it ricochets."
+			},
+			{
+				"id": "HanzoGiantSlayer",
+				"name": "Giant Slayer",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Enemy Heroes hit by Scatter Arrow and Basic Attacks take a bonus 1.6% of their maximum Health as damage."
+			}
+		],
+		"level20": [
+			{
+				"id": "HanzoTheDragonAwakens",
+				"name": "The Dragon Awakens",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HanzoDragonstrike",
+				"prerequisites": [
+					"HanzoDragonstrike"
+				],
+				"description": "Hitting a Hero with Storm Bow, Scatter Arrow, or Basic Attacks reduces the cooldown of Dragonstrike by 4 seconds."
+			},
+			{
+				"id": "HanzoPOTG",
+				"name": "Play of the Game",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HanzoDragonsArrow",
+				"prerequisites": [
+					"HanzoDragonsArrow"
+				],
+				"description": "While in flight or for up to 2 seconds after impacting a target, Dragon's Arrow can be reactivated to teleport to its location and jump backwards. If used after impact, Hanzo shoots arrows that deal 132~~0.04~~ damage to each target hit by the impact.\n\nHanzo is Unstoppable during Play of the Game."
+			},
+			{
+				"id": "HanzoBullseye",
+				"name": "Bullseye",
+				"type": "E",
+				"isQuest": false,
+				"ability": "HanzoSonicArrow",
+				"description": "Increase Sonic Arrow's speed and center radius by 100%. Additionally, Heroes hit by Sonic Arrow's center are Stunned for 1 second."
+			},
+			{
+				"id": "HanzoPerfectAgility",
+				"name": "Perfect Agility",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "HanzoNaturalAgilityButton",
+				"description": "Natural Agility gains a 2nd charge and its cooldown is reduced by 10 seconds."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"HanzoDragonstrikeController",
+		"HanzoDragonstrikeSoundUnit"
+	]
+}

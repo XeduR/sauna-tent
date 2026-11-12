@@ -1,0 +1,38 @@
+{
+	"id": "ArtanisSpearofAdunPurifierBeamInvisibleTrackingUnit",
+	"name": "Spear of Adun: Purifier Beam (Invisible Tracking Unit)",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.1992,
+		"sight": 3,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "attack",
+				"name": "Basic Attack",
+				"type": "B",
+				"description": "Attacks using the Hero's weapon"
+			}
+		]
+	}
+}

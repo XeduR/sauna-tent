@@ -1,0 +1,22 @@
+{
+	"id": "Shrines",
+	"name": "Infernal Shrines",
+	"size": {
+		"x": 248,
+		"y": 208
+	},
+	"objectives": [
+		{
+			"title": "Activate the Shrines",
+			"description": "The Infernal Shrines periodically gather power. Activate them and prepare for a fight."
+		},
+		{
+			"title": "Defeat Guardians",
+			"description": "Slay 40 Guardians before the enemy team to bring forth a mighty Punisher."
+		},
+		{
+			"title": "Beware the Punisher",
+			"description": "Punishers have one of three devastating powers. Be careful, they focus on attacking Heroes above all else."
+		}
+	]
+}

@@ -1,0 +1,45 @@
+{
+	"id": "WitchDoctorGargantuan",
+	"name": "Gargantuan",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Summon a Gargantuan to guard an area, losing Health over 29 seconds. Deals 100~~0.04~~ damage when summoned, attacks for 140~~0.04~~ damage, and can be ordered to stomp nearby enemies. The Gargantuan's Stomp deals 240~~0.04~~ damage and Slows by 30% for 2 seconds.",
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0.04,
+			"regenRate": -68.9655,
+			"regenScale": 0.04
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 1,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "GargantuanWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.7,
+			"damage": 140,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

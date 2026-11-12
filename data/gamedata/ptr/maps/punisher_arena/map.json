@@ -1,0 +1,18 @@
+{
+	"id": "ArenaModePunisher",
+	"name": "Punisher Arena",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Beware the Punishers",
+			"description": "Punishers alternate between attacking each other and Heroes. Each round the Punisher's magic Abilities will change."
+		},
+		{
+			"title": "Kill to Win",
+			"description": "Enemy Heroes are worth 4 points. The enemy's Punisher is worth 10."
+		}
+	]
+}

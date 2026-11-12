@@ -1,0 +1,363 @@
+{
+	"id": "Crusader",
+	"name": "Johanna",
+	"title": "Crusader of Zakarum",
+	"unitId": "HeroCrusader",
+	"franchise": "Diablo",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Tank",
+	"difficulty": "Easy",
+	"isMelee": true,
+	"releaseDate": "2015-06-02",
+	"ratings": {
+		"complexity": 4,
+		"damage": 3,
+		"survivability": 10,
+		"utility": 6
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"Overconfident",
+		"RoleTank",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2625,
+			"scale": 0.04,
+			"regenRate": 5.4687,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "CrusaderHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.1,
+			"damage": 99,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "CrusaderPunish",
+				"name": "Punish",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 40",
+				"description": "Step forward dealing 113~~0.04~~ damage and Slowing enemies by 50%, decaying over 2 seconds."
+			},
+			{
+				"id": "CrusaderCondemn",
+				"name": "Condemn",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 50",
+				"description": "After 1 second, Johanna pulls nearby enemies toward her, Stunning them for 0.25 seconds and dealing 55~~0.04~~ damage. Deals 200% increased damage to Minions and Mercenaries."
+			},
+			{
+				"id": "CrusaderShieldGlare",
+				"name": "Shield Glare",
+				"type": "E",
+				"cooldown": "Cooldown: 13 seconds",
+				"cost": "Mana: 55",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": true
+				},
+				"description": "Deal 59~~0.04~~ damage to enemies and Blind them for 1.5 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "CrusaderFallingSword",
+				"name": "Falling Sword",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 60",
+				"description": "Johanna leaps into the air for 2 seconds and she can steer the landing location by moving. While in the air, allies below Johanna are Unstoppable. Upon landing enemies hit take 225~~0.04~~ damage and are Stunned for 0.25 seconds."
+			},
+			{
+				"id": "CrusaderBlessedShield",
+				"name": "Blessed Shield",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 65 seconds",
+				"cost": "Mana: 90",
+				"description": "Deal 114~~0.04~~ damage and Stun the first enemy hit for 1.5 seconds. Blessed Shield then bounces to 2 nearby enemies, dealing 57~~0.04~~ damage and Stunning them for 0.75 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "CrusaderIronSkin",
+				"name": "Iron Skin",
+				"type": "Trait",
+				"cooldown": "Cooldown: 22 seconds",
+				"description": "Activate to grant Johanna a Shield that absorbs 810~~0.04~~ damage for 4 seconds. While this Shield is active, Johanna is Unstoppable."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "CrusaderLawsOfHope",
+				"name": "Laws of Hope",
+				"type": "Active",
+				"parent": "Laws of Hope",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to heal 20% of Johanna's max Health over 5 seconds.\n\nQuest: Every 10 Regeneration Globes gathered increases this heal amount by 5% of Johanna's max Health."
+			},
+			{
+				"id": "CrusaderSteedCharge",
+				"name": "Steed Charge",
+				"type": "Active",
+				"parent": "Steed Charge",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to instantly Mount for 4 seconds, unhindered by damage.\n\nPassive: Increase the duration of Iron Skin by 2 second."
+			},
+			{
+				"id": "CrusaderBlessedHammer",
+				"name": "Blessed Hammer",
+				"type": "Active",
+				"parent": "Blessed Hammer",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to create 2 hammers that spiral outward from Johanna, dealing 65~~0.04~~ damage to enemies hit. Damaging enemies with Basic Abilities reduce the cooldown of this Ability by 2.5 seconds.\n\nPassive: Every 3rd Basic Attack against enemy Heroes releases a hammer."
+			},
+			{
+				"id": "CrusaderBlindedByTheLight",
+				"name": "Blinded By The Light",
+				"type": "Active",
+				"parent": "Blinded By The Light",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to grant nearby allied Heroes a Shield equal to 25% of their maximum Health for 3 seconds.\n\nHitting Heroes with Shield Glare reduces the cooldown of this Ability by 8 seconds."
+			},
+			{
+				"id": "CrusaderIndestructible",
+				"name": "Indestructible",
+				"type": "Passive",
+				"parent": "Indestructible",
+				"cooldown": "Cooldown: 120 seconds",
+				"description": "Upon taking fatal damage, Johanna gains a Shield equal to her maximum Health for 4 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "CrusaderZealousGlare",
+				"name": "Zealous Glare",
+				"type": "E",
+				"isQuest": false,
+				"ability": "CrusaderShieldGlare",
+				"description": "Shield Glare gains 1 additional charge, and deals 70% more damage."
+			},
+			{
+				"id": "CrusaderPassiveDivineFortress",
+				"name": "Divine Fortress",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Basic Attacks grant 10 Physical Armor for 4 seconds, stacking up to 40.\n\nGambit: Gain 25% bonus maximum Health. Every death reduces this bonus by 5%."
+			},
+			{
+				"id": "CrusaderMasteryLawsOfHope",
+				"name": "Laws of Hope",
+				"type": "Active",
+				"isQuest": true,
+				"ability": "CrusaderLawsOfHope",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to heal 20% of Johanna's max Health over 5 seconds.\n\nQuest: Every 10 Regeneration Globes gathered increases this heal amount by 5% of Johanna's max Health."
+			}
+		],
+		"level4": [
+			{
+				"id": "CrusaderMasteryPunishSubdue",
+				"name": "Subdue",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "CrusaderPunish",
+				"description": "Hitting 2 or more Heroes at the same time with Punish increases the Slow to 70% and the Slow amount does not decay.\n\nQuest: Hit 4 or more Heroes at the same time with Punish.\n\nReward: Punish always Slows by 70%."
+			},
+			{
+				"id": "CrusaderMasteryCondemnEternalRetaliation",
+				"name": "Eternal Retaliation",
+				"type": "W",
+				"isQuest": false,
+				"ability": "CrusaderCondemn",
+				"description": "Mark enemies hit by Condemn for 10 seconds. Johanna's next Basic Attack against them removes the mark, lowering the cooldown of Condemn by 1 second, refunding 10 Mana, and killing Minions."
+			},
+			{
+				"id": "CrusaderMasteryIronSkinHoldYourGround",
+				"name": "Hold Your Ground",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "CrusaderIronSkin",
+				"description": "Increases Iron Skin's Shield by 40% and its cooldown is reduced by 2 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "CrusaderMasteryShieldGlareSinsExposed",
+				"name": "Sins Exposed",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "CrusaderPunish",
+				"description": "Punish reduces healing received by 35% for 3 seconds. Basic Attacks against them refresh this duration."
+			},
+			{
+				"id": "CrusaderMasteryCondemnConviction",
+				"name": "Conviction",
+				"type": "W",
+				"isQuest": false,
+				"ability": "CrusaderCondemn",
+				"description": "Gain 10% Movement Speed, increased to 20% while Condemn is charging up."
+			},
+			{
+				"id": "CrusaderIronSkinSteedCharge",
+				"name": "Steed Charge",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "CrusaderSteedCharge",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to instantly Mount for 4 seconds, unhindered by damage.\n\nPassive: Increase the duration of Iron Skin by 2 second."
+			}
+		],
+		"level10": [
+			{
+				"id": "CrusaderHeroicAbilityFallingSword",
+				"name": "Falling Sword",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "CrusaderFallingSword",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 60",
+				"description": "Johanna leaps into the air for 2 seconds and she can steer the landing location by moving. While in the air, allies below Johanna are Unstoppable. Upon landing enemies hit take 225~~0.04~~ damage and are Stunned for 0.25 seconds."
+			},
+			{
+				"id": "CrusaderHeroicAbilityBlessedShield",
+				"name": "Blessed Shield",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "CrusaderBlessedShield",
+				"cooldown": "Cooldown: 65 seconds",
+				"cost": "Mana: 90",
+				"description": "Deal 114~~0.04~~ damage and Stun the first enemy hit for 1.5 seconds. Blessed Shield then bounces to 2 nearby enemies, dealing 57~~0.04~~ damage and Stunning them for 0.75 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "CrusaderMasteryPunishRoar",
+				"name": "Roar",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "CrusaderPunish",
+				"description": "Increase Punish's damage by 50%. This bonus is increased to 150% whenever Punish hits 2 or more Heroes."
+			},
+			{
+				"id": "CrusaderHolyFury",
+				"name": "Holy Fury",
+				"type": "W",
+				"isQuest": false,
+				"ability": "CrusaderCondemn",
+				"description": "Deal 15~~0.04~~ damage per second to nearby enemies. Each Hero hit by Condemn increases this damage by 40% for 5 seconds."
+			},
+			{
+				"id": "CrusaderBlessedHammer",
+				"name": "Blessed Hammer",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "CrusaderBlessedHammer",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to create 2 hammers that spiral outward from Johanna, dealing 65~~0.04~~ damage to enemies hit. Damaging enemies with Basic Abilities reduce the cooldown of this Ability by 2.5 seconds.\n\nPassive: Every 3rd Basic Attack against enemy Heroes releases a hammer."
+			}
+		],
+		"level16": [
+			{
+				"id": "CrusaderCondemnShrinkingVacuum",
+				"name": "Shrinking Vacuum",
+				"type": "W",
+				"isQuest": false,
+				"ability": "CrusaderCondemn",
+				"description": "Condemn reduces enemy Heroes damage by 30% and Slows by 30% for 3 seconds."
+			},
+			{
+				"id": "CrusaderMasteryShieldGlareHolyRenewal",
+				"name": "Holy Renewal",
+				"type": "E",
+				"isQuest": false,
+				"ability": "CrusaderShieldGlare",
+				"description": "Hitting enemy Heroes with Shield Glare reduce its cooldown by 1 second and heals for 5% of Johanna's maximum Health."
+			},
+			{
+				"id": "CrusaderBlessedMomentum",
+				"name": "Blessed Momentum",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks grant 10% increased Attack Speed for 4 seconds, stacking up to 40%. They also reduce Johanna's Basic Ability cooldowns by 0.5 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "CrusaderMasteryFallingSwordHeavensFury",
+				"name": "Heaven's Fury",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "CrusaderFallingSword",
+				"prerequisites": [
+					"CrusaderHeroicAbilityFallingSword"
+				],
+				"description": "Falling Sword rains down holy bolts, dealing 50~~0.04~~ damage to enemies, healing allied Heroes for 68~~0.04~~, and reducing its cooldown by 1 second for each Hero hit."
+			},
+			{
+				"id": "CrusaderMasteryBlessedShieldRadiatingFaith",
+				"name": "Radiating Faith",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "CrusaderBlessedShield",
+				"prerequisites": [
+					"CrusaderHeroicAbilityBlessedShield"
+				],
+				"description": "Increase the number of enemies hit by Blessed Shield by 2. Its Stun duration is increased to 1.75 seconds and all targets hit are Stunned for the maximum duration."
+			},
+			{
+				"id": "CrusaderHeroicMasteryIndestructable",
+				"name": "Indestructible",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Upon taking fatal damage, Johanna gains a Shield equal to her maximum Health for 4 seconds. This effect has a 120 second cooldown."
+			},
+			{
+				"id": "CrusaderBlindedByTheLight",
+				"name": "Blinded By The Light",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "CrusaderBlindedByTheLight",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to grant nearby allied Heroes a Shield equal to 25% of their maximum Health for 3 seconds.\n\nHitting Heroes with Shield Glare reduces the cooldown of this Ability by 8 seconds."
+			}
+		]
+	}
+}

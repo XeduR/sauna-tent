@@ -1,0 +1,38 @@
+{
+	"id": "TychusLaserDrill",
+	"name": "Drakken Laser Drill",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0.04,
+			"regenRate": -60,
+			"regenScale": 0.04
+		},
+		"speed": 0,
+		"sight": 9.25,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TychusLaserDrillWeapon",
+			"range": 10,
+			"minimumRange": 0,
+			"period": 1.0625,
+			"damage": 71,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

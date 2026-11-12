@@ -1,0 +1,327 @@
+{
+	"id": "Murky",
+	"name": "Murky",
+	"title": "Baby Murloc",
+	"unitId": "HeroMurky",
+	"franchise": "Warcraft",
+	"roles": [
+		"Specialist"
+	],
+	"expandedRole": "Melee Assassin",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2014-05-22",
+	"ratings": {
+		"complexity": 8,
+		"damage": 5,
+		"survivability": 1,
+		"utility": 5
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"Escaper",
+		"Ganker",
+		"MercKiller",
+		"Overconfident",
+		"RoleSpecialist",
+		"SoloLaner",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 730,
+			"scale": 0.04,
+			"regenRate": 29.1992,
+			"regenScale": 0.04
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "HeroMurky",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 0.8,
+			"damage": 60,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MurkySlime",
+				"name": "Slime",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"description": "Deal 86~~0.04~~ damage and apply Slime on nearby enemies for 6 seconds, Slowing them by 20%. \n\nDeal 210~~0.04~~ damage to enemies who are already Slimed. Structures take 50% damage."
+			},
+			{
+				"id": "MurkyPufferfish",
+				"name": "Pufferfish",
+				"type": "W",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Spit out a Pufferfish with 225~~0.055~~ health at the target point. After 2.75 seconds, the fish will blow up for 330~~0.04~~ damage. Deals 50% less damage to Structures.\n\nQuest: Kill Slimed Enemies or hit them with Pufferfish. Heroes and Structures award 4 bonus stacks.\n\nReward: After obtaining 200 stacks, Murky's Basic Abilities no longer deal reduced damage to structures.\n\nMythic Reward: After obtaining 400 stacks, Murky's health is increased by 50%."
+			},
+			{
+				"id": "MurkySafetyBubble",
+				"name": "Safety Bubble",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Becomes Invulnerable for 2 seconds. While active, Murky cannot attack or use abilities."
+			}
+		],
+		"heroic": [
+			{
+				"id": "MurkyMarchoftheMurlocs",
+				"name": "March of the Murlocs",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "After 0.75 seconds, Murky commands a legion of Murlocs to march in a target direction, each one leaping onto the first enemy Hero or Structure they find. Each Murloc deals 130~~0.04~~ damage and slows its target by 15% for 5 seconds. Murlocs deal 50% damage to Structures."
+			},
+			{
+				"id": "MurkyOctoGrab",
+				"name": "Octo-Grab",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"description": "Murky becomes Unstoppable and Stuns target enemy Hero for 3 seconds while he hits them for 1 damage a second."
+			}
+		],
+		"trait": [
+			{
+				"id": "MurkyRespawnEgg",
+				"name": "Spawn Egg",
+				"type": "Trait",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Place an Egg at target location, revealing the nearby area. Upon dying, Murky respawns at the Egg after 8 seconds. Murky only grants 25% of a real Hero's experience upon dying.\n\nIf Murky's Egg is killed, he is revealed to enemies for 15 seconds, and Spawn Egg is placed on cooldown. "
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms, instantly restoring 1125 Health."
+			},
+			{
+				"id": "MurkyAFishyDeal",
+				"name": "A Fishy Deal",
+				"type": "Active",
+				"parent": "A Fishy Deal",
+				"charges": {
+					"countMax": 4,
+					"countUse": 1,
+					"recastCooldown": 0.25,
+					"isCountHidden": false
+				},
+				"description": "Killing a Minion with Pufferfish grants a stack of Bribe. Use 8 stacks to bribe a Mercenary, instantly defeating them. Does not work on Elite Mercenaries.\n\nMaximum of 32 stacks of Bribe."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "MurkyFishEye",
+				"name": "Fish Eye",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "MurkyRespawnEgg",
+				"description": "Spawning from his Egg increases Murky's mount speed to 45% for 5 seconds.\n\nPassive: Increase the Egg's Health by 100%, its sight radius by 300%, and it reveals all enemies in its sight radius."
+			},
+			{
+				"id": "MurkyShellGame",
+				"name": "Shell Game",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "MurkyRespawnEgg",
+				"description": "Murky can now place 2 Eggs and will randomly revive from them, however, the cooldown of placing an Egg is increased by 15 seconds."
+			},
+			{
+				"id": "MurkyAFishyDeal",
+				"name": "A Fishy Deal",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MurkyAFishyDeal",
+				"description": "Killing a Minion with Pufferfish grants a stack of Bribe. Use 8 stacks to bribe a Mercenary, instantly defeating them. Does not work on Elite Mercenaries.\n\nMaximum of 32 stacks of Bribe."
+			}
+		],
+		"level4": [
+			{
+				"id": "MurkySlimeTime",
+				"name": "Slime Time",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "MurkySlime",
+				"description": "Quest: Slime enemy Heroes that are already Slimed.\n\nReward: After Sliming 10 Heroes, increase Slime's bonus damage by 125.\n\nReward: After Sliming 20 Heroes, increase Slime's slow amount to 30%."
+			},
+			{
+				"id": "MurkyMasteryTufferfish",
+				"name": "Tufferfish",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MurkyPufferfish",
+				"description": "Pufferfish gains 50 Spell Armor and deals 50% more damage to Slimed targets."
+			},
+			{
+				"id": "MurkyLivingtheDream",
+				"name": "Living the Dream",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Quest: Every 15 seconds Murky is alive, he gains 5% Spell Power, up to 25%. This bonus is reset upon his death."
+			}
+		],
+		"level7": [
+			{
+				"id": "MurkyBlackLagoon",
+				"name": "Black Lagoon",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MurkySlime",
+				"description": "Increase Slime's radius by 30%."
+			},
+			{
+				"id": "MurkySlipperyWhenWet",
+				"name": "Slippery When Wet",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MurkySafetyBubble",
+				"description": "Gain 50% Movement Speed and move through units while in Safety Bubble. Additionally, Safety Bubble's cooldown is reduced by 2 seconds."
+			},
+			{
+				"id": "MurkyTimetoKrill",
+				"name": "Time to Krill",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against Heroes deal an additional 7~~0.04~~ damage a second and slow the target by 7% for 4 seconds. This effect can stack up to 5 times."
+			}
+		],
+		"level10": [
+			{
+				"id": "MurkyHeroicAbilityMarchoftheMurlocs",
+				"name": "March of the Murlocs",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MurkyMarchoftheMurlocs",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "After 0.75 seconds, Murky commands a legion of Murlocs to march in a target direction, each one leaping onto the first enemy Hero or Structure they find. Each Murloc deals 130~~0.04~~ damage and slows its target by 15% for 5 seconds. Murlocs deal 50% damage to Structures."
+			},
+			{
+				"id": "MurkyHeroicAbilityOctoGrab",
+				"name": "Octo-Grab",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MurkyOctoGrab",
+				"cooldown": "Cooldown: 50 seconds",
+				"description": "Murky becomes Unstoppable and Stuns target enemy Hero for 3 seconds while he hits them for 1 damage a second."
+			}
+		],
+		"level13": [
+			{
+				"id": "MurkyMasteryRejuvenatingBubble",
+				"name": "Rejuvenating Bubble",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MurkySafetyBubble",
+				"description": "Safety Bubble restores 40% of Murky's maximum Health."
+			},
+			{
+				"id": "MurkyEggShell",
+				"name": "Egg Shell",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "MurkyRespawnEgg",
+				"description": "Upon casting Spawn Egg, or when one of his eggs is killed, Murky gains a Shield for an amount equal to 50% of Murky's current Health."
+			},
+			{
+				"id": "MurkyFishTank",
+				"name": "Fish Tank",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Murky is healed for 20% of the damage he deals with Basic Attacks and Basic Abilities."
+			}
+		],
+		"level16": [
+			{
+				"id": "MurkyToxicBuildup",
+				"name": "Toxic Buildup",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MurkySlime",
+				"description": "Every 3rd consecutive Basic Attack against an enemy Hero causes a free Slime to be cast upon them."
+			},
+			{
+				"id": "MurkyFishOil",
+				"name": "Fish Oil",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MurkyPufferfish",
+				"description": "The Pufferfish casts Slime at its location upon landing."
+			},
+			{
+				"id": "MurkyMasteryWrathOfCod",
+				"name": "Wrath of Cod",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MurkyPufferfish",
+				"description": "Heroes hit by Pufferfish take additional damage equal to 16% of their maximum Health over 4 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "MurkyMasteryNeverEndingMurlocs",
+				"name": "Never-Ending Murlocs",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MurkyMarchoftheMurlocs",
+				"prerequisites": [
+					"MurkyHeroicAbilityMarchoftheMurlocs"
+				],
+				"description": "March of the Murlocs can be channeled indefinitely, and will always last its base duration when canceled early. \n\nIn addition, it no longer deals reduced damage to Structures."
+			},
+			{
+				"id": "MurkyMasteryAndASharkToo",
+				"name": "... And a Shark Too!",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MurkyOctoGrab",
+				"prerequisites": [
+					"MurkyHeroicAbilityOctoGrab"
+				],
+				"description": "Increase the damage of Octo-Grab by 13700%~~0.04~~."
+			},
+			{
+				"id": "MurkyMakingInky",
+				"name": "Making Inky",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MurkySlime",
+				"description": "Reduces the cooldown of Slime by 1.5 seconds."
+			},
+			{
+				"id": "MurkyFasterFish",
+				"name": "Faster Fish",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MurkyPufferfish",
+				"description": "Pufferfish explodes 1.5 seconds faster."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"MurkyPufferfish"
+	]
+}

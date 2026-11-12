@@ -1,0 +1,36 @@
+{
+	"id": "TownMoonwell",
+	"name": "Healing Fountain",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"ImmuneToFriendlyAbilities",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 1125,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"shield": {
+			"amount": 375,
+			"scale": 0,
+			"regenRate": 9.375,
+			"regenScale": 0,
+			"regenDelay": 8
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 1.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

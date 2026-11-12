@@ -1,0 +1,33 @@
+{
+	"id": "TassadarForceWall",
+	"name": "Tassadar Force Wall",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Structure",
+		"Summoned"
+	],
+	"description": "After a 0.5 second delay, create a wall that blocks all units from moving through it for 2 seconds.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 6,
+		"radius": 1.0625,
+		"innerRadius": 0.0625
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

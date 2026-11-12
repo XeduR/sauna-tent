@@ -1,0 +1,30 @@
+{
+	"id": "MonkSpiritAlly",
+	"name": "Spirit Ally",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Place a Spirit Ally that heals allied Heroes in a large area around it for 2% of their maximum Health every second. Has 150~~0.04~~ Health and lasts 10 seconds. Kharazim can Radiant Dash to Spirit Allies.",
+	"stats": {
+		"life": {
+			"amount": 150,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8.25,
+		"radius": 0.125,
+		"innerRadius": 0.125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

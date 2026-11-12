@@ -1,0 +1,42 @@
+{
+	"id": "TerranBunkerUpgraded",
+	"name": "Bunker (Upgraded)",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"stats": {
+		"life": {
+			"amount": 3500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 10,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "StopRedirect",
+				"name": "Stop",
+				"type": "W",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "AttackRedirect",
+				"name": "",
+				"type": "Z",
+				"description": ""
+			}
+		],
+		"activable": []
+	}
+}

@@ -1,0 +1,318 @@
+{
+	"id": "Hogger",
+	"name": "Hogger",
+	"title": "Scourge of Elwynn",
+	"unitId": "HeroHogger",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2020-12-01",
+	"ratings": {
+		"complexity": 8,
+		"damage": 7,
+		"survivability": 7,
+		"utility": 8
+	},
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2260,
+			"scale": 0.04,
+			"regenRate": 4.711,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Rage",
+			"amount": 100,
+			"regenRate": 0
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.875,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "HoggerHeroWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.375,
+			"damage": 150,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "HoggerStaggeringBlow",
+				"name": "Staggering Blow",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Swing your chain in a wide arc, dealing 140~~0.04~~ damage to enemies hit and knocking them away. If an enemy hits terrain, deal an additional 150~~0.04~~ damage, Stun for 0.75 seconds, and gain 15 Rage."
+			},
+			{
+				"id": "HoggerEzThroDynamite",
+				"name": "Ez-Thro Dynamite",
+				"type": "W",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "Toss a bundle of Dynamite with a 1.5 second fuse. Upon detonation, enemies take 180~~0.04~~ damage and are Slowed by 30% for 2 seconds. \n\nThe Dynamite instantly detonates when landing on an enemy Hero granting Hogger 10 Rage."
+			},
+			{
+				"id": "HoggerHoggWild",
+				"name": "Hogg Wild",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "After 0.25 seconds, become Unstoppable and uncontrollably spin towards the target direction, ricocheting off terrain. Ricocheting off terrain refreshes the duration.\n\nEvery 0.125 seconds, deal 44~~0.04~~ damage to nearby non-Structure enemies. Damage against Heroes is increased by .5% for each point of Rage. "
+			}
+		],
+		"heroic": [
+			{
+				"id": "HoggerHoardapult",
+				"name": "Hoardapult",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Launch an empowered Loot Hoard with Hogger attached, dealing 100~~0.04~~ damage and Slowing enemies by 50% for 2 seconds.\n\nHoardapult's Loot Hoard lasts for up to 20 seconds, decaying rapidly while not nearby. Every 10 seconds Hogger can take a chunk of Meat from the Loot Hoard."
+			},
+			{
+				"id": "HoggerShockwave",
+				"name": "Shockwave",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "After 0.5 seconds, slam the ground, sending out a shockwave that travels in a long line. Enemies hit by the initial slam take 335~~0.04~~ damage and are Stunned for 1.5 seconds. Enemies only hit by the shockwave take 230~~0.04~~ damage and are Stunned for 0.75 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "HoggerLootHoard",
+				"name": "Loot Hoard",
+				"type": "Trait",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Toss a pile of junk onto the battlefield, dealing 102~~0.04~~ damage in an area, knocking enemies away, and acting as terrain for up to 5 seconds.\n\nWhen the Loot Hoard expires or is destroyed, a chunk of Meat falls out that can be picked up to restore 3% of maximum Health every second for 4 seconds.\n\nReactivate to destroy Loot Hoard."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "HoggerOnTheProwl",
+				"name": "On The Prowl",
+				"type": "Active",
+				"parent": "On The Prowl",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to gain 25 Rage over 8 seconds.\n\nPassive: You heal for 7~~0.04~~ Health every second, increased by 2% per point of Rage. "
+			},
+			{
+				"id": "HoggerNoControl",
+				"name": "No Control",
+				"type": "Active",
+				"parent": "No Control",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to cast an untalented Hogg Wild and begin chasing an enemy Hero. After reaching the Hero, bounce to a random nearby enemy Hero. Lasts up to 5 seconds, rapidly decaying if there are no other enemy Heroes nearby.\n\nCannot be cancelled."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "HoggerJourneymanCooking",
+				"name": "Journeyman Cooking",
+				"type": "W",
+				"isQuest": true,
+				"ability": "HoggerEzThroDynamite",
+				"description": "Each Hero hit by Ez-Thro Dynamite heals you for 8% of maximum Health.\n\nQuest: Hitting Heroes with Ez-Thro Dynamite permanently increases your maximum Health by 10, to a maximum of 750 bonus Health."
+			},
+			{
+				"id": "HoggerBonestoGnaw",
+				"name": "Bones to Gnaw",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "HoggerLootHoard",
+				"description": "Loot Hoard creates a chunk of Meat when it lands. While under the effects of Meat, gain 10 Armor."
+			},
+			{
+				"id": "HoggerOnTheProwl",
+				"name": "On The Prowl",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "HoggerOnTheProwl",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to gain 25 Rage over 8 seconds.\n\nPassive: You heal for 7~~0.04~~ Health every second, increased by 2% per point of Rage. "
+			}
+		],
+		"level4": [
+			{
+				"id": "HoggerBruteForce",
+				"name": "Brute Force",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "HoggerStaggeringBlow",
+				"description": "Increase the range of Loot Hoard by 25% and its damage by 50%.\n\nQuest: Hitting Heroes with Staggering Blow permanently increases Basic Attack damage by 2, to a maximum of 150 bonus damage. Enemy Heroes that hit terrain grant an additional 6 damage."
+			},
+			{
+				"id": "HoggerAggroRange",
+				"name": "Aggro Range",
+				"type": "E",
+				"isQuest": false,
+				"ability": "HoggerHoggWild",
+				"description": "Increase Hogg Wild's radius by 20% and each enemy hit generates 0.5 Rage, increased to 2 against Heroes."
+			},
+			{
+				"id": "HoggerHoggersJoggers",
+				"name": "Hogger's Joggers",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "While above 35Rage, gain 10% increased Movement Speed and healing received. \n\nWhen at or above 50 Rage, increase these bonuses to 15%."
+			}
+		],
+		"level7": [
+			{
+				"id": "HoggerDenseBlastingPowder",
+				"name": "Dense Blasting Powder",
+				"type": "W",
+				"isQuest": false,
+				"ability": "HoggerEzThroDynamite",
+				"description": "Instant detonations of Ez-Thro Dynamite creates an additional dynamite behind the Hero hit.\n\nHitting the bundle of Ez-Thro Dynamite with Staggering Blow breaks it into three sticks and launches them forward in an arc."
+			},
+			{
+				"id": "HoggerGarbageFire",
+				"name": "Garbage Fire",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "HoggerLootHoard",
+				"description": "Reduce the cooldown of Loot Hoard by 2 seconds. Every 0.5 seconds, enemies in a large area around Loot Hoard take 23~~0.04~~ damage and are Slowed by 20%."
+			},
+			{
+				"id": "HoggerSeeingRed",
+				"name": "Seeing Red",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "While above 50 Rage, gain 35% Attack Speed and the cooldowns of Staggering Blow and Hogg Wild refresh 30% faster."
+			}
+		],
+		"level10": [
+			{
+				"id": "HoggerHoardapult",
+				"name": "Hoardapult",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HoggerHoardapult",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Launch an empowered Loot Hoard with Hogger attached, dealing 100~~0.04~~ damage and Slowing enemies by 50% for 2 seconds.\n\nHoardapult's Loot Hoard lasts for up to 20 seconds, decaying rapidly while not nearby. Every 10 seconds Hogger can take a chunk of Meat from the Loot Hoard."
+			},
+			{
+				"id": "HoggerShockwave",
+				"name": "Shockwave",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HoggerShockwave",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "After 0.5 seconds, slam the ground, sending out a shockwave that travels in a long line. Enemies hit by the initial slam take 335~~0.04~~ damage and are Stunned for 1.5 seconds. Enemies only hit by the shockwave take 230~~0.04~~ damage and are Stunned for 0.75 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "HoggerDustDevil",
+				"name": "Dust Devil",
+				"type": "E",
+				"isQuest": false,
+				"ability": "HoggerHoggWild",
+				"description": "Gain 25 Armor while Hogg Wild is active and for 4 seconds after. When at or above 50 Rage, increase this Armor to 40."
+			},
+			{
+				"id": "HoggerPummel",
+				"name": "Pummel",
+				"type": "E",
+				"isQuest": false,
+				"ability": "HoggerHoggWild",
+				"description": "Enemies hit by Hogg Wild are Slowed by 10% for 2 seconds, stacking up to 5 times. \n\nHeroes hit have their Spell Power reduced by 30% for 2 seconds."
+			},
+			{
+				"id": "HoggerBloodthirst",
+				"name": "Bloodthirst",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Damaging Heroes with Basic Attacks, Staggering Blow, or Hogg Wild heals you for 33% of the damage dealt."
+			}
+		],
+		"level16": [
+			{
+				"id": "HoggerHeadbanger",
+				"name": "Headbanger",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "HoggerStaggeringBlow",
+				"description": "Enemy Heroes Stunned by Staggering Blow take an additional 8% of their maximum Health as damage and are Stunned for an additional 0.5 seconds."
+			},
+			{
+				"id": "HoggerKablooie",
+				"name": "Kablooie!",
+				"type": "W",
+				"isQuest": false,
+				"ability": "HoggerEzThroDynamite",
+				"description": "Instant Ez-Thro Dynamite detonations deal 50% more damage, reduce its cooldown by 1.5 seconds, and increase its Slow amount to 50%. \n\nPassive: Increase Ez-Thro Dynamite's range by 25%."
+			},
+			{
+				"id": "HoggerFurzerker",
+				"name": "Furzerker",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Hitting Heroes with Staggering Blow or Ez-Thro Dynamite increases the damage of the next Basic Attack within 8 seconds by 50%, stacking up to 2 times.\n\nWhen Hogg Wild ends, gain 30% Movement Speed for 2 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "HoggerSecretStash",
+				"name": "Secret Stash",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HoggerHoardapult",
+				"prerequisites": [
+					"HoggerHoardapult"
+				],
+				"description": "Every 2 seconds, Hoardapults' Loot Hoard randomly launches Ez-Thro Dynamite, prioritizing nearby enemy Heroes.\n\nEvery 5 seconds, it also launches a chunk of Meat towards Hogger."
+			},
+			{
+				"id": "HoggerPowerSpike",
+				"name": "Power Spike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "HoggerShockwave",
+				"prerequisites": [
+					"HoggerShockwave"
+				],
+				"description": "Hitting Heroes with Shockwave reduces their Armor by 15 for 4 seconds and grants 20 Rage.\n\nPassive: Rage's cooldown reduction affects Shockwave's cooldown."
+			},
+			{
+				"id": "HoggerNoControl",
+				"name": "No Control",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "HoggerNoControl",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to cast an untalented Hogg Wild and begin chasing an enemy Hero. After reaching the Hero, bounce to a random nearby enemy Hero. Lasts up to 5 seconds, rapidly decaying if there are no other enemy Heroes nearby.\n\nCannot be cancelled."
+			},
+			{
+				"id": "HoggerAngerManagement",
+				"name": "Anger Management",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increase maximum Rage by 50, raising the maximum bonuses for its cooldown refresh rate to 75% and Hogg Wild's Hero damage to 75%.\n\nPassive: Basic Attacks grant 5 additional Rage."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"HoggerEzThroDynamite"
+	]
+}

@@ -74,6 +74,7 @@ var Router = (function() {
 		else if (path === "/hall-of-fame") section = "hall-of-fame";
 		else if (path === "/draft") section = "draft";
 		else if (path === "/combos") section = "combos";
+		else if (path === "/patch-changes") section = "patch-changes";
 
 		var active = document.querySelector('.nav-link[data-route="' + section + '"]');
 		if (active) active.classList.add("active");

@@ -1,0 +1,441 @@
+{
+	"id": "Ragnaros",
+	"name": "Ragnaros",
+	"title": "The Firelord",
+	"unitId": "HeroRagnaros",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Medium",
+	"isMelee": true,
+	"releaseDate": "2016-12-14",
+	"ratings": {
+		"complexity": 7,
+		"damage": 8,
+		"survivability": 8,
+		"utility": 7
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"Overconfident",
+		"RoleCaster",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2075,
+			"scale": 0.04,
+			"regenRate": 4.3242,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "RagnarosAttackWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.2,
+			"damage": 180,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "RagnarosEmpowerSulfuras",
+				"name": "Empower Sulfuras",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"cost": "Mana: 25",
+				"description": "Ragnaros's next Basic Attack is instant, dealing 191~~0.04~~ Ability damage in an area, and heals for 20% of the damage dealt. Healing doubled versus Heroes.\n\nMolten Core: Molten Swing\nStun and damage nearby enemies."
+			},
+			{
+				"id": "RagnarosLivingMeteor",
+				"name": "Living Meteor",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 60",
+				"description": "Vector Targeting\nSummon a meteor at the target point that deals 68~~0.04~~ damage, then rolls in the target direction dealing 272~~0.04~~ damage per second for 1.75 seconds.\n\nMolten Core: Meteor Shower\nDrop a line of meteor impacts."
+			},
+			{
+				"id": "RagnarosBlastWave",
+				"name": "Blast Wave",
+				"type": "E",
+				"cooldown": "Cooldown: 9 seconds",
+				"cost": "Mana: 50",
+				"description": "Ignite Ragnaros or an ally, granting 25% Movement Speed for 1.5 seconds before exploding dealing 120~~0.04~~ damage to nearby enemies.\n\nMolten Core: Explosive Rune\nCause a delayed explosion in a large area."
+			},
+			{
+				"id": "RagnarosEmpowerSulfurasActive",
+				"name": "Empower Sulfuras",
+				"type": "Q",
+				"parent": "Empower Sulfuras",
+				"description": "Ragnaros's next Basic Attack is instant, dealing 191~~0.04~~ Ability damage in an area, and heals for 20% of the damage dealt. Healing doubled versus Heroes.\n\nMolten Core: Molten Swing\nStun and damage nearby enemies."
+			},
+			{
+				"id": "RagnarosLivingMeteorShiftingMeteor",
+				"name": "Shifting Meteor",
+				"type": "W",
+				"parent": "Shifting Meteor",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": "Change the direction of Living Meteor."
+			},
+			{
+				"id": "RagnarosBigRagMoltenSwing",
+				"name": "Molten Swing",
+				"type": "Q",
+				"parent": "Big Rag",
+				"cooldown": "Cooldown: 9 seconds",
+				"description": "Swing Sulfuras in a wide arc, dealing 250~~0.04~~ damage and Stunning enemies for 1 second."
+			},
+			{
+				"id": "RagnarosBigRagMeteorShower",
+				"name": "Meteor Shower",
+				"type": "W",
+				"parent": "Big Rag",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Vector Targeting\nSummon 3 meteors at the target point that fall in the target direction. Each meteor deals 200~~0.04~~ damage and Slows enemies by 35% for 2 seconds."
+			},
+			{
+				"id": "RagnarosBigRagExplosiveRune",
+				"name": "Explosive Rune",
+				"type": "E",
+				"parent": "Big Rag",
+				"cooldown": "Cooldown: 2.5 seconds",
+				"description": "Create a rune that erupts after 1.5 and sets enemies on fire, dealing 22~~0.04~~ damage per second for 5 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "RagnarosSulfurasSmash",
+				"name": "Sulfuras Smash",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 70",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": true
+				},
+				"description": "Hurl Sulfuras at the target area, landing after 0.75 seconds, dealing 250~~0.04~~ damage. Enemies in the center take 594~~0.04~~ damage instead and are Stunned for 0.5 seconds.\n\nQuest: Hit 8 enemy Heroes in the center.\n\nMythic Reward: Sulfuras Smash gains an additional charge."
+			},
+			{
+				"id": "RagnarosLavaWaveTargetPoint",
+				"name": "Lava Wave",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 5,
+					"isCountHidden": true
+				},
+				"description": "Release a wave of lava from Ragnaros's Core that travels down the targeted lane, dealing 240~~0.04~~ damage per second to non-Structure enemies in its path and instantly killing enemy Minions. Damage increased by 100% versus Heroes."
+			},
+			{
+				"id": "RagnarosBigRagSulfurasSmash",
+				"name": "Sulfuras Smash",
+				"type": "Heroic",
+				"parent": "Big Rag",
+				"cooldown": "Cooldown: 60 seconds",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": true
+				},
+				"description": "Hurl Sulfuras at the target area, landing after 0.75 seconds, dealing 250~~0.04~~ damage. Enemies in the center take 594~~0.04~~ damage instead and are Stunned for 0.5 seconds.\n\nQuest: Hit 8 enemy Heroes in the center.\n\nMythic Reward: Sulfuras Smash gains an additional charge."
+			}
+		],
+		"trait": [
+			{
+				"id": "RagnarosMoltenCore",
+				"name": "Molten Core",
+				"type": "Trait",
+				"cooldown": "Cooldown: 180 seconds",
+				"description": "Channel on an allied or destroyed Fort or Keep to replace it with Ragnaros's ultimate form, temporarily gaining new Abilities, having 5000~~0.04~~ Health that burns away over 23 seconds.  Ragnaros's ability ranges increase over the duration of Molten Core.\n\nRagnaros returns to his normal form but is Stunned for 1 second upon losing all Health in Molten Core."
+			},
+			{
+				"id": "RagnarosBigRagReturnMoltenCore",
+				"name": "Return",
+				"type": "Trait",
+				"parent": "Big Rag",
+				"toggleCooldown": 0.3,
+				"description": "Return to original form."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "RagnarosCatchingFire",
+				"name": "Catching Fire",
+				"type": "Active",
+				"parent": "Catching Fire",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 25 Armor for 3 seconds, reducing damage taken by 25%."
+			},
+			{
+				"id": "RagnarosResilientFlameCooldownDisplay",
+				"name": "Resilient Flame",
+				"type": "Passive",
+				"parent": "Resilient Flame",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "When Ragnaros is Stunned, he gains 40 Armor for 3 seconds, reducing damage taken by 40%. \n\nThis effect has a 15 second cooldown."
+			},
+			{
+				"id": "RagnarosSubmerge",
+				"name": "Submerge",
+				"type": "Active",
+				"parent": "Submerge",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Ragnaros submerges below, entering Stasis and healing for 600~~0.04~~ Health over 3 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "RagnarosEmpowerSulfurasSulfurasHungers",
+				"name": "Sulfuras Hungers",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "RagnarosEmpowerSulfuras",
+				"description": "Quest: Every time Empower Sulfuras kills a Minion, its damage is increased by 1, up to 25.\n\nReward: After killing 25 Minions, increase its damage by an additional 100."
+			},
+			{
+				"id": "RagnarosLivingMeteorShiftingMeteor",
+				"name": "Shifting Meteor",
+				"type": "W",
+				"isQuest": true,
+				"ability": "RagnarosLivingMeteor",
+				"description": "Each time an enemy is hit by the same Living Meteor, they take 6% increased damage from it.\n\nQuest: Hit 75 Heroes with Living Meteor.\n\nReward: After hitting 75 Heroes with Living Meteor, its duration is increased to 2.25 seconds, and it can be reactivated to change its direction once per use."
+			},
+			{
+				"id": "RagnarosBlastWaveEngulfingFlame",
+				"name": "Engulfing Flame",
+				"type": "E",
+				"isQuest": false,
+				"ability": "RagnarosBlastWave",
+				"description": "Increase Blast Wave's damage by 50% and its radius by 15%."
+			}
+		],
+		"level4": [
+			{
+				"id": "RagnarosLivingMeteorFireWard",
+				"name": "Fire Ward",
+				"type": "W",
+				"isQuest": false,
+				"ability": "RagnarosLivingMeteor",
+				"description": "When Living Meteor hits an enemy Hero, gain a charge of Spell Armor, reducing damage from the next enemy ability by 50%.\n\nStores up to 2 charges."
+			},
+			{
+				"id": "RagnarosBlastWaveSlowBurn",
+				"name": "Slow Burn",
+				"type": "E",
+				"isQuest": false,
+				"ability": "RagnarosBlastWave",
+				"description": "Blast Wave Slows enemies hit by 40% for 2 seconds."
+			},
+			{
+				"id": "RagnarosCatchingFire",
+				"name": "Catching Fire",
+				"type": "Active",
+				"isQuest": true,
+				"ability": "RagnarosCatchingFire",
+				"description": "Quest: Gathering a Regeneration Globe increases Ragnaros' Health Regeneration by 1.25 per second, up to 18.75.\n\nReward: After gathering 15 Regeneration Globes, activate Catching Fire to gain 25 Armor for 3 seconds, reducing damage taken by 25%."
+			}
+		],
+		"level7": [
+			{
+				"id": "RagnarosEmpowerSulfurasHandOfRagnaros",
+				"name": "Hand of Ragnaros",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "RagnarosEmpowerSulfuras",
+				"description": "If Empower Sulfuras hits at least 2 enemy Heroes, refund 10 Mana and its cooldown recharges 100% faster for 4 seconds."
+			},
+			{
+				"id": "RagnarosLivingMeteorMoltenPower",
+				"name": "Molten Power",
+				"type": "W",
+				"isQuest": false,
+				"ability": "RagnarosLivingMeteor",
+				"description": "If Living Meteor hits enemy Heroes at least 5 times, reduce its cooldown by 7 seconds, and refund 30 Mana."
+			},
+			{
+				"id": "RagnarosBlisteringAttacks",
+				"name": "Blistering Attacks",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Every 10 seconds, Ragnaros's next Basic Attack against a Hero deals 60% bonus damage. Hitting enemies with Basic Abilities reduces this cooldown by 1 second."
+			}
+		],
+		"level10": [
+			{
+				"id": "RagnarosSulfurasSmash",
+				"name": "Sulfuras Smash",
+				"type": "Heroic",
+				"isQuest": true,
+				"ability": "RagnarosSulfurasSmash",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 70",
+				"description": "Hurl Sulfuras at the target area, landing after 0.75 seconds, dealing 250~~0.04~~ damage. Enemies in the center take 594~~0.04~~ damage instead and are Stunned for 0.5 seconds.\n\nQuest: Hit 8 enemy Heroes in the center.\n\nMythic Reward: Sulfuras Smash gains an additional charge."
+			},
+			{
+				"id": "RagnarosLavaWave",
+				"name": "Lava Wave",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "RagnarosLavaWaveTargetPoint",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"description": "Release a wave of lava from Ragnaros's Core that travels down the targeted lane, dealing 240~~0.04~~ damage per second to non-Structure enemies in its path and instantly killing enemy Minions. Damage increased by 100% versus Heroes."
+			}
+		],
+		"level13": [
+			{
+				"id": "RagnarosEmpowerSulfurasCauterizeWounds",
+				"name": "Cauterize Wounds",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "RagnarosEmpowerSulfuras",
+				"description": "Empower Sulfuras heals for an additional 45% of damage dealt to Heroes over 2 seconds."
+			},
+			{
+				"id": "RagnarosBlastWaveTemperedFlame",
+				"name": "Tempered Flame",
+				"type": "E",
+				"isQuest": false,
+				"ability": "RagnarosBlastWave",
+				"description": "When Blast Wave damages an enemy Hero, gain a Shield equal to 100% of the damage dealt for 3 seconds."
+			},
+			{
+				"id": "RagnarosResilientFlame",
+				"name": "Resilient Flame",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "When Ragnaros is Stunned, he gains 40 Armor for 3 seconds, reducing damage taken by 40%. \n\nThis effect has a 15 second cooldown."
+			}
+		],
+		"level16": [
+			{
+				"id": "RagnarosEmpowerSulfurasGiantScorcher",
+				"name": "Giant Scorcher",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "RagnarosEmpowerSulfuras",
+				"description": "Empower Sulfuras burns enemy Heroes for 9% of their maximum Health over 3 seconds. This additional damage does not heal Ragnaros."
+			},
+			{
+				"id": "RagnarosLivingMeteorMeteorBomb",
+				"name": "Meteor Bomb",
+				"type": "W",
+				"isQuest": false,
+				"ability": "RagnarosLivingMeteor",
+				"description": "Living Meteor explodes at the end of its path, dealing 220~~0.04~~ damage. Enemies at its center take 30% increased damage."
+			},
+			{
+				"id": "RagnarosBlastWaveBlastEcho",
+				"name": "Blast Echo",
+				"type": "E",
+				"isQuest": false,
+				"ability": "RagnarosBlastWave",
+				"description": "After Blast Wave explodes, another Blast Wave is created on Ragnaros."
+			}
+		],
+		"level20": [
+			{
+				"id": "RagnarosSulfurasSmashFlamesOfSulfuron",
+				"name": "Flames of Sulfuron",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "RagnarosSulfurasSmash",
+				"prerequisites": [
+					"RagnarosSulfurasSmash"
+				],
+				"description": "Sulfuras Smash Slows enemies by 50% for 2.5 seconds, and the Stun duration of enemies hit in the center is increased by 1 second."
+			},
+			{
+				"id": "RagnarosLavaWaveLavaSurge",
+				"name": "Lava Surge",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "RagnarosLavaWaveTargetPoint",
+				"prerequisites": [
+					"RagnarosLavaWave"
+				],
+				"description": "Lava Wave gains an additional charge and causes allied Minions and non-Boss Mercenaries to be carried with it."
+			},
+			{
+				"id": "RagnarosMoltenCoreHeroicDifficulty",
+				"name": "Heroic Difficulty",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "RagnarosMoltenCore",
+				"description": "Molten Core's range is increased by 100% at the start of its duration.  In addition, the cooldown of Molten Core is reduced by 110 seconds when used on a destroyed Fort or Keep."
+			},
+			{
+				"id": "RagnarosSubmerge",
+				"name": "Submerge",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "RagnarosSubmerge",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Ragnaros submerges below, entering Stasis and healing for 600~~0.04~~ Health over 3 seconds."
+			}
+		]
+	},
+	"units": [
+		{
+			"id": "RagnarosBigRag",
+			"name": "Ragnaros",
+			"attributes": [
+				"AITargetableStructure",
+				"Heroic",
+				"ImmuneToFriendlyAbilities"
+			],
+			"description": "Lava Wave",
+			"stats": {
+				"life": {
+					"amount": 5000,
+					"scale": 0.04,
+					"regenRate": -222,
+					"regenScale": 0.04
+				},
+				"speed": 4.8398,
+				"sight": 12,
+				"radius": 3,
+				"innerRadius": 0
+			}
+		}
+	]
+}

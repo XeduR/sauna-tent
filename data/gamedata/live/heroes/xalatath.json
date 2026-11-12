@@ -1,0 +1,334 @@
+{
+	"id": "Xalatath",
+	"name": "Xal'atath",
+	"title": "The Harbinger of the Void",
+	"unitId": "HeroXalatath",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2026-09-28",
+	"ratings": {
+		"complexity": 8,
+		"damage": 8,
+		"survivability": 6,
+		"utility": 6
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"Ganker",
+		"Overconfident",
+		"TowerPusher"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1330,
+			"scale": 0.04,
+			"regenRate": 2.6484,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "XalatathHeroWeapon",
+			"range": 6.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 55,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "XalatathShadowMark",
+				"name": "Shadow Mark",
+				"type": "Q",
+				"cooldown": "Cooldown: 7 seconds",
+				"cost": "Mana: 45",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 3,
+					"isCountHidden": true
+				},
+				"description": "Shoot a Void Orb that deals 60~~0.04~~ damage to enemies hit, and an additional 120~~0.04~~ damage to enemies in the center.\n\nIf an enemy Hero or Structure is hit by the center, they are marked for 4 seconds.\n\nTargets afflicted by Shadow Mark are Revealed and draw the Dark Heart and Void Minions towards them."
+			},
+			{
+				"id": "XalatathDarkHeartRitual",
+				"name": "Dark Heart Ritual",
+				"type": "W",
+				"cooldown": "Cooldown: 15 seconds",
+				"cost": "Mana: 50",
+				"description": "Summon the Dark Heart, which pulses for 50~~0.04~~ damage per second to nearby enemies and lasts 8 seconds.\n\nThe Dark Heart moves to Shadow Mark's impact location.\n\nThe Dark Heart will pursue targets afflicted by Shadow Mark and detonate on impact, dealing 245~~0.04~~ damage to nearby enemies and 61~~0.04~~ more damage to the Marked target."
+			},
+			{
+				"id": "XalatathVoidStep",
+				"name": "Void Step",
+				"type": "E",
+				"cooldown": "Cooldown: 15 seconds",
+				"cost": "Mana: 50",
+				"description": "Cast to teleport Xal'atath 3 times in a triangular pattern.\n\nEach time Xal'atath teleports, her Basic Attacks deal 10% more damage while the Ability is active.\n\nReactivate to end Void Step early and remain at your current location."
+			}
+		],
+		"heroic": [
+			{
+				"id": "XalatathVoidEruption",
+				"name": "Void Eruption",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 75 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 90~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 166~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds."
+			},
+			{
+				"id": "XalatathVoidConvergence",
+				"name": "Void Convergence",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 75 seconds",
+				"cost": "Mana: 75",
+				"description": "After channeling for 2 seconds, summon a Void Portal that spawns up to 3 Void Minions to attack nearby enemies.\n\nYou can have up to 1 active Void Portal.\n\nEnemies near the Void Portal are Slowed by 25%.\n\nVoid Minions are attracted to targets afflicted by Shadow Mark.\n\nThe Portal expires after 20 seconds.\nVoid Minions automatically choose a nearby lane to push.\nVoid Minion Basic Attacks deal 50~~0.04~~ damage per hit.\nVoid Minions lose Health over 12 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "XalatathVoidVolley",
+				"name": "Void Volley",
+				"type": "Trait",
+				"cost": "Mana: 35",
+				"description": "Every basic attack against heroes, and every 2 basic attacks against non-heroes generate charge. Once fully charged Xal'atath can activate Void Volley to unleash a barrage of 6 Void Orbs at a target location, each dealing 72~~0.04~~ damage on impact.\n\nCharge fully decays if Xal’atath does not hit an enemy with a Basic Attack after 6 seconds.\n\nQuest: Hit enemy Heroes with Void Volley to grant 1 stack per hit and increases Void Volley's damage by 1%. Lose all stacks upon dying.\n\nReward (20 Stacks):\n   +2 Void Volley Range\n   Stack loss on death lowered to 6.\n\nReward (60 Stacks):\n   -1 Basic Attack required to charge Void Volley.\n\nMythic Reward (100 Stacks):\n   +50% Basic Attack and Void Volley Damage.\n   Void Volley projectiles Pierce all targets.\n\nStack loss will never cause the Hero to fall below a quest reward threshold."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": []
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "XalatathVoidAdept",
+				"name": "Void Adept",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "XalatathShadowMark",
+				"description": "Quest: Detonate the Dark Heart on targets afflicted by Shadow Mark.\n\nEach successful detonation permanently increases Shadow Mark and the Dark Heart Ritual Detonation damage by 20, up to 10 times."
+			},
+			{
+				"id": "XalatathAnchoredCore",
+				"name": "Anchored Core",
+				"type": "W",
+				"isQuest": false,
+				"ability": "XalatathDarkHeartRitual",
+				"description": "Dark Heart Ritual:\n+25% Radius\n+25% Duration\n\nDark Heart's damage bounces 2 times from the primary target to nearby enemies, dealing 25~~0.04~~ damage."
+			},
+			{
+				"id": "XalatathCloakOfShadows",
+				"name": "Cloak of Shadows",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "Activating Void Step grants 50% Movement Speed and 25 Spell Armor for 2 seconds. This bonus refreshes each time Xal'atath teleports."
+			}
+		],
+		"level4": [
+			{
+				"id": "XalatathFrozenMark",
+				"name": "Cold Feet",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "XalatathShadowMark",
+				"description": "+1s Shadow Mark Duration\n\nHeroes afflicted by Shadow Mark have their Movement Speed reduced by 25%."
+			},
+			{
+				"id": "XalatathDarkBarrier",
+				"name": "Dark Barrier",
+				"type": "W",
+				"isQuest": false,
+				"ability": "XalatathDarkHeartRitual",
+				"description": "Each time the Dark Heart damages an enemy Hero, Xal'atath gains a Shield equal to 2% of her maximum Health, up to 10%."
+			},
+			{
+				"id": "XalatathVoidAcolyte",
+				"name": "Void Acolyte",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "Completing Void Step fully charges Void Volley.\n\nThe next Void Volley deals 25% increased damage and costs no Mana."
+			}
+		],
+		"level7": [
+			{
+				"id": "XalatathToxicMark",
+				"name": "Toxic Mark",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "XalatathShadowMark",
+				"description": "+1s Shadow Mark Duration\n\nHeroes affliced with Shadow Mark have their Armor reduced by 10 and take damage equal to 1% of their maximum Health every second."
+			},
+			{
+				"id": "XalatathSilenceOfTheLamb",
+				"name": "Silence of the Lamb",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "Activating Void Step summons a seal of void magic on the ground. When the seal completes, it deals 250~~0.04~~ damage to enemies inside and Silences them for 2 seconds."
+			},
+			{
+				"id": "XalatathVoidSummoner",
+				"name": "Void Summoner",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "Activating Void Step summons a single Void Minion in Xal'atath's original postion. Void Minions are attracted to targets afflicted by Shadow Mark.\n\nVoid Minions automatically choose a nearby lane to push.\nVoid Minion Basic Attacks deal 50~~0.04~~ damage per hit.\nVoid Minion loses Health over 12 seconds."
+			}
+		],
+		"level10": [
+			{
+				"id": "XalatathHeroicAbilityVoidEruption",
+				"name": "Void Eruption",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "XalatathVoidEruption",
+				"cooldown": "Cooldown: 75 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel a powerful Void Orb that grows over time until reaching maximum size after 2 seconds. Recast to launch the Orb early.\n\nEnemies that come into contact with the Orb take 90~~0.04~~ damage and are Blinded for 1 second.\n\nWhen the Orb reaches the end of its path, it detonates in a large explosion, dealing 400~~0.04~~ damage.\n\nCharging up this Ability increases its contact damage up to 166~~0.04~~ and its explosion damage up to 700~~0.04~~.\n\nContact damage is dealt every 0.25 seconds."
+			},
+			{
+				"id": "XalatathHeroicAbilityVoidConvergence",
+				"name": "Void Convergence",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "XalatathVoidConvergence",
+				"cooldown": "Cooldown: 75 seconds",
+				"cost": "Mana: 75",
+				"description": "After channeling for 2 seconds, summon a Void Portal that spawns up to 3 Void Minions to attack nearby enemies.\n\nYou can have up to 1 active Void Portal.\n\nEnemies near the Void Portal are Slowed by 25%.\n\nVoid Minions are attracted to targets afflicted by Shadow Mark.\n\nThe Portal expires after 20 seconds.\nVoid Minions automatically choose a nearby lane to push.\nVoid Minion Basic Attacks deal 50~~0.04~~ damage per hit.\nVoid Minions lose Health over 12 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "XalatathPullOfTheDarkHeart",
+				"name": "Pull of the Dark Heart",
+				"type": "W",
+				"isQuest": false,
+				"ability": "XalatathDarkHeartRitual",
+				"description": "Enemies damaged by the Dark Heart Ritual are Slowed by 10% for each pulse, stacking up to 5 times and decaying over 2 seconds."
+			},
+			{
+				"id": "XalatathDarkHeartsProtection",
+				"name": "Dark Heart's Protection",
+				"type": "W",
+				"isQuest": false,
+				"ability": "XalatathDarkHeartRitual",
+				"description": "Detonating the Dark Heart now Silences enemies inside its radius for 1 second.\n\nXal'atath and allied Heroes gain 30 Spell Armor while inside the Dark Heart's radius."
+			},
+			{
+				"id": "XalatathCrushingCascade",
+				"name": "Crushing Cascade",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "XalatathVoidVolley",
+				"description": "Enemies hit by Void Volley are Slowed by 6% for 2 seconds per projectile, up to 50%."
+			}
+		],
+		"level16": [
+			{
+				"id": "XalatathMarkedResilience",
+				"name": "Marked Resilience",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "XalatathShadowMark",
+				"description": "Basic Attacks against enemy Heroes afflicted by Shadow Mark grant a 0~~NaN~~ point Shield that rapidly decays.\n\nShield starts decaying after 1 second, decays over 2 seconds."
+			},
+			{
+				"id": "XalatathPummelingStep",
+				"name": "Relentless Whispers",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "While Void Step is active, Xal'atath's Basic Attack Speed is increased by 150%."
+			},
+			{
+				"id": "XalatathFracturedReality",
+				"name": "Fractured Reality",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "XalatathVoidVolley",
+				"description": "+25% Void Volley Projectile Damage\n\nVoid Volley's projectiles leave behind a trail of fire for 3 seconds, constantly dealing 9~~0.04~~ damage to enemies. Damage is increased the longer a target stands in the flames.\n\nDamage is dealt every 0.1875 seconds.\nDamage increases up to 300%.\nDamage increase from multiple fires stack."
+			}
+		],
+		"level20": [
+			{
+				"id": "XalatathOrbitalEruption",
+				"name": "Harbinger's Consumption",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "XalatathVoidEruption",
+				"prerequisites": [
+					"XalatathHeroicAbilityVoidEruption"
+				],
+				"description": "Void Eruption splits into 3 orbiting Void Orbs. Each enemy Hero hit by their explosions reduces Void Eruption's cooldown by 14 seconds."
+			},
+			{
+				"id": "XalatathRiftInvasion",
+				"name": "Rift Invasion",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "XalatathVoidConvergence",
+				"prerequisites": [
+					"XalatathHeroicAbilityVoidConvergence"
+				],
+				"description": "Void Convergence's Void Portal self decay is no longer lethal, raises the active Void Portal limit to 2, and can spawn and sustain up to 4 Void Minions."
+			},
+			{
+				"id": "XalatathDuelingOrbs",
+				"name": "Dueling Orbs",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "XalatathShadowMark",
+				"description": "+1 Shadow Mark Charge\n\nShadow Mark has a 3 second cooldown between uses."
+			},
+			{
+				"id": "XalatathUnstableCore",
+				"name": "Unstable Core",
+				"type": "W",
+				"isQuest": false,
+				"ability": "XalatathDarkHeartRitual",
+				"description": "When the Dark Heart expires or detonates on a target afflicted by Shadow Mark, it leaves behind a pool of void flames for 5 seconds. Enemies in the flames take 45~~0.04~~ damage over time.\n\nThe flames deal damage every 1 second."
+			},
+			{
+				"id": "XalatathParadoxLoop",
+				"name": "Paradox Loop",
+				"type": "E",
+				"isQuest": false,
+				"ability": "XalatathVoidStep",
+				"description": "After completing Void Step, Xal'atath immediately performs a second Void Step in the opposite direction. Added effects are triggered again.\n\nBonus Basic Attack damage stacks up to 3 times"
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"XalatathDarkHeartRitual",
+		"XalatathVoidMinion"
+	]
+}

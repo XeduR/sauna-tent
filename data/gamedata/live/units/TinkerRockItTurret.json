@@ -1,0 +1,39 @@
+{
+	"id": "TinkerRockItTurret",
+	"name": "Rock-It! Turret",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Summoned"
+	],
+	"description": "Create a turret that deals 43~~0.04~~ damage. Loses Health over 20 seconds. \n\nTurrets prioritize the nearest enemy Hero when first created.",
+	"stats": {
+		"life": {
+			"amount": 600,
+			"scale": 0.05,
+			"regenRate": -30,
+			"regenScale": 0.05
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "RockItTurret",
+			"range": 6,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 43,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

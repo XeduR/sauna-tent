@@ -1,0 +1,30 @@
+{
+	"id": "ZagaraCreepTumor",
+	"name": "Creep Tumor",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Lay a Creep Tumor that generates Creep. While on Creep, Zagara moves 20% faster and her summons move 30% faster. Tumors lose Health over 250 seconds and reveal the surrounding area while active.\n\nStores up to 3 charges.",
+	"stats": {
+		"life": {
+			"amount": 250,
+			"scale": 0.04,
+			"regenRate": -1,
+			"regenScale": 0.04
+		},
+		"speed": 0,
+		"sight": 7,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

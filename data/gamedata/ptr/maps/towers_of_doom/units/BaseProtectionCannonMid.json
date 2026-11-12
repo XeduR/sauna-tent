@@ -1,0 +1,32 @@
+{
+	"id": "BaseProtectionCannonMid",
+	"name": "Base Protection Cannon Mid",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 4750,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 20,
+			"regenRate": 0
+		},
+		"speed": 0,
+		"sight": 15,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

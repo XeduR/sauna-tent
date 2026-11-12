@@ -1,0 +1,27 @@
+{
+	"id": "AbathurLocust",
+	"name": "Locust",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 225,
+			"scale": 0,
+			"regenRate": -13.2353,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.375,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

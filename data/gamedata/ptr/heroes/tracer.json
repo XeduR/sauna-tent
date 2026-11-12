@@ -1,0 +1,333 @@
+{
+	"id": "Tracer",
+	"name": "Tracer",
+	"title": "Agent of Overwatch",
+	"unitId": "HeroTracer",
+	"franchise": "Overwatch",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Hard",
+	"isMelee": false,
+	"releaseDate": "2016-04-19",
+	"ratings": {
+		"complexity": 8,
+		"damage": 8,
+		"survivability": 5,
+		"utility": 2
+	},
+	"playstyles": [
+		"Escaper",
+		"Ganker",
+		"RoleAutoAttacker"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1330,
+			"scale": 0.04,
+			"regenRate": 2.707,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Ammo",
+			"amount": 20,
+			"regenRate": 0
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "TracerHeroWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 0.125,
+			"damage": 23,
+			"damageScale": 0.04,
+			"vitalCost": {
+				"Energy": 2
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TracerBlink",
+				"name": "Blink",
+				"type": "Q",
+				"cooldown": "Charge Cooldown: 9 seconds",
+				"charges": {
+					"countMax": 3,
+					"countStart": 3,
+					"countUse": 1,
+					"isCountHidden": false
+				},
+				"description": "Dash towards an area.\n\nStores up to 3 charges."
+			},
+			{
+				"id": "TracerMelee",
+				"name": "Melee",
+				"type": "W",
+				"cooldown": "Cooldown: 8 seconds",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 3,
+					"isCountHidden": true
+				},
+				"description": "Deal 220~~0.04~~ damage to a nearby enemy, prioritizing Heroes. Gain 5% Pulse Bomb charge when using Melee against an enemy, and 10% against Heroes."
+			},
+			{
+				"id": "TracerRecall",
+				"name": "Recall",
+				"type": "E",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "After 1.25 seconds, Tracer returns to the position she was at 2 seconds prior to casting, refilling her ammo, and removing all negative status effects from herself."
+			}
+		],
+		"heroic": [
+			{
+				"id": "TracerPulseBomb",
+				"name": "Pulse Bomb",
+				"type": "Heroic",
+				"charges": {
+					"countMax": 100,
+					"countUse": 100,
+					"isCountHidden": true
+				},
+				"description": "Fire a short range bomb that can attach to an enemy if it hits them. The bomb explodes after 2 seconds dealing 298~~0.06~~ damage to them and 149~~0.06~~ damage to other nearby enemies.\n\nThis ability is slowly charged over time by dealing damage to enemies with Basic Attacks and Melee."
+			}
+		],
+		"trait": [
+			{
+				"id": "TracerReload",
+				"name": "Reload",
+				"type": "Trait",
+				"cooldown": "Cooldown: 1 second",
+				"description": "Tracer can Basic Attack while moving, and after attacking 10 times she needs to reload over 0.75 seconds. Tracer can manually reload early by activating Reload.\n\nBasic Attacks heal Tracer for 10% of the damage dealt."
+			},
+			{
+				"id": "TracerLockedandLoadedFailReload",
+				"name": "Locked and Loaded",
+				"type": "Trait",
+				"parent": "Locked and Loaded",
+				"cooldown": "Cooldown: 1 second",
+				"description": "Reactivate Reload within the last 50% of its cast time to increase Tracer's Basic Attack damage by 40% for that magazine."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms, instantly restoring 1125 Health."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "TracerOneTwoPunch",
+				"name": "One-Two Punch",
+				"type": "W",
+				"isQuest": false,
+				"ability": "TracerMelee",
+				"description": "Reduce the cooldown of Melee by 1 second and it gains an additional charge."
+			},
+			{
+				"id": "TracerPartingGift",
+				"name": "Parting Gift",
+				"type": "E",
+				"isQuest": false,
+				"ability": "TracerRecall",
+				"description": "Recall leaves behind 6 bombs that deal 240~~0.04~~ damage each to different targets. Heroes hit with these bombs are Slowed by 50% for 0.75 seconds and grant 7% Pulse Bomb charge."
+			},
+			{
+				"id": "TracerTracerRounds",
+				"name": "Tracer Rounds",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "Increase Basic Attack range by 10%. Basic Attacks against Heroes reveal a small area around them for 3 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "TracerLeechingRounds",
+				"name": "Leeching Rounds",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "Increase the healing from Basic Attacks by up to 200%, based on the amount of health Tracer is missing."
+			},
+			{
+				"id": "TracerPulseGenerator",
+				"name": "Pulse Generator",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "TracerPulseBomb",
+				"description": "Successfully sticking a Pulse Bomb to an enemy Hero heals Tracer for 12% of her maximum Health over 1.5 seconds and refunds a charge of Blink."
+			},
+			{
+				"id": "TracerIsThataHealthPack",
+				"name": "Is That a Health Pack?!",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Collecting a Regeneration Globe instantly heals Tracer for 15% of her maximum Health and reduces the cooldown of Healing Fountain by 15 seconds.\n\nDrinking from a Healing Fountain instantly heals for 20% of Tracer's maximum Health."
+			}
+		],
+		"level7": [
+			{
+				"id": "TracerSleightofHand",
+				"name": "Sleight of Hand",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "Reduces Reload time by 50%. This equals 20% more damage per second."
+			},
+			{
+				"id": "TracerFocusFire",
+				"name": "Focus Fire",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "If an entire ammo magazine is unloaded on an enemy within 2 seconds, the last bullet will deal 80~~0.04~~ bonus damage. This is equal to 35% of the total magazine."
+			},
+			{
+				"id": "TracerLockedandLoaded",
+				"name": "Locked and Loaded",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "Reactivate Reload within the last 50% of its cast time to increase Tracer's Basic Attack damage by 40% for that magazine."
+			}
+		],
+		"level10": [
+			{
+				"id": "TracerStickyBomb",
+				"name": "Sticky Bomb",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "TracerPulseBomb",
+				"description": "Increases Pulse Bomb's radius by 50% and enemies hit are Slowed by 70% for 3 seconds."
+			},
+			{
+				"id": "TracerQuantumSpike",
+				"name": "Quantum Spike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "TracerPulseBomb",
+				"description": "Pulse Bomb deals an additional 6% of maximum Health as damage to Heroes."
+			},
+			{
+				"id": "TracerPulseRounds",
+				"name": "Pulse Rounds",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "TracerPulseBomb",
+				"description": "Increases Pulse Bomb's range and charge rate from Basic Attacks against Heroes by 100%."
+			}
+		],
+		"level13": [
+			{
+				"id": "TracerUntouchable",
+				"name": "Untouchable",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "TracerBlink",
+				"description": "Passive: After Blinking, gain 20% Movement Speed for 1.25 seconds.\n\nQuest: Takedowns increase Tracer's Basic Attack damage by 5%, up to 25%. These bonuses are lost on death."
+			},
+			{
+				"id": "TracerJumper",
+				"name": "Jumper",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "TracerBlink",
+				"description": "Passive: When Blink has no charges remaining, its cooldown refreshes 100% faster.\n\nCasting Blink grants Tracer a Shield equal to 6% of her maximum Health for 3 seconds. This Shield stacks up to 3 times."
+			},
+			{
+				"id": "TracerTelefrag",
+				"name": "Telefrag",
+				"type": "E",
+				"isQuest": false,
+				"ability": "TracerRecall",
+				"description": "Passive: Basic Attacks against enemy Heroes reduce the cooldown of Recall by 0.1875 seconds.\n\nWhen Tracer arrives at her Recall location she becomes Unkillable for 1 second and nearby enemies take 175~~0.04~~ damage and are knocked back. "
+			}
+		],
+		"level16": [
+			{
+				"id": "TracerBulletSprayMelee",
+				"name": "Bullet Spray",
+				"type": "W",
+				"isQuest": false,
+				"ability": "TracerMelee",
+				"description": "Increases the radius of Melee by 30%, and causes it to damage all enemies in range."
+			},
+			{
+				"id": "TracerHeavyHanded",
+				"name": "Heavy Handed",
+				"type": "W",
+				"isQuest": false,
+				"ability": "TracerMelee",
+				"description": "Heroes hit by Melee have their Armor reduced by 15 for 4 seconds."
+			},
+			{
+				"id": "TracerRicochetHeroWeapon",
+				"name": "Ricochet",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "TracerReload",
+				"description": "Tracer's Basic Attacks have a 60% chance to hit another nearby enemy, prioritizing Heroes."
+			}
+		],
+		"level20": [
+			{
+				"id": "TracerChronoTriggers",
+				"name": "Chrono Triggers",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "TracerBlink",
+				"description": "Casting Blink causes Basic Attacks to not consume ammo for 1 second."
+			},
+			{
+				"id": "TracerGetStuffedMelee",
+				"name": "Get Stuffed!",
+				"type": "W",
+				"isQuest": false,
+				"ability": "TracerMelee",
+				"description": "Increases Melee's Pulse Bomb charge against Heroes from 10% to 20%. Hitting an enemy with Melee who is stuck with a Pulse Bomb causes the bomb to instantly explode and knock the target away."
+			},
+			{
+				"id": "TracerTotalRecallRecall",
+				"name": "Total Recall",
+				"type": "E",
+				"isQuest": false,
+				"ability": "TracerRecall",
+				"description": "Recall heals Tracer equal to the amount of Health she lost during that time."
+			},
+			{
+				"id": "TracerCompositionBPulseBomb",
+				"name": "Composition B",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "TracerPulseBomb",
+				"description": "Successfully sticking a Pulse Bomb to an enemy Hero also drops another one at their feet that deals 50% damage and explodes slightly earlier."
+			}
+		]
+	}
+}

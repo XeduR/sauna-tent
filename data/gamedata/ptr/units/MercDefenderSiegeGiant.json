@@ -1,0 +1,53 @@
+{
+	"id": "MercDefenderSiegeGiant",
+	"name": "Siege Giant",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 140,
+	"stats": {
+		"life": {
+			"amount": 3000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 1.25,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderSiegeGiantWeaponMelee",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 120,
+			"damageScale": 0
+		},
+		{
+			"nameId": "MercDefenderSiegeGiantWeapon",
+			"range": 7,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 120,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

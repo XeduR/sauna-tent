@@ -1,0 +1,44 @@
+{
+	"id": "AnubarakBeetleSpitBeetle",
+	"name": "Beetle",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 285,
+			"scale": 0.04,
+			"regenRate": -28.5,
+			"regenScale": 0.04
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "AnubarakBeetleSpitBeetleWeapon",
+			"range": 0.75,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 20,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

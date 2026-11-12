@@ -1,0 +1,91 @@
+{
+	"id": "LuxoriaTemple",
+	"name": "Luxoria Temple",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Structure",
+		"Tower"
+	],
+	"stats": {
+		"life": {
+			"amount": 2500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 9999,
+			"regenRate": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "LuxoriaTempleStage1Weapon",
+			"range": 500,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 1,
+			"damageScale": 0,
+			"vitalCost": {
+				"Energy": 1
+			},
+			"isDisabled": true
+		},
+		{
+			"nameId": "LuxoriaTempleStage2Weapon",
+			"range": 500,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 1,
+			"damageScale": 0,
+			"vitalCost": {
+				"Energy": 1
+			},
+			"isDisabled": true
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "LuxoriaTempleFinalBlast",
+				"name": "Final Blast",
+				"type": "Q",
+				"cost": "Mana: 1",
+				"toggleCooldown": 0.0625,
+				"description": "Cooldown: 0.1 seconds\n\nUnlease a massive final blast of energy, dealing 2500 damage to the target."
+			},
+			{
+				"id": "LuxoriaTempleTurretHold",
+				"name": "Hold Turret",
+				"type": "W",
+				"description": "Face the turret towards the targeted unit or point and hold it there."
+			},
+			{
+				"id": "LuxoriaTempleTurretRelease",
+				"name": "Release Turret",
+				"type": "E",
+				"description": "Face the turret towards the targeted unit or point and release it."
+			}
+		],
+		"heroic": [
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "Heroic",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"id": "TinkerSalvageScrap",
+	"name": "Tinker Salvage Scrap",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.25,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TinkerSalvageWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "TinkerSalvageAttack",
+				"name": "Basic Attack",
+				"type": "Z",
+				"description": "Attacks using the Hero's weapon"
+			}
+		],
+		"activable": []
+	}
+}

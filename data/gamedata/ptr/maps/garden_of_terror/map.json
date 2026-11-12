@@ -1,0 +1,22 @@
+{
+	"id": "HauntedWoods",
+	"name": "Garden of Terror",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Seeds Spawn",
+			"description": "Queen Nightshade will periodically summon a Seed. Defeat its Shambler Defenders and gather it for your team!"
+		},
+		{
+			"title": "Collect Seeds",
+			"description": "Upon gathering three Seeds, Garden Terrors will immediately burrow to each lane."
+		},
+		{
+			"title": "Garden Terrors",
+			"description": "Garden Terrors disable enemy Structures, so fight alongside them!"
+		}
+	]
+}

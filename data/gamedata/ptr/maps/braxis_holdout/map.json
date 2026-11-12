@@ -1,0 +1,22 @@
+{
+	"id": "BraxisHoldout",
+	"name": "Braxis Holdout",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Capture the Beacons",
+			"description": "Periodically two Beacons will activate. Capture both to fill your Holding Cell with Zerg."
+		},
+		{
+			"title": "Fill Holding Cells",
+			"description": "Once either Holding Cell fills, both open and unleash waves of Zerg at each team's base."
+		},
+		{
+			"title": "Zerg Rush",
+			"description": "Hold out against the enemy's Zerg while helping yours. They will attack Heroes, so engage cautiously."
+		}
+	]
+}

@@ -1,0 +1,58 @@
+{
+	"id": "LostSoul",
+	"name": "",
+	"damageType": "Minion",
+	"attributes": [
+		"Creep"
+	],
+	"stats": {
+		"life": {
+			"amount": 350,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 2.5,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0.125
+	},
+	"weapons": [
+		{
+			"nameId": "LostSoulWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 72,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "LostSoulTeleport",
+				"name": "Lost Soul Teleport",
+				"type": "Q",
+				"toggleCooldown": 0.5,
+				"description": "Dashes to the target location, becoming invulnerable for the duration."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"id": "KerriganChrysalis",
+	"name": "Chrysalis",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToFriendlyAbilities",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Activate to place Kerrigan in a Chrysalis with 650~~0.04~~ Health for 5 seconds. While inside, Kerrigan regenerates 4% of her maximum Health per second.\n\nEnemies can destroy the Chrysalis to end its effects early.",
+	"stats": {
+		"life": {
+			"amount": 650,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

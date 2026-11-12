@@ -1,0 +1,64 @@
+{
+	"id": "ShamblerWalker",
+	"name": "Shambler Walker",
+	"damageType": "Minion",
+	"attributes": [
+		"Minion"
+	],
+	"stats": {
+		"life": {
+			"amount": 250,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 2,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "Shambler",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 29,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		},
+		{
+			"nameId": "Shambler",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 29,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"id": "TalentBloodForBlood",
+	"name": "Blood For Blood",
+	"description": "Blood for Blood\nCooldown: 60 seconds\n\nActivate to steal 10% of target enemy's Max Health and slow its Movement Speed by -0% for 0 seconds.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

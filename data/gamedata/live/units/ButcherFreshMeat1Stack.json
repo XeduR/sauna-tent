@@ -1,0 +1,48 @@
+{
+	"id": "ButcherFreshMeat1Stack",
+	"name": "Fresh Meat",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.125,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "ButcherFreshMeatWeapon",
+			"range": 2.25,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "ButcherFreshMeatAttack",
+				"name": "Basic Attack",
+				"type": "Z",
+				"description": "Attacks using the Hero's weapon"
+			}
+		],
+		"activable": []
+	}
+}

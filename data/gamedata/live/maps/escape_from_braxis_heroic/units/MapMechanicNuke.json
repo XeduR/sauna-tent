@@ -1,0 +1,24 @@
+{
+	"id": "MapMechanicNuke",
+	"name": "Nuke",
+	"description": "After 3 seconds, launch a nuke dealing 1750 damage, doubled against Forts, Keeps, and the enemy Core.\n\nStructures are also ignited for 10 seconds, taking 1.2% of their maximum Health as damage every second. Heroic Basic Attacks increase the remaining duration of this to 0 seconds.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

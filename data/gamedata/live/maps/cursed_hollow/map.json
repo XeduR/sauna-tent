@@ -1,0 +1,22 @@
+{
+	"id": "CursedHollow",
+	"name": "Cursed Hollow",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Collect Tributes",
+			"description": "The Raven Lord will create Tributes periodically. Gather them for your team!"
+		},
+		{
+			"title": "Curse Your Enemies",
+			"description": "Upon capturing three Tributes, the Raven Lord will curse your enemies!"
+		},
+		{
+			"title": "Cursed Forts and Minions",
+			"description": "Cursed Structures will not attack, and cursed Minions are reduced to 1 Health."
+		}
+	]
+}

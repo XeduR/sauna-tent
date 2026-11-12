@@ -1,0 +1,45 @@
+{
+	"id": "DeckardLorenado",
+	"name": "",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Vector Targeting\nAfter 1 second, create a twirling tome tornado that travels towards the targeted direction, continually knocking away enemies that come into contact with it. Deals 20~~0.04~~ damage to Heroes hit.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "move",
+				"name": "Move",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "DeckardLorenadoKnockback",
+				"name": "",
+				"type": "W",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,59 @@
+{
+	"id": "RaynorRaynorsBanshee",
+	"name": "Banshee",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1000,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 6.6015,
+		"sight": 7,
+		"radius": 1,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "BansheeMissilesHeroicOnly",
+			"range": 6.5,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 21,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "RaynorBansheeMisiles",
+			"range": 6.5,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 21,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "HeroGenericSummonedUnitSpecialCaseInteraction",
+				"name": "Summoned Unit Special Case Interaction",
+				"type": "Q",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

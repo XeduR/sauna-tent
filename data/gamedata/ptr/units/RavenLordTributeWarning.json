@@ -1,0 +1,30 @@
+{
+	"id": "RavenLordTributeWarning",
+	"name": "Raven Lord Tribute",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Gather 3 tributes to curse the enemy team.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 4.5,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

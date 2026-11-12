@@ -1,0 +1,44 @@
+{
+	"id": "ZergGuardian",
+	"name": "Guardian",
+	"damageType": "Monster",
+	"stats": {
+		"life": {
+			"amount": 800,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 11,
+		"radius": 1,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "ZergGuardianWeapon",
+			"range": 10,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 90,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": 0
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

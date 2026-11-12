@@ -1,0 +1,22 @@
+{
+	"id": "DeadmansHoldout",
+	"name": "Deadman's Stand",
+	"size": {
+		"x": 256,
+		"y": 240
+	},
+	"objectives": [
+		{
+			"title": "",
+			"description": ""
+		},
+		{
+			"title": "",
+			"description": ""
+		},
+		{
+			"title": "",
+			"description": ""
+		}
+	]
+}

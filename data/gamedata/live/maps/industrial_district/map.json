@@ -1,0 +1,22 @@
+{
+	"id": "IndustrialDistrict",
+	"name": "Industrial District",
+	"size": {
+		"x": 216,
+		"y": 248
+	},
+	"objectives": [
+		{
+			"title": "Constant Action",
+			"description": "Heroes do not heal in the starting area. Hearthstones have been disabled."
+		},
+		{
+			"title": "Regeneration Globes",
+			"description": "Regeneration Globes spawn across the battleground. Gather them to heal."
+		},
+		{
+			"title": "Destroy the Core",
+			"description": "No additional objectives are present on the battleground. Destroy your enemy's Core and win."
+		}
+	]
+}

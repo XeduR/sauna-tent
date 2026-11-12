@@ -1,0 +1,22 @@
+{
+	"id": "Hanamura",
+	"name": "Hanamura Temple",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Single Payload",
+			"description": "At regular intervals, a Payload spawns at the center of the battleground that can be contested by both teams."
+		},
+		{
+			"title": "Escort Payload",
+			"description": "Stand next to the Payload and move it to its destination. Prevent the enemy from trying to do the same."
+		},
+		{
+			"title": "Bombard your Enemy",
+			"description": "Once a team escorts the Payload to its destination, it will fire upon the enemy's Structures!"
+		}
+	]
+}

@@ -1,0 +1,52 @@
+{
+	"id": "NecromancerSkeletalMage",
+	"name": "Skeletal Mage",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 700,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 5.5,
+		"radius": 0.375,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "NecromancerSkeletalMagesHeroWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 46.875,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "NecromancerSkeletalMagesWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 46.875,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "attack",
+				"name": "Basic Attack",
+				"type": "B",
+				"description": "Attacks using the Hero's weapon"
+			}
+		]
+	}
+}

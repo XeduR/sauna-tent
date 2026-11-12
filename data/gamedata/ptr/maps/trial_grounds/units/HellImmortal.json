@@ -1,0 +1,46 @@
+{
+	"id": "HellImmortal",
+	"name": "Artificial Hell Immortal",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 7500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3,
+		"sight": 0,
+		"radius": 1.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "BossDuelBossDummyHeavenWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 95,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

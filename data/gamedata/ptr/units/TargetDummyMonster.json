@@ -1,0 +1,59 @@
+{
+	"id": "TargetDummyMonster",
+	"name": "Target Dummy (Monster)",
+	"attributes": [
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 100000,
+			"scale": 0,
+			"regenRate": 100030,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 0,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "move",
+				"name": "Move",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "W",
+				"description": ""
+			},
+			{
+				"id": "MoveHoldPosition",
+				"name": "Move Hold Position",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [
+			{
+				"id": "MovePatrol",
+				"name": "Move Patrol",
+				"type": "Heroic",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [
+			{
+				"id": "attack",
+				"name": "Basic Attack",
+				"type": "Z",
+				"description": "Attacks using the Hero's weapon"
+			}
+		],
+		"activable": []
+	}
+}

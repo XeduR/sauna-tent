@@ -1,0 +1,343 @@
+{
+	"id": "LiLi",
+	"name": "Li Li",
+	"title": "World Wanderer",
+	"unitId": "HeroLiLi",
+	"franchise": "Warcraft",
+	"roles": [
+		"Support"
+	],
+	"expandedRole": "Healer",
+	"difficulty": "Easy",
+	"isMelee": false,
+	"releaseDate": "2014-04-15",
+	"ratings": {
+		"complexity": 3,
+		"damage": 3,
+		"survivability": 8,
+		"utility": 8
+	},
+	"playstyles": [
+		"AllyHealer",
+		"EnergyImportant",
+		"Helper",
+		"RoleSupport",
+		"SelfHealer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1500,
+			"scale": 0.04,
+			"regenRate": 3.125,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "HeroLiLi",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.8,
+			"damage": 60,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "LiLiHealingBrew",
+				"name": "Healing Brew",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"cost": "Mana: 25",
+				"description": "Heal the lowest Health allied Hero within 6 range for 210~~0.04~~ Health."
+			},
+			{
+				"id": "LiLiCloudSerpent",
+				"name": "Cloud Serpent",
+				"type": "W",
+				"cooldown": "Cooldown: 11 seconds",
+				"cost": "Mana: 35",
+				"description": "Summon a Cloud Serpent on an allied Hero that attacks nearby enemies every second. Each attack deals 26~~0.04~~ damage and heals the ally for 20~~0.04~~. Lasts for 8 seconds."
+			},
+			{
+				"id": "LiLiBlindingWind",
+				"name": "Blinding Wind",
+				"type": "E",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 30",
+				"description": "Throw a cloud of wind at the 2 nearest enemies (prioritizing Heroes), dealing 133~~0.04~~ damage. Heroes hit are Blinded and Slowed by 15% for 1.5 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "LiLiJugof1000Cups",
+				"name": "Jug of 1,000 Cups",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel for up to 6 seconds. Every 0.25 seconds, increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50 additional seconds, and heal the lowest Health nearby allied Hero for 75~~0.04~~ Health."
+			},
+			{
+				"id": "LiLiWaterDragon",
+				"name": "Water Dragon",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 60",
+				"description": "Li Li channels for 2 seconds, summoning a Water Dragon that hits the nearest enemy Hero within 12 range and all enemies near them, dealing 300~~0.04~~ damage and slowing their Movement Speed by 70% for 4 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "LiLiFastFeet",
+				"name": "Fast Feet",
+				"type": "Trait",
+				"description": "Upon taking damage, your Basic Ability cooldowns refresh 50% faster and you gain 10% Movement Speed for 1 second."
+			},
+			{
+				"id": "LiLiSafetySprint",
+				"name": "Fast Feet",
+				"type": "Trait",
+				"parent": "Safety Sprint",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Upon taking damage, your Basic Ability cooldowns refresh 50% faster and you gain 10% Movement Speed for 1 second."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "LiLiLetsGo",
+				"name": "Let's Go!",
+				"type": "Active",
+				"parent": "Let's Go!",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to heal an allied Hero for 160~~0.04~~ and make them Unstoppable for 1 second. Let's Go's cooldown is affected by Fast Feet.\n\nCannot be used on Li Li."
+			},
+			{
+				"id": "LiLiMistweaver",
+				"name": "Mistweaver",
+				"type": "Active",
+				"parent": "Mistweaver",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to heal nearby allied Heroes for 149~~0.04~~. Basic Attacks and Cloud Serpent attacks reduce the cooldown of Mistweaver by 1 second."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "LiLiFreeDrinks",
+				"name": "Free Drinks",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LiLiHealingBrew",
+				"description": "When Healing Brew heals a Hero under 50% Health, its cooldown is reduced by 1 second, and its Mana cost is refunded."
+			},
+			{
+				"id": "LiLiMasteryCloudSerpentSerpentSidekick",
+				"name": "Serpent Sidekick",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LiLiCloudSerpent",
+				"description": "Cloud Serpent no longer costs Mana and while Fast Feet is active its cooldown refreshes an additional 75% faster."
+			},
+			{
+				"id": "LiLiEagerAdventurer",
+				"name": "Eager Adventurer",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increase Fast Feet's duration by 150% and increase Mana regeneration by 150% while Fast Feet is active."
+			}
+		],
+		"level4": [
+			{
+				"id": "LiLiWindSerpent",
+				"name": "Wind Serpent",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LiLiCloudSerpent",
+				"description": "Cloud Serpent grants its bearer 10% increased Movement Speed. Casting Blinding Wind increases this bonus to 20% for 3 seconds. \n\nPassive: Cloud Serpent attacks 25% faster."
+			},
+			{
+				"id": "LiLiMasteryBlindingWindSurgingWinds",
+				"name": "Surging Winds",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LiLiBlindingWind",
+				"description": "If Blinding Wind targets 2 or more Heroes, its cooldown is instantly reduced by 2 seconds and Li Li gains 10% Spell Power for 10 seconds."
+			},
+			{
+				"id": "LiLiMasteryFastFeetSafetySprint",
+				"name": "Safety Sprint",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "LiLiSafetySprint",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain Fast Feet, 30 Armor, and 30% Movement Speed for 3 seconds.\n\nPassive: While Fast Feet is active, Li Li gains 10 Armor."
+			}
+		],
+		"level7": [
+			{
+				"id": "LiLiMasteryHealingBrewTheGoodStuff",
+				"name": "The Good Stuff",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LiLiHealingBrew",
+				"description": "Healing Brew heals for an additional 42~~0.04~~ over 3 seconds. While Fast Feet is active, this heal amount is increased by 100%."
+			},
+			{
+				"id": "LiLiMasteryBlindingWindMassVortex",
+				"name": "Mass Vortex",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LiLiBlindingWind",
+				"description": "Increase the number of enemies hit by Blinding Wind from 2 to 3. Blinding Wind deals 75% more damage when it targets 3 Heroes."
+			},
+			{
+				"id": "LiLiLetsGo",
+				"name": "Let's Go!",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "LiLiLetsGo",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to heal an allied Hero for 160~~0.04~~ and make them Unstoppable for 1 second. Let's Go's cooldown is affected by Fast Feet.\n\nCannot be used on Li Li."
+			}
+		],
+		"level10": [
+			{
+				"id": "LiLiHeroicAbilityJugof1000Cups",
+				"name": "Jug of 1,000 Cups",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LiLiJugof1000Cups",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel for up to 6 seconds. Every 0.25 seconds, increase the cooldown of Jug of 1,000 Cups by 2 seconds, up to 50 additional seconds, and heal the lowest Health nearby allied Hero for 75~~0.04~~ Health."
+			},
+			{
+				"id": "LiLiHeroicAbilityWaterDragon",
+				"name": "Water Dragon",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LiLiWaterDragon",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 60",
+				"description": "Li Li channels for 2 seconds, summoning a Water Dragon that hits the nearest enemy Hero within 12 range and all enemies near them, dealing 300~~0.04~~ damage and slowing their Movement Speed by 70% for 4 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "LiLiMasteryCloudSerpentLightningSerpent",
+				"name": "Lightning Serpent",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LiLiCloudSerpent",
+				"description": "Cloud Serpent attacks bounce to hit 2 additional targets for 13~~0.04~~ damage and 10~~0.04~~ healing."
+			},
+			{
+				"id": "LiLiMasteryBlindingWindGaleForce",
+				"name": "Gale Force",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LiLiBlindingWind",
+				"description": "Increase Blinding Wind's Blind duration by 0.75 seconds. Li Li's Basic Attacks against Blinded Heroes deal 100% increased damage."
+			},
+			{
+				"id": "LiLiHinderingWinds",
+				"name": "Hindering Winds",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LiLiBlindingWind",
+				"description": "Increase Blinding Wind's Slow amount to 30% and its duration to 2 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "LiLiMasteryHealingBrewTwoForOne",
+				"name": "Two For One",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LiLiHealingBrew",
+				"description": "Increases the number of allies healed by Healing Brew to 2, but increases the cooldown by 1 second."
+			},
+			{
+				"id": "LiLiPickMeUp",
+				"name": "Pick Me Up",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LiLiHealingBrew",
+				"description": "Healing Brew heals for 33% more when the target is under 50% Health."
+			},
+			{
+				"id": "LiLiBlessingsOfYulon",
+				"name": "Blessings Of Yu’lon",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LiLiCloudSerpent",
+				"description": "Cloud Serpent grants its bearer 10% increased healing received and heals them for an additional 0.5% of their maximum Health each time it attacks."
+			}
+		],
+		"level20": [
+			{
+				"id": "LiLiMasteryJugof1000CupsJugof1000000Cups",
+				"name": "Jug of 1,000,000 Cups",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LiLiJugof1000Cups",
+				"prerequisites": [
+					"LiLiHeroicAbilityJugof1000Cups"
+				],
+				"description": "Jug of 1,000 Cups heals two allies at a time."
+			},
+			{
+				"id": "LiLiMasteryWaterDragonDoubleDragon",
+				"name": "Double Dragon",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LiLiWaterDragon",
+				"prerequisites": [
+					"LiLiHeroicAbilityWaterDragon"
+				],
+				"description": "After hitting a target with Water Dragon, another Water Dragon is summoned at the point of impact."
+			},
+			{
+				"id": "LiLiMistweaver",
+				"name": "Mistweaver",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "LiLiMistweaver",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to heal nearby allied Heroes for 149~~0.04~~. Basic Attacks and Cloud Serpent attacks reduce the cooldown of Mistweaver by 1 second."
+			},
+			{
+				"id": "LiLiShakeItOff",
+				"name": "Shake It Off",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "While Stunned, Silenced, or Rooted and for 2 seconds afterwards, Li Li gains 35 Armor.\n\nPassive: Increase Fast Feet's cooldown refresh rate to 75%."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"CloudSerpent"
+	]
+}

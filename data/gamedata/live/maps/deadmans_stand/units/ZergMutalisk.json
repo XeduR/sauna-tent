@@ -1,0 +1,51 @@
+{
+	"id": "ZergMutalisk",
+	"name": "Mutalisk",
+	"damageType": "Monster",
+	"attributes": [
+		"Merc",
+		"Minion"
+	],
+	"killXP": 60,
+	"stats": {
+		"life": {
+			"amount": 700,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 6.5,
+		"sight": 9,
+		"radius": 0.5,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "ZergMutaliskWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 27,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 0.5,
+				"Merc": 0.5,
+				"Minion": 0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

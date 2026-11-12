@@ -1,0 +1,59 @@
+{
+	"id": "PaulUnit",
+	"name": "Paul Unit",
+	"stats": {
+		"life": {
+			"amount": 500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 9,
+		"radius": 0.625,
+		"innerRadius": 0.375
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "PaulUnitAbility",
+				"name": "Paul Unit Ability",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "GhostShipBombardChargedPort",
+				"name": "Blackheart's Bombardment",
+				"type": "W",
+				"charges": {
+					"countMax": 100,
+					"countStart": 10,
+					"isCountHidden": false
+				},
+				"description": ""
+			},
+			{
+				"id": "GhostShipBombardChargedStarboard",
+				"name": "Blackheart's Bombardment",
+				"type": "E",
+				"charges": {
+					"countMax": 100,
+					"countStart": 10,
+					"isCountHidden": false
+				},
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

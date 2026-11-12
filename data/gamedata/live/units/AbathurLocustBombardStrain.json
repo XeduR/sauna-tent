@@ -1,0 +1,45 @@
+{
+	"id": "AbathurLocustBombardStrain",
+	"name": "Locust",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 225,
+			"scale": 0.04,
+			"regenRate": -7.9412,
+			"regenScale": 0.04
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.375,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "AbathurLocustBombardWeapon",
+			"range": 7,
+			"minimumRange": 3,
+			"period": 1,
+			"damage": 36,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "AbathurLocustBombardWeaponCloseRange",
+			"range": 3,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 36,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"id": "HauntedWoods",
+	"name": "Garden of Terror Classic",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Fight the Shamblers",
+			"description": "At night, Shamblers will rise from the Gardens."
+		},
+		{
+			"title": "Collect Seeds",
+			"description": "Kill the Shamblers and collect Seeds for your team!"
+		},
+		{
+			"title": "Control Garden Terror",
+			"description": "With 100 Seeds, control your Garden Terror and destroy your enemy!"
+		}
+	]
+}

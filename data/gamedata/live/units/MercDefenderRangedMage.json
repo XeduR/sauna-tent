@@ -1,0 +1,56 @@
+{
+	"id": "MercDefenderRangedMage",
+	"name": "Mage",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 150,
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderRangedMage",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 50,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "KnightMagicVolley",
+				"name": "Magical Barrage",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Channels to repeatedly deal Ability damage."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

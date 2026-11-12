@@ -1,0 +1,30 @@
+{
+	"id": "VarianBannerOfDalaran",
+	"name": "Banner Of Dalaran",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Activate to place a Banner that grants 20% increased Spell Power to nearby allied Heroes. Lasts 12 seconds.",
+	"stats": {
+		"life": {
+			"amount": 435,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 10.5,
+		"radius": 0,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

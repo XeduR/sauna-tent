@@ -1,0 +1,91 @@
+{
+	"id": "MercPunisherLaner",
+	"name": "Punisher",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 14500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 1.125,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "MercPunisherLanerWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 160,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		},
+		{
+			"nameId": "MercPunisherLanerFixateWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 160,
+			"damageScale": 0,
+			"isDisabled": true
+		},
+		{
+			"nameId": "MercPunisherLanerWeaponStructure",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 160,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MercPunisherLanerLeap",
+				"name": "Punish",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Leaps to the targeted location, dealing 1 damage and stunning targets for 1 seconds at the impact location.\n\n"
+			},
+			{
+				"id": "MercPunisherLanerFixate",
+				"name": "Fixate",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Fixate on the target, becoming enraged and increasing movement speed by 100% and attack speed by 0% for 4 seconds. During this time the Punisher may not receive any orders.\n\nStuns the Punisher for 1 seconds when the effect ends."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"id": "AlexstraszaTalentDragonScalesItem",
+	"name": "(Talent) Dragon Scales (Item)",
+	"description": "Gain 50 Armor while Stunned, Silenced, or Rooted, and for 2 seconds after.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

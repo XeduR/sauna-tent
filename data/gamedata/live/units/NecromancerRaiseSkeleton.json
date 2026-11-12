@@ -1,0 +1,46 @@
+{
+	"id": "NecromancerRaiseSkeleton",
+	"name": "Raise Skeleton",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Summoned"
+	],
+	"description": "When a nearby enemy Minion dies, it becomes a Skeletal Warrior with 240~~0.04~~ Health that attacks for 21~~0.04~~ damage and lasts up to 12 seconds. Upon death, Skeletal Warriors deal 40~~0.04~~ damage to nearby enemies.  Up to 3 Skeletal Warriors can be active at once when spawned in this way.",
+	"stats": {
+		"life": {
+			"amount": 240,
+			"scale": 0.04,
+			"regenRate": -20,
+			"regenScale": 0.04
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "NecromancerRaiseSkeletonWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 21,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,103 @@
+{
+	"id": "TargetHeroDummy",
+	"name": "Target Dummy",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 100000,
+			"scale": 0,
+			"regenRate": 100030,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 100000,
+			"regenRate": 100000
+		},
+		"speed": 4.8398,
+		"sight": 8,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "MuradinStormBolt",
+				"name": "Storm Bolt",
+				"type": "Q",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 45",
+				"description": "Throw a hammer, dealing 110~~0.04~~ damage to the first enemy hit and Stunning them for 1.25 seconds\n\nQuest: Basic Attack Heroes affected by Stuns, Slows, or Roots. Slowed or Rooted enemies grant 1 stack. Stunned enemies provide 2 stacks.  If the Hero dies within 3 seconds, gain 5 stacks.\n\nReward: Upon hitting 45 targets, Storm Bolt pierces to hit an additional target, and Muradin's Basic Attacks reduce the cooldown of Storm Bolt by 0.5 seconds and restore 3 Mana.\nMythic Reward: Upon hitting 160 targets, Storm Bolt's range is increased by 50%, width increased by 100%, and now pierces all targets."
+			},
+			{
+				"id": "NovaPinningShot",
+				"name": "Pinning Shot",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 65",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": true
+				},
+				"description": "Deal 100~~0.04~~ damage to an enemy and Slow them by 40% for 2.25 seconds."
+			},
+			{
+				"id": "MalfurionEntanglingRoots",
+				"name": "Entangling Roots",
+				"type": "E",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 65",
+				"description": "Root enemy Heroes in an area for 1.25 seconds, and deal 117~~0.04~~ damage over the duration. Affected area grows over 3 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "MalfurionTwilightDream",
+				"name": "Twilight Dream",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 100",
+				"description": "After 0.5 seconds, deal 310~~0.04~~ damage in a large area around Malfurion, Silencing enemies making them unable to use Abilities for 3 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "LiLiBlindingWind",
+				"name": "Blinding Wind",
+				"type": "Trait",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 30",
+				"description": "Throw a cloud of wind at the 2 nearest enemies (prioritizing Heroes), dealing 133~~0.04~~ damage. Heroes hit are Blinded and Slowed by 15% for 1.5 seconds."
+			}
+		],
+		"mount": [
+			{
+				"id": "FaerieDragonPolymorph",
+				"name": "Polymorph",
+				"type": "Z",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 50",
+				"description": "Polymorph a target for 1.5 seconds, Slowing their Movement Speed by 30% and Silencing them. Targets are not able to attack while Polymorphed."
+			}
+		],
+		"activable": [
+			{
+				"id": "StitchesHook",
+				"name": "Hook",
+				"type": "B",
+				"cooldown": "Cooldown: 16 seconds",
+				"cost": "Mana: 75",
+				"description": "Pull the first enemy hit towards Stitches and deal 91~~0.04~~ damage.\n\nAfter reaching level 13, Hook's range is increased by 40%."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"MalfurionEntanglingRootsVengefulRootsTreant"
+	]
+}

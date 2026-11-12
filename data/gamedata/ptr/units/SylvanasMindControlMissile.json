@@ -1,0 +1,24 @@
+{
+	"id": "SylvanasMindControlMissile",
+	"name": "",
+	"description": "After 0.25 seconds, fire a missile that Mind Controls the first enemy Hero hit. Heroes hit are Silenced, Slowed by 30%, have 3 stacks of Black Arrows applied to them, and are forced to walk towards Sylvanas for 1.75 seconds. ",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

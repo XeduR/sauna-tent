@@ -1,0 +1,192 @@
+{
+	"id": "TerranArchangelDefender",
+	"name": "Archangel",
+	"damageType": "Merc",
+	"attributes": [
+		"Heroic",
+		"MapBoss"
+	],
+	"killXP": 750,
+	"stats": {
+		"life": {
+			"amount": 50675,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 16,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TerranArchangelDefenderRanged",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.0625,
+			"damage": 15,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1.5,
+				"Merc": 1.5,
+				"Minion": 1.5,
+				"Structure": 0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ArchangelLoadout1",
+				"name": "Loadout 1",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "ArchangelToxicSludgling",
+				"name": "Toxic Sludgling",
+				"type": "Q",
+				"cooldown": "Cooldown: 1 second",
+				"description": ""
+			},
+			{
+				"id": "ArchangelLobBaneling",
+				"name": "Lob Baneling",
+				"type": "Q",
+				"cooldown": "Cooldown: 1 second",
+				"description": ""
+			},
+			{
+				"id": "ArchangelChaserBanelings",
+				"name": "Chaser Banelings",
+				"type": "Q",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelCableWrap",
+				"name": "Cable Wrap",
+				"type": "Q",
+				"cooldown": "Cooldown: 2 seconds",
+				"description": ""
+			},
+			{
+				"id": "TerranArchangelDefenderBulletstorm",
+				"name": "Bulletstorm",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Unleash a hail of bullets in a line in front of the caster, dealing 0 damage over 5 seconds."
+			},
+			{
+				"id": "ArchangelLoadout2",
+				"name": "Loadout 2",
+				"type": "W",
+				"description": ""
+			},
+			{
+				"id": "ArchangelVileTumor",
+				"name": "Vile Tumor",
+				"type": "W",
+				"cooldown": "Cooldown: 1 second",
+				"description": ""
+			},
+			{
+				"id": "ArchangelHellfireMissiles",
+				"name": "Hellfire Missiles",
+				"type": "W",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelEMP",
+				"name": "EMP",
+				"type": "W",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelAnnihilate",
+				"name": "Annihilate",
+				"type": "W",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelLoadout3",
+				"name": "Loadout 3",
+				"type": "E",
+				"description": ""
+			},
+			{
+				"id": "ArchangelBileLauncher",
+				"name": "Bile Launcher",
+				"type": "E",
+				"description": ""
+			},
+			{
+				"id": "ArchangelPlaceAutoTurret",
+				"name": "Place Auto-Turret",
+				"type": "E",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelBarrage",
+				"name": "Barrage",
+				"type": "E",
+				"cooldown": "Cooldown: 2 seconds",
+				"description": ""
+			},
+			{
+				"id": "ArchangelDropUltralisk",
+				"name": "Drop Ultralisk",
+				"type": "E",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": ""
+			}
+		],
+		"heroic": [
+			{
+				"id": "ArchangelLoadout4",
+				"name": "Loadout 4",
+				"type": "Heroic",
+				"description": ""
+			},
+			{
+				"id": "ArchangelClearLoadout",
+				"name": "Clear Loadout",
+				"type": "Heroic",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [
+			{
+				"id": "ArchangelReposition",
+				"name": "Reposition",
+				"type": "Z",
+				"cooldown": "Cooldown: 2 seconds",
+				"description": ""
+			},
+			{
+				"id": "WallCrush",
+				"name": "Grave Golem Wall Crush",
+				"type": "Z",
+				"toggleCooldown": 0.5,
+				"description": ""
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"ArchangelCableWrap"
+	]
+}

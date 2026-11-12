@@ -1,0 +1,334 @@
+{
+	"id": "Butcher",
+	"name": "The Butcher",
+	"title": "Flesh Carver",
+	"unitId": "HeroButcher",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Melee Assassin",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2015-06-30",
+	"ratings": {
+		"complexity": 3,
+		"damage": 9,
+		"survivability": 5,
+		"utility": 4
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Ganker",
+		"MercKiller",
+		"Overconfident",
+		"RoleAutoAttacker",
+		"SoloLaner"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2154,
+			"scale": 0.045,
+			"regenRate": 4.4882,
+			"regenScale": 0.045
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.9375,
+		"innerRadius": 0.9375
+	},
+	"weapons": [
+		{
+			"nameId": "ButcherHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 130,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ButcherHamstring",
+				"name": "Hamstring",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"cost": "Mana: 40",
+				"description": "Deal 110~~0.04~~ damage and Slow enemies by 50%, decaying over 2 seconds. The Butcher's next Basic Attack will strike immediately."
+			},
+			{
+				"id": "ButcherButchersBrand",
+				"name": "Butcher's Brand",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 60",
+				"description": "Deal 37~~0.04~~ damage to an enemy and Brand them for 4 seconds. The Butcher's Basic Attacks against the Branded target heal him for 75% of the damage done.\n\nBasic Attacks against Branded Heroes heal for double and extend the duration of the Brand by 0.5 seconds."
+			},
+			{
+				"id": "ButcherRuthlessOnslaught",
+				"name": "Ruthless Onslaught",
+				"type": "E",
+				"cooldown": "Cooldown: 15 seconds",
+				"cost": "Mana: 50",
+				"description": "Charge at an enemy, becoming Unstoppable and gaining Movement Speed. If The Butcher reaches the target, they are stunned for 1 second and take 119~~0.04~~ damage."
+			}
+		],
+		"heroic": [
+			{
+				"id": "ButcherFurnaceBlast",
+				"name": "Furnace Blast",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 75",
+				"description": "After a 3 second delay, fire explodes around The Butcher dealing 500~~0.04~~ damage to enemies.\n\nCan be cast while using Ruthless Onslaught."
+			},
+			{
+				"id": "ButcherLambToTheSlaughter",
+				"name": "Lamb to the Slaughter",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 75",
+				"description": "Throw a hitching post that attaches to the nearest enemy Hero after a 1 second delay. This deals 171~~0.04~~ damage and causes the enemy to be chained to the post and Silenced for 3 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "ButcherFreshMeatDummy",
+				"name": "Fresh Meat",
+				"type": "Trait",
+				"charges": {
+					"countMax": 65535,
+					"isCountHidden": false
+				},
+				"description": "Upon dying, nearby enemy Minions drop 1 Fresh Meat and enemy Heroes drop 20 Fresh Meat. Fresh Meat can be picked up to gain 0.5 Attack Damage per Meat. The Butcher loses 15 Fresh Meat upon dying.\n\nQuest: Collect 200 Fresh Meat.\n\nReward: Gain an additional 125 Attack Damage and 25% increased Attack Speed. Heroes continue to drop 10 Fresh Meat, Minions no longer drop Fresh Meat, and Fresh Meat is no longer lost on death."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "ButcherEnraged",
+				"name": "Enraged",
+				"type": "Passive",
+				"parent": "Enraged",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "While below 50% of his maximum Health, taking damage causes The Butcher to become Enraged for 10 seconds, gaining 40% Attack Speed and 25 Armor, reducing damage taken by 25%.\n\nThis effect has a 25 second cooldown."
+			},
+			{
+				"id": "FlashoftheStorms",
+				"name": "Bolt of the Storm",
+				"type": "Active",
+				"parent": "Bolt of the Storm",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to teleport to a nearby location."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "ButcherMasteryHamstringInvigoration",
+				"name": "Invigoration",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "If Hamstring hits a Hero, half of the Mana cost is refunded and the cooldown is reduced by 1 second."
+			},
+			{
+				"id": "ButcherMasteryHamstringChopMeat",
+				"name": "Chop Meat",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "Increases Hamstring damage by 100% to Minions, Mercenaries, and Monsters."
+			},
+			{
+				"id": "GenericTalentBlock",
+				"name": "Block",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Every 5 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%.\n\nStores up to 2 charges."
+			}
+		],
+		"level4": [
+			{
+				"id": "ButcherMasteryHamstringFlailAxe",
+				"name": "Flail Axe",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "Increases the length of Hamstring by 40%."
+			},
+			{
+				"id": "ButcherMasteryHamstringCheapShot",
+				"name": "Cheap Shot",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "Hamstring does 100% more damage to targets affected by a Slow, Root, or Stun. "
+			},
+			{
+				"id": "ButcherMasteryRuthlessOnslaughtUnrelentingPursuit",
+				"name": "Unrelenting Pursuit",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ButcherRuthlessOnslaught",
+				"description": "Reduces the cooldown of Ruthless Onslaught by 33% upon impact."
+			}
+		],
+		"level7": [
+			{
+				"id": "ButcherMasteryButchersBrandInsatiableBlade",
+				"name": "Insatiable Blade",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ButcherButchersBrand",
+				"description": "While facing a branded enemy, The Butcher's Movement Speed is increased by 25%."
+			},
+			{
+				"id": "ButcherMeatShield",
+				"name": "Meat Shield",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ButcherRuthlessOnslaught",
+				"description": "When Ruthless Onslaught impacts an enemy Hero, The Butcher gains 50 Spell Armor for 2.5 seconds, reducing Ability Damage taken by 50%."
+			},
+			{
+				"id": "ButcherMasteryFreshMeatVictuals",
+				"name": "Victuals",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Every time a nearby enemy minion dies, The Butcher heals 5% of his maximum health."
+			}
+		],
+		"level10": [
+			{
+				"id": "ButcherHeroicAbilityButcherFurnaceBlast",
+				"name": "Furnace Blast",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ButcherFurnaceBlast",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 75",
+				"description": "After a 3 second delay, fire explodes around The Butcher dealing 500~~0.04~~ damage to enemies.\n\nCan be cast while using Ruthless Onslaught."
+			},
+			{
+				"id": "ButcherHeroicAbilityLambToTheSlaughter",
+				"name": "Lamb to the Slaughter",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ButcherLambToTheSlaughter",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 75",
+				"description": "Throw a hitching post that attaches to the nearest enemy Hero after a 1 second delay. This deals 171~~0.04~~ damage and causes the enemy to be chained to the post and Silenced for 3 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "ButcherMasteryHamstringBrutalStrike",
+				"name": "Brutal Strike",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "After using Hamstring, The Butcher's next 3 Basic Attacks within 5 seconds deal an additional 15% damage."
+			},
+			{
+				"id": "ButcherMasteryRuthlessOnslaughtSavageCharge",
+				"name": "Savage Charge",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ButcherRuthlessOnslaught",
+				"description": "Ruthless Onslaught deals bonus damage to Heroes equal to 10% of their maximum Health."
+			},
+			{
+				"id": "ButcherCleaver",
+				"name": "Cleaver",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks deal 35% of The Butcher's Basic Attack Damage in an area around the target."
+			}
+		],
+		"level16": [
+			{
+				"id": "ButcherMasteryHamstringCripplingSlam",
+				"name": "Crippling Slam",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ButcherHamstring",
+				"description": "Hamstring's Slow no longer decays, and its duration is increased by 30%."
+			},
+			{
+				"id": "ButcherTalentEnraged",
+				"name": "Enraged",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "While below 50% of his maximum Health, taking damage causes The Butcher to become Enraged for 10 seconds, gaining 40% Attack Speed and 25 Armor, reducing damage taken by 25%.\n\nThis effect has a 25 second cooldown."
+			},
+			{
+				"id": "ButcherMasteryFreshMeatBloodFrenzy",
+				"name": "Blood Frenzy",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against enemy Heroes grant 5% increased Attack and Movement Speed for 3 seconds, up to 25%."
+			}
+		],
+		"level20": [
+			{
+				"id": "ButcherMasteryFiresofHell",
+				"name": "Fires of Hell",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ButcherFurnaceBlast",
+				"prerequisites": [
+					"ButcherHeroicAbilityButcherFurnaceBlast"
+				],
+				"description": "Furnace Blast explodes a second time 3 seconds after the initial explosion."
+			},
+			{
+				"id": "ButcherMasterySlaughterhouse",
+				"name": "Slaughterhouse",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ButcherLambToTheSlaughter",
+				"prerequisites": [
+					"ButcherHeroicAbilityLambToTheSlaughter"
+				],
+				"description": "Lamb to the Slaughter now chains all enemy Heroes in range."
+			},
+			{
+				"id": "GenericTalentNexusBlades",
+				"name": "Nexus Blades",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks deal 20% more damage and Slow enemy Movement Speed by 20% for 1 second."
+			},
+			{
+				"id": "GenericTalentFlashoftheStorms",
+				"name": "Bolt of the Storm",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FlashoftheStorms",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to teleport to a nearby location."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"ButcherLambToTheSlaughterPost"
+	]
+}

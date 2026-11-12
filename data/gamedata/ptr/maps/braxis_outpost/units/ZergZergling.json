@@ -1,0 +1,48 @@
+{
+	"id": "ZergZergling",
+	"name": "Zergling",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 360,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 5.75,
+		"sight": 6,
+		"radius": 0.5625,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "ZergZerglingWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 0.33,
+			"damage": 10,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": -0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

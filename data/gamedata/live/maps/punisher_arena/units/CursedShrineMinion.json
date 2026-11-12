@@ -1,0 +1,45 @@
+{
+	"id": "CursedShrineMinion",
+	"name": "Skeleton",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 300,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 9,
+		"radius": 0.5,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "CursedShrineMinionWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 9,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

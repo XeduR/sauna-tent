@@ -1,0 +1,45 @@
+{
+	"id": "WitchDoctorZombieWallDeadRushTalentUnit",
+	"name": "Zombie Wall",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "A MINDLESS ZOMBIE LOG FROM HELL",
+	"stats": {
+		"life": {
+			"amount": 300,
+			"scale": 0.04,
+			"regenRate": -100,
+			"regenScale": 0.04
+		},
+		"speed": 5,
+		"sight": 7,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "WitchDoctorZombieWeapon",
+			"range": 0.4375,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 28,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

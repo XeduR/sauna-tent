@@ -1,0 +1,68 @@
+{
+	"id": "TerranArchangelDefender",
+	"name": "Archangel",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep",
+		"MapBoss"
+	],
+	"killXP": 750,
+	"stats": {
+		"life": {
+			"amount": 13000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TerranArchangelDefenderRanged",
+			"range": 4,
+			"minimumRange": 0,
+			"period": 0.0625,
+			"damage": 15,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1.5,
+				"Merc": 1.5,
+				"Minion": 1.5,
+				"Structure": 0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TerranArchangelDefenderBulletstorm",
+				"name": "Bulletstorm",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Unleash a hail of bullets in a line in front of the caster, dealing 0 damage over 5 seconds."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "WallCrush",
+				"name": "Grave Golem Wall Crush",
+				"type": "Z",
+				"toggleCooldown": 0.5,
+				"description": ""
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

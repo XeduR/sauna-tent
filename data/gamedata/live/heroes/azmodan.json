@@ -1,0 +1,343 @@
+{
+	"id": "Azmodan",
+	"name": "Azmodan",
+	"title": "Lord of Sin",
+	"unitId": "HeroAzmodan",
+	"franchise": "Diablo",
+	"roles": [
+		"Specialist"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2014-10-14",
+	"ratings": {
+		"complexity": 5,
+		"damage": 3,
+		"survivability": 7,
+		"utility": 6
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"RoleSpecialist",
+		"SoloLaner",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2464.2,
+			"scale": 0.04,
+			"regenRate": 5.1328,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1.1875,
+		"innerRadius": 0.9375
+	},
+	"weapons": [
+		{
+			"nameId": "AzmodanHeroWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 85,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "AzmodanGlobeOfAnnihilation",
+				"name": "Globe of Annihilation",
+				"type": "Q",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 70",
+				"description": "Shoot a globe of destruction, dealing 176~~0.04~~ damage on impact.  Deals 50% damage to non-Heroes.\n\nQuest: Hitting a Hero or killing a Minion within 3 seconds of being hit by Globe Of Annihilation grants 2 stacks of Annihilation.  Each stack increases its damage by 1. \n\nMythic Reward: After gaining 450 Annihilation, the area of Globe of Annihilation is increased by 15% and it deals 150 additional damage."
+			},
+			{
+				"id": "AzmodanSummonDemonWarrior",
+				"name": "Summon Demon Warrior",
+				"type": "W",
+				"cooldown": "Charge Cooldown: 10 seconds",
+				"cost": "Mana: 25",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": false
+				},
+				"description": "Spawn a Demon Warrior that marches forward. Warriors deal 53~~0.04~~ damage per Attack. Loses Health over 17 seconds. Deals 100% bonus damage to Minions and Mercenaries.\n\nUsable while Channeling All Shall Burn."
+			},
+			{
+				"id": "AzmodanAllShallBurn",
+				"name": "All Shall Burn",
+				"type": "E",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 25",
+				"description": "Channel a beam of death on an enemy, dealing 128~~0.04~~ damage per second for 2.5 seconds. If the Channel lasts its full duration, deal an extra 340~~0.04~~ damage to the target.\n\nAzmodan's Movement Speed is reduced by 30% while Channeling."
+			}
+		],
+		"heroic": [
+			{
+				"id": "AzmodanDemonicInvasion",
+				"name": "Demonic Invasion",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 60",
+				"description": "Rain a small army of Demonic Grunts down on enemies, dealing 85~~0.04~~ damage per impact. Grunts deal 30~~0.04~~ damage, have 750~~0.04~~ Health and last up to 20 seconds. When Grunts die they explode, dealing 40~~0.04~~ damage to nearby enemies, doubled against enemy Heroes.\n\nUsable while Channeling All Shall Burn."
+			},
+			{
+				"id": "AzmodanTideOfSin",
+				"name": "Tide of Sin",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 100",
+				"description": "Activate to make the next Globe of Annihilation cost no Mana and deal 50% more damage.\n\nUsable while Channeling All Shall Burn."
+			},
+			{
+				"id": "AzmodanTideOfSinPassive",
+				"name": "Tide of Sin",
+				"type": "Heroic",
+				"parent": "Tide of Sin",
+				"description": "Your next Globe of Annihilation costs no Mana and deals 50% more damage."
+			}
+		],
+		"trait": [
+			{
+				"id": "AzmodanDemonLieutenant",
+				"name": "Demon Lieutenant",
+				"type": "Trait",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Summon a Demon Lieutenant at any allied Mercenary, Minion, or Azmodan Demon. The Lieutenant will cast Demonic Smite every 7 seconds, instantly killing an enemy Minion. Loses Health over 21 seconds.\n\nUsable while Channeling All Shall Burn."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "AzmodanTrample",
+				"name": "Trample",
+				"type": "Active",
+				"parent": "Trample",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to charge a short distance, dealing 275~~0.04~~ damage and Slowing enemies caught in the path by 60% for 1.25 second.\n\nAfter hitting an enemy Hero with Trample, reduce the cooldown of Azmodan's Heroic Ability by 25%."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "AzmodanGreed",
+				"name": "Greed",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "Globe of Annihilation deals 15% more damage to non-Heroic targets.\n\nQuest: After gaining 225 Annihilation, increase the range of All Shall Burn by 25% and Demon Warriors gain 20% Attack Speed and Movement Speed. Globe of Annihilation's damage penalty against Minions and Mercenaries is removed."
+			},
+			{
+				"id": "AzmodanGluttony",
+				"name": "Gluttony",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "Increase the number of stacks of Annihilation gained by hitting Heroes with Globe of Annihilation from 2 to 4.\n\nQuest: After gaining 225 Annihilation, each enemy hit by Globe of Annihilation reduces its cooldown by 0.25 seconds, doubled against Heroes. Globe of Annihilation's damage penalty against Minions and Mercenaries is removed."
+			},
+			{
+				"id": "AzmodanWrath",
+				"name": "Wrath",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "Every other Basic Attack against Heroes or Structures grant Annihilation. \n\nQuest: After gaining 225 Annihilation, hitting a Hero with Globe of Annihilation increases the damage of Azmodan's next Basic Attack against them within 3 seconds by 85% the amount of Annihilation he has. Globe of Annihilation's damage penalty against Minions and Mercenaries is removed."
+			}
+		],
+		"level4": [
+			{
+				"id": "AzmodanArmyOfHell",
+				"name": "Army of Hell",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AzmodanSummonDemonWarrior",
+				"description": "Summon Demon Warrior spawns an additional Demon, but its cooldown is increased by 10 seconds."
+			},
+			{
+				"id": "AzmodanHellforgedArmor",
+				"name": "Hellforged Armor",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AzmodanSummonDemonWarrior",
+				"description": "Demon Warriors and Lieutenants gain 20 Armor and lose 25% less health per second."
+			},
+			{
+				"id": "AzmodanBattleborn",
+				"name": "Battleborn",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Reduce the Mana cost of Summon Demon Warrior from 25 to 20. Azmodan's Basic Attacks reduce the cooldown of Summon Demon Warrior by 0.75 seconds and Demon Lieutenant by 1.5 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "AzmodanArtOfChaos",
+				"name": "Art of Chaos",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "If Globe of Annihilation hits 2 or more Heroes, restore 40 Mana and gain an extra 2 Annihilation."
+			},
+			{
+				"id": "AzmodanBombardment",
+				"name": "Bombardment",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "After casting Globe of Annihilation, Azmodan's Basic Attacks within the next 3 seconds have an additional 1.5 range and can hit 3 additional targets. Hitting Heroes with Basic Attacks empowered by Bombardment grant 1 Annihilation."
+			},
+			{
+				"id": "AzmodanMasterofDestruction",
+				"name": "Master of Destruction",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AzmodanAllShallBurn",
+				"description": "If All Shall Burn's Channel kills or lasts its full duration, All Shall Burn's final damage applies to all enemies in an area around the target and grants 1 Annihilation per Hero hit."
+			}
+		],
+		"level10": [
+			{
+				"id": "AzmodanHeroicAbilityDemonicInvasion",
+				"name": "Demonic Invasion",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AzmodanDemonicInvasion",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 60",
+				"description": "Rain a small army of Demonic Grunts down on enemies, dealing 85~~0.04~~ damage per impact. Grunts deal 30~~0.04~~ damage, have 750~~0.04~~ Health and last up to 20 seconds. When Grunts die they explode, dealing 40~~0.04~~ damage to nearby enemies, doubled against enemy Heroes.\n\nUsable while Channeling All Shall Burn."
+			},
+			{
+				"id": "AzmodanTideOfSin",
+				"name": "Tide of Sin",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AzmodanTideOfSin",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 100",
+				"description": "Activate to make the next Globe of Annihilation cost no Mana and deal 50% more damage.\n\nUsable while Channeling All Shall Burn."
+			}
+		],
+		"level13": [
+			{
+				"id": "AzmodanBrutishVanguard",
+				"name": "Brutish Vanguard",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AzmodanSummonDemonWarrior",
+				"description": "Demon Warriors and Lieutenants gain 25% increased Health. Demon Warriors Slow attacked targets by 30%."
+			},
+			{
+				"id": "AzmodanCydaeasKiss",
+				"name": "Cydaea's Kiss",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AzmodanAllShallBurn",
+				"description": "Reduces the Channel time of All Shall Burn by 0.5 seconds. If All Shall Burn's Channel kills or lasts its full duration against a Hero, Azmodan is healed for 8% of his maximum Health."
+			},
+			{
+				"id": "AzmodanChainOfCommand",
+				"name": "Chain of Command",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "AzmodanDemonLieutenant",
+				"description": "The cooldown of Demon Lieutenants' Demonic Smite is reduced by 2 seconds and they grant 25% increased damage to nearby friendly Minions, Mercenaries, and Azmodan's summoned Demons."
+			}
+		],
+		"level16": [
+			{
+				"id": "AzmodanTotalAnnihilation",
+				"name": "Total Annihilation",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "Globe of Annihilation damages Heroes for an additional 4% of their maximum Health."
+			},
+			{
+				"id": "AzmodanHellRift",
+				"name": "Hell Rift",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AzmodanAllShallBurn",
+				"description": "If All Shall Burn Channels for its full duration or kills the target, a Demon Warrior is summoned at the target's location and all Demon Warriors deal 35% increased damage for 5 seconds."
+			},
+			{
+				"id": "AzmodanTrample",
+				"name": "Trample",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AzmodanTrample",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to charge a short distance, dealing 275~~0.04~~ damage and Slowing enemies caught in the path by 60% for 1.25 second.\n\nAfter hitting an enemy Hero with Trample, reduce the cooldown of Azmodan's Heroic Ability by 25%."
+			}
+		],
+		"level20": [
+			{
+				"id": "AzmodanSiegebreaker",
+				"name": "Siegebreaker",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AzmodanDemonicInvasion",
+				"prerequisites": [
+					"AzmodanHeroicAbilityDemonicInvasion"
+				],
+				"description": "Azmodan's Demons deal 40% increased damage to Structures."
+			},
+			{
+				"id": "AzmodanBlackPool",
+				"name": "Black Pool",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AzmodanTideOfSin",
+				"prerequisites": [
+					"AzmodanTideOfSin"
+				],
+				"description": "Globes of Annihilation empowered by Tide of Sin also leave a Black Pool at their impact location for 5 seconds. Enemies within the pool lose 8 Armor per second, up to 15, and take 56~~0.04~~ damage per second."
+			},
+			{
+				"id": "InescapableAnnihilation",
+				"name": "Inescapable Annihilation",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AzmodanGlobeOfAnnihilation",
+				"description": "Globe of Annihilation can now be cast globally."
+			},
+			{
+				"id": "AzmodanSinsGrasp",
+				"name": "Sin's Grasp",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AzmodanAllShallBurn",
+				"description": "All Shall Burn Slows enemy Heroes. While active, the target is Slowed by 15%, and if it lasts its full duration, they are Slowed by 50% for 2.5 seconds.\n\nIf All Shall Burn's Channel kills or lasts its full duration against a Hero, reduce its cooldown by 50%."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"AzmodanDemonLieutenant",
+		"AzmodanDemonWarrior",
+		"AzmodanDemonicInvasionDemonGrunt"
+	]
+}

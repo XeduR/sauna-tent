@@ -1,0 +1,45 @@
+{
+	"id": "ArchangelChaserBaneling",
+	"name": "Chaser Baneling",
+	"damageType": "Monster",
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 2,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "ArchangelSuperBanelingChase",
+				"name": "Chase",
+				"type": "Q",
+				"cooldown": "Cooldown: 2 seconds",
+				"description": ""
+			},
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

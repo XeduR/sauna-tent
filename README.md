@@ -207,7 +207,7 @@ refresh-hero-data.bat -ptr
 python generate_hero_data.py -ptr
 ```
 
-A PTR run writes only heroes missing from `data/hero-info.json` plus ones it previously tagged `"ptr": true`, so released heroes keep the talent text matching the patch your replays were played on. A release run owns every hero the live build has, dropping the tag when a hero ships and carrying through tagged heroes it does not have yet. Icons sync only for the heroes a run writes, and nothing is deleted from `img/hero/`. Each channel extracts into its own `.scratch/` directory, of which the highest build number is read.
+In the three site hero files (`data/hero-info.json`, `data/talent-names.json`, `data/talent-descriptions.json`), a PTR run writes only heroes missing from `data/hero-info.json` plus ones it previously tagged `"ptr": true`, so released heroes keep the talent text matching the patch your replays were played on. A release run owns every hero the live build has, dropping the tag when a hero ships and carrying through tagged heroes it does not have yet. Icons sync only for the heroes a run writes, and nothing is deleted from `img/hero/`. Each channel extracts into its own `.scratch/` directory, of which the highest build number is read. The structured game data under `data/gamedata/` is not filtered this way: a PTR run writes the full PTR build to `data/gamedata/ptr/` (see [Game data files](#game-data-files)).
 
 A new hero needs entries in `pipeline/herodata.py` (`HERO_NAMES`, `HERO_ROLES`, `FEMALE_HEROES`) and `data/hero-colors.json`, or it parses with its internal id and role `Unknown`. Every run prints the exact lines to add. Alternate unit forms (Greymane, D.Va, Chen) need their extra `HERO_NAMES` keys and a row expansion in `js/views/hero-info.js`.
 
@@ -215,7 +215,7 @@ A new hero needs entries in `pipeline/herodata.py` (`HERO_NAMES`, `HERO_ROLES`, 
 
 An unreleased hero can arrive with stats and ability names but no talent text and no icons at all. Talents HDP cannot name are dropped rather than written blank, and cards without an icon render text-only, so the page shows real data or nothing.
 
-Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by ability `abilityId` or talent `talentId` (read the ids out of `.scratch/hots-data-output-ptr/data/`). Its values win over the game data, it survives re-runs, and talent slot numbering is untouched. Any other key sets a top-level field on the hero record, which is how `franchise` and a corrected `releaseDate` are pinned. Delete a hero's entry once the live build carries the real strings.
+Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by ability `abilityId` or talent `talentId` (read the ids out of `.scratch/hots-data-output-ptr/data/`). Its values win over the game data in both the site hero files and `data/gamedata/`, it survives re-runs, and talent slot numbering is untouched. Any other key sets a top-level field on the hero record, which is how `franchise` and a corrected `releaseDate` are pinned. Delete a hero's entry once the live build carries the real strings.
 
 ### Prerequisites
 
@@ -224,10 +224,38 @@ Fill the gaps in `data/hero-overrides.json`, keyed by hero slug and then by abil
 
 ### What it does
 
-1. Invokes HDP against Blizzard's CDN (`online`, plus `--download-ptr` for the PTR channel), extracting hero data + images into `.scratch/hots-data-output/`, or `.scratch/hots-data-output-ptr/` with `-ptr` (both gitignored).
-2. Translates HDP's hero data file into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`. These three files are tab-indented with sorted keys, so a patch's talent text and ability value changes show up line by line in `git diff`.
-3. Downscales every icon from 128x128 to 64x64 with Lanczos resampling, re-encodes with PNG `optimize=True`, and writes them to `img/hero/{slug}/avatar.png`, `img/hero/{slug}/talent{tier}_{choice}.png`, and `img/hero/{slug}/abilities/{ability-id}.png`. Existing files are MD5-compared against the new output and skipped if identical.
-4. Reports any hero missing from the static lookup tables.
+1. Invokes HDP against Blizzard's CDN (`online`, plus `--download-ptr` for the PTR channel) with its hero (with images), unit and map extractors, writing hero data, images, unit data, map data and per-map patch files into `.scratch/hots-data-output/`, or `.scratch/hots-data-output-ptr/` with `-ptr` (both gitignored).
+2. Translates HDP's hero data file into the dashboard's flat structures, merges it into `data/` per the channel rules above, and writes `data/hero-info.json`, `data/talent-names.json`, and `data/talent-descriptions.json`, minified with sorted keys.
+3. Writes the structured heroes, units and maps for the channel's build to `data/gamedata/` and records the version in `data/gamedata/versions.json` (see [Game data files](#game-data-files)).
+4. Downscales every icon from 128x128 to 64x64 with Lanczos resampling, re-encodes with PNG `optimize=True`, and writes them to `img/hero/{slug}/avatar.png`, `img/hero/{slug}/talent{tier}_{choice}.png`, and `img/hero/{slug}/abilities/{ability-id}.png`. Existing files whose decoded pixels match the new output are skipped.
+5. Reports any hero missing from the static lookup tables, and lists any parser field the generator neither keeps nor deliberately drops (`Unrecognised parser fields (not written)`).
+
+### Game data files
+
+`data/gamedata/` holds the game data for every ingested version:
+
+- `versions.json`: one entry per version (`id`, `channel`, `version`, `build`, `added`), ordered by build.
+- `live/` and `ptr/`: the current version of each channel, one tab-indented JSON file per item.
+- `heroes/<slug>.json` in a channel folder: one hero.
+- `units/<UnitId>.json` in a channel folder: one non-hero unit with gameplay content.
+- `maps/<id>/map.json` in a channel folder: a map's name, size and objectives. The same folder holds `units/`, `heroes/` and `common-abilities.json` records only where that map's own data makes them differ from the channel's base files, each record written in full.
+- `common-abilities.json` in a channel folder: the Mount and Hearthstone most heroes share. A hero file carries its own copy only when it differs.
+- `snapshots/<version id>/heroes.json`, `units.json`, `maps.json`: the whole version, minified, one set per version.
+
+Every per-item file has a fixed key order and is overwritten in place, so `git diff data/gamedata/live/` shows what a live patch changed and `git diff data/gamedata/ptr/` what changed between PTR builds. A hero file starts like this:
+
+```json
+{
+	"id": "Abathur",
+	"name": "Abathur",
+	"title": "Evolution Master",
+	"unitId": "HeroAbathur",
+	"franchise": "Starcraft",
+```
+
+A run deletes the files in its channel folder that the version no longer has, so each folder mirrors its version. A version is added to `versions.json` the first time its build is ingested; re-running the same build rewrites its channel files and snapshot and keeps its `added` date. Nothing removes a version from the list or its snapshot automatically.
+
+The Patch Changes page (`patch-changes`) compares an older version with a newer one from `versions.json` by reading their snapshots, with Heroes, Units and Maps sections.
 
 ### Form, stance and unit abilities
 
@@ -237,7 +265,7 @@ Left out, because they would only repeat something already on the page: cancel b
 
 ### Skipping HDP
 
-Use `python generate_hero_data.py --skip-parser` to re-translate already-extracted HDP output without rerunning the parser. Useful when iterating on the translator, since it skips the CDN download.
+Use `python generate_hero_data.py --skip-parser` to re-translate already-extracted HDP output without rerunning the parser. Useful when iterating on the translator, since it skips the CDN download. The build it reads needs its unit and map data files next to the hero data file; without them the run stops and writes nothing.
 
 ## Chat Toxicity Detection
 
@@ -301,10 +329,10 @@ Each roster entry can have multiple toon IDs (for players with accounts across r
 
 `.scratch/` at the project root is a gitignored workspace for files generated by local tooling. Nothing inside is required to build or serve the dashboard, and nothing in it should be committed.
 
-- `.scratch/hots-data-output/` — raw 128x128 JSON and images produced by `generate_hero_data.py` via HeroesDataParser. The same script downscales the icons to 64x64, re-encodes with `optimize=True`, and writes them alongside the translated `data/hero-info.json`, `data/talent-names.json`, `data/talent-descriptions.json`, and per-hero images under `img/hero/{slug}/`.
-- `.scratch/hots-data-output-ptr/` — the same, for the Public Test build.
-- `.scratch/hdp/` — the HeroesDataParser build, downloaded on first run and re-downloaded whenever this directory is cleared.
-- `.scratch/cache/` — HDP's CASC cache of the CDN data, a few hundred MB. It is written relative to the working directory, which is why the parser runs from `.scratch/`. Deleting it costs a slower next run, nothing else.
+- `.scratch/hots-data-output/`: raw HeroesDataParser output for the live build, read by `generate_hero_data.py`: hero, unit and map data, per-map patch files, and 128x128 images. The script writes the translated `data/hero-info.json`, `data/talent-names.json`, `data/talent-descriptions.json` and `data/gamedata/` from it, and per-hero images downscaled to 64x64 under `img/hero/{slug}/`.
+- `.scratch/hots-data-output-ptr/`: the same, for the Public Test build.
+- `.scratch/hdp/`: the HeroesDataParser build, downloaded on first run and re-downloaded whenever this directory is cleared.
+- `.scratch/cache/`: HDP's CASC cache of the CDN data, a few hundred MB. It is written relative to the working directory, which is why the parser runs from `.scratch/`. Deleting it costs a slower next run, nothing else.
 
 Other contents that may accumulate here (debug reports, code reviews, probe scripts) are similarly transient.
 

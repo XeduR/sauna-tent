@@ -1,0 +1,356 @@
+{
+	"id": "Amazon",
+	"name": "Cassia",
+	"title": "Amazon Warmatron",
+	"unitId": "HeroAmazon",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2017-04-04",
+	"ratings": {
+		"complexity": 4,
+		"damage": 7,
+		"survivability": 6,
+		"utility": 5
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Ganker",
+		"RoleAutoAttacker",
+		"RoleCaster"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1660,
+			"scale": 0.04,
+			"regenRate": 3.457,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "AmazonHeroWeaponMelee",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 125,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "AmazonHeroWeaponRanged",
+			"range": 4.5,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 125,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "AmazonLightningFury",
+				"name": "Lightning Fury",
+				"type": "Q",
+				"cooldown": "Cooldown: 5 seconds",
+				"cost": "Mana: 20",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": false
+				},
+				"description": "Hurl a lightning javelin that deals 158~~0.04~~ damage to the first enemy hit and splits into two lightning bolts that deal 158~~0.04~~ damage to enemies in their path."
+			},
+			{
+				"id": "AmazonBlindingLight",
+				"name": "Blinding Light",
+				"type": "W",
+				"cooldown": "Cooldown: 15 seconds",
+				"cost": "Mana: 50",
+				"description": "After 0.5 seconds, deal 50~~0.04~~ damage and Blind enemies in the target area for 2 seconds.\n\nPassive: Cassia deals 15% increased damage to Blinded targets."
+			},
+			{
+				"id": "AmazonFend",
+				"name": "Fend",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 50",
+				"description": "Charge at an enemy, and upon arriving Channel for up to 1.5 seconds, dealing 64~~0.04~~ damage to enemies in front of Cassia every 0.25 seconds. Deals 50% reduced damage to non-Heroes. Avoidance remains charged while Channeling."
+			}
+		],
+		"heroic": [
+			{
+				"id": "AmazonBallLightning",
+				"name": "Ball Lightning",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Throw a ball of lightning at an enemy Hero that bounces up to 6 times between nearby enemy Heroes and Cassia, dealing 180~~0.04~~ damage to enemies hit."
+			},
+			{
+				"id": "AmazonValkyrie",
+				"name": "Valkyrie",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Summon a Valkyrie that rushes to Cassia after 0.75 seconds, pulling the first enemy Hero hit, dealing 225~~0.04~~ damage and Stunning them for 0.5 seconds at the end of her path. The Valkyrie knocks back all other enemy Heroes in her way."
+			}
+		],
+		"trait": [
+			{
+				"id": "AmazonAvoidance",
+				"name": "Avoidance",
+				"type": "Trait",
+				"description": "While moving, Cassia gradually gains up to 30 Armor over 3 seconds. After being stationary for 0.75 seconds, the Armor is rapidly lost over .5 seconds. \n\nAvoidance remains charged while Fending."
+			},
+			{
+				"id": "AmazonSurgeOfLight",
+				"name": "Avoidance",
+				"type": "Trait",
+				"parent": "Surge of Light",
+				"charges": {
+					"countMax": 100,
+					"countUse": 100,
+					"recastCooldown": 0.25,
+					"isCountHidden": true
+				},
+				"description": "While moving, Cassia gradually gains up to 30 Armor over 3 seconds. After being stationary for 0.75 seconds, the Armor is rapidly lost over .5 seconds. \n\nAvoidance remains charged while Fending."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "AmazonInnerLight",
+				"name": "Inner Light",
+				"type": "Active",
+				"parent": "Inner Light",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to heal for 25% of your maximum Health over 5 seconds. Enemy Heroes hit with Lightning Fury lower the cooldown of this ability by 10 seconds."
+			},
+			{
+				"id": "AmazonAvoidanceRockstopper",
+				"name": "Rockstopper",
+				"type": "Active",
+				"parent": "Rockstopper",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to fully charge Avoidance and increase its Armor value to 60 for 4 seconds.  \n\nLosing Avoidance removes this bonus."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "AmazonThunderstroke",
+				"name": "Thunderstroke",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "AmazonLightningFury",
+				"description": "Increase the damage of Lightning Fury by 20.\n\nQuest: Lightning Fury's damage is increased by 1.5 every time it hits a Hero."
+			},
+			{
+				"id": "AmazonImpale",
+				"name": "Impale",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AmazonFend",
+				"description": "Increase Fend's cast range and radius by 25%. It deals an additional 70% damage to enemies below 50% Health."
+			},
+			{
+				"id": "AmazonChargedStrikes",
+				"name": "Charged Strikes",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Gain 15% Attack Speed. Every 3rd Basic Attack deals 20% bonus damage and bounces to nearby enemy Heroes."
+			}
+		],
+		"level4": [
+			{
+				"id": "AmazonPlateoftheWhale",
+				"name": "Plate of the Whale",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Regenerate 6~~0.04~~ Health per second while Avoidance is active. If fully charged, gain an additional 12~~0.04~~ Health per second."
+			},
+			{
+				"id": "AmazonRingoftheLeech",
+				"name": "Ring of the Leech",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against your primary target heal for 20% of their damage. If an enemy is Blinded, this also affects Lightning Fury and Fend."
+			},
+			{
+				"id": "AmazonInnerLight",
+				"name": "Inner Light",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AmazonInnerLight",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to heal for 25% of your maximum Health over 5 seconds. Enemy Heroes hit with Lightning Fury lower the cooldown of this ability by 10 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "AmazonFendGroundingRod",
+				"name": "Grounding Rod",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AmazonLightningFury",
+				"description": "Enemies hit by Lightning Fury or Fend are Slowed by 20% for 2 seconds."
+			},
+			{
+				"id": "AmazonSeraphsHymn",
+				"name": "Seraph's Hymn",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AmazonBlindingLight",
+				"description": "Basic Attacks against your primary enemy Hero grant 10 Mana and reduce the cooldown of Blinding Light by 2 seconds.\n\nPassive: Increase the passive damage bonus of Blinding Light from 15% to 30%."
+			},
+			{
+				"id": "AmazonSurgeOfLight",
+				"name": "Surge of Light",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "AmazonSurgeOfLight",
+				"description": "After taking 650~~0.04~~ damage with Avoidance active, Cassia can activate Avoidance to deal 220~~0.04~~ damage to enemies around her."
+			}
+		],
+		"level10": [
+			{
+				"id": "AmazonBallLightning",
+				"name": "Ball Lightning",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AmazonBallLightning",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Throw a ball of lightning at an enemy Hero that bounces up to 6 times between nearby enemy Heroes and Cassia, dealing 180~~0.04~~ damage to enemies hit."
+			},
+			{
+				"id": "AmazonValkyrie",
+				"name": "Valkyrie",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AmazonValkyrie",
+				"cooldown": "Cooldown: 60 seconds",
+				"cost": "Mana: 60",
+				"description": "Summon a Valkyrie that rushes to Cassia after 0.75 seconds, pulling the first enemy Hero hit, dealing 225~~0.04~~ damage and Stunning them for 0.5 seconds at the end of her path. The Valkyrie knocks back all other enemy Heroes in her way."
+			}
+		],
+		"level13": [
+			{
+				"id": "AmazonFendWarMatron",
+				"name": "War Matron",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AmazonFend",
+				"description": "Cassia becomes Protected while Channeling Fend and for an additional 1 second if the Channel is completed."
+			},
+			{
+				"id": "AmazonWarTraveler",
+				"name": "War Traveler",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Gain 5% Movement Speed. While Avoidance is fully charged, gain an additional 10% Movement Speed and Mounting is instant."
+			},
+			{
+				"id": "AmazonFendGlovesOfAlacrity",
+				"name": "Gloves Of Alacrity",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Gain 1 Basic Attack range. While Avoidance is fully charged, gain an additional 1 Basic Attack range."
+			}
+		],
+		"level16": [
+			{
+				"id": "AmazonPowerStrike",
+				"name": "Power Strike",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AmazonLightningFury",
+				"description": "Lightning Fury pierces but only splits on Heroes. Enemy Heroes hit reduce its cooldown by 1 second and become marked for 15 seconds. Upon reaching 3 marks, remove them and cast a Blinding Light at their feet."
+			},
+			{
+				"id": "AmazonStaticElectricity",
+				"name": "Static Electricity",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AmazonLightningFury",
+				"description": "Gain 2 additional charges of Lightning Fury. Fend's impact launches a lightning bolt towards each nearby enemy Hero."
+			},
+			{
+				"id": "AmazonMartialLaw",
+				"name": "Martial Law",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against enemy Heroes deal bonus damage equal to 1% of their maximum Health. Increase this to 3% if they are Stunned, Rooted, Slowed, or Blinded."
+			}
+		],
+		"level20": [
+			{
+				"id": "AmazonInfiniteLightning",
+				"name": "Infinite Lightning",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AmazonBallLightning",
+				"prerequisites": [
+					"AmazonBallLightning"
+				],
+				"description": "Ball Lightning can now bounce indefinitely. Every bounce reduces its cooldown by 4 seconds."
+			},
+			{
+				"id": "AmazonImprisoningLight",
+				"name": "Imprisoning Light",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AmazonValkyrie",
+				"prerequisites": [
+					"AmazonValkyrie"
+				],
+				"description": "Upon impaling an enemy Hero, they are Blinded for 5 seconds and Cassia's Valkyrie creates a wave of light that deals 200~~0.04~~ damage to nearby enemies. This wave Silences and Roots them for 3 seconds."
+			},
+			{
+				"id": "AmazonTitansRevenge",
+				"name": "Titan's Revenge",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Cassia's Basic Attacks now ignore Armor and while Avoidance is fully charged, they deal an additional 20% bonus damage."
+			},
+			{
+				"id": "Amazon-AvoidanceRockstopper",
+				"name": "Rockstopper",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AmazonAvoidanceRockstopper",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to fully charge Avoidance and increase its Armor value to 60 for 4 seconds.  \n\nLosing Avoidance removes this bonus."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"AmazonBallLightningController"
+	]
+}

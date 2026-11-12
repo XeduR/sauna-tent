@@ -1,0 +1,30 @@
+{
+	"id": "TalentHealingWard",
+	"name": "Healing Ward",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Healing Ward\nCooldown: 60 seconds\n\nActivate to place a ward on the ground that heals allies in an area for 2% of their max Health every second for 10 seconds.",
+	"stats": {
+		"life": {
+			"amount": 125,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"id": "HanzoDragonsArrow",
+	"name": "Dragon's Arrow",
+	"description": "Fire a missile that travels across the battleground. Explodes upon hitting an enemy Hero, dealing 130~~0.04~~ damage to all nearby enemies and Stunning them for 0.5 seconds.\n\nAfter traveling a medium distance, the damage is increased to 260~~0.04~~ and the Stun duration to 1.25 seconds.\n\nAfter traveling a long distance, the damage is increased to 390~~0.04~~ and the Stun duration to 2 seconds.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

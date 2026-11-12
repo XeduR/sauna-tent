@@ -1,0 +1,394 @@
+{
+	"id": "Zeratul",
+	"name": "Zeratul",
+	"title": "Dark Prelate",
+	"unitId": "HeroZeratul",
+	"franchise": "Starcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Melee Assassin",
+	"difficulty": "Very Hard",
+	"isMelee": true,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 5,
+		"damage": 8,
+		"survivability": 6,
+		"utility": 6
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"Ganker",
+		"Helper",
+		"Overconfident",
+		"RoleAutoAttacker",
+		"RoleCaster"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1622,
+			"scale": 0.04,
+			"regenRate": 3.379,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "HeroZeratul",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 126,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "HeroZeratulShadowAssault",
+			"range": 0.75,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 126,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ZeratulCleave",
+				"name": "Cleave",
+				"type": "Q",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 40",
+				"description": "Deal 200~~0.04~~ damage to nearby enemies."
+			},
+			{
+				"id": "ZeratulSingularitySpike",
+				"name": "Singularity Spike",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 70",
+				"description": "Flings a Singularity Spike that sticks to the first enemy hit. Deals 240~~0.04~~ damage after 1 second and Slows the enemy by 40% for 3 seconds."
+			},
+			{
+				"id": "ZeratulBlinkStorm",
+				"name": "Blink",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 50",
+				"description": "Teleport to the target location.\n\nUsing this Ability does not break Stealth."
+			},
+			{
+				"id": "ZeratulSeekerInTheDark",
+				"name": "Seeker in the Dark",
+				"type": "W",
+				"parent": "Seeker in the Dark",
+				"toggleCooldown": 0.125,
+				"description": "Teleport to the active Singularity Spike target."
+			},
+			{
+				"id": "ZeratulWormhole",
+				"name": "Wormhole",
+				"type": "E",
+				"parent": "Wormhole",
+				"toggleCooldown": 0.0625,
+				"description": "Return to the original location."
+			}
+		],
+		"heroic": [
+			{
+				"id": "ZeratulMightOfTheNerazimDummy",
+				"name": "Might Of The Nerazim",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 30",
+				"description": "Activate to cast an untalented version of Zeratul's most recently used Basic Ability, dealing 50% less damage.\n\nPassive: After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 30% more damage."
+			},
+			{
+				"id": "ZeratulVoidPrison",
+				"name": "Void Prison",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 80",
+				"description": "Slows time in an area to a near standstill, placing allies and enemies in Time Stop for 5 seconds. Zeratul is not affected."
+			},
+			{
+				"id": "ZeratulCleaveMightOfTheNerazim",
+				"name": "Cleave",
+				"type": "Heroic",
+				"parent": "Might Of The Nerazim",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 30",
+				"description": "Deal 100~~0.04~~ damage to nearby enemies."
+			},
+			{
+				"id": "ZeratulSingularitySpikeMightOfTheNerazim",
+				"name": "Singularity Spike",
+				"type": "Heroic",
+				"parent": "Might Of The Nerazim",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 30",
+				"description": "Flings a Singularity Spike that sticks to the first enemy hit. Deals 120~~0.04~~ damage after 1 second and slows the enemy by 40% for 3 seconds."
+			},
+			{
+				"id": "ZeratulBlinkMightOfTheNerazim",
+				"name": "Blink",
+				"type": "Heroic",
+				"parent": "Might Of The Nerazim",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 30",
+				"description": "Teleport to the target location. \n\nUsing this Ability does not break cloak."
+			}
+		],
+		"trait": [
+			{
+				"id": "ZeratulPermanentCloak",
+				"name": "Permanent Cloak",
+				"type": "Trait",
+				"description": "Gain Stealth when out of combat for 3 seconds. Taking damage, attacking, using Abilities, or Channeling ends Stealth. Remaining stationary for at least 1.5 seconds while Stealthed grants Invisible."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "VorpalBladeBlink",
+				"name": "Vorpal Blade",
+				"type": "Active",
+				"cooldown": "Cooldown: 15 seconds",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": true
+				},
+				"description": "Activate to teleport to Zeratul's last non-structure Basic Attack target within 3 seconds. The target is revealed during these 3 seconds."
+			},
+			{
+				"id": "HeroGenericSpellShield",
+				"name": "Spell Shield - Disabled",
+				"type": "Active",
+				"parent": "Spell Shield - Disabled",
+				"toggleCooldown": 0.5,
+				"description": "Spell Shield is disabled and will not trigger.\n\nClick this button to enable Spell Shield."
+			},
+			{
+				"id": "ZeratulDarknessDescendsActive",
+				"name": "Darkness Descends",
+				"type": "Active",
+				"parent": "Darkness Descends",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 40% Attack Speed for 5 seconds.\n\nPassive: Gain 20% Attack Speed."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "ZeratulMasteryGreaterCleaveCleave",
+				"name": "Greater Cleave",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZeratulCleave",
+				"description": "Increases the radius of Cleave by 33%."
+			},
+			{
+				"id": "ZeratulShadowHunter",
+				"name": "Shadow Hunter",
+				"type": "E",
+				"isQuest": true,
+				"ability": "ZeratulBlinkStorm",
+				"description": "Quest: Gather Regeneration Globes to lower the Mana cost of Blink by 3, up to 45.\n\nReward: Upon gathering 15 Regeneration Globes, Basic Attacks reduce the cooldown of Blink by 1.5 seconds."
+			},
+			{
+				"id": "ZeratulMoveUnseen",
+				"name": "Move Unseen",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Reduce the cooldown of Permanent Cloak by 1 second. Gain 30% Movement Speed while Stealthed."
+			}
+		],
+		"level4": [
+			{
+				"id": "ZeratulRendingCleave",
+				"name": "Rending Cleave",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZeratulCleave",
+				"description": "Cleave deals an additional 40% damage over 3 seconds."
+			},
+			{
+				"id": "ZeratulPsionicStrength",
+				"name": "Psionic Strength",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Dealing damage to enemy Heroes increases all damage dealt by 6% for 3 seconds, stacking up to 30%."
+			},
+			{
+				"id": "ZeratulDarknessDescends",
+				"name": "Darkness Descends",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "ZeratulDarknessDescendsActive",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 40% Attack Speed for 5 seconds.\n\nPassive: Gain 20% Attack Speed."
+			}
+		],
+		"level7": [
+			{
+				"id": "ZeratulWormhole",
+				"name": "Wormhole",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ZeratulBlinkStorm",
+				"description": "After 1.25 seconds, reactivate Blink to return to the point where it was cast from within 4 seconds."
+			},
+			{
+				"id": "ZeratulSeekerInTheDark",
+				"name": "Seeker in the Dark",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZeratulSingularitySpike",
+				"description": "Singularity Spike takes 50% longer to explode. It can be reactivated to teleport to the target, granting 30% increased Move Speed for 3 seconds."
+			},
+			{
+				"id": "ZeratulWarpSkirmisherTalent",
+				"name": "Warp Skirmisher",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Vorpal Blade gains a 2nd charge. Teleporting to an enemy with Vorpal Blade or entering Permanent Cloak causes Zeratul's next Basic Attack to deal 50% more damage."
+			}
+		],
+		"level10": [
+			{
+				"id": "ZeratulMightOfTheNerazim",
+				"name": "Might Of The Nerazim",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZeratulMightOfTheNerazimDummy",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 30",
+				"description": "Activate to cast an untalented version of Zeratul's most recently used Basic Ability, dealing 50% less damage.\n\nPassive: After using an Ability, Zeratul's next Basic Attack within 6 seconds deals 30% more damage."
+			},
+			{
+				"id": "ZeratulHeroicAbilityVoidPrison",
+				"name": "Void Prison",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZeratulVoidPrison",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 80",
+				"description": "Slows time in an area to a near standstill, placing allies and enemies in Time Stop for 5 seconds. Zeratul is not affected."
+			}
+		],
+		"level13": [
+			{
+				"id": "ZeratulShroudofAdun",
+				"name": "Shroud of Adun",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Zeratul gains a Shield equal to 20% of his Maximum Health over 3 seconds while under Permanent Cloak."
+			},
+			{
+				"id": "ZeratulMendingStrikes",
+				"name": "Mending Strikes",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks heal for 35% of the damage dealt."
+			},
+			{
+				"id": "GenericTalentSpellShield",
+				"name": "Spell Shield",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "HeroGenericSpellShield",
+				"toggleCooldown": 0.5,
+				"description": "Every 30 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 3 seconds, reducing the damage taken by 50%.\n\nCan be toggled to allow or prevent this talent from triggering automatically."
+			}
+		],
+		"level16": [
+			{
+				"id": "ZeratulMasterWarpBlade",
+				"name": "Master Warp-Blade",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Every third consecutive Basic Attack against the same target deals 125% more damage."
+			},
+			{
+				"id": "ZeratulVoidSlash",
+				"name": "Void Slash",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZeratulCleave",
+				"description": "If Cleave hits more than one enemy Hero, it deals 40% increased damage and its cooldown is reduced by 3 seconds."
+			},
+			{
+				"id": "ZeratulSentencedtoDeath",
+				"name": "Sentenced to Death",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZeratulSingularitySpike",
+				"description": "Deal 25% increased damage to enemies while they are marked or Slowed by Singularity Spike."
+			}
+		],
+		"level20": [
+			{
+				"id": "ZeratulTwilightFalls",
+				"name": "Twilight Falls",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZeratulMightOfTheNerazimDummy",
+				"prerequisites": [
+					"ZeratulMightOfTheNerazim"
+				],
+				"description": "Might of the Nerazim resets the cooldown of all Basic Abilities."
+			},
+			{
+				"id": "ZeratulUnwaveringPressure",
+				"name": "Unwavering Pressure",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZeratulSingularitySpike",
+				"description": "Singularity Spike no longer costs Mana. Basic Attacks against enemies reduce its cooldown by 1.25 seconds, double versus Heroes."
+			},
+			{
+				"id": "ZeratulShadowStrideTalent",
+				"name": "Shadow Stride",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Reduce the cooldown of Vorpal Blade by 10 seconds. Casting Vorpal Blade grants Zeratul a Shield that absorbs up to 260~~0.04~~ damage for 3 seconds."
+			},
+			{
+				"id": "ZeratulShadowMending",
+				"name": "Shadow Mending",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Heal for 60% of Spell Damage dealt to Heroes."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"ZeratulBlinkWormholeTalentUnit",
+		"ZeratulVoidPrisonDome",
+		"ZeratulVoidPrisonDomeProtectivePrison"
+	]
+}

@@ -1,0 +1,30 @@
+{
+	"id": "MurkyPufferfish",
+	"name": "Pufferfish",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Spit out a Pufferfish with 225~~0.055~~ health at the target point. After 2.75 seconds, the fish will blow up for 330~~0.04~~ damage. Deals 50% less damage to Structures.\n\nQuest: Kill Slimed Enemies or hit them with Pufferfish. Heroes and Structures award 4 bonus stacks.\n\nReward: After obtaining 200 stacks, Murky's Basic Abilities no longer deal reduced damage to structures.\n\nMythic Reward: After obtaining 400 stacks, Murky's health is increased by 50%.",
+	"stats": {
+		"life": {
+			"amount": 225,
+			"scale": 0.055,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3,
+		"radius": 0.125,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"id": "ChoRuneBomb",
+	"name": "Cho - Rune Bomb",
+	"description": "Roll a bomb dealing 91~~0.04~~ damage to enemies in its path. Gall can use Runic Blast to detonate it to deal 210~~0.04~~ damage in an area.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

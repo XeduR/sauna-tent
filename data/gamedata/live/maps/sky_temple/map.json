@@ -1,0 +1,22 @@
+{
+	"id": "ControlPoints",
+	"name": "Sky Temple",
+	"size": {
+		"x": 248,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Capture the Temples",
+			"description": "Temples will periodically activate. Stand within their grounds to capture their power!"
+		},
+		{
+			"title": "Hold the Temples",
+			"description": "Stand firm and the Temple will unleash a blistering onslaught on your enemy's Structures!"
+		},
+		{
+			"title": "Defend the Temples",
+			"description": "Guardians will try to wrest control of their Temples from your team. Hold them off to keep the Temple's power for yourselves!"
+		}
+	]
+}

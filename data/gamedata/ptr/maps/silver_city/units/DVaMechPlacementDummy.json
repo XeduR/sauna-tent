@@ -1,0 +1,37 @@
+{
+	"id": "DVaMechPlacementDummy",
+	"name": "Mech - Placement Dummy",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 100,
+			"regenRate": 0
+		},
+		"speed": 3.75,
+		"sight": 12,
+		"radius": 0,
+		"innerRadius": 1
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms."
+			}
+		]
+	}
+}

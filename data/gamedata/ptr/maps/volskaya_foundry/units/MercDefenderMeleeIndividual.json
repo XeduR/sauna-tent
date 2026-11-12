@@ -1,0 +1,53 @@
+{
+	"id": "MercDefenderMeleeIndividual",
+	"name": "Sentinel",
+	"damageType": "Minion",
+	"attributes": [
+		"Creep"
+	],
+	"description": "Tough, high-Health Mercenary. Attacks at melee range. Specializes in soaking up attacks from enemy fortifications.",
+	"stats": {
+		"life": {
+			"amount": 5250,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderMeleeIndividual",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 135,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "MercDefenderHealingPulse",
+				"name": "Sentinel - Healing Pulse",
+				"type": "Z",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": ""
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

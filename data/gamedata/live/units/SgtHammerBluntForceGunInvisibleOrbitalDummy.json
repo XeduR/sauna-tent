@@ -1,0 +1,36 @@
+{
+	"id": "SgtHammerBluntForceGunInvisibleOrbitalDummy",
+	"name": "Sgt. Hammer",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 100,
+			"regenRate": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "SgtHammerBluntForceGun",
+				"name": "Blunt Force Gun",
+				"type": "Q",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 100",
+				"description": "Fire a missile across the battlefield, dealing 500~~0.03~~ damage to enemies in its path.  Deals 50% damage to Structures."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

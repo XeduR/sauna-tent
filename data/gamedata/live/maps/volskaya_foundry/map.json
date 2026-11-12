@@ -1,0 +1,22 @@
+{
+	"id": "Volskaya",
+	"name": "Volskaya Foundry",
+	"size": {
+		"x": 248,
+		"y": 208
+	},
+	"objectives": [
+		{
+			"title": "Capture Points",
+			"description": "Control points activate occasionally. Stand within them to capture them. Fully capturing a point grants you control of a giant mech."
+		},
+		{
+			"title": "Control the Protector",
+			"description": "The Triglav Protector mech is controlled by two players: one pilot and one gunner. Work together!"
+		},
+		{
+			"title": "Destroy Everything",
+			"description": "The Protector's Abilities deal incredible damage to Structures and Heroes alike. Use it to lay waste to your enemy."
+		}
+	]
+}

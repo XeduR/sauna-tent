@@ -1,0 +1,52 @@
+{
+	"id": "ZagaraHydralisk",
+	"name": "Hydralisk",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 500,
+			"scale": 0.045,
+			"regenRate": -50,
+			"regenScale": 0.045
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 0.625,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "ZagaraHydraliskMelee",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 71,
+			"damageScale": 0.05
+		},
+		{
+			"nameId": "ZagaraHydraliskRanged",
+			"range": 5.5,
+			"minimumRange": 0.5,
+			"period": 1,
+			"damage": 71,
+			"damageScale": 0.05
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

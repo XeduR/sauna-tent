@@ -1,0 +1,431 @@
+{
+	"id": "Alexstrasza",
+	"name": "Alexstrasza",
+	"title": "The Life-Binder",
+	"unitId": "HeroAlexstrasza",
+	"franchise": "Warcraft",
+	"roles": [
+		"Support"
+	],
+	"expandedRole": "Healer",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2017-11-14",
+	"ratings": {
+		"complexity": 6,
+		"damage": 3,
+		"survivability": 4,
+		"utility": 6
+	},
+	"playstyles": [
+		"AllyHealer",
+		"EnergyImportant",
+		"Helper",
+		"RoleSupport"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1780,
+			"scale": 0.04,
+			"regenRate": 9.2708,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "AlexstraszaAttackWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 73,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "AlexstraszaGiftOfLife",
+				"name": "Gift of Life",
+				"type": "Q",
+				"cooldown": "Cooldown: 7 seconds",
+				"lifeCost": "Health: 15%",
+				"description": "Sacrifice 15% of Alexstrasza's current Health, healing an allied Hero for 150% of that amount.\n\nPassive: Increase Alexstrasza's Health regeneration by 150%.\n\nDragonqueen: Breath of Life\nCooldown greatly reduced and does not cost Health."
+			},
+			{
+				"id": "AlexstraszaAbundance",
+				"name": "Abundance",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 75",
+				"description": "Plant a seed of healing that blooms after 3 seconds, healing nearby allied Heroes for 20% of their maximum Health.\n\nDragonqueen: Preservation\nHeal area and amount greatly increased."
+			},
+			{
+				"id": "AlexstraszaFlameBuffet",
+				"name": "Flame Buffet",
+				"type": "E",
+				"cooldown": "Cooldown: 2 seconds",
+				"cost": "Mana: 50",
+				"description": "Launch a fireball, Burning enemies hit for 75~~0.04~~ damage over 5.5 seconds.\n\nHitting enemies that are already Burning deals 125~~0.04~~ bonus damage upon impact, Slows them by 40% decaying over 2 seconds, and refunds the Mana cost.\n\nDragonqueen: Wing Buffet\nDamage and Knockback enemies in an arc."
+			},
+			{
+				"id": "AlexstraszaBreathOfLife",
+				"name": "Breath of Life",
+				"type": "Q",
+				"parent": "Dragon",
+				"cooldown": "Cooldown: 3 seconds",
+				"description": "Heal an allied Hero for 15% of Alexstrasza's current Health.\n\nBreath of Life is also empowered by Gift of Life Talents."
+			},
+			{
+				"id": "AlexstraszaPreservation",
+				"name": "Preservation",
+				"type": "W",
+				"parent": "Dragon",
+				"cooldown": "Cooldown: 16 seconds",
+				"description": "Plant a seed of healing that blooms after 3 seconds, healing nearby allied Heroes for 25% of their maximum Health.\n\nPreservation is also empowered by Abundance Talents."
+			},
+			{
+				"id": "AlexstraszaWingBuffet",
+				"name": "Wing Buffet",
+				"type": "E",
+				"parent": "Dragon",
+				"cooldown": "Cooldown: 4 seconds",
+				"description": "Deal 150~~0.04~~ damage to enemies in an area, knocking them back and Slowing them by 50% for 3 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "AlexstraszaLifebinder",
+				"name": "Life-Binder",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"description": "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 480~~0.04~~ Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is healed to the same Health percentage as the other Hero.\n\nDragonqueen: Cast range increased by 45%."
+			},
+			{
+				"id": "AlexstraszaCleansingFlame",
+				"name": "Cleansing Flame",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 100",
+				"description": "After 1.25 seconds, take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 135~~0.04~~ damage to enemies and heal allied Heroes for 300~~0.04~~ Health.\n\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor."
+			},
+			{
+				"id": "AlexstraszaCleansingFlameDragonqueen",
+				"name": "Cleansing Flame",
+				"type": "Heroic",
+				"parent": "Dragon",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 100",
+				"description": "Take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 135~~0.04~~ damage to enemies and heal allied Heroes for 300~~0.04~~ Health.\n\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor."
+			}
+		],
+		"trait": [
+			{
+				"id": "AlexstraszaDragonqueen",
+				"name": "Dragonqueen",
+				"type": "Trait",
+				"cooldown": "Cooldown: 130 seconds",
+				"description": "After 1.25 seconds, transform into a dragon and gain 500~~0.04~~ Health.\n\nWhile Dragonqueen is active, Alexstrasza's Abilities are empowered, and her Basic Attacks deal 143~~0.04~~ damage and heal allied Heroes for 43~~0.04~~ in an arc in front of her. Additionally, the duration of incoming Stuns, Roots, and Slows, is reduced by 50%.\n\nLasts 15 seconds."
+			},
+			{
+				"id": "AlexstraszaDragonqueenDragonFormPassive",
+				"name": "Dragonqueen",
+				"type": "Trait",
+				"parent": "Dragon",
+				"description": "Alexstrasza has transformed into a powerful dragon aspect, gaining 500~~0.04~~ Health, resistance to disabling effects, and empowered Basic Attacks and Abilities."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "AlexstraszaLifeUnbound",
+				"name": "Life Unbound",
+				"type": "Active",
+				"parent": "Life Unbound",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to heal an allied Hero for 15% of their maximum Health and deal 200~~0.04~~ damage to nearby enemies.\n\nHealing a Stunned, Rooted, or Silenced ally reduces Life Unbound's cooldown by 30 seconds.\n\nCannot be used on Alexstrasza."
+			},
+			{
+				"id": "AlexstraszaPacify",
+				"name": "Pacify",
+				"type": "Active",
+				"parent": "Pacify",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to Slow and reduce an enemy Hero's damage by 50% for 3 seconds.\n\nHealing a Stunned, Rooted, or Silenced ally reduces Pacify's cooldown by 30 seconds."
+			},
+			{
+				"id": "AlexstraszaDragonScales",
+				"name": "Dragon Scales",
+				"type": "Passive",
+				"parent": "Dragon Scales",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Gain 50 Armor while Stunned, Rooted, or Silenced, and for 2 seconds after. Can only trigger once every 10 seconds."
+			},
+			{
+				"id": "AlexstraszaBlessingOfTheRed",
+				"name": "Blessing of the Red",
+				"type": "Active",
+				"parent": "Blessing of the Red",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to grant an allied Hero 500 bonus maximum Health until they die.\n\nCannot be used on Alexstrasza, or on a Hero who already has Blessing of the Red."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "AlexstraszaLiveAndLetLiveGiftOfLife",
+				"name": "Live and Let Live",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AlexstraszaGiftOfLife",
+				"description": "While above 75% Health, Gift of Life's cooldown recharges 125% faster.\n\nDragonqueen: While above 75% Health, Breath of Life's cooldown recharges 25% faster."
+			},
+			{
+				"id": "AlexstraszaCircleOfLifeAbundance",
+				"name": "Circle of Life",
+				"type": "W",
+				"isQuest": true,
+				"ability": "AlexstraszaAbundance",
+				"description": "Quest: Collect Regeneration Globes.\n\nReward: After collecting 10 Regeneration Globes, Abundance heals for an additional 5% maximum Health.\n\nReward: After collecting 15 Regeneration Globes, Abundance's healing burst creates a Regeneration Globe."
+			},
+			{
+				"id": "AlexstraszaFlamesOfFuryFlameBuffet",
+				"name": "Flames of Fury",
+				"type": "E",
+				"isQuest": true,
+				"ability": "AlexstraszaFlameBuffet",
+				"description": "Reduce the Mana cost of Flame Buffet from 50 to 40.\n\nQuest: Hit Burning enemy Heroes with Flame Buffet. 20 hits unlocks a Mythic Quest.\n\nReward: After hitting 20 Heroes, hitting a Burning enemy Hero with Flame Buffet reduces Dragonqueen's cooldown by 6 seconds.\n\nMythic Quest: After hitting 30 more Heroes without dying, Dragonqueen damage against Heroes refreshes its duration."
+			}
+		],
+		"level4": [
+			{
+				"id": "AlexstraszaSurgeOfVitalityAbundance",
+				"name": "Surge of Vitality",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AlexstraszaAbundance",
+				"description": "Abundance's healing burst grants allied Heroes 30% Movement Speed for 3 seconds."
+			},
+			{
+				"id": "AlexstraszaHeatExhaustionFlameBuffet",
+				"name": "Heat Exhaustion",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AlexstraszaFlameBuffet",
+				"description": "Increase Flame Buffet's Slow from 40% to 50% and cause it to no longer decay."
+			},
+			{
+				"id": "AlexstraszaExuberance",
+				"name": "Exuberance",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "While above 75% Health, gain 15% Movement Speed."
+			}
+		],
+		"level7": [
+			{
+				"id": "AlexstraszaLifeblossomGiftOfLife",
+				"name": "Lifeblossom",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AlexstraszaGiftOfLife",
+				"description": "While above 75% Health, casting Gift of Life creates a Lifeblossom at the target's location, Breath of Life instead removes Slows and Roots from the target.\n\nAfter collecting a Lifeblossom, the next Gift of Life costs no Health.\n\nPassive: Reduces the cost of Gift of Life to 10% of Alexstrasza's current Health."
+			},
+			{
+				"id": "AlexstraszaVerdantFlourishAbundance",
+				"name": "Verdant Flourish",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AlexstraszaAbundance",
+				"description": "Alexstrasza receives 40% more healing from Abundance and 100% more healing from Regeneration Globes."
+			},
+			{
+				"id": "AlexstraszaFireWithinFlameBuffet",
+				"name": "Fire Within",
+				"type": "E",
+				"isQuest": false,
+				"ability": "AlexstraszaFlameBuffet",
+				"description": "Hitting a Burning Hero with Flame Buffet heals Alexstrasza for 10% of her maximum Health."
+			}
+		],
+		"level10": [
+			{
+				"id": "AlexstraszaLifebinder",
+				"name": "Life-Binder",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AlexstraszaLifebinder",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"description": "Bind Alexstrasza's life force with an allied Hero. Both her and her target are healed for 480~~0.04~~ Health over 2 seconds. Afterwards, the Hero with a lower percentage of Health is healed to the same Health percentage as the other Hero.\n\nDragonqueen: Cast range increased by 45%."
+			},
+			{
+				"id": "AlexstraszaCleansingFlame",
+				"name": "Cleansing Flame",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AlexstraszaCleansingFlame",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 100",
+				"description": "After 1.25 seconds, take to the sky and drop 5 fireballs over 6 seconds at the position of the mouse cursor. Fireballs deal 135~~0.04~~ damage to enemies and heal allied Heroes for 300~~0.04~~ Health.\n\n2 seconds after dropping all fireballs, Alexstrasza lands at the position of the mouse cursor."
+			}
+		],
+		"level13": [
+			{
+				"id": "AlexstraszaDragonScales",
+				"name": "Dragon Scales",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Gain 50 Armor while Stunned, Rooted, or Silenced, and for 2 seconds after. Can only trigger once every 10 seconds."
+			},
+			{
+				"id": "AlexstraszaPacify",
+				"name": "Pacify",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AlexstraszaPacify",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to Slow and reduce an enemy Hero's damage by 50% for 3 seconds.\n\nHealing a Stunned, Rooted, or Silenced ally reduces Pacify's cooldown by 30 seconds."
+			},
+			{
+				"id": "AlexstraszaLifeUnbound",
+				"name": "Life Unbound",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AlexstraszaLifeUnbound",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to heal an allied Hero for 15% of their maximum Health and deal 200~~0.04~~ damage to nearby enemies.\n\nHealing a Stunned, Rooted, or Silenced ally reduces Life Unbound's cooldown by 30 seconds.\n\nCannot be used on Alexstrasza."
+			}
+		],
+		"level16": [
+			{
+				"id": "AlexstraszaToughLoveGiftOfLife",
+				"name": "Tough Love",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "AlexstraszaGiftOfLife",
+				"description": "Gift of Life grants its target 10 Armor for 2.5 seconds, increased to 30 while Alexstrasza is above 75% Health."
+			},
+			{
+				"id": "AlexstraszaOverprotectiveAbundance",
+				"name": "Overprotective",
+				"type": "W",
+				"isQuest": false,
+				"ability": "AlexstraszaAbundance",
+				"description": "Heroes healed by Abundance gain a Shield for 6 seconds equal to 50% of the amount healed."
+			},
+			{
+				"id": "AlexstraszaDraconicDisciplineDragonqueen",
+				"name": "Draconic Discipline",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "AlexstraszaDragonqueen",
+				"description": "Increase Dragonqueen Basic Attack healing by  50%. For each allied Hero healed with Dragonqueen Basic Attacks, reduce Preservation's cooldown by 1.25 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "AlexstraszaRitualOfLife",
+				"name": "Ritual of Life",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AlexstraszaLifebinder",
+				"prerequisites": [
+					"AlexstraszaLifebinder"
+				],
+				"description": "Life-Binder activates 3 times over 6 seconds."
+			},
+			{
+				"id": "AlexstraszaOnRubyWingsCleansingFlame",
+				"name": "On Ruby Wings",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "AlexstraszaCleansingFlame",
+				"prerequisites": [
+					"AlexstraszaCleansingFlame"
+				],
+				"description": "Healing or damaging 3 or more Heroes with a single Cleansing Flame fireball causes that fireball to not be consumed."
+			},
+			{
+				"id": "AlexstraszaAncientFlameFlameBuffet",
+				"name": "Ancient Flame",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "AlexstraszaDragonqueen",
+				"description": "While Dragonqueen is active, Alexstrasza's Basic Attacks apply Flame Buffet. This does not grant Quest stacks.\n\nPassive: Dragonqueen grants 25% more maxium Health."
+			},
+			{
+				"id": "AlexstraszaBlessingOfTheRed",
+				"name": "Blessing of the Red",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "AlexstraszaBlessingOfTheRed",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to grant an allied Hero 500 bonus maximum Health until they die.\n\nCannot be used on Alexstrasza, or on a Hero who already has Blessing of the Red."
+			}
+		]
+	},
+	"units": [
+		{
+			"id": "HeroAlexstraszaDragon",
+			"name": "Alexstrasza",
+			"attributes": [
+				"Heroic"
+			],
+			"stats": {
+				"life": {
+					"type": "Health",
+					"amount": 1780,
+					"scale": 0.04,
+					"regenRate": 9.2708,
+					"regenScale": 0.04
+				},
+				"energy": {
+					"type": "Mana",
+					"amount": 500,
+					"regenRate": 3
+				},
+				"speed": 4.8398,
+				"sight": 12,
+				"radius": 1.25,
+				"innerRadius": 1
+			},
+			"weapons": [
+				{
+					"nameId": "AlexstraszaDragonConeWeapon",
+					"range": 9,
+					"minimumRange": 0,
+					"period": 1.25,
+					"damage": 143,
+					"damageScale": 0.04
+				}
+			],
+			"playstyles": [
+				"AllyHealer",
+				"Helper",
+				"Overconfident",
+				"RoleSupport"
+			]
+		}
+	]
+}

@@ -1,0 +1,52 @@
+{
+	"id": "ShrineAuraMinion",
+	"name": "",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Merc"
+	],
+	"killXP": 30,
+	"stats": {
+		"life": {
+			"amount": 4000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 9,
+		"radius": 0.5,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "ShrineAuraMinionWeapon",
+			"range": 8,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 50,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ShrineAuraMinionAura",
+				"name": "Shrine Minion Aura",
+				"type": "Q",
+				"description": "Empowers nearby Heroes, minions, and mercenaries, increasing their attack damage, ability damage, and healing dealt by 20%."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

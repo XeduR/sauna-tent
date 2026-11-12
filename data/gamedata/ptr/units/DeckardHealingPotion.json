@@ -1,0 +1,30 @@
+{
+	"id": "DeckardHealingPotion",
+	"name": "Deckard - Healing Potion",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Throw a Healing Potion on the ground that heals the first allied Hero that comes in contact with it for 285~~0.04~~.\n\nLimit 5 active Potions.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

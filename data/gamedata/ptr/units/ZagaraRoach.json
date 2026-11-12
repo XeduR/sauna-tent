@@ -1,0 +1,52 @@
+{
+	"id": "ZagaraRoach",
+	"name": "Roach",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 360,
+			"scale": 0.04,
+			"regenRate": -36,
+			"regenScale": 0.04
+		},
+		"speed": 3,
+		"sight": 9,
+		"radius": 0.375,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "ZagaraRoachMeleeWeapon",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 30,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "ZagaraRoachRangedWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 30,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,348 @@
+{
+	"id": "Kerrigan",
+	"name": "Kerrigan",
+	"title": "Queen of Blades",
+	"unitId": "HeroKerrigan",
+	"franchise": "Starcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Melee Assassin",
+	"difficulty": "Very Hard",
+	"isMelee": true,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 6,
+		"damage": 8,
+		"survivability": 6,
+		"utility": 4
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Ganker",
+		"Overconfident",
+		"RoleCaster"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1764,
+			"scale": 0.04,
+			"regenRate": 3.6757,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "HeroKerrigan",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 0.8,
+			"damage": 115,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "KerriganRavage",
+				"name": "Ravage",
+				"type": "Q",
+				"cooldown": "Charge Cooldown: 8 seconds",
+				"cost": "Mana: 20",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 0.25,
+					"isCountHidden": false
+				},
+				"description": "Leap to a target, dealing 115~~0.04~~ damage. If the enemy dies within 0.75 seconds, restore 1 charge and refund 20 Mana.\n\nQuest: Kill enemies within a short distance of Kerrigan. Minions grant 1 stack and Heroes grant 7 stacks. \n\nReward: After reaching 100 stacks, Ravage deals 125 additional damage and Hero kills now provide 14 stacks.\n\nMythic Reward: After reaching a 250 stacks, Ravage deals a further 200 additional damage."
+			},
+			{
+				"id": "KerriganImpalingBlades",
+				"name": "Impaling Blades",
+				"type": "W",
+				"cooldown": "Cooldown: 9 seconds",
+				"cost": "Mana: 80",
+				"description": "After 1.25 seconds, deal 150~~0.04~~ damage to enemies within the target area, Stunning them for 0.75 seconds."
+			},
+			{
+				"id": "KerriganPrimalGrasp",
+				"name": "Primal Grasp",
+				"type": "E",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 65",
+				"description": "Pulls enemies within the target area towards Kerrigan, dealing 40~~0.04~~ damage. After 2.5 seconds, an explosion occurs around Kerrigan, dealing 160~~0.04~~ damage to nearby enemies."
+			}
+		],
+		"heroic": [
+			{
+				"id": "KerriganSummonUltralisk",
+				"name": "Summon Ultralisk",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 75",
+				"description": "After 0.5 seconds, summon an Ultralisk that rushes forward upon spawning, dealing 225~~0.04~~ damage to the first enemy Hero hit and Stunning them for 0.5 seconds.\n\nThe Ultralisk's Basic Attacks deal 50% of their damage in an area around their target. Reactivate to retarget the Ultralisk."
+			},
+			{
+				"id": "KerriganMaelstrom",
+				"name": "Maelstrom",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 80",
+				"description": "Deals 74~~0.04~~ damage per second to nearby enemies. Lasts for 7 seconds."
+			},
+			{
+				"id": "KerriganSummonUltraliskIssueOrder",
+				"name": "Command Ultralisk",
+				"type": "Heroic",
+				"parent": "Summon Ultralisk",
+				"toggleCooldown": 0.0625,
+				"description": "Order the Ultralisk to attack an enemy or move to an area."
+			}
+		],
+		"trait": [
+			{
+				"id": "KerriganAssimilation",
+				"name": "Assimilation",
+				"type": "Trait",
+				"description": "Gain 10% of damage dealt from Abilities and 20% from Basic Attacks as Shields for 6 seconds. Shield amount gained doubled against Heroes.\n\nCurrent maximum: 1004~~0.04~~"
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "KerriganChrysalis",
+				"name": "Chrysalis",
+				"type": "Active",
+				"parent": "Chrysalis",
+				"cooldown": "Cooldown: 90 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to place Kerrigan in a Chrysalis with 650~~0.04~~ Health for 5 seconds. While inside, Kerrigan regenerates 4% of her maximum Health per second.\n\nEnemies can destroy the Chrysalis to end its effects early."
+			},
+			{
+				"id": "KerriganPsionicShift",
+				"name": "Psionic Shift",
+				"type": "Active",
+				"parent": "Psionic Shift",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to teleport to a nearby location, dealing 50~~0.04~~ damage to nearby enemies. Generates 300% increased Assimilation Shields from the damage dealt."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "KerriganRavageSiphoningImpact",
+				"name": "Siphoning Impact",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "KerriganRavage",
+				"description": "Hitting an enemy Hero with Ravage grants 100~~0.04~~ points of Assimilation Shields."
+			},
+			{
+				"id": "KerriganAssimilationMastery",
+				"name": "Assimilation Mastery",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Regeneration Globe healing grants 50~~0.04~~ points of Assimilation Shields per second while active. While Assimilation is active, Kerrigan's Health and Mana regeneration is increased by 150%."
+			},
+			{
+				"id": "KerriganFuryOfTheSwarm",
+				"name": "Fury of the Swarm",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "After casting Ravage, Kerrigan's next Basic Attack within 3 seconds splashes for 100% damage around the target."
+			}
+		],
+		"level4": [
+			{
+				"id": "KerriganRavageRavagingFerocity",
+				"name": "Ravaging Ferocity",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "KerriganRavage",
+				"description": "Ravage grants Kerrigan 25% Attack Speed for 3 seconds."
+			},
+			{
+				"id": "KerriganImpalingBladesKineticFulmination",
+				"name": "Kinetic Fulmination",
+				"type": "W",
+				"isQuest": false,
+				"ability": "KerriganImpalingBlades",
+				"description": "Damaging an enemy increases the damage of Kerrigan's next Impaling Blades within 10 seconds by 10%, up to 100%."
+			},
+			{
+				"id": "KerriganPrimalGraspPsionicPulse",
+				"name": "Psionic Pulse",
+				"type": "E",
+				"isQuest": false,
+				"ability": "KerriganPrimalGrasp",
+				"description": "Primal Grasp explodes a second time 2 seconds after its first explosion."
+			}
+		],
+		"level7": [
+			{
+				"id": "KerriganRavageQueenOfBlades",
+				"name": "Queen of Blades",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "KerriganRavage",
+				"description": "Reduce the cooldown of Ravage by 4 seconds and increase its damage to Minions and Mercenaries by 100%."
+			},
+			{
+				"id": "KerriganRavageBoundlessFury",
+				"name": "Boundless Fury",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "KerriganRavage",
+				"description": "Hitting an enemy Hero with Ravage grants a charge of Ravage. Can only occur once every 12 seconds per Hero."
+			},
+			{
+				"id": "KerriganBladedMomentum",
+				"name": "Bladed Momentum",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against enemy Heroes reduce the cooldown of Kerrigan's Basic Abilities by 0.75 seconds."
+			}
+		],
+		"level10": [
+			{
+				"id": "KerriganHeroicAbilityMaelstrom",
+				"name": "Maelstrom",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "KerriganMaelstrom",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 80",
+				"description": "Deals 74~~0.04~~ damage per second to nearby enemies. Lasts for 7 seconds."
+			},
+			{
+				"id": "KerriganHeroicAbilitySummonUltralisk",
+				"name": "Summon Ultralisk",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "KerriganSummonUltralisk",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 75",
+				"description": "After 0.5 seconds, summon an Ultralisk that rushes forward upon spawning, dealing 225~~0.04~~ damage to the first enemy Hero hit and Stunning them for 0.5 seconds.\n\nThe Ultralisk's Basic Attacks deal 50% of their damage in an area around their target. Reactivate to retarget the Ultralisk."
+			}
+		],
+		"level13": [
+			{
+				"id": "KerriganPrimalGraspPsionicBarrier",
+				"name": "Psionic Barrier",
+				"type": "E",
+				"isQuest": false,
+				"ability": "KerriganPrimalGrasp",
+				"description": "Each enemy Hero hit by Primal Grasp grants 20 Spell Armor and 4% Movement Speed for 4 seconds, stacking up to 20% Movement Speed."
+			},
+			{
+				"id": "KerriganAssimilationVolatilePower",
+				"name": "Volatile Power",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increase the amount of Assimilation Shields granted from damage dealt by 10%, but reduce duration of Assimilation by 3 seconds."
+			},
+			{
+				"id": "KerriganChrysalis",
+				"name": "Chrysalis",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "KerriganChrysalis",
+				"cooldown": "Cooldown: 90 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to place Kerrigan in a Chrysalis with 650~~0.04~~ Health for 5 seconds. While inside, Kerrigan regenerates 4% of her maximum Health per second.\n\nEnemies can destroy the Chrysalis to end its effects early."
+			}
+		],
+		"level16": [
+			{
+				"id": "KerriganRavageMountingPotency",
+				"name": "Mounting Potency",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "KerriganRavage",
+				"description": "Ravage grants 5% Spell Power for 5 seconds, up to 40%."
+			},
+			{
+				"id": "KerriganImpalingBladesPainfulSpikes",
+				"name": "Painful Spikes",
+				"type": "W",
+				"isQuest": false,
+				"ability": "KerriganImpalingBlades",
+				"description": "Enemies hit by Impaling Blades take an additional 60~~0.04~~ damage the next 6 times Kerrigan damages them within 5 seconds."
+			},
+			{
+				"id": "KerriganUnbridledEnergy",
+				"name": "Unbridled Energy",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "KerriganMaelstrom",
+				"description": "Damaging a Hero with a Heroic Ability grants 35% Spell Power for 4 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "KerriganOmegastormMaelstrom",
+				"name": "Omegastorm",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "KerriganMaelstrom",
+				"prerequisites": [
+					"KerriganHeroicAbilityMaelstrom"
+				],
+				"description": "Maelstrom's duration is increased by 0.4 seconds every time it damages a Hero."
+			},
+			{
+				"id": "KerriganTorrasqueSummonUltralisk",
+				"name": "Torrasque",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "KerriganSummonUltralisk",
+				"prerequisites": [
+					"KerriganHeroicAbilitySummonUltralisk"
+				],
+				"description": "Increase the Health and Basic Attack damage of the Ultralisk by 20%. The Ultralisk morphs into an egg when it dies. If the egg isn't killed within 4 seconds, a new Ultralisk is born."
+			},
+			{
+				"id": "KerriganAssimilationAssimilationBlades",
+				"name": "Assimilation Blades",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Damaging an enemy increases Basic Attack damage by 2% for 5 seconds, up to 40%."
+			},
+			{
+				"id": "KerriganPsionicShift",
+				"name": "Psionic Shift",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "KerriganPsionicShift",
+				"cooldown": "Cooldown: 70 seconds",
+				"description": "Activate to teleport to a nearby location, dealing 50~~0.04~~ damage to nearby enemies. Generates 300% increased Assimilation Shields from the damage dealt."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"KerriganChrysalis",
+		"KerriganUltralisk"
+	]
+}

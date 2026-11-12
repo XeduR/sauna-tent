@@ -1,0 +1,72 @@
+{
+	"id": "SlimeBossDefender",
+	"name": "Slime Boss",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep",
+		"MapBoss"
+	],
+	"killXP": 750,
+	"stats": {
+		"life": {
+			"amount": 18000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "SlimeBossDefender",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 240,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "SlimeBossSlimeSpit",
+				"name": "Slime Spit",
+				"type": "Q",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Spit a glob of slime that damages enemies in the area over time"
+			},
+			{
+				"id": "SlimeBossSpawnPods",
+				"name": "Spawn Pods",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Spawns Slime Pods around the boss that attack enemies in range."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "WallCrush",
+				"name": "Grave Golem Wall Crush",
+				"type": "Z",
+				"toggleCooldown": 0.5,
+				"description": ""
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

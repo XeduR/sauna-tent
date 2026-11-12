@@ -1,0 +1,48 @@
+{
+	"id": "PVEBunker",
+	"name": "Bunker",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"description": "Powerful, tough structure. Attacks slow enemy movement and attack speeds. Attacks deplete ammunition, and cannot attack without ammunition. Prioritizes attacking Minions first.",
+	"killXP": 800,
+	"stats": {
+		"life": {
+			"amount": 11250,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 2,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "PVEBunkerBunkerWeapon",
+			"range": 10,
+			"minimumRange": 0,
+			"period": 0.25,
+			"damage": 15,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "attack",
+				"name": "Basic Attack",
+				"type": "W",
+				"description": "Attacks using the Hero's weapon"
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"id": "LongboatRaidBoat",
+	"name": "Longboat Raid Boat",
+	"attributes": [
+		"Heroic"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 750,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "LongboatRaidWeapon",
+			"range": 11.5,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 64,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,34 @@
+{
+	"id": "Overlord",
+	"name": "Overlord",
+	"attributes": [
+		"Minion"
+	],
+	"killXP": 50,
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0,
+			"regenRate": 5,
+			"regenScale": 0
+		},
+		"speed": 0.5,
+		"sight": 11,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

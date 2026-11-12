@@ -1,0 +1,40 @@
+{
+	"id": "ZagaraDevouringMaw",
+	"name": "Devouring Maw",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Structure",
+		"Summoned"
+	],
+	"description": "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 94~~0.04~~ damage per second.\n\nUsable on Unstoppable enemies.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 2.75,
+		"innerRadius": 2.25
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"id": "ReaverMinion",
+	"name": "Reaver Minion",
+	"damageType": "Minion",
+	"attributes": [
+		"Minion"
+	],
+	"stats": {
+		"life": {
+			"amount": 1200,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"armor": {
+			"Structure": {
+				"basic": 0,
+				"ability": 75,
+				"splash": 0
+			},
+			"Minion": {
+				"basic": 0,
+				"ability": 50,
+				"splash": 0
+			}
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "ReaverMinionWeapon",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 50,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

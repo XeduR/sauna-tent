@@ -1,0 +1,48 @@
+{
+	"id": "MercDefenderMeleeKnight",
+	"name": "Knight",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 100,
+	"stats": {
+		"life": {
+			"amount": 3000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderMeleeKnight",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 45,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

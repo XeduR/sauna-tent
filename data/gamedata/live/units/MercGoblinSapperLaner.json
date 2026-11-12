@@ -1,0 +1,57 @@
+{
+	"id": "MercGoblinSapperLaner",
+	"name": "",
+	"damageType": "Merc",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 1800,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 9,
+		"radius": 0.75,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "MercLanerGoblinSapperWeapon",
+			"range": 4,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 45,
+			"damageScale": 0,
+			"damageFactors": {
+				"Creep": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MercGoblinSapperSuicide",
+				"name": "",
+				"type": "Q",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

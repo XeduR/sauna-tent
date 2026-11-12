@@ -1,0 +1,79 @@
+{
+	"id": "JungleGraveGolemDefender",
+	"name": "Mega Enforcer",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep",
+		"MapBoss"
+	],
+	"killXP": 750,
+	"stats": {
+		"life": {
+			"amount": 15550,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 2,
+		"innerRadius": 0.125
+	},
+	"weapons": [
+		{
+			"nameId": "JungleOgreKingDefender",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 300,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "DragonsDinner",
+				"name": "Dragon's Dinner",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": ""
+			},
+			{
+				"id": "UnderworldBossRoots",
+				"name": "Binding Roots",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Roots roots roots"
+			},
+			{
+				"id": "RingOfFire",
+				"name": "Energy Ring",
+				"type": "W",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": ""
+			},
+			{
+				"id": "UnderworldBossStun",
+				"name": "Mega Smash",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Slam the ground, dealing 0 damage to nearby enemies and stunning them."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "WallCrush",
+				"name": "Grave Golem Wall Crush",
+				"type": "Z",
+				"toggleCooldown": 0.5,
+				"description": ""
+			}
+		],
+		"activable": []
+	}
+}

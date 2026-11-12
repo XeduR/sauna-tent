@@ -1,0 +1,47 @@
+{
+	"id": "TownCannonTower",
+	"name": "Cannon Tower",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"description": "Tower with a powerful weapon. Attacks deplete ammunition, and cannot attack without ammunition. Prioritizes attacking Minions first.",
+	"stats": {
+		"life": {
+			"amount": 2800,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "GuardTowerL1Weapon",
+			"range": 7.75,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 75,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": 0.5,
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

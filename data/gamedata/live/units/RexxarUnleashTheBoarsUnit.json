@@ -1,0 +1,48 @@
+{
+	"id": "RexxarUnleashTheBoarsUnit",
+	"name": "",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 8,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 8,
+		"sight": 6,
+		"radius": 0.1875,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "RexxarUnleashTheBoarsWeapon",
+			"range": 1.3,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

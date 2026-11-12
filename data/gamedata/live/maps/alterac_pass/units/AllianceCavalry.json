@@ -1,0 +1,59 @@
+{
+	"id": "AllianceCavalry",
+	"name": "Alliance Cavalry",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 8000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"armor": {
+			"Structure": {
+				"basic": 0,
+				"ability": 25,
+				"splash": 0
+			}
+		},
+		"speed": 5,
+		"sight": 8,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "AllianceSuperCavalryWeapon",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 65,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1.5,
+				"Merc": 1.5,
+				"Minion": 1.5,
+				"Structure": 0.75
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

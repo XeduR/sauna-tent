@@ -1,0 +1,51 @@
+{
+	"id": "TownTownHallL2",
+	"name": "Fort",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"description": "Powerful, tough structure. Attacks slow enemy movement and attack speeds. Attacks deplete ammunition, and cannot attack without ammunition. Prioritizes attacking Minions first.",
+	"stats": {
+		"life": {
+			"amount": 17380,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 2.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TownHallL2Weapon",
+			"range": 8,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 375,
+			"damageScale": 0,
+			"damageFactors": {
+				"Structure": 1,
+				"Summoned": -0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TowerMarkAttackTarget",
+				"name": "",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

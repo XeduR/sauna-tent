@@ -1,0 +1,33 @@
+{
+	"id": "KelThuzadGlacialSpike",
+	"name": "Glacial Spike",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Structure",
+		"Summoned"
+	],
+	"description": "Activate to create a spike that detonates after 4 seconds, dealing 70~~0.025~~ damage to nearby enemies. The spike can be affected by Chains of Kel'Thuzad.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 1.5,
+		"innerRadius": 0.0625
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

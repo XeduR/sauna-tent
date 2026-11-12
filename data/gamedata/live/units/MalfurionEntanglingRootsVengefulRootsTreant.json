@@ -1,0 +1,44 @@
+{
+	"id": "MalfurionEntanglingRootsVengefulRootsTreant",
+	"name": "Treant",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 550,
+			"scale": 0.04,
+			"regenRate": -50,
+			"regenScale": 0.04
+		},
+		"speed": 4.8007,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "MalfurionEntanglingRootsVengefulRootsTreantWeapon",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 58,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"id": "ZergUltralisk",
+	"name": "Ultralisk",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 3000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 1.5,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "ZergUltraliskWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 100,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": -0.5
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

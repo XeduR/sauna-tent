@@ -1,0 +1,62 @@
+{
+	"id": "OverwatchTurretPlayer",
+	"name": "Turret (Player)",
+	"damageType": "Summon",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 0.75,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "OverwatchTurretWeaponPlayerTargetsHeroes",
+			"range": 7,
+			"minimumRange": 0,
+			"period": 0.25,
+			"damage": 22.5,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1
+			}
+		},
+		{
+			"nameId": "OverwatchTurretWeaponPlayerTargetsElse",
+			"range": 7,
+			"minimumRange": 0,
+			"period": 0.25,
+			"damage": 22.5,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

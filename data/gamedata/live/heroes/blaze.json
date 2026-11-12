@@ -1,0 +1,395 @@
+{
+	"id": "Firebat",
+	"name": "Blaze",
+	"title": "Veteran Firebat",
+	"unitId": "HeroFirebat",
+	"franchise": "Starcraft",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Tank",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2018-01-09",
+	"ratings": {
+		"complexity": 7,
+		"damage": 6,
+		"survivability": 9,
+		"utility": 7
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"EnergyImportant",
+		"Ganker",
+		"Overconfident",
+		"RoleTank",
+		"SoloLaner"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2900,
+			"scale": 0.04,
+			"regenRate": 6.039,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.9375,
+		"innerRadius": 0.9375
+	},
+	"weapons": [
+		{
+			"nameId": "FirebatHeroWeapon",
+			"range": 4.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 60,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "FirebatFlameStream",
+				"name": "Flame Stream",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"cost": "Mana: 30",
+				"description": "Fire two streams that deal 76~~0.04~~ damage to enemies hit, and an additional 120~~0.04~~ damage to non-Structure enemies hit by both streams. Flame Stream Ignites Oil Spills it comes in contact with."
+			},
+			{
+				"id": "FirebatOilSpill",
+				"name": "Oil Spill",
+				"type": "W",
+				"cooldown": "Charge Cooldown: 12 seconds",
+				"cost": "Mana: 50",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": false
+				},
+				"description": "Vector Targeting\nDispense a slick of oil that lasts for 5 seconds and Slows enemies that come in contact with it by 50%.\n\nOil Spills are Ignited for 2.5 seconds when hit by Flame Stream. Ignited Oil Spills no longer Slow enemies, but instead deal 16~~0.04~~ damage to them every 0.3 seconds. Additionally, Blaze is healed for 49~~0.04~~ Health every 0.3 seconds while standing in Ignited Oil Spills.\n\nStores up to 2 charges."
+			},
+			{
+				"id": "FirebatJetPropulsion",
+				"name": "Jet Propulsion",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 45",
+				"description": "After 0.375 seconds, charge forward. Colliding with an enemy Hero deals 52~~0.04~~ damage to all nearby enemy Heroes and Stuns them for 1.25 seconds."
+			},
+			{
+				"id": "FirebatBunkerDropFlamethrower",
+				"name": "Flamethrower",
+				"type": "Q",
+				"parent": "Bunker",
+				"cooldown": "Cooldown: 1 second",
+				"description": "Deal 150~~0.04~~ damage to enemies in a line."
+			},
+			{
+				"id": "FirebatBunkerDropFortifiedBunkerOilSpill",
+				"name": "Oil Spill",
+				"type": "W",
+				"parent": "Bunker",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Vector Targeting\nDispense an Oil Spill that Slows enemies and can be set on fire by Blaze."
+			}
+		],
+		"heroic": [
+			{
+				"id": "FirebatBunkerDrop",
+				"name": "Bunker Drop",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 85 seconds",
+				"cost": "Mana: 80",
+				"description": "After 0.5 seconds, deploy and enter a Bunker with 1435~~0.04~~ Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 150~~0.04~~ damage to enemies in a line. \n\nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed."
+			},
+			{
+				"id": "FirebatCombustion",
+				"name": "Combustion",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 70",
+				"description": "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 55~~0.04~~ damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\n\nBlaze's Movement Speed is reduced by 40% while Channeling."
+			}
+		],
+		"trait": [
+			{
+				"id": "FirebatIgnite",
+				"name": "Pyromania",
+				"type": "Trait",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Gain 40 Armor and deal 40~~0.04~~ damage to nearby enemies every 0.5 seconds for 4 seconds.\n\nEach Hero hit by Flame Stream reduces Pyromania's cooldown by 4 seconds."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "FirebatAdrenalineStimpack",
+				"name": "Adrenaline Stimpack",
+				"type": "Active",
+				"parent": "Adrenaline Stimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Passive: While over 80% Health, gain 20% bonus Attack Speed and 10% bonus Movement Speed.\n\nActivate to gain 85% Attack Speed and 25% Movement Speed for 5 seconds."
+			},
+			{
+				"id": "FirebatEnduranceStimpack",
+				"name": "Endurance Stimpack",
+				"type": "Active",
+				"parent": "Endurance Stimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain a Shield that absorbs 590~~0.04~~ damage over 5 seconds.\n\nWhen taking damage while below 30% maximum Health, Endurance Stimpack will automatically be cast if it is not on cooldown."
+			},
+			{
+				"id": "FirebatNeuralStimpack",
+				"name": "Neural Stimpack",
+				"type": "Active",
+				"parent": "Neural Stimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 40 Mana and cause Basic Ability cooldowns to recharge 100% faster for 5 seconds."
+			},
+			{
+				"id": "FirebatJuggernautPlating",
+				"name": "Juggernaut Plating",
+				"type": "Active",
+				"parent": "Juggernaut Plating",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage taken while Juggernaut Plating was active."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "FirebatAdrenalineStimpack",
+				"name": "Adrenaline Stimpack",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FirebatAdrenalineStimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Passive: While over 80% Health, gain 20% bonus Attack Speed and 10% bonus Movement Speed.\n\nActivate to gain 85% Attack Speed and 25% Movement Speed for 5 seconds."
+			},
+			{
+				"id": "FirebatEnduranceStimpack",
+				"name": "Endurance Stimpack",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FirebatEnduranceStimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain a Shield that absorbs 590~~0.04~~ damage over 5 seconds.\n\nWhen taking damage while below 30% maximum Health, Endurance Stimpack will automatically be cast if it is not on cooldown."
+			},
+			{
+				"id": "FirebatNeuralStimpack",
+				"name": "Neural Stimpack",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FirebatNeuralStimpack",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 40 Mana and cause Basic Ability cooldowns to recharge 100% faster for 5 seconds."
+			},
+			{
+				"id": "FirebatNewHabits",
+				"name": "New Habits",
+				"type": "Trait",
+				"isQuest": true,
+				"description": "Collecting Regeneration Globes reduces the cooldown of Pyromania by 6 seconds.\n\nQuest: Collect 15 Regeneration Globes.\n\nReward: Pyromania grants Unstoppable for 2 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "FirebatOilSpillOilDispersal",
+				"name": "Oil Dispersal",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FirebatOilSpill",
+				"description": "Increase Oil Spill's area by 20%. Each enemy Hero hit by Flame Stream reduces the cooldown of Oil Spill by 0.75 seconds and refunds 5 Mana."
+			},
+			{
+				"id": "FirebatIgniteMeltdown",
+				"name": "Meltdown",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "FirebatIgnite",
+				"description": "Hitting an enemy Hero with Pyromania reduces their damage dealt by 8% for 2.5 seconds, up to 40%."
+			},
+			{
+				"id": "FirebatWeaponIncineratorGauntlets",
+				"name": "Incinerator Gauntlets",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increase Basic Attack area by 15%, and Basic Attack damage to Minions, Mercenaries, and Monsters by 40%."
+			}
+		],
+		"level7": [
+			{
+				"id": "FirebatFlameStreamSuppressiveFire",
+				"name": "Suppressive Fire",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "FirebatFlameStream",
+				"description": "Each stream of Flame Stream reduces the Spell Power of Heroes hit by 20% for 4 seconds, up to 40%."
+			},
+			{
+				"id": "FirebatOilSpillNanomachineCoating",
+				"name": "Nanomachine Coating",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FirebatOilSpill",
+				"description": "Enemies standing in Oil Spills and Ignited Oil Spills have their Attack Speed reduced by 35% for 4 seconds."
+			},
+			{
+				"id": "FirebatJetPropulsionFuelLeak",
+				"name": "Fuel Leak",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FirebatJetPropulsion",
+				"description": "Jet Propulsion creates Oil Spills along Blaze's path. If Jet Propulsion impacts an enemy Hero, an additional Oil Spill is created underneath them."
+			}
+		],
+		"level10": [
+			{
+				"id": "FirebatHeroicAbilityBunkerDrop",
+				"name": "Bunker Drop",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FirebatBunkerDrop",
+				"cooldown": "Cooldown: 85 seconds",
+				"cost": "Mana: 80",
+				"description": "After 0.5 seconds, deploy and enter a Bunker with 1435~~0.04~~ Health. Blaze and his allies can enter and exit the Bunker at will. While in the Bunker, occupants gain access to Flamethrower, dealing 150~~0.04~~ damage to enemies in a line. \n\nExiting the Bunker grants 25 Armor for 2 seconds. Bunkers last 10 seconds, or until destroyed."
+			},
+			{
+				"id": "FirebatHeroicAbilityCombustion",
+				"name": "Combustion",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FirebatCombustion",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 70",
+				"description": "Channel for up to 2.6 seconds. Upon ending, Slow nearby enemies by 60% and deal 55~~0.04~~ damage to them every 0.5 seconds. Combustion's Slow and damage over time duration is extended the longer Blaze Channels, from 1 second up to 5 seconds.\n\nBlaze's Movement Speed is reduced by 40% while Channeling."
+			}
+		],
+		"level13": [
+			{
+				"id": "FirebatOilSpillGrillandKill",
+				"name": "Grill and Kill",
+				"type": "W",
+				"isQuest": true,
+				"ability": "FirebatOilSpill",
+				"description": "Increase Ignited Oil Spill damage by 45%.\n\nQuest: Damage enemy Heroes with Ignited Oil Spills 30 times.\n\nReward: Increase Oil Spill's Ignite duration by 2.5 seconds."
+			},
+			{
+				"id": "FirebatOilSpillAdhesivePetroleum",
+				"name": "Adhesive Petroleum",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FirebatOilSpill",
+				"description": "Enemies standing in Oil Spill when it is Ignited are Slowed by 40% and take 35% more Basic Attack damage from Blaze for 3 seconds. Additionally, Basic Attack splashes Ignite Oil Spills."
+			},
+			{
+				"id": "FirebatJetPropulsionCollisionCourse",
+				"name": "Collision Course",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FirebatJetPropulsion",
+				"description": "Jet Propulsion's collision deals 260~~0.04~~ damage to the first enemy Hero hit."
+			}
+		],
+		"level16": [
+			{
+				"id": "FirebatJetPropulsionThermalProtection",
+				"name": "Thermal Protection",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FirebatJetPropulsion",
+				"description": "Each enemy hit by Jet Propulsion grants 10 Armor for 3 seconds and reduces its cooldown by 1.25 seconds."
+			},
+			{
+				"id": "FirebatIgniteHeatTreatment",
+				"name": "Heat Treatment",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "FirebatIgnite",
+				"description": "Heal for 75% of the damage dealt by Pyromania."
+			},
+			{
+				"id": "FirebatActiveJuggernautPlating",
+				"name": "Juggernaut Plating",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FirebatJuggernautPlating",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to gain 50 Spell Armor for 3 seconds. Upon expiration, gain a Shield equal to 125% of the Spell Damage taken while Juggernaut Plating was active."
+			}
+		],
+		"level20": [
+			{
+				"id": "FirebatBunkerDropFortifiedBunker",
+				"name": "Fortified Bunker",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FirebatBunkerDrop",
+				"prerequisites": [
+					"FirebatHeroicAbilityBunkerDrop"
+				],
+				"description": "Occupants can cast Oil Spill from Bunker Drop every 6 seconds. Additionally, Bunker Drop's Armor bonus upon exiting is increased by 25, and its duration by 1 second."
+			},
+			{
+				"id": "FirebatCombustionFlashFire",
+				"name": "Flash Fire",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FirebatCombustion",
+				"prerequisites": [
+					"FirebatHeroicAbilityCombustion"
+				],
+				"description": "While Channeling Combustion, Blaze's Movement Speed is no longer reduced, and nearby enemies are Slowed by 60%."
+			},
+			{
+				"id": "FirebatWeaponBurnNotice",
+				"name": "Burn Notice",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks Slow enemies by 5% and deal an additional 18~~0.04~~ damage over 2.5 seconds. Stacks up to 5 times."
+			}
+		]
+	},
+	"units": [
+		{
+			"id": "FirebatBunkerDropBunkerUnit",
+			"name": "Bunker",
+			"attributes": [
+				"ImmuneToFriendlyAbilities",
+				"Summoned"
+			],
+			"stats": {
+				"life": {
+					"amount": 1435,
+					"scale": 0.04,
+					"regenRate": 0,
+					"regenScale": 0
+				},
+				"speed": 0,
+				"sight": 3,
+				"radius": 1.25,
+				"innerRadius": 1.25
+			}
+		}
+	]
+}

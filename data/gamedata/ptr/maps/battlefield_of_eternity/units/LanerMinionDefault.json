@@ -1,0 +1,45 @@
+{
+	"id": "LanerMinionDefault",
+	"name": "Laner Minion",
+	"damageType": "Minion",
+	"attributes": [
+		"Minion"
+	],
+	"killXP": 30,
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "LanerMinionWeapon",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 40,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

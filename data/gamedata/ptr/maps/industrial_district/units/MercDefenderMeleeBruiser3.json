@@ -1,0 +1,48 @@
+{
+	"id": "MercDefenderMeleeBruiser3",
+	"name": "Henchmen",
+	"damageType": "Minion",
+	"attributes": [
+		"Creep"
+	],
+	"description": "Tough, high-Health Mercenary. Attacks at melee range. Specializes in soaking up attacks from enemy fortifications.",
+	"stats": {
+		"life": {
+			"amount": 1320,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.625,
+		"innerRadius": 0.3125
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderMeleeKnight",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 14,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

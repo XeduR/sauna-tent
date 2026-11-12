@@ -1,0 +1,22 @@
+{
+	"id": "AlteracPass",
+	"name": "Alterac Pass",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Prison Camps",
+			"description": "Capture the enemy Prison Camp to summon your Cavalry. Camps can be retaken by Heroes and Minions, so guard them well!"
+		},
+		{
+			"title": "Cavalry",
+			"description": "Cavalry soldiers charge down each lane when summoned granting increased damage and movement speed to nearby Allied Heroes."
+		},
+		{
+			"title": "Generals",
+			"description": "Each team’s Core has been replaced by a General who fights against attacking enemies. Destroying a Keep reduces the General’s Armor."
+		}
+	]
+}

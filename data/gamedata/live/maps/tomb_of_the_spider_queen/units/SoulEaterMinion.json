@@ -1,0 +1,66 @@
+{
+	"id": "SoulEaterMinion",
+	"name": "Spider",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapCreature",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 900,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 8,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "SoulEaterMinionWeapon",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 80,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		},
+		{
+			"nameId": "SoulEaterMinionWeaponAITargetStructure",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 80,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

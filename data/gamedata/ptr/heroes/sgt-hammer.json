@@ -1,0 +1,347 @@
+{
+	"id": "SgtHammer",
+	"name": "Sgt. Hammer",
+	"title": "Siege Tank Operator",
+	"unitId": "HeroSgtHammer",
+	"franchise": "Starcraft",
+	"roles": [
+		"Specialist"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Hard",
+	"isMelee": false,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 6,
+		"damage": 9,
+		"survivability": 3,
+		"utility": 3
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"RoleAutoAttacker",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1720,
+			"scale": 0.04,
+			"regenRate": 3.582,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1.1875,
+		"innerRadius": 0.9375
+	},
+	"weapons": [
+		{
+			"nameId": "HeroSgtHammer",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 140,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "SgtHammerSiegeModeWeapon",
+			"range": 11,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 140,
+			"damageScale": 0.04,
+			"isDisabled": true
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "SgtHammerSpiderMines",
+				"name": "Spider Mines",
+				"type": "Q",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 50",
+				"description": "Create 3 mines that arm after 1.25 seconds. Mines detonate when an enemy comes in range, dealing 96~~0.04~~ damage to nearby enemies and Slowing them by 25% for 1.5 seconds.\n\nSiege Mode: Cast range increased by 100%."
+			},
+			{
+				"id": "SgtHammerConcussiveBlast",
+				"name": "Concussive Blast",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 80",
+				"description": "Deal 141~~0.04~~ damage to enemies in front of Sgt. Hammer and knock them back.\n\nSiege Mode: Radius increased by 50%."
+			},
+			{
+				"id": "SgtHammerNeosteelPlating",
+				"name": "Neosteel Plating",
+				"type": "E",
+				"cooldown": "Cooldown: 16 seconds",
+				"cost": "Mana: 60",
+				"description": "Gain 25 Armor for 2 seconds.\n\nSiege Mode: Grants 100% more Armor."
+			}
+		],
+		"heroic": [
+			{
+				"id": "SgtHammerNapalmStrike",
+				"name": "Napalm Strike",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 35",
+				"description": "Deals 164~~0.04~~ damage on impact, and leaves a napalm area that deals 50~~0.04~~ damage per second. Lasts for 4 seconds."
+			},
+			{
+				"id": "SgtHammerBluntForceGun",
+				"name": "Blunt Force Gun",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 100",
+				"description": "Fire a missile across the battlefield, dealing 500~~0.03~~ damage to enemies in its path.  Deals 50% damage to Structures."
+			}
+		],
+		"trait": [
+			{
+				"id": "SgtHammerSiegeMode",
+				"name": "Siege Mode",
+				"type": "Trait",
+				"cooldown": "Cooldown: 2 seconds",
+				"description": "Activate to enter Siege Mode. While in Siege Mode, Basic Attacks deal 20% more damage, have 100% increased range, and deal 25% of their damage as splash damage around the target."
+			},
+			{
+				"id": "SgtHammerTankMode",
+				"name": "Tank Mode",
+				"type": "Trait",
+				"parent": "Siege Mode",
+				"description": "Return to Tank Mode"
+			}
+		],
+		"mount": [
+			{
+				"id": "SgtHammerThrusters",
+				"name": "Thrusters",
+				"type": "Z",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Increase Movement Speed by 60% for 4 seconds. Thrusters are always active while at the Hall of Storms. Activating Thrusters cancels Siege Mode."
+			}
+		],
+		"activable": [
+			{
+				"id": "SgtHammerSiegeModeMaelstromRounds",
+				"name": "Maelstrom Rounds",
+				"type": "Active",
+				"parent": "Maelstrom Rounds",
+				"cooldown": "Charge Cooldown: 80 seconds",
+				"charges": {
+					"countMax": 3,
+					"countStart": 3,
+					"countUse": 1,
+					"recastCooldown": 5,
+					"isCountHidden": false
+				},
+				"description": "Activate to increase Basic Attack damage dealt by 40% for 5 seconds. Hitting enemy Heroes or Structures with Basic Attacks while in Siege Mode reduces the cooldown of Maelstrom Rounds by 5 seconds.\n\nStores up to 3 charges."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "SgtHammerAmbush",
+				"name": "Ambush",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "Gain Stealth when entering Siege Mode or after not taking or dealing damage for 3 seconds while in Siege Mode. Basic Attacks while Stealthed deal 125% more damage.\n\nRemaining stationary for at least 1.5 seconds while Stealthed grants Invisible."
+			},
+			{
+				"id": "SgtHammerSiegeModeAdvancedArtillery",
+				"name": "Advanced Artillery",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "Increase Siege Mode's splash damage to 60% of Basic Attack damage, and increase its splash radius by 25%."
+			},
+			{
+				"id": "SgtHammerSiegeModeMaelstromRounds",
+				"name": "Maelstrom Rounds",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeModeMaelstromRounds",
+				"cooldown": "Charge Cooldown: 80 seconds",
+				"description": "Activate to increase Basic Attack damage dealt by 40% for 5 seconds. Hitting enemy Heroes or Structures with Basic Attacks while in Siege Mode reduces the cooldown of Maelstrom Rounds by 5 seconds.\n\nStores up to 3 charges."
+			}
+		],
+		"level4": [
+			{
+				"id": "SgtHammerBarricade",
+				"name": "Barricade",
+				"type": "W",
+				"isQuest": false,
+				"ability": "SgtHammerConcussiveBlast",
+				"description": "Reduce Concussive Blast's cooldown by 4 seconds, its Mana cost by 40, and when cast create an impassable wall in front of Sgt. Hammer for 4 seconds."
+			},
+			{
+				"id": "SgtHammerNeosteelPlatingSiegeTactics",
+				"name": "Siege Tactics",
+				"type": "E",
+				"isQuest": false,
+				"ability": "SgtHammerNeosteelPlating",
+				"description": "Using Neosteel Plating while in Siege Mode grants Unstoppable for 2 seconds, as long as she remains in Siege Mode."
+			},
+			{
+				"id": "SgtHammerSiegeModeRegenerativeBioSteel",
+				"name": "Regenerative Bio-Steel",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "Basic Attacks while in Siege Mode heal for 10% of the damage dealt."
+			}
+		],
+		"level7": [
+			{
+				"id": "SgtHammerSpiderMinesPulseDetonationCore",
+				"name": "Pulse Detonation Core",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "SgtHammerSpiderMines",
+				"description": "Spider Mines detonate 3 times over 3 seconds. All damage from Basic Attacks against enemy Heroes grant 5 Mana and reduce the cooldown of Spider Mines by 1.5 seconds. Increase this bonus to 2.5 seconds while in Siege Mode."
+			},
+			{
+				"id": "SgtHammerMasteryHoverSiegeMode",
+				"name": "Hover Siege Mode",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "Sgt. Hammer can move at 50% Movement Speed while in Siege Mode."
+			},
+			{
+				"id": "SgtHammerGraduatingRange",
+				"name": "Graduating Range",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "While in Siege Mode, Basic Attack range is increased by 1 every 1.5 seconds, up to 3."
+			}
+		],
+		"level10": [
+			{
+				"id": "SgtHammerHeroicAbilityBluntForceGun",
+				"name": "Blunt Force Gun",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "SgtHammerBluntForceGun",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 100",
+				"description": "Fire a missile across the battlefield, dealing 500~~0.03~~ damage to enemies in its path.  Deals 50% damage to Structures."
+			},
+			{
+				"id": "SgtHammerHeroicAbilityNapalmStrike",
+				"name": "Napalm Strike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "SgtHammerNapalmStrike",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 35",
+				"description": "Deals 164~~0.04~~ damage on impact, and leaves a napalm area that deals 50~~0.04~~ damage per second. Lasts for 4 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "SgtHammerSpiderMinesTacticalMineDeployment",
+				"name": "Tactical Mine Deployment",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "SgtHammerSpiderMines",
+				"description": "Moving while Thrusters is active leaves a trail of up to 5 Spider Mines. Additionally, increase the Slow of Spider Mines by 15%."
+			},
+			{
+				"id": "SgtHammerConcussiveBlastEntrenched",
+				"name": "Entrenched",
+				"type": "W",
+				"isQuest": false,
+				"ability": "SgtHammerConcussiveBlast",
+				"description": "While in Siege Mode, Concussive Blasts's damage and knockback distance are increased by 75%."
+			},
+			{
+				"id": "SgtHammerHyperCoolingEngines",
+				"name": "Hyper-Cooling Engines",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "SgtHammerThrusters",
+				"description": "While in Siege Mode, hitting Heroes or Structures with Basic Attacks reduces the cooldown of Thrusters by 5 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "SgtHammerNeosteelPlatingMechanicalKnowhow",
+				"name": "Mechanical Know-how",
+				"type": "E",
+				"isQuest": false,
+				"ability": "SgtHammerNeosteelPlating",
+				"description": "Neosteel Plating grants 20% maximum Health as a Shield for 2 seconds and increases Basic Attack damage by 30% for 5 seconds."
+			},
+			{
+				"id": "HeroGenericExecutionerPassive",
+				"name": "Executioner",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Attacking a Hero that is Slowed, Rooted, or Stunned increases your Basic Attack damage by 30% for 3 seconds."
+			},
+			{
+				"id": "GenericTalentGiantKillerSgtHammer",
+				"name": "Giant Killer",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against enemy Heroes deal bonus damage equal to 1.5% of the Hero's maximum Health."
+			}
+		],
+		"level20": [
+			{
+				"id": "SgtHammerMasteryOrbitalBFGBluntForceGun",
+				"name": "Orbital BFG",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "SgtHammerBluntForceGun",
+				"prerequisites": [
+					"SgtHammerHeroicAbilityBluntForceGun"
+				],
+				"description": "Blunt Force Gun's missile orbits the planet every 5 seconds. Only the last missile fired orbits."
+			},
+			{
+				"id": "SgtHammerMasteryAdvancedLavaStrikeNapalmStrike",
+				"name": "Advanced Lava Strike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "SgtHammerNapalmStrike",
+				"prerequisites": [
+					"SgtHammerHeroicAbilityNapalmStrike"
+				],
+				"description": "Increase the cast range of Napalm Strike by 75%, and its impact deals 65% more damage."
+			},
+			{
+				"id": "SgtHammerSpiderMinesShrapnelMines",
+				"name": "Shrapnel Mines",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "SgtHammerSpiderMines",
+				"description": "Upon detonating, Spider Mines reduce the Armor of enemy Heroes hit by 10, up to 50, for 4 seconds."
+			},
+			{
+				"id": "SgtHammerSiegeModeUltraCapacitors",
+				"name": "Ultra Capacitors",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "SgtHammerSiegeMode",
+				"description": "Hitting enemy Heroes or Structures with Basic Attacks while in Siege Mode grants 10% Attack Speed for 5 seconds, up to 60%."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"SgtHammerSpiderMinesUnit"
+	]
+}

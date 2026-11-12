@@ -1,0 +1,68 @@
+{
+	"id": "GardenTerror",
+	"name": "Garden Terror",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 11250,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"armor": {
+			"Structure": {
+				"basic": 0,
+				"ability": 50,
+				"splash": 0
+			}
+		},
+		"speed": 2.8007,
+		"sight": 8,
+		"radius": 1.5,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "GardenTerrorWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.8,
+			"damage": 250,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "UnderworldBossStun",
+				"name": "Mega Smash",
+				"type": "Q",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Slam the ground, dealing 0 damage to nearby enemies and stunning them."
+			},
+			{
+				"id": "PlantHorrorOvergrowthPlant",
+				"name": "Overgrowth",
+				"type": "W",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Spawn an Overgrowth that disables nearby Structures. You deal 200% bonus damage to Structures affected by Overgrowth. Slowly loses Health over 25 seconds."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

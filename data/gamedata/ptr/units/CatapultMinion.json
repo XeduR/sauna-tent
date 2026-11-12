@@ -1,0 +1,47 @@
+{
+	"id": "CatapultMinion",
+	"name": "Catapult Minion",
+	"damageType": "Minion",
+	"attributes": [
+		"Minion"
+	],
+	"stats": {
+		"life": {
+			"amount": 550,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 13,
+		"radius": 1.125,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "CatapultMinion",
+			"range": 11,
+			"minimumRange": 0,
+			"period": 3,
+			"damage": 60,
+			"damageScale": 0,
+			"damageFactors": {
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

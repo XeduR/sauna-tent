@@ -1,0 +1,53 @@
+{
+	"id": "UnderworldMinion",
+	"name": "Risen Miner",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapCreature"
+	],
+	"description": "Undead denizen of the Haunted Mines. Deals low damage, and does not attack unless provoked. Drops Skulls when destroyed.",
+	"killXP": 28,
+	"stats": {
+		"life": {
+			"amount": 545,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "UnderworldMinion",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 30,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

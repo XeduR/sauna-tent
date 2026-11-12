@@ -1,0 +1,75 @@
+{
+	"id": "SlivanBoss",
+	"name": "Slivan Boss",
+	"damageType": "Monster",
+	"attributes": [
+		"Heroic",
+		"MapBoss"
+	],
+	"stats": {
+		"life": {
+			"amount": 120000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.8398,
+		"sight": 25,
+		"radius": 2.625,
+		"innerRadius": 2.625
+	},
+	"weapons": [
+		{
+			"nameId": "SlivanBoss",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 400,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "SlivanBossSlimeSpit",
+				"name": "Slivan Boss Slime Spit",
+				"type": "Q",
+				"cooldown": "Cooldown: 7 seconds",
+				"description": "Spit a glob of slime that damages enemies in the area over time"
+			},
+			{
+				"id": "SlivanBossSpawnPods",
+				"name": "Slivan Boss Spawn Pods",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Spawns Slime Pods around the boss that attack enemies in range."
+			},
+			{
+				"id": "SlivanBossDrawIn",
+				"name": "Slivan Boss Draw In",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Draws in and stuns enemies in a circle around the boss."
+			}
+		],
+		"heroic": [
+			{
+				"id": "SlivanImpale",
+				"name": "Impale",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 1 second",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

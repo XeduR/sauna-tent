@@ -1,0 +1,44 @@
+{
+	"id": "TerranGoliath",
+	"name": "Terran Goliath",
+	"damageType": "Merc",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 2200,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 9,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "TerranGoliathGroundWeapon",
+			"range": 8,
+			"minimumRange": 0,
+			"period": 0.25,
+			"damage": 15,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

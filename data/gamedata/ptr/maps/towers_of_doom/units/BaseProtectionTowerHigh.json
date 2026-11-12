@@ -1,0 +1,42 @@
+{
+	"id": "BaseProtectionTowerHigh",
+	"name": "Base Protection Tower High",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 4750,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 20,
+			"regenRate": 0
+		},
+		"speed": 0,
+		"sight": 15,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "BaseProtectionTowerWeaponForTurretRotation",
+			"range": 15,
+			"minimumRange": 0,
+			"period": 0.1,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

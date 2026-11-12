@@ -1,0 +1,30 @@
+{
+	"id": "AbathurToxicNestPlaceholderDummy",
+	"name": "Toxic Nest",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Spawn a mine that becomes active after a short time. Deals 153~~0.04~~ damage and reveals the enemy for 4 seconds. Lasts 90 seconds.\n\nStores up to 3 charges.",
+	"stats": {
+		"life": {
+			"amount": 80,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

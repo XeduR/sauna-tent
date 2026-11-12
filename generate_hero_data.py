@@ -6,6 +6,14 @@ Outputs:
   - data/hero-info.json           (full per-hero reference: stats, abilities, talents)
   - data/talent-names.json        (talent name lookup by hero slug and tier_choice key)
   - data/talent-descriptions.json (talent description lookup, same structure)
+  - data/gamedata/versions.json   (every ingested game version, ordered by build)
+  - data/gamedata/{live|ptr}/heroes/{slug}.json (structured hero record, fixed key order)
+  - data/gamedata/{live|ptr}/common-abilities.json (Mount and Hearthstone most heroes share)
+  - data/gamedata/{live|ptr}/units/{UnitId}.json (non-hero unit with gameplay content)
+  - data/gamedata/{live|ptr}/maps/{map id}/map.json (map name, size and objectives)
+  - data/gamedata/{live|ptr}/maps/{map id}/{units|heroes}/*.json and common-abilities.json
+    (full records that the map's own data changes from the files above)
+  - data/gamedata/snapshots/{version id}/{heroes|units|maps}.json (minified snapshot per dataset)
   - img/hero/{slug}/avatar.png    (hero select portrait icon, 64x64)
   - img/hero/{slug}/talent{tier}_{choice}.png (talent icons, 64x64)
   - img/hero/{slug}/abilities/{id-slug}.png (ability icons, 64x64)
@@ -46,8 +54,17 @@ import tarfile
 import tempfile
 import urllib.request
 import zipfile
+from collections import Counter
 from typing import NamedTuple
 
+from pipeline.gamedata import (
+    CHANNEL_LIVE, CHANNEL_PTR as GAMEDATA_CHANNEL_PTR, PASSIVE_ABILITY_ID,
+    Dataset, MapData, ability_id, apply_json_patch, build_hero_dataset, build_hero_record,
+    build_map_record, build_maps_dataset, build_unit_record, build_unit_records,
+    build_units_dataset, changed_records, check_unit_id_case, hero_unit_label,
+    index_abilities_by_id, is_cancel_button, parse_version, report_unrecognised,
+    split_common_abilities, strip_html, write_gamedata, write_text_if_changed,
+)
 from pipeline.herodata import FEMALE_HEROES, HERO_NAMES, HERO_ROLES
 
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -98,18 +115,12 @@ HDP_ASSETS = {
 
 HDP_THREADS = 4
 
+GAMEDATA_CHANNELS = {CHANNEL_RELEASE: CHANNEL_LIVE, CHANNEL_PTR: GAMEDATA_CHANNEL_PTR}
+
 # Ability categories kept in hero-info.json, HDP's name mapped to the frontend's.
 # Mount/Activable/Hearth are generic and rarely consulted, so they are excluded
 # to keep the JSON small.
 ABILITY_CATEGORIES = (("Basic", "basic"), ("Heroic", "heroic"), ("Trait", "trait"))
-
-# A passive ability has no activatable ability behind it, so HDP gives it this id
-# in place of one. The button it was built from carries a usable id.
-PASSIVE_ABILITY_ID = ":PASSIVE:"
-
-# The game's shared "stop channelling" button art. Every ability that can be
-# interrupted has one, and it repeats the parent ability's tooltip.
-CANCEL_ICON = "hud_btn_bg_ability_cancel.png"
 
 # HDP groups talents under LevelN keys. Tiers map level# -> tier index used in our keys.
 TALENT_LEVELS = (1, 4, 7, 10, 13, 16, 20)
@@ -152,19 +163,16 @@ def slugify(name: str) -> str:
     )
 
 
-def strip_html(text: str) -> str:
-    """Strip Blizzard's SC2-style markup. Preserve <n/> as real newlines."""
-    if not text:
-        return ""
-    text = text.replace("<n/>", "\n")
-    return re.sub(r"<[^>]+>", "", text)
-
-
-def file_hash(path: str) -> str | None:
+def same_pixels(png_bytes: bytes, path: str) -> bool:
+    """True when path decodes to the same mode, size and pixels as png_bytes."""
+    from PIL import Image
     if not os.path.exists(path):
-        return None
-    with open(path, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
+        return False
+    try:
+        with Image.open(io.BytesIO(png_bytes)) as new, Image.open(path) as old:
+            return (new.mode, new.size, new.tobytes()) == (old.mode, old.size, old.tobytes())
+    except (OSError, ValueError):
+        return False
 
 
 def encode_resized_png(src: str) -> bytes:
@@ -181,11 +189,14 @@ def encode_resized_png(src: str) -> bytes:
 
 
 def process_image_if_changed(src: str, dst: str, dry_run: bool) -> bool:
-    """Resize+re-encode src and write to dst if the resulting bytes differ from dst."""
+    """Resize+re-encode src and write to dst unless dst already holds the same pixels.
+
+    Bytes are not compared: zlib builds encode identical pixels differently.
+    """
     if not os.path.exists(src):
         return False
     new_bytes = encode_resized_png(src)
-    if hashlib.md5(new_bytes).hexdigest() == file_hash(dst):
+    if same_pixels(new_bytes, dst):
         return False
     if not dry_run:
         os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -318,7 +329,7 @@ def run_hdp(channel: str, output_dir: str) -> None:
     cmd = [executable, "online"]
     if channel == CHANNEL_PTR:
         cmd.append("--download-ptr")
-    cmd += ["-e", "hero:i", "-o", output_dir, "-t", str(HDP_THREADS)]
+    cmd += ["-e", "hero:i", "-e", "unit", "-e", "map", "-o", output_dir, "-t", str(HDP_THREADS)]
 
     print(f"Running: {' '.join(cmd)}")
     print("Downloading and parsing the build takes several minutes.")
@@ -343,29 +354,125 @@ def discover_hero_data_file(hdp_output: str) -> str | None:
     return newest
 
 
-def load_heroes(path: str) -> list[tuple[str, dict]]:
-    """Load HDP's hero data file. Returns (slug, hero_dict) pairs sorted by slug."""
+def load_json(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
-        items = json.load(f).get("items", {})
+        return json.load(f)
+
+
+def hero_entries(data: dict) -> list[tuple[str, str, dict]]:
+    """(slug, item id, hero) for every hero in an HDP hero data document, sorted by slug."""
     heroes = [
-        (slugify(hero["name"]), hero)
-        for hero in items.values()
+        (slugify(hero["name"]), item_id, hero)
+        for item_id, hero in data.get("items", {}).items()
         if isinstance(hero, dict) and hero.get("name")
     ]
-    return sorted(heroes, key=lambda pair: pair[0])
+    return sorted(heroes, key=lambda entry: entry[0])
 
 
-def ability_id(entry: dict) -> str:
-    """Return the id HDP gives an ability, or its button's when it has none."""
-    value = entry.get("abilityId", "")
-    return entry.get("buttonId", "") if value == PASSIVE_ABILITY_ID else value
+def build_structured_heroes(
+    entries: list[tuple[str, str, dict]], overrides: dict, unrecognised: Counter,
+) -> dict[str, dict]:
+    """Structured hero records by slug, before the common abilities are split out."""
+    return {
+        slug: build_hero_record(
+            item_id, hero, collect_talents_by_tier(hero), overrides.get(slug, {}), unrecognised,
+        )
+        for slug, item_id, hero in entries
+    }
 
 
-def is_cancel_button(ability: dict) -> bool:
-    return (
-        ability.get("icon") == CANCEL_ICON
-        or "cancel" in (ability.get("name") or "").lower()
+def companion_data_file(hero_data_file: str, kind: str) -> str:
+    """Path of HDP's <kind>data file for the same build and locale as the hero data file."""
+    folder, name = os.path.split(hero_data_file)
+    return os.path.join(folder, name.replace("herodata_", f"{kind}data_", 1))
+
+
+def load_map_patch(hero_data_file: str, map_id: str, kind: str) -> list[dict]:
+    """A map's JSON patch against the base <kind>data file, or [] when the map has none."""
+    folder, name = os.path.split(companion_data_file(hero_data_file, kind))
+    path = os.path.join(folder, "maps", map_id, name.replace(".json", ".patch.json"))
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def build_map_data(
+    raw_map: dict,
+    hero_data_file: str,
+    base_docs: tuple[dict, dict],
+    base_datasets: tuple[Dataset, Dataset],
+    overrides: dict,
+    unrecognised: Counter,
+) -> MapData:
+    """Apply a map's patches to the base documents and keep the records that change."""
+    map_id = raw_map["normalizedId"]
+    hero_doc, unit_doc = base_docs
+    heroes_dataset, units_dataset = base_datasets
+    record = build_map_record(raw_map, unrecognised)
+
+    unit_patch = load_map_patch(hero_data_file, map_id, "unit")
+    patched_units = apply_json_patch(unit_doc, unit_patch).get("items", {}) if unit_patch else {}
+    check_unit_id_case(list(patched_units), f"map {map_id}")
+    base_units = unit_doc.get("items", {})
+    base_unit_records = units_dataset.snapshot["units"]
+
+    # The builders are deterministic, so only items the patch touched can change.
+    touched = {
+        unit_id: unit for unit_id, unit in patched_units.items()
+        if unit is not base_units.get(unit_id)
+    }
+    unit_records, _ = build_unit_records(touched, unrecognised)
+    unit_records.update(
+        (unit_id, build_unit_record(unit_id, touched[unit_id], include_abilities=True))
+        for unit_id in touched
+        if unit_id not in unit_records and unit_id in base_unit_records
     )
+    units = changed_records(unit_records, base_unit_records)
+
+    heroes: dict[str, dict] = {}
+    common: list[dict] | None = None
+    hero_patch = load_map_patch(hero_data_file, map_id, "hero")
+    if hero_patch:
+        patched_heroes = hero_entries(apply_json_patch(hero_doc, hero_patch))
+        map_heroes = build_structured_heroes(patched_heroes, overrides, unrecognised)
+        map_common = split_common_abilities(map_heroes)
+        heroes = changed_records(map_heroes, heroes_dataset.snapshot["heroes"])
+        if map_common != heroes_dataset.snapshot["commonAbilities"]:
+            common = map_common
+
+    return MapData(map_id, record, units, heroes, common)
+
+
+def build_world_datasets(
+    hero_data_file: str,
+    hero_doc: dict,
+    heroes_dataset: Dataset,
+    overrides: dict,
+    unrecognised: Counter,
+) -> list[Dataset]:
+    """The units and maps datasets for the hero data file's build. Raises ValueError on bad input."""
+    unit_doc = load_json(companion_data_file(hero_data_file, "unit"))
+    map_doc = load_json(companion_data_file(hero_data_file, "map"))
+
+    unit_items = unit_doc.get("items", {})
+    check_unit_id_case(list(unit_items), os.path.basename(companion_data_file(hero_data_file, "unit")))
+    unit_records, skipped = build_unit_records(unit_items, unrecognised)
+    units_dataset = build_units_dataset(unit_records)
+    print(f"Units: {len(unit_records)} written, {skipped} skipped without gameplay content")
+
+    maps = [
+        build_map_data(
+            raw_map, hero_data_file, (hero_doc, unit_doc), (heroes_dataset, units_dataset),
+            overrides, unrecognised,
+        )
+        for raw_map in map_doc.get("items", {}).values()
+    ]
+    print(
+        f"Maps: {len(maps)}, {sum(len(entry.units) for entry in maps)} map unit record(s), "
+        f"{sum(len(entry.heroes) for entry in maps)} map hero record(s)"
+    )
+    return [units_dataset, build_maps_dataset(maps)]
 
 
 def sub_ability_groups(hero: dict) -> list[tuple[str, dict]]:
@@ -381,25 +488,6 @@ def sub_ability_groups(hero: dict) -> list[tuple[str, dict]]:
     ]
 
 
-def index_abilities_by_id(hero: dict) -> dict[str, dict]:
-    """Map the hero's abilities by both of their ids, nested ones included.
-
-    Nested abilities are in here because one can be another's parent: Deathwing's
-    Onslaught hangs off World Breaker, which itself hangs off Dragonflight.
-    """
-    index: dict[str, dict] = {}
-    groups = list((hero.get("abilities") or {}).values())
-    for _, nested in (hero.get("subAbilities") or {}).items():
-        groups.extend(nested.values())
-
-    for abilities in groups:
-        for ability in abilities:
-            for key in (ability.get("abilityId"), ability.get("buttonId")):
-                if key and key != PASSIVE_ABILITY_ID:
-                    index.setdefault(key, ability)
-    return index
-
-
 def talent_granted(hero: dict) -> tuple[set[str], set[str]]:
     """Return the ability ids and names the hero only has when a talent is picked."""
     ids, names = set(), set()
@@ -412,24 +500,6 @@ def talent_granted(hero: dict) -> tuple[set[str], set[str]]:
     return ids, names
 
 
-def hero_unit_label(hero: dict, unit_id: str, unit: dict) -> str:
-    """Name the form a unit represents, for labelling the abilities it owns.
-
-    Units that transform the hero rather than accompany them are named after the
-    hero (Alexstrasza's dragon, D.Va's pilot), so their id supplies the form:
-    HeroDVaPilot -> Pilot, RagnarosBigRag -> Big Rag.
-    """
-    name = unit.get("name", "")
-    if name != hero.get("name"):
-        return name
-
-    hero_id = re.sub(r"^Hero", "", hero.get("unitId", ""))
-    form = re.sub(r"^Hero", "", unit_id)
-    shared = os.path.commonprefix([hero_id, form])
-    form = form[len(shared):] or form
-    return re.sub(r"(?<=[a-z])(?=[A-Z])", " ", form) or name
-
-
 def collect_abilities(hero: dict) -> list[AbilityEntry]:
     """Return the hero's ability cards, including the ones HDP nests.
 
@@ -440,7 +510,7 @@ def collect_abilities(hero: dict) -> list[AbilityEntry]:
     and the talent-granted abilities that already have a talent card.
     """
     source = hero.get("abilities") or {}
-    by_id = index_abilities_by_id(hero)
+    by_id = index_abilities_by_id([hero])
     entries: list[AbilityEntry] = []
     used_ids: set[str] = set()
     used_names: set[str] = set()
@@ -764,17 +834,10 @@ def report_missing_static_entries(heroes: dict[str, dict], data_dir: str) -> Non
 
 
 def write_json(path: str, data: dict, dry_run: bool) -> None:
-    """Tab-indented JSON with sorted keys, so a patch's text and value changes diff line by line."""
-    if dry_run:
-        print(f"  Would write: {path}")
-        return
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-
-    # LF on every platform, so a Windows refresh produces the same bytes.
-    with open(path, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(data, f, ensure_ascii=False, indent="\t", sort_keys=True)
-        f.write("\n")
-    print(f"  Written: {path}")
+    """Minified JSON with sorted keys; data/gamedata/ holds the diffable copy."""
+    text = json.dumps(data, ensure_ascii=False, sort_keys=True) + "\n"
+    if write_text_if_changed(path, text, dry_run):
+        print(f"  {'Would write' if dry_run else 'Written'}: {path}")
 
 
 def main() -> int:
@@ -825,17 +888,47 @@ def main() -> int:
     abilities_by_slug: dict[str, list[AbilityEntry]] = {}
     parsed = HeroDataSet({}, {}, {})
 
-    loaded_heroes = load_heroes(data_file)
-    print(f"Found {len(loaded_heroes)} hero record(s) in {os.path.basename(data_file)}")
+    for kind in ("unit", "map"):
+        companion = companion_data_file(data_file, kind)
+        if not os.path.exists(companion):
+            print(
+                f"ERROR: {os.path.basename(companion)} is missing next to {os.path.basename(data_file)}; "
+                "run without --skip-parser to extract it. Nothing was written.",
+                file=sys.stderr,
+            )
+            return 1
 
-    for slug, hero in loaded_heroes:
+    hero_doc = load_json(data_file)
+    meta = hero_doc.get("meta", {})
+    loaded_heroes = hero_entries(hero_doc)
+    print(f"Found {len(loaded_heroes)} hero record(s) in {os.path.basename(data_file)}")
+    if not loaded_heroes:
+        print(f"ERROR: {os.path.basename(data_file)} holds no heroes; nothing was written", file=sys.stderr)
+        return 1
+
+    try:
+        version = parse_version(meta.get("heroesVersion", ""), GAMEDATA_CHANNELS[args.channel])
+    except ValueError as error:
+        print(f"ERROR: {os.path.basename(data_file)}: {error}", file=sys.stderr)
+        return 1
+
+    unrecognised: Counter = Counter()
+    heroes_dataset = build_hero_dataset(build_structured_heroes(loaded_heroes, overrides, unrecognised))
+    try:
+        world_datasets = build_world_datasets(data_file, hero_doc, heroes_dataset, overrides, unrecognised)
+    except ValueError as error:
+        print(f"ERROR: {error}; nothing was written", file=sys.stderr)
+        return 1
+
+    for slug, _, hero in loaded_heroes:
         talents_by_tier = collect_talents_by_tier(hero)
         abilities = collect_abilities(hero)
         heroes[slug] = hero
         talents_by_slug[slug] = talents_by_tier
         abilities_by_slug[slug] = abilities
 
-        record = build_hero_info(hero, talents_by_tier, abilities, overrides.get(slug, {}))
+        override = overrides.get(slug, {})
+        record = build_hero_info(hero, talents_by_tier, abilities, override)
         parsed.info[slug] = record
         parsed.names[slug] = build_talent_names(record["talents"])
         parsed.descriptions[slug] = build_talent_descriptions(record["talents"])
@@ -870,6 +963,7 @@ def main() -> int:
     write_json(info_path, merged.info, args.dry_run)
     write_json(names_path, merged.names, args.dry_run)
     write_json(descriptions_path, merged.descriptions, args.dry_run)
+    write_gamedata(args.data_dir, version, [heroes_dataset, *world_datasets], args.dry_run)
 
     verb = "Would sync" if args.dry_run else "Synced"
     print(
@@ -883,6 +977,7 @@ def main() -> int:
         print(f"PTR-only heroes: {', '.join(ptr_slugs)}")
 
     report_missing_static_entries(heroes, args.data_dir)
+    report_unrecognised(unrecognised)
     return 0
 
 

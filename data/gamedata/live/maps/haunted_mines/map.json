@@ -1,0 +1,22 @@
+{
+	"id": "HauntedMines",
+	"name": "Haunted Mines",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Venture Underground",
+			"description": "The Haunted Mines will periodically open with an Undead Army underneath!"
+		},
+		{
+			"title": "Collect the Skulls",
+			"description": "Destroy the Undead and collect their Skulls to power your Golems!"
+		},
+		{
+			"title": "Unleash the Golems",
+			"description": "After a team has collected 55 Skulls, the Golems will arise for both teams! The more Skulls your team collects, the stronger your Golem!"
+		}
+	]
+}

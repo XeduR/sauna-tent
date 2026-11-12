@@ -1,0 +1,32 @@
+{
+	"id": "ProbiusWarpRift",
+	"name": "Warp Rift",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Open an unstable Warp Rift at a location that takes 1.25 seconds to arm, which then Slows nearby enemies by 25% lasting 3 seconds.\n\nArmed Warp Rifts explode when they expire or when hit by Disruption Pulse, dealing 261~~0.05~~ damage to nearby enemies.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

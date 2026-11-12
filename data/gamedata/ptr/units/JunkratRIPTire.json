@@ -1,0 +1,37 @@
+{
+	"id": "JunkratRIPTire",
+	"name": "RIP-Tire",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Create a motorized bomb with 530~~0.04~~ Health that lasts 15 seconds. While active, Junkrat is immobile but gains control of RIP-Tire's movement.\n\nRIP-Tire can be reactivated to detonate immediately, knocking nearby enemies back and dealing 720~~0.04~~ damage to enemies near the center gradually reduced to 445~~0.04~~ to enemies on the edge.",
+	"stats": {
+		"life": {
+			"amount": 530,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 6.5,
+		"sight": 8,
+		"radius": 0.75,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

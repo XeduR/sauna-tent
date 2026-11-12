@@ -1,0 +1,22 @@
+{
+	"id": "DragonShire",
+	"name": "Dragon Shire",
+	"size": {
+		"x": 248,
+		"y": 208
+	},
+	"objectives": [
+		{
+			"title": "Control the Shrines",
+			"description": "There are two Shrines your team needs to control to activate the Dragon Knight's statue!"
+		},
+		{
+			"title": "Free the Dragon Knight",
+			"description": "While activated, bring a Hero to the statue to free him from his prison!"
+		},
+		{
+			"title": "Devastate Enemy Forts",
+			"description": "Use the Dragon's immense power to level enemy Structures!"
+		}
+	]
+}

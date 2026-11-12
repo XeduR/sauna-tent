@@ -1,0 +1,28 @@
+{
+	"id": "TownShieldGenerator",
+	"name": "Shield Generator",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 3.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

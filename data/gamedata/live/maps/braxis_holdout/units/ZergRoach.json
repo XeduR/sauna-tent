@@ -1,0 +1,63 @@
+{
+	"id": "ZergRoach",
+	"name": "Roach",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 1800,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "ZergRoachMeleeWeapon",
+			"range": 1.25,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 10,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1
+			}
+		},
+		{
+			"nameId": "ZergRoachRangedWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 10,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

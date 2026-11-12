@@ -1,0 +1,36 @@
+{
+	"id": "HoggerHoardapult",
+	"name": "Hoardapult",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Launch an empowered Loot Hoard with Hogger attached, dealing 100~~0.04~~ damage and Slowing enemies by 50% for 2 seconds.\n\nHoardapult's Loot Hoard lasts for up to 20 seconds, decaying rapidly while not nearby. Every 10 seconds Hogger can take a chunk of Meat from the Loot Hoard.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 10,
+			"regenRate": 1
+		},
+		"speed": 0,
+		"sight": 1.75,
+		"radius": 1.125,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

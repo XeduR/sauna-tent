@@ -1,0 +1,39 @@
+{
+	"id": "StarCraftEventSCVDropship",
+	"name": "SCV Dropship",
+	"damageType": "Minion",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Target a location for a Medivac transport. For up to 10 seconds before takeoff, allies can right-click to enter the Medivac.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 28,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "MedicMedivacDropshipDepart",
+				"name": "Depart",
+				"type": "E",
+				"toggleCooldown": 0.5,
+				"description": "Departs for the targeted location immediately."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,372 @@
+{
+	"id": "Zagara",
+	"name": "Zagara",
+	"title": "Broodmother of the Swarm",
+	"unitId": "HeroZagara",
+	"franchise": "Starcraft",
+	"roles": [
+		"Specialist"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2014-06-25",
+	"ratings": {
+		"complexity": 6,
+		"damage": 6,
+		"survivability": 5,
+		"utility": 8
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"RoleSpecialist",
+		"SoloLaner",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1550,
+			"scale": 0.04,
+			"regenRate": 3.2304,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1.125,
+		"innerRadius": 0.9375
+	},
+	"weapons": [
+		{
+			"nameId": "HeroZagara",
+			"range": 6.6,
+			"minimumRange": 0,
+			"period": 0.8,
+			"damage": 83,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ZagaraBanelingBarrage",
+				"name": "Baneling Barrage",
+				"type": "Q",
+				"cooldown": "Charge Cooldown: 4 seconds",
+				"cost": "Mana: 15",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 0.125,
+					"isCountHidden": false
+				},
+				"description": "Launch 2 Banelings that deal 80~~0.04~~ damage to enemies they hit.\n\nStores up to 2 charges."
+			},
+			{
+				"id": "ZagaraSummonHydralisk",
+				"name": "Hunter Killer",
+				"type": "W",
+				"cooldown": "Cooldown: 16 seconds",
+				"cost": "Mana: 75",
+				"description": "Summon a Hydralisk to attack a single target, dealing 71~~0.05~~ damage per second. The Hydralisk loses Health over 10 seconds, and has 500~~0.045~~ Health."
+			},
+			{
+				"id": "ZagaraInfestedDrop",
+				"name": "Infested Drop",
+				"type": "E",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 50",
+				"description": "Bombard target area with a Zerg Drop Pod for 140~~0.04~~ damage. \n\nThe pod spawns 2 Roachlings that deal 30~~0.04~~ damage per second and lose Health over 10 seconds."
+			}
+		],
+		"heroic": [
+			{
+				"id": "ZagaraSummonNydusWorm",
+				"name": "Nydus Network",
+				"type": "Heroic",
+				"cooldown": "Charge Cooldown: 120 seconds",
+				"cost": "Mana: 50",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 2,
+					"isCountHidden": false
+				},
+				"description": "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\n\nStores up to 2 charges. Maximum of 4 Nydus Worms at a time.\n\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by 0.4 seconds."
+			},
+			{
+				"id": "ZagaraDevouringMaw",
+				"name": "Devouring Maw",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 70",
+				"description": "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 94~~0.04~~ damage per second.\n\nUsable on Unstoppable enemies."
+			}
+		],
+		"trait": [
+			{
+				"id": "ZagaraSummonCreepTumor",
+				"name": "Creep Tumor",
+				"type": "Trait",
+				"cooldown": "Charge Cooldown: 18 seconds",
+				"charges": {
+					"countMax": 3,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 3,
+					"isCountHidden": false
+				},
+				"description": "Lay a Creep Tumor that generates Creep. While on Creep, Zagara moves 20% faster and her summons move 30% faster. Tumors lose Health over 250 seconds and reveal the surrounding area while active.\n\nStores up to 3 charges."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "HeroGenericSpellShield",
+				"name": "Spell Shield - Disabled",
+				"type": "Active",
+				"parent": "Spell Shield - Disabled",
+				"toggleCooldown": 0.5,
+				"description": "Spell Shield is disabled and will not trigger.\n\nClick this button to enable Spell Shield."
+			},
+			{
+				"id": "ZagaraInfestToggle",
+				"name": "Infest",
+				"type": "Active",
+				"parent": "Infest",
+				"toggleCooldown": 0.5,
+				"description": "Nearby Ranged Minions deal an additional 100% damage. Can be toggled on or off.\n\nRepeatable Quest: Every 1000 Siege damage dealt increases this bonus by 1%.\n\nCurrent Siege Damage Bonus: 0%"
+			},
+			{
+				"id": "ZagaraEnvenomedSpines",
+				"name": "Envenomed Spines",
+				"type": "Active",
+				"parent": "Envenomed Spines",
+				"cooldown": "Cooldown: 30 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to have Zagara's next Basic Attack apply 230~~0.04~~ damage over 5 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "ZagaraMasteryVolatileAcid",
+				"name": "Volatile Acid",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZagaraBanelingBarrage",
+				"description": "Banelings can travel 50% further before exploding."
+			},
+			{
+				"id": "ZagaraMasteryCorpseFeeders",
+				"name": "Corpse Feeders",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ZagaraInfestedDrop",
+				"description": "Reduces the cooldown of Infested Drop by 3 seconds and Roachlings have 30% more Health."
+			},
+			{
+				"id": "ZagaraMasteryInfest",
+				"name": "Infest",
+				"type": "Active",
+				"isQuest": true,
+				"ability": "ZagaraInfestToggle",
+				"toggleCooldown": 0.5,
+				"description": "Nearby Ranged Minions deal an additional 100% damage. Can be toggled on or off.\n\nRepeatable Quest: Every 1000 Siege damage dealt increases this bonus by 1%."
+			}
+		],
+		"level4": [
+			{
+				"id": "ZagaraMasteryEnvenomedSpines",
+				"name": "Envenomed Spines",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "ZagaraEnvenomedSpines",
+				"cooldown": "Cooldown: 30 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to have Zagara's next Basic Attack apply 230~~0.04~~ damage over 5 seconds."
+			},
+			{
+				"id": "ZagaraCombatStyleMedusaBlades",
+				"name": "Medusa Blades",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks deal 33% damage to three nearby targets."
+			},
+			{
+				"id": "ZagaraMasterySerratedSpines",
+				"name": "Serrated Spines",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Quest: Each Basic Attack against a Hero increases Zagara's Attack Damage by 0.2%."
+			}
+		],
+		"level7": [
+			{
+				"id": "ZagaraMasteryBanelingMassacre",
+				"name": "Baneling Massacre",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZagaraBanelingBarrage",
+				"description": "Gain 2 additional charges of Banelings Barrage, but increase its cooldown by 2 seconds."
+			},
+			{
+				"id": "ZagaraViscousAcid",
+				"name": "Viscous Acid",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZagaraBanelingBarrage",
+				"description": "Banelings Slow enemies by 25% for 2.5 seconds."
+			},
+			{
+				"id": "ZagaraMasteryBileDrop",
+				"name": "Bile Drop",
+				"type": "E",
+				"isQuest": true,
+				"ability": "ZagaraInfestedDrop",
+				"description": "Quest: Passively increases the radius of Infested Drop by 20%.\n\nReward: After hitting 12 Heroes with Infested Drop, it spawns an additional Roachling."
+			}
+		],
+		"level10": [
+			{
+				"id": "ZagaraHeroicAbilityDevouringMaw",
+				"name": "Devouring Maw",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZagaraDevouringMaw",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 70",
+				"description": "Summon a Devouring Maw that devours enemies for 4 seconds. Devoured enemies cannot fight and take 94~~0.04~~ damage per second.\n\nUsable on Unstoppable enemies."
+			},
+			{
+				"id": "ZagaraHeroicAbilityNydusAssault",
+				"name": "Nydus Network",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZagaraSummonNydusWorm",
+				"cooldown": "Charge Cooldown: 120 seconds",
+				"cost": "Mana: 50",
+				"description": "Summon a Nydus Worm on Creep anywhere that Zagara has vision. Zagara can enter a Nydus Worm and travel to any other Nydus Worm by right-clicking near it. While inside a Nydus Worm, Zagara regenerates 10% Health and Mana per second.\n\nStores up to 2 charges. Maximum of 4 Nydus Worms at a time.\n\nPassive: Creep spreads 15% farther. \nPassive: While on Creep, each Basic Attack reduces all of Zagara's cooldowns by 0.4 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "ZagaraMasteryHydraliskTransfusion",
+				"name": "Hydralisk Transfusion",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZagaraSummonHydralisk",
+				"description": "Zagara is healed for 60% of the damage dealt by Hunter Killers' Basic Attacks to Heroes."
+			},
+			{
+				"id": "ZagaraMasteryProtectiveCoating",
+				"name": "Protective Coating",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "ZagaraSummonCreepTumor",
+				"description": "While on Creep, Zagara gains 20 Armor, taking 20% less damage."
+			},
+			{
+				"id": "GenericTalentSpellShield",
+				"name": "Spell Shield",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "HeroGenericSpellShield",
+				"toggleCooldown": 0.5,
+				"description": "Every 30 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 3 seconds, reducing the damage taken by 50%.\n\nCan be toggled to allow or prevent this talent from triggering automatically."
+			}
+		],
+		"level16": [
+			{
+				"id": "ZagaraMasteryCorrosiveSaliva",
+				"name": "Corrosive Saliva",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZagaraSummonHydralisk",
+				"description": "When attacking Heroes, Hunter Killers and Roachlings deal additional damage equal to 1.5% of their maximum Health."
+			},
+			{
+				"id": "ZagaraMasteryMutalisk",
+				"name": "Mutalisk",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZagaraSummonHydralisk",
+				"description": "Reduce the cooldown of Hunter Killer by 4 seconds. Hunter Killer now spawns a Mutalisk. Mutalisks have a bounce attack, lose Health over 42 seconds, and have 450~~0.045~~ Health."
+			},
+			{
+				"id": "ZagaraJaggedBarbsTalent",
+				"name": "Jagged Barbs",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "ZagaraSummonCreepTumor",
+				"description": "While on Creep, Zagara gains 50% more Basic Attack damage and her attack range is increased by 1.1."
+			}
+		],
+		"level20": [
+			{
+				"id": "ZagaraMasteryTyrantMaw",
+				"name": "Tyrant Maw",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZagaraDevouringMaw",
+				"prerequisites": [
+					"ZagaraHeroicAbilityDevouringMaw"
+				],
+				"description": "Devouring Maw deals 50% more damage. Takedowns reduce its cooldown by 25 seconds."
+			},
+			{
+				"id": "ZagaraMasteryEndlessCreep",
+				"name": "Endless Creep",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ZagaraSummonNydusWorm",
+				"prerequisites": [
+					"ZagaraHeroicAbilityNydusAssault"
+				],
+				"description": "Increase Creep Tumor's cast range from 2.5 to 50. Creep Tumors now last 600 seconds. While on Creep, Zagara gains an additional 10% Movement Speed."
+			},
+			{
+				"id": "ZagaraBroodmother",
+				"name": "Broodmother",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ZagaraBanelingBarrage",
+				"description": "Every 3rd Basic Attack also launches a Baneling towards the target.\n\nPassive: Gain 20% bonus Attack Speed."
+			},
+			{
+				"id": "ZagaraPackInstinct",
+				"name": "Pack Instinct",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ZagaraSummonHydralisk",
+				"description": "Zagara and her summons deal 20% more damage to enemies attacked by a Hunter Killer in the last 2 seconds."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"ZagaraBaneling",
+		"ZagaraCreepTumor",
+		"ZagaraHydralisk",
+		"ZagaraMutalisk",
+		"ZagaraNydusWorm",
+		"ZagaraRoach"
+	]
+}

@@ -1,0 +1,44 @@
+{
+	"id": "PlantHorrorThornSpitter",
+	"name": "",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Charge Cooldown: 12 seconds\n\nPlant a thorn spitter at target location. Thorn spitter deals 61 damage. Lasts for 10 seconds.",
+	"stats": {
+		"life": {
+			"amount": 480,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 7,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "ThornSpitter",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 40,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 0.8,
+				"Merc": 0.8,
+				"Minion": 0.8,
+				"Structure": 2,
+				"Summoned": 0.8
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,362 @@
+{
+	"id": "Guldan",
+	"name": "Gul'dan",
+	"title": "Darkness Incarnate",
+	"unitId": "HeroGuldan",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2016-07-12",
+	"ratings": {
+		"complexity": 6,
+		"damage": 8,
+		"survivability": 5,
+		"utility": 3
+	},
+	"playstyles": [
+		"RoleCaster",
+		"SoloLaner",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1700,
+			"scale": 0.04,
+			"regenRate": 3.543,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 0
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.8125,
+		"innerRadius": 0.8125
+	},
+	"weapons": [
+		{
+			"nameId": "HeroGuldan",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 60,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "GuldanFelFlame",
+				"name": "Fel Flame",
+				"type": "Q",
+				"cooldown": "Cooldown: 1.5 seconds",
+				"cost": "Mana: 75",
+				"description": "Release a wave of flame, dealing 210~~0.045~~ damage to enemies."
+			},
+			{
+				"id": "GuldanDrainLife",
+				"name": "Drain Life",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Drain the life from an enemy over 3 seconds, dealing 132~~0.04~~ damage per second and healing Gul'dan for 188~~0.04~~ Health per second."
+			},
+			{
+				"id": "GuldanCorruption",
+				"name": "Corruption",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 90",
+				"description": "Call forth three bursts of shadow energy, dealing 204~~0.045~~ damage over 6 seconds. Corruption can stack up to 3 times on an enemy."
+			}
+		],
+		"heroic": [
+			{
+				"id": "GuldanHorrify",
+				"name": "Horrify",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, deal 120~~0.04~~ damage to enemy Heroes in an area and Fear them for 2 seconds. While Feared, Heroes are Silenced and are forced to run away from Horrify's center."
+			},
+			{
+				"id": "GuldanRainOfDestruction",
+				"name": "Rain of Destruction",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 80",
+				"description": "After 1.5 seconds, summon a rain of meteors in an area for 7 seconds. Each meteor deals 165~~0.04~~ damage in a small area."
+			}
+		],
+		"trait": [
+			{
+				"id": "GuldanLifeTap",
+				"name": "Life Tap",
+				"type": "Trait",
+				"lifeCost": "Life: 222",
+				"toggleCooldown": 0.5,
+				"description": "Gul'dan does not regenerate Mana.\n\nActivate to restore 25% of Gul'dan's Mana."
+			},
+			{
+				"id": "GuldanLifeTapFree",
+				"name": "Life Tap",
+				"type": "Trait",
+				"parent": "Darkness Within",
+				"toggleCooldown": 0.5,
+				"description": "Gul'dan does not regenerate Mana.\n\nActivate to restore 25% of Gul'dan's Mana."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "GuldanDemonicCircleTeleport",
+				"name": "Teleport To Demonic Circle",
+				"type": "Active",
+				"parent": "Summon Demonic Circle",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Instantly teleport Gul'dan to the Demonic Circle."
+			},
+			{
+				"id": "GuldanConsumeSoul",
+				"name": "Consume Soul",
+				"type": "Active",
+				"parent": "Consume Soul",
+				"cooldown": "Charge Cooldown: 25 seconds",
+				"charges": {
+					"countMax": 3,
+					"countStart": 3,
+					"countUse": 1,
+					"isCountHidden": false
+				},
+				"description": "Instantly kill an enemy Minion and heal for 365~~0.04~~ Health.\n\nStores up to 3 charges."
+			},
+			{
+				"id": "GuldanHealthstone",
+				"name": "Healthstone",
+				"type": "Active",
+				"parent": "Healthstone",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to heal for 25% of Gul'dan's maximum Health."
+			},
+			{
+				"id": "GuldanDemonicCircleSummon",
+				"name": "Summon Demonic Circle",
+				"type": "Active",
+				"parent": "Demonic Circle",
+				"cooldown": "Cooldown: 1 second",
+				"description": "After 1 second, create a Demonic Circle at Gul'dan's location."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "GuldanFelFlamePursuitOfFlame",
+				"name": "Pursuit of Flame",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "GuldanFelFlame",
+				"description": "Quest: Hit 30 enemy Heroes with Fel Flame without dying.\n\nReward: Permanently increase Fel Flame's area by 33%."
+			},
+			{
+				"id": "GuldanChaoticEnergy",
+				"name": "Chaotic Energy",
+				"type": "W",
+				"isQuest": true,
+				"ability": "GuldanDrainLife",
+				"description": "Increases the cast range of Drain Life by 25%, and Regen Globes heal for 50% more.\n\nQuest: Gather 15 Regen Globes.\n\nReward: Basic Ability Mana costs are permanently reduced by 20."
+			},
+			{
+				"id": "GuldanCorruptionEchoedCorruption",
+				"name": "Echoed Corruption",
+				"type": "E",
+				"isQuest": true,
+				"ability": "GuldanCorruption",
+				"description": "Quest: Hit enemy Heroes with Corruption.\n\nReward: After hitting 40 heroes, Corruption gains new functionality. After the third strike, Corruption strikes 3 times in the opposite direction.\n\nMythic Reward: After 85 hits, Corruption heals for 100% of the damage dealt."
+			}
+		],
+		"level4": [
+			{
+				"id": "GuldanDrainLifeHealthFunnel",
+				"name": "Health Funnel",
+				"type": "W",
+				"isQuest": false,
+				"ability": "GuldanDrainLife",
+				"description": "Drain Life's cooldown recharges 100% faster while it is channeling. If an enemy dies while under the effect of Drain Life, the cooldown is instantly refreshed."
+			},
+			{
+				"id": "GuldanLifeTapImprovedLifeTap",
+				"name": "Improved Life Tap",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "GuldanLifeTap",
+				"description": "Increase the Mana restored by Life Tap to 40%."
+			},
+			{
+				"id": "GuldanConsumeSoul",
+				"name": "Consume Soul",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "GuldanConsumeSoul",
+				"cooldown": "Charge Cooldown: 25 seconds",
+				"description": "Instantly kill an enemy Minion and heal for 365~~0.04~~ Health.\n\nStores up to 3 charges."
+			}
+		],
+		"level7": [
+			{
+				"id": "GuldanFelFlameBoundByShadow",
+				"name": "Bound by Shadow",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "GuldanFelFlame",
+				"description": "Each enemy Hero hit with Fel Flame reduces the cooldown of Corruption by 1.75 seconds."
+			},
+			{
+				"id": "GuldanCorruptionCurseOfExhaustion",
+				"name": "Curse of Exhaustion",
+				"type": "W",
+				"isQuest": false,
+				"ability": "GuldanDrainLife",
+				"description": "Drain Life deals 50% more damage and Slows the target's Movement Speed by 40%."
+			},
+			{
+				"id": "GuldanLifeTapHungerforPower",
+				"name": "Hunger for Power",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increases Spell Power by 15% but reduces healing received from allies by 25%."
+			}
+		],
+		"level10": [
+			{
+				"id": "GuldanHorrify",
+				"name": "Horrify",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "GuldanHorrify",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, deal 120~~0.04~~ damage to enemy Heroes in an area and Fear them for 2 seconds. While Feared, Heroes are Silenced and are forced to run away from Horrify's center."
+			},
+			{
+				"id": "GuldanRainOfDestruction",
+				"name": "Rain of Destruction",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "GuldanRainOfDestruction",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 80",
+				"description": "After 1.5 seconds, summon a rain of meteors in an area for 7 seconds. Each meteor deals 165~~0.04~~ damage in a small area."
+			}
+		],
+		"level13": [
+			{
+				"id": "GuldanFelFlameFelArmor",
+				"name": "Fel Armor",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "GuldanFelFlame",
+				"description": "Hitting an enemy Hero with Fel Flame grants 50 Spell Armor for 2.5 seconds, reducing Ability Damage taken by 50%. "
+			},
+			{
+				"id": "GuldanDrainLifeHarvestLife",
+				"name": "Harvest Life",
+				"type": "W",
+				"isQuest": false,
+				"ability": "GuldanDrainLife",
+				"description": "Drain Life heals for 75% more Health when used on Heroes."
+			},
+			{
+				"id": "GuldanDarkBargain",
+				"name": "Dark Bargain",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Gul'dan's maximum Health is permanently increased by 40% but his respawn time is increased by 10 seconds."
+			},
+			{
+				"id": "GuldanHealthstone",
+				"name": "Healthstone",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "GuldanHealthstone",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to heal for 25% of Gul'dan's maximum Health."
+			}
+		],
+		"level16": [
+			{
+				"id": "GuldanFelFlameRampantHellfire",
+				"name": "Rampant Hellfire",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "GuldanFelFlame",
+				"description": "Fel Flame's damage is increased by 12% for 5 seconds when hitting an enemy Hero. This can stack up to 5 times."
+			},
+			{
+				"id": "GuldanCorruptionRuinousAffliction",
+				"name": "Ruinous Affliction",
+				"type": "E",
+				"isQuest": false,
+				"ability": "GuldanCorruption",
+				"description": "Corruption deals an additional 70~~0.04~~ damage on impact. If the enemy is hit by all three strikes, the third strike deals 242~~0.04~~ damage."
+			},
+			{
+				"id": "GuldanLifeTapDarknessWithin",
+				"name": "Darkness Within",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "GuldanLifeTap",
+				"description": "Dealing 600~~0.04~~ damage to enemy Heroes causes the next cast of Life Tap to cost no Health and grant Gul'dan 25% Spell Power for 5 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "GuldanHorrifyHaunt",
+				"name": "Haunt",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "GuldanHorrify",
+				"prerequisites": [
+					"GuldanHorrify"
+				],
+				"description": "Increases the duration of Horrify by 1 second, and while Feared, enemies lose 20 Armor, causing them to take 20% increased damage."
+			},
+			{
+				"id": "GuldanRainOfDestructionDeepImpact",
+				"name": "Deep Impact",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "GuldanRainOfDestruction",
+				"prerequisites": [
+					"GuldanRainOfDestruction"
+				],
+				"description": "Rain of Destruction Slows enemies Movement Speed by 90% for 0.5 seconds."
+			},
+			{
+				"id": "GuldanDemonicCircle",
+				"name": "Demonic Circle",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "GuldanDemonicCircleSummon",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Summon a Demonic Circle at Gul'dan's location. Activate to teleport Gul'dan to the Demonic Circle."
+			}
+		]
+	}
+}

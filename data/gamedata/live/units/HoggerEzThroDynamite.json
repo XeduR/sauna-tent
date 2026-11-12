@@ -1,0 +1,32 @@
+{
+	"id": "HoggerEzThroDynamite",
+	"name": "Ez-Thro Dynamite",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Toss a bundle of Dynamite with a 1.5 second fuse. Upon detonation, enemies take 180~~0.04~~ damage and are Slowed by 30% for 2 seconds. \n\nThe Dynamite instantly detonates when landing on an enemy Hero granting Hogger 10 Rage.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

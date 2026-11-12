@@ -1,0 +1,348 @@
+{
+	"id": "Leoric",
+	"name": "Leoric",
+	"title": "The Skeleton King",
+	"unitId": "HeroLeoric",
+	"franchise": "Diablo",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Medium",
+	"isMelee": true,
+	"releaseDate": "2015-07-21",
+	"ratings": {
+		"complexity": 6,
+		"damage": 4,
+		"survivability": 8,
+		"utility": 5
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Overconfident",
+		"RoleTank",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2550,
+			"scale": 0.04,
+			"regenRate": 5.3125,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.8125,
+		"innerRadius": 0.8125
+	},
+	"weapons": [
+		{
+			"nameId": "LeoricWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1.3,
+			"damage": 115,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "LeoricSkeletalSwingTargetedReady",
+				"name": "Skeletal Swing",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 70",
+				"description": "Leoric swings his mace, dealing 150~~0.04~~ damage and Slowing enemies by 40% for 2.5 seconds. If an enemy Hero is hit, refund 50% of the cooldown and Mana cost. Deals 75% additional damage to Minions. Peasants!"
+			},
+			{
+				"id": "LeoricDrainHope",
+				"name": "Drain Hope",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 60",
+				"description": "Grab an enemy Hero's soul, dealing up to 20% of their maximum Health as damage and healing Leoric for up to 20% of his maximum Health while he is nearby, over 4 seconds. Leoric's Movement Speed is reduced by 20% while this is active."
+			},
+			{
+				"id": "LeoricWraithWalk",
+				"name": "Wraith Walk",
+				"type": "E",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 50",
+				"description": "Leoric separates from his body, becoming Unstoppable and gaining Movement Speed accelerating up to 50% over 2.5 seconds. When Wraith Walk ends or is canceled, his body jumps to his wraith."
+			},
+			{
+				"id": "LeoricGhastlySwing",
+				"name": "Ghastly Swing",
+				"type": "Q",
+				"parent": "Undying",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "Slow enemies by 40% for 2.5 seconds."
+			},
+			{
+				"id": "LeoricDrainEssence",
+				"name": "Drain Essence",
+				"type": "W",
+				"parent": "Undying",
+				"cooldown": "Cooldown: 9 seconds",
+				"description": "Throw out a chain, attaching to the first enemy Hero hit, healing Leoric for up to 10% of his maximum Health over 4 seconds as long as the enemy remains close."
+			}
+		],
+		"heroic": [
+			{
+				"id": "LeoricEntomb",
+				"name": "Entomb",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 90",
+				"description": "Create an unpassable tomb for 4 seconds."
+			},
+			{
+				"id": "LeoricMarchoftheBlackKing",
+				"name": "March of the Black King",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 75",
+				"description": "Leoric becomes Unstoppable and walks forward, swinging his mace 3 times. Enemies hit take 250~~0.04~~ damage, and Heroes hit heal Leoric for 12% of his maximum Health."
+			}
+		],
+		"trait": [
+			{
+				"id": "LeoricUndyingTrait",
+				"name": "Undying",
+				"type": "Trait",
+				"description": "Leoric becomes a ghost when he dies, and resurrects upon reaching full Health. Leoric deals no damage while dead.\n\nWrath Of The Bone King\n\nLeoric's first two Basic Attacks cleave for 100% damage, and his third Basic Attack deals 225% damage to a single target."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "LeoricOsseinRenewal",
+				"name": "Ossein Renewal",
+				"type": "Active",
+				"parent": "Ossein Renewal",
+				"cooldown": "Cooldown: 120 seconds",
+				"description": "Activate to heal Leoric for 30% of his maximum Health over 5 seconds. Regeneration Globes lower the cooldown of this Ability by 20 seconds."
+			},
+			{
+				"id": "LeoricShroudOfTheDeadKing",
+				"name": "Shroud of the Dead King",
+				"type": "Active",
+				"parent": "Shroud of the Dead King",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Activate to become Protected for 3 seconds, preventing all damage."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "LeoricMasteryConsumeVitalitySkeletalSwing",
+				"name": "Consume Vitality",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LeoricSkeletalSwingTargetedReady",
+				"description": "Skeletal Swing's cooldown is reduced by 2 seconds. Enemy Heroes hit heal Leoric for 4% of his maximum Health."
+			},
+			{
+				"id": "LeoricMasteryFealtyUntoDeathUndying",
+				"name": "Fealty Unto Death",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "When a nearby friendly or enemy Minion dies, Leoric restores 32~~0.04~~ Health and 6 Mana."
+			},
+			{
+				"id": "LeoricMasteryOsseinRenewal",
+				"name": "Ossein Renewal",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "LeoricOsseinRenewal",
+				"cooldown": "Cooldown: 120 seconds",
+				"description": "Activate to heal Leoric for 30% of his maximum Health over 5 seconds. Regeneration Globes lower the cooldown of this Ability by 20 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "LeoricMasteryGhastlyReachSkeletalSwing",
+				"name": "Ghastly Reach",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LeoricSkeletalSwingTargetedReady",
+				"description": "Increase the range of Skeletal Swing by 25%."
+			},
+			{
+				"id": "LeoricMasteryParalyzingRageSkeletalSwing",
+				"name": "Paralyzing Rage",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LeoricSkeletalSwingTargetedReady",
+				"description": "Increase the Slow of Skeletal Swing by 20%."
+			},
+			{
+				"id": "LeoricSkeletalSwingKneelPeasantsTalent",
+				"name": "Kneel, Peasants!",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "LeoricSkeletalSwingTargetedReady",
+				"description": "Skeletal Swing deals 75% additional damage to Mercenaries and Monsters, and hitting them activates Skeletal Swing's cost and cooldown refund."
+			}
+		],
+		"level7": [
+			{
+				"id": "LeoricMasteryWillingVesselDrainHope",
+				"name": "Willing Vessel",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "Increase the healing from Drain Hope to 25% of Leoric's maximum Health. If Drain Hope lasts its full duration, Leoric instantly heals for an additional 5% of his maximum Health."
+			},
+			{
+				"id": "LeoricMasteryDrainMomentumDrainHope",
+				"name": "Drain Momentum",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "Drain Hope no longer reduces Leoric's Movement Speed. If Drain Hope lasts its full duration, gain 30% Movement Speed for 4 seconds."
+			},
+			{
+				"id": "LeoricMasteryHopelessnessDrainHope",
+				"name": "Hopelessness",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "Increase the range of Drain Hope by 25%."
+			}
+		],
+		"level10": [
+			{
+				"id": "LeoricHeroicAbilityEntomb",
+				"name": "Entomb",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LeoricEntomb",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 90",
+				"description": "Create an unpassable tomb for 4 seconds."
+			},
+			{
+				"id": "LeoricHeroicAbilityMarchoftheBlackKing",
+				"name": "March of the Black King",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LeoricMarchoftheBlackKing",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 75",
+				"description": "Leoric becomes Unstoppable and walks forward, swinging his mace 3 times. Enemies hit take 250~~0.04~~ damage, and Heroes hit heal Leoric for 12% of his maximum Health."
+			}
+		],
+		"level13": [
+			{
+				"id": "LeoricMasteryUnyieldingDespairDrainHope",
+				"name": "Unyielding Despair",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "Drain Hope's cooldown is reduced by 0.75 seconds for every 1 second it is active. If Drain Hope lasts its full duration, its cooldown is reduced by an additional 2 seconds."
+			},
+			{
+				"id": "LeoricWraithWalkOminousWraithTalent",
+				"name": "Ominous Wraith",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LeoricWraithWalk",
+				"description": "Increase Wraith Walk's duration by 100%. Enemy Heroes that come in contact with the wraith deal 50% less damage for 4 seconds."
+			},
+			{
+				"id": "LeoricMasterySpectralLeech",
+				"name": "Spectral Leech",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against enemy Heroes deal bonus damage to the primary target damage equal 2.5% of the Hero's maximum Health and heal Leoric for 200% of the bonus damage dealt."
+			}
+		],
+		"level16": [
+			{
+				"id": "LeoricDrainHopeCrushingHopeTalent",
+				"name": "Crushing Hope",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "If Drain Hope lasts its full duration, it instantly deals an additional 15% of the target's maximum Health as damage. This damage does not heal Leoric."
+			},
+			{
+				"id": "LeoricMasteryRoyalFocusWraithWalk",
+				"name": "Royal Focus",
+				"type": "E",
+				"isQuest": false,
+				"ability": "LeoricWraithWalk",
+				"description": "Wraith Walk increases the damage of the next Skeletal Swing within 5 seconds by 50%. Each enemy Hero hit by Skeletal Swing reduces the cooldown of Wraith Walk by 7 seconds."
+			},
+			{
+				"id": "LeoricMithrilMaceTalent",
+				"name": "Mithril Mace",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Increase Leoric's Attack Speed by 20%.\n\nRepeatable Quest: Nearby enemy Minion deaths grant 0.3% permanent Attack Speed, and Takedowns grant 3% permanent Attack Speed, up to 30%."
+			}
+		],
+		"level20": [
+			{
+				"id": "LeoricMasteryBuriedAliveEntomb",
+				"name": "Buried Alive",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LeoricEntomb",
+				"prerequisites": [
+					"LeoricHeroicAbilityEntomb"
+				],
+				"description": "The duration of Entomb is lowered by 1 second, but enemies trapped inside are Silenced and take 50~~0.04~~ damage every 1 second."
+			},
+			{
+				"id": "LeoricMasteryDeathMarchMarchoftheBlackKing",
+				"name": "Death March",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "LeoricMarchoftheBlackKing",
+				"prerequisites": [
+					"LeoricHeroicAbilityMarchoftheBlackKing"
+				],
+				"description": "The final swing of March of the Black King also applies Drain Hope to nearby enemy Heroes."
+			},
+			{
+				"id": "LeoricBurningDespairTalent",
+				"name": "Burning Despair",
+				"type": "W",
+				"isQuest": false,
+				"ability": "LeoricDrainHope",
+				"description": "Deal 40~~0.04~~ damage per second to nearby enemies. \n\nWhile Drain Hope is active, gain 40 Armor and the damage and area is increased by 100%."
+			},
+			{
+				"id": "LeoricShroudoftheDeadKingTalent",
+				"name": "Shroud of the Dead King",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "LeoricShroudOfTheDeadKing",
+				"cooldown": "Cooldown: 25 seconds",
+				"description": "Activate to become Protected for 3 seconds, preventing all damage."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"LeoricWraithWalkUnit"
+	]
+}

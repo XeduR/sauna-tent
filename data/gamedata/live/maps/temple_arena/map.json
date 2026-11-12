@@ -1,0 +1,18 @@
+{
+	"id": "ArenaModeSkyTemple",
+	"name": "Temple Arena",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Ever-Changing Temples",
+			"description": "Each round, a different number of Temples can activate throughout the fight."
+		},
+		{
+			"title": "Unleash their Power",
+			"description": "Capture the Temples to destroy your enemy's core."
+		}
+	]
+}

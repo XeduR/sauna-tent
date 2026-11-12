@@ -1,0 +1,44 @@
+{
+	"id": "AzmodanDemonicInvasionDemonGrunt",
+	"name": "Demon Grunt",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 750,
+			"scale": 0.04,
+			"regenRate": -37.5,
+			"regenScale": 0.04
+		},
+		"speed": 4.875,
+		"sight": 7,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "AzmodanDemonGruntWeapon",
+			"range": 0.8,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 30,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

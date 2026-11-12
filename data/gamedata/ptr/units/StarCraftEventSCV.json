@@ -1,0 +1,54 @@
+{
+	"id": "StarCraftEventSCV",
+	"name": "SCV",
+	"damageType": "Minion",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"amount": 3,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "StarCraftEventSCVGatherArtifact",
+				"name": "",
+				"type": "Q",
+				"description": ""
+			},
+			{
+				"id": "StarCraftEventSCVTurnInArtifact",
+				"name": "",
+				"type": "W",
+				"description": ""
+			},
+			{
+				"id": "StarCraftEventSCVTeleportOut",
+				"name": "Teleport",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

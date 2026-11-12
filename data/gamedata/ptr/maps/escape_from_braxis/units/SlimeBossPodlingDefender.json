@@ -1,0 +1,44 @@
+{
+	"id": "SlimeBossPodlingDefender",
+	"name": "Podling",
+	"damageType": "Minion",
+	"attributes": [
+		"Creep"
+	],
+	"stats": {
+		"life": {
+			"amount": 300,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "SlimeBossDefenderPodling",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 150,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

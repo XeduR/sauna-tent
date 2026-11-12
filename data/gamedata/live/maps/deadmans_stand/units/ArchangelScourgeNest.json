@@ -1,0 +1,42 @@
+{
+	"id": "ArchangelScourgeNest",
+	"name": "Scourge Nest",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"User1"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 3,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "GhostShipBombardChargedPort",
+				"name": "Blackheart's Bombardment",
+				"type": "Q",
+				"charges": {
+					"countMax": 100,
+					"countStart": 10,
+					"isCountHidden": false
+				},
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

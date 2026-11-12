@@ -1,0 +1,48 @@
+{
+	"id": "MercDefenderRangedBandit",
+	"name": "Merc Defender Ranged Bandit",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 167,
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderRangedBandit",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 20,
+			"damageScale": 0,
+			"damageFactors": {
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

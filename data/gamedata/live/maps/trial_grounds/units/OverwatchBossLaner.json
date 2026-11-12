@@ -1,0 +1,45 @@
+{
+	"id": "OverwatchBossLaner",
+	"name": "",
+	"damageType": "Merc",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"Merc",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 8,
+		"sight": 8,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "WallCrush",
+				"name": "Grave Golem Wall Crush",
+				"type": "Z",
+				"toggleCooldown": 0.5,
+				"description": ""
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

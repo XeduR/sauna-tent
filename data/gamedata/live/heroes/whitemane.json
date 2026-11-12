@@ -1,0 +1,341 @@
+{
+	"id": "Whitemane",
+	"name": "Whitemane",
+	"title": "High Inquisitor",
+	"unitId": "HeroWhitemane",
+	"franchise": "Warcraft",
+	"roles": [
+		"Support"
+	],
+	"expandedRole": "Healer",
+	"difficulty": "Very Hard",
+	"isMelee": false,
+	"releaseDate": "2018-08-07",
+	"ratings": {
+		"complexity": 8,
+		"damage": 5,
+		"survivability": 5,
+		"utility": 7
+	},
+	"playstyles": [
+		"AllyHealer",
+		"EnergyImportant",
+		"RoleSupport",
+		"SelfHealer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1400,
+			"scale": 0.04,
+			"regenRate": 2.9218,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "WhitemaneHeroWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 62,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "WhitemaneDesperatePlea",
+				"name": "Desperate Plea",
+				"type": "Q",
+				"cost": "Mana: 45",
+				"toggleCooldown": 0.5,
+				"description": "Heal an allied Hero for 140~~0.04~~ and gain Desperation for 4 seconds.\n\nDesperation increases Desperate Plea's Mana cost by 40, and stacks up to 3 times.\n\nCurrent Mana Cost: 45"
+			},
+			{
+				"id": "WhitemaneInquisition",
+				"name": "Inquisition",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Channel on an enemy Hero for up to 3 seconds, dealing 50~~0.04~~ damage every 0.5 seconds and Slowing them by 30%. Removes a stack of Desperation.\n\nShares a cooldown with Clemency."
+			},
+			{
+				"id": "WhitemaneSearingLash",
+				"name": "Searing Lash",
+				"type": "E",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "After 0.5 seconds, smite enemies in a straight line for 82~~0.04~~ damage.\n\nIf the first strike hits an enemy Hero, a second strike will occur after a short delay.\n\nRepeatable Quest: Hit Heroes with Searing Lash.\nRepeatable Quest: Hit 3 Heroes with Basic Attacks.\n\nReward: Permanently increase Whitemane's maximum Health by 3 and Mana by 2. Heroes hit with the second strike of Searing Lash count as 2 hits."
+			}
+		],
+		"heroic": [
+			{
+				"id": "WhitemaneScarletAegis",
+				"name": "Scarlet Aegis",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Bolster the spirits of nearby allied Heroes, healing them for 300~~0.04~~ and granting them 40 Armor for 4 seconds."
+			},
+			{
+				"id": "WhitemaneDivineReckoning",
+				"name": "Divine Reckoning",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 75 seconds",
+				"description": "After 1 second, consecrate an area for 4 seconds, dealing 50~~0.04~~ damage every 0.5 seconds to enemies inside. 25% of the damage dealt to Heroes is returned as Mana."
+			}
+		],
+		"trait": [
+			{
+				"id": "WhitemaneFanaticalPower",
+				"name": "Zeal",
+				"type": "Trait",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Whitemane's healing Abilities apply Zeal for 8 seconds. Allies with Zeal are healed for 100% of the damage Whitemane deals to Heroes.\n\nActivate to gain 25% Spell Power and lose 15 Armor for 5 seconds. Can be cast while channeling abilities."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "WhitemaneInquisitionClemency",
+				"name": "Clemency",
+				"type": "Active",
+				"cooldown": "Cooldown: 12 seconds",
+				"description": "Activate to cast Inquisition on an allied Hero, healing them for up to 329~~0.04~~ over 3 seconds while Channeling. Removes a stack of Desperation\n\nShares a cooldown with Inquisition."
+			},
+			{
+				"id": "WhitemaneIntercession",
+				"name": "Intercession",
+				"type": "Active",
+				"parent": "Intercession",
+				"cooldown": "Cooldown: 75 seconds",
+				"description": "Activate to make an ally Unstoppable for 1 second."
+			},
+			{
+				"id": "WhitemaneGuidingLight",
+				"name": "Guiding Light",
+				"type": "Active",
+				"parent": "Guiding Light",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to cast a permanent Zeal on an allied Hero that costs no Mana and doesn't grant Desperation. Only one can be active at a time and has global cast range.\n\nIncreases the Spell Power bonus provided by Whitemane's trait by 15%."
+			},
+			{
+				"id": "WhitemanePurgeTheWicked",
+				"name": "Purge the Wicked",
+				"type": "Active",
+				"parent": "Purge the Wicked",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to blast an enemy Hero with holy fire, reducing their Armor by 25 and dealing 300~~0.04~~ damage over 4 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "WhitemaneZealPityTheFrail",
+				"name": "Pity the Frail",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WhitemaneInquisition",
+				"description": "For every Hero hit with Searing Lash, lower the cooldown of Inquisition by 1 seconds. Allies below 30% Health receive 25% more healing from Whitemane."
+			},
+			{
+				"id": "WhitemaneSearingLashRighteousFlame",
+				"name": "Righteous Flame",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WhitemaneSearingLash",
+				"description": "Searing Lash deals 25% more damage to enemies. If the second strike hits an enemy Hero, they take an additional 25% damage and Whitemane gains 40% Attack Speed for 3 seconds."
+			},
+			{
+				"id": "WhitemaneInquisitorsPrayer",
+				"name": "Inquisitor's Prayer",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WhitemaneSearingLash",
+				"description": "Searing Lash restores 25 Mana for each Hero it hits, and Zeal lasts 2 additional seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "WhitemaneDesperatePleaUnwaveringFaith",
+				"name": "Unwavering Faith",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WhitemaneDesperatePlea",
+				"description": "Increase Whitemane's Basic Attack range by 1.1. Whitemane gains 20% increased Basic Attack damage for each active Zeal buff."
+			},
+			{
+				"id": "WhitemaneDesperatePleaMartyrdom",
+				"name": "Martyrdom",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WhitemaneDesperatePlea",
+				"description": "Desperate Plea's healing is increased by 30%. Increase this by an additional 10% for each active Zeal."
+			},
+			{
+				"id": "WhitemaneZealIndulgence",
+				"name": "Indulgence",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Gain 5% Movement Speed. Increase this by an additional 5% for each active Zeal."
+			}
+		],
+		"level7": [
+			{
+				"id": "WhitemaneDesperatePleaZealousSpirit",
+				"name": "Zealous Spirit",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WhitemaneDesperatePlea",
+				"description": "Upon reaching 2 stacks of Desperation, Whitemane gains Zeal."
+			},
+			{
+				"id": "WhitemaneSaintlyGreatstaff",
+				"name": "Saintly Greatstaff",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WhitemaneSearingLash",
+				"description": "Enemy Heroes hit by Searing Lash are marked for 3 seconds. Basic Attacks against them deal an additional 55~~0.04~~ Spell damage and remove the mark."
+			},
+			{
+				"id": "WhitemaneIntercession",
+				"name": "Intercession",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WhitemaneIntercession",
+				"cooldown": "Cooldown: 75 seconds",
+				"description": "Activate to make an ally Unstoppable for 1 second."
+			}
+		],
+		"level10": [
+			{
+				"id": "WhitemaneScarletAegis",
+				"name": "Scarlet Aegis",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WhitemaneScarletAegis",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Bolster the spirits of nearby allied Heroes, healing them for 300~~0.04~~ and granting them 40 Armor for 4 seconds."
+			},
+			{
+				"id": "WhitemaneDivineReckoning",
+				"name": "Divine Reckoning",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WhitemaneDivineReckoning",
+				"cooldown": "Cooldown: 75 seconds",
+				"description": "After 1 second, consecrate an area for 4 seconds, dealing 50~~0.04~~ damage every 0.5 seconds to enemies inside. 25% of the damage dealt to Heroes is returned as Mana."
+			}
+		],
+		"level13": [
+			{
+				"id": "WhitemaneInquisitionSubjugation",
+				"name": "Subjugation",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WhitemaneInquisition",
+				"description": "Inquisition reduces all damage the target deals by 50%."
+			},
+			{
+				"id": "WhitemaneSearingLashLashingOut",
+				"name": "Lashing Out",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WhitemaneSearingLash",
+				"description": "If Searing Lash's second strike hits an enemy Hero, reduce its cooldown to 1 second."
+			},
+			{
+				"id": "WhitemaneZealScarletWrath",
+				"name": "Scarlet Wrath",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Basic Attacks against Heroes increase the duration of all active Zeals by 0.75 seconds, restore 1% Mana to all Zeal targets, and lower the cooldown of Zeals activation by 4 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "WhitemaneDesperatePleaRadiance",
+				"name": "Radiance",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WhitemaneDesperatePlea",
+				"description": "Reaching 3 stacks of Desperation heals for 190~~0.04~~ and reapplies Zeal to allies with Zeal."
+			},
+			{
+				"id": "WhitemaneInquisitionSharedPunishment",
+				"name": "Shared Punishment",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WhitemaneInquisition",
+				"description": "Upon casting, Inquisition can chain to an additional enemy Hero near its target, dealing 50~~0.04~~ damage every 0.5 seconds. Affected enemies lose 10 Armor."
+			},
+			{
+				"id": "WhitemaneSearingLashHarshDiscipline",
+				"name": "Harsh Discipline",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WhitemaneSearingLash",
+				"description": "Hitting a Hero with Searing Lash while they are being targeted by Inquisition Roots them for 1.5 seconds.\n\nPassive: Reduce Inquisition's cooldown by 2 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "WhitemaneScarletAegisScarletCrusade",
+				"name": "Scarlet Crusade",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WhitemaneScarletAegis",
+				"prerequisites": [
+					"WhitemaneScarletAegis"
+				],
+				"description": "Scarlet Aegis heals for 50% more and makes affected allies Unstoppable for 2 seconds."
+			},
+			{
+				"id": "WhitemaneDivineReckoningJudgmentDay",
+				"name": "Judgment Day",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WhitemaneDivineReckoning",
+				"prerequisites": [
+					"WhitemaneDivineReckoning"
+				],
+				"description": "Divine Reckoning deals 50% more damage and pulls enemies to its center the first time it hits them."
+			},
+			{
+				"id": "WhitemaneGuidingLight",
+				"name": "Guiding Light",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WhitemaneGuidingLight",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to cast a permanent Zeal on an allied Hero that costs no Mana and doesn't grant Desperation. Only one can be active at a time and has global cast range.\n\nIncreases the Spell Power bonus provided by Whitemane's trait by 15%."
+			},
+			{
+				"id": "WhitemanePurgeTheWicked",
+				"name": "Purge the Wicked",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WhitemanePurgeTheWicked",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "Activate to blast an enemy Hero with holy fire, reducing their Armor by 25 and dealing 300~~0.04~~ damage over 4 seconds."
+			}
+		]
+	}
+}

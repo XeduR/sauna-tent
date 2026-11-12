@@ -1,0 +1,24 @@
+{
+	"id": "TerranRavenSeekerMissile",
+	"name": "Raven",
+	"description": "Releases a slow moving missile at the targeted unit. The missile will chase the target for 7 seconds. If it gets within 3 range of the target, it will rapidly travel forward and impact, dealing 0 damage to the target and nearby enemies.",
+	"stats": {
+		"life": {
+			"amount": 5,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

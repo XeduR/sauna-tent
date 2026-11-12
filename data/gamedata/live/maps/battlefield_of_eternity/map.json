@@ -1,0 +1,22 @@
+{
+	"id": "BattlefieldOfEternity",
+	"name": "Battlefield of Eternity",
+	"size": {
+		"x": 248,
+		"y": 208
+	},
+	"objectives": [
+		{
+			"title": "Battling Immortals",
+			"description": "The angel lieutenant Ilarian and the demon lord Beleth are locked in an endless war."
+		},
+		{
+			"title": "Defeat the Enemy",
+			"description": "Aid your Immortal ally against his foe to claim victory."
+		},
+		{
+			"title": "Devastate Forts",
+			"description": "Rally to your Immortal as he wreaks havoc on the enemy's Structures!"
+		}
+	]
+}

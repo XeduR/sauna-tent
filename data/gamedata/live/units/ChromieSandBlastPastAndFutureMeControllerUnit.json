@@ -1,0 +1,40 @@
+{
+	"id": "ChromieSandBlastPastAndFutureMeControllerUnit",
+	"name": "Sand Blast Past and Future Me Controller Unit",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 0.625,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "ChromiePastAndFutureMeSandBlast",
+				"name": "Sand Blast",
+				"type": "Q",
+				"cost": "Mana: 0",
+				"toggleCooldown": 0.5,
+				"description": "After 0.5 seconds, fire a missile that deals 305~~0.04~~ damage to the first enemy hit. Deals 50% damage to Structures.\n\nCasting Sand Blast leaves an Echo behind that mimics Chromie's Sand Blast and Basic Attack, dealing 40% damage. Maximum of 1 Echo active at a time."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

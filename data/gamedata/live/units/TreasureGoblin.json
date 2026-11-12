@@ -1,0 +1,38 @@
+{
+	"id": "TreasureGoblin",
+	"name": "",
+	"stats": {
+		"life": {
+			"amount": 1000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 7.5,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0.5
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "TreasureGoblinEscape",
+				"name": "",
+				"type": "Q",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

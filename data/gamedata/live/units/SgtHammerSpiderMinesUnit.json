@@ -1,0 +1,42 @@
+{
+	"id": "SgtHammerSpiderMinesUnit",
+	"name": "Mine",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 25,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 6,
+		"sight": 3,
+		"radius": 0.5,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "SgtHammerSpiderMinesWeapon",
+			"range": 0.25,
+			"minimumRange": 0,
+			"period": 0.25,
+			"damage": 96,
+			"damageScale": 0.04,
+			"isDisabled": true
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

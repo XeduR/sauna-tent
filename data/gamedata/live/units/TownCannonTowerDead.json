@@ -1,0 +1,32 @@
+{
+	"id": "TownCannonTowerDead",
+	"name": "Cannon Tower",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"NoMinionAggro",
+		"Structure",
+		"Tower"
+	],
+	"stats": {
+		"life": {
+			"amount": 4000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

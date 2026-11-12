@@ -1,0 +1,24 @@
+{
+	"id": "TalentArcanePower",
+	"name": "Arcane Power",
+	"description": "Berserk\nCooldown: 0 seconds\nActivate to increase your Attack Speed by 0% and Movement Speed by 0% for 0 seconds.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

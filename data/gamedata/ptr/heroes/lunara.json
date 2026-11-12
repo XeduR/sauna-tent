@@ -1,0 +1,398 @@
+{
+	"id": "Dryad",
+	"name": "Lunara",
+	"title": "First Daughter of Cenarius",
+	"unitId": "HeroDryad",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2015-12-15",
+	"ratings": {
+		"complexity": 5,
+		"damage": 8,
+		"survivability": 4,
+		"utility": 5
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"RoleAutoAttacker",
+		"RoleCaster",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1430,
+			"scale": 0.04,
+			"regenRate": 2.9804,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "DryadHeroMeleeWeapon",
+			"range": 1.6,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 90,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "DryadHeroRangedWeapon",
+			"range": 5.5,
+			"minimumRange": 1.6,
+			"period": 0.9,
+			"damage": 90,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "DryadHeroRangedWeaponStarwoodSpearMastery",
+			"range": 8.25,
+			"minimumRange": 1.6,
+			"period": 0.9,
+			"damage": 90,
+			"damageScale": 0.04,
+			"isDisabled": true
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "DryadNoxiousBlossom",
+				"name": "Noxious Blossom",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 60",
+				"description": "After 0.5 seconds, cause an area to explode with pollen dealing 160~~0.04~~ damage."
+			},
+			{
+				"id": "DryadCripplingSpores",
+				"name": "Crippling Spores",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 50",
+				"description": "Enemies currently afflicted by Nature's Toxin have its duration increased by 3 seconds and are Slowed by 40%, decaying over 3 seconds."
+			},
+			{
+				"id": "DryadWisp",
+				"name": "Wisp",
+				"type": "E",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Spawn a Wisp to scout an area. Can be redirected once active. When the Wisp is in a bush for more 2 seconds, its vision radius is increased by 75%. Lasts 45 seconds."
+			},
+			{
+				"id": "DryadWispRedirect",
+				"name": "Relocate Wisp",
+				"type": "E",
+				"parent": "Wisp",
+				"cooldown": "Cooldown: 1 second",
+				"description": "Moves the Wisp to a new location."
+			}
+		],
+		"heroic": [
+			{
+				"id": "DryadThornwoodVine",
+				"name": "Thornwood Vine",
+				"type": "Heroic",
+				"cooldown": "Charge Cooldown: 15 seconds",
+				"cost": "Mana: 35",
+				"charges": {
+					"countMax": 3,
+					"countStart": 3,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": false
+				},
+				"description": "Send forth vines that deal 184~~0.04~~ damage to all enemies in a line.\n\nStores up to 3 charges."
+			},
+			{
+				"id": "DryadLeapingStrike",
+				"name": "Leaping Strike",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 50",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": false
+				},
+				"description": "Leap over an enemy, Slowing them by 80% for 0.35 seconds and dealing 271~~0.04~~ damage.\n\nStores up to 2 charges."
+			}
+		],
+		"trait": [
+			{
+				"id": "DryadNaturesToxin",
+				"name": "Nature's Toxin",
+				"type": "Trait",
+				"description": "Lunara's Basic Attacks and damaging Abilities poison their target, dealing 33~~0.04~~ damage a second for 3 seconds. Every additional application increases the duration by 3 seconds, up to a maximum of 9 seconds."
+			}
+		],
+		"mount": [
+			{
+				"id": "DryadDryadsSwiftness",
+				"name": "Dryad's Swiftness",
+				"type": "Z",
+				"description": "Lunara moves 20% faster by leaping short distances."
+			},
+			{
+				"id": "DryadGallopingGait",
+				"name": "Dryad's Swiftness",
+				"type": "Z",
+				"parent": "Galloping Gait",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Lunara moves 20% faster by leaping short distances."
+			}
+		],
+		"activable": [
+			{
+				"id": "DryadGreaterSpellShield",
+				"name": "Greater Spell Shield - Disabled",
+				"type": "Passive",
+				"parent": "Greater Spell Shield - Disabled",
+				"toggleCooldown": 0.75,
+				"description": "Greater Spell Shield is disabled and will not trigger.\n\nClick this button to enable Greater Spell Shield."
+			},
+			{
+				"id": "DryadAbolishMagic",
+				"name": "Abolish Magic",
+				"type": "Active",
+				"parent": "Abolish Magic",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Target an ally to remove all damage over time and disabling effects from them and Lunara. For 2 seconds after, the duration of disabling effects is reduced by 50%."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "DryadSentinelWisp",
+				"name": "Sentinel Wisp",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DryadWisp",
+				"description": "After remaining in a bush for 5 seconds, Wisp's vision radius is increased by 200% and reveals the surrounding area."
+			},
+			{
+				"id": "DryadNaturalPerspective",
+				"name": "Natural Perspective",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Nature's Toxin reveals enemies for its duration."
+			},
+			{
+				"id": "DryadHippityHop",
+				"name": "Hippity Hop",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DryadGallopingGait",
+				"description": "After not Basic Attacking or taking damage for 2 seconds, increase the Move Speed bonus of Dryad's Swiftness by 10%. "
+			}
+		],
+		"level4": [
+			{
+				"id": "DryadBlossomSwell",
+				"name": "Blossom Swell",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DryadNoxiousBlossom",
+				"description": "Increases Noxious Blossom's cast range by 25%. and its radius by 20%. Blossom Swell applies 1 additional stack of Nature's Toxin to enemies hit."
+			},
+			{
+				"id": "DryadNaturesCulling",
+				"name": "Nature's Culling",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increases Nature's Toxin's damage by 125% to non-Heroes."
+			},
+			{
+				"id": "DryadSiphoningToxin",
+				"name": "Siphoning Toxin",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "While at least one enemy is afflicted by Nature's Toxin, heal for 9~~0.04~~ per second. When an enemy Hero has 3 stacks of Nature's Toxin, increase this healing by 19~~0.04~~ per second."
+			}
+		],
+		"level7": [
+			{
+				"id": "DryadSplinteredSpear",
+				"name": "Splintered Spear",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DryadNoxiousBlossom",
+				"description": "Casting Noxious Blossom grants Lunara 3 stacks of Splintered Spear. When Lunara uses her Basic Attack, it hits an additional enemy for each stack of Splintered Spear, consuming 1 stack for each target. Stores up to 3 stacks.\n\nSplintered Spear deals 90~~0.04~~ damage, and applies Nature's Toxin."
+			},
+			{
+				"id": "DryadChokingPollen",
+				"name": "Choking Pollen",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DryadNoxiousBlossom",
+				"description": "Noxious Blossom deals 100% more damage to enemies afflicted by Nature's Toxin, increased to 175% against enemies with 3 stacks."
+			},
+			{
+				"id": "DryadWildVigor",
+				"name": "Wild Vigor",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DryadCripplingSpores",
+				"description": "Using Crippling Spores increases the damage of Lunara's next 4 Basic Attacks by 70%."
+			}
+		],
+		"level10": [
+			{
+				"id": "DryadHeroicAbilityThornwoodVine",
+				"name": "Thornwood Vine",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DryadThornwoodVine",
+				"cooldown": "Charge Cooldown: 15 seconds",
+				"cost": "Mana: 35",
+				"description": "Send forth vines that deal 184~~0.04~~ damage to all enemies in a line.\n\nStores up to 3 charges."
+			},
+			{
+				"id": "DryadHeroicAbilityLeapingStrike",
+				"name": "Leaping Strike",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DryadLeapingStrike",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 50",
+				"description": "Leap over an enemy, Slowing them by 80% for 0.35 seconds and dealing 271~~0.04~~ damage.\n\nStores up to 2 charges."
+			}
+		],
+		"level13": [
+			{
+				"id": "DryadEndlessSpores",
+				"name": "Endless Spores",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DryadCripplingSpores",
+				"description": "Casting Crippling Spores while at least 2 Heroes are afflicted by Nature's Toxin reduces the cooldown by 4 seconds and refunds 50 Mana."
+			},
+			{
+				"id": "DryadLetThemWither",
+				"name": "Let Them Wither",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DryadCripplingSpores",
+				"description": "Increases Crippling Spores' Slow duration by 1 second and causes it to no longer decay."
+			},
+			{
+				"id": "DryadGreaterSpellShield",
+				"name": "Greater Spell Shield",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Every 30 seconds, gain 75 Spell Armor against the next enemy Ability and subsequent Abilities for 3 seconds, reducing the damage taken by 75%.\n\nCan be toggled to allow or prevent this talent from triggering automatically."
+			},
+			{
+				"id": "DryadAbolishMagic",
+				"name": "Abolish Magic",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "DryadAbolishMagic",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Target an ally to remove all damage over time and disabling effects from them and Lunara. For 2 seconds after, the duration of disabling effects is reduced by 50%."
+			}
+		],
+		"level16": [
+			{
+				"id": "DryadAcceleratedContamination",
+				"name": "Accelerated Contamination",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DryadNoxiousBlossom",
+				"description": "Reduce the Mana cost of Noxious Blossom from 60 to 40. While at least 1 enemy Hero is afflicted with Nature's Toxin, Noxious Blossom's cooldown recharges 75% faster."
+			},
+			{
+				"id": "DryadStarWoodSpear",
+				"name": "Star Wood Spear",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DryadCripplingSpores",
+				"description": "Increase Lunara's Basic Attack range by 0.5. Using Crippling Spores increases Lunara's Basic Attack range by an additional 2.25 for 6 seconds."
+			},
+			{
+				"id": "DryadInvigoratingSpores",
+				"name": "Invigorating Spores",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DryadCripplingSpores",
+				"description": "Crippling Spores grants 30% Attack Speed for 6 seconds. Basic Attacks against enemy Heroes with 3 stacks of Nature's Toxin deal damage equal to 1.5% of their maximum Health."
+			},
+			{
+				"id": "DryadUnfairAdvantage",
+				"name": "Unfair Advantage",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Nature's Toxin deals 60% more damage to Heroes that are Slowed, Rooted, or Stunned."
+			}
+		],
+		"level20": [
+			{
+				"id": "DryadForTheWildlands",
+				"name": "For the Wildlands",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DryadThornwoodVine",
+				"prerequisites": [
+					"DryadHeroicAbilityThornwoodVine"
+				],
+				"description": "Thornwood Vine shoots 4 additional vines in an arc."
+			},
+			{
+				"id": "DryadBoundlessStrideTalent",
+				"name": "Boundless Stride",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DryadLeapingStrike",
+				"prerequisites": [
+					"DryadHeroicAbilityLeapingStrike"
+				],
+				"description": "All Leaping Strike charges are returned every 15 seconds. Leaping Strike can be used on allies."
+			},
+			{
+				"id": "DryadForestsWrath",
+				"name": "Forest's Wrath",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DryadThornwoodVine",
+				"description": "Lunara's Heroic Ability applies 1 additional stack of Nature's Toxin to enemies, and its range is increased by 30%.\n\nPassive: Increase Lunara's vision radius by 35%."
+			},
+			{
+				"id": "DryadIntensifyingToxin",
+				"name": "Intensifying Toxin",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "At 3 stacks, Nature's Toxin deals 40% more damage."
+			},
+			{
+				"id": "DryadGallopingGait",
+				"name": "Galloping Gait",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DryadGallopingGait",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Activate to increase the Movement Speed bonus of Dryad's Swiftness to 80% for 6 seconds."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"DryadWispUnit"
+	]
+}

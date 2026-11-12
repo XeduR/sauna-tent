@@ -1,0 +1,22 @@
+{
+	"id": "BlackheartsBay",
+	"name": "Blackheart's Bay",
+	"size": {
+		"x": 256,
+		"y": 232
+	},
+	"objectives": [
+		{
+			"title": "Collect Doubloons",
+			"description": "Attack Treasure Chests and Mercenaries to collect Doubloons."
+		},
+		{
+			"title": "Turn in Doubloons",
+			"description": "Hand your Doubloons over to Blackheart or you will drop them all when you die!"
+		},
+		{
+			"title": "Bombard your Enemies",
+			"description": "After receiving enough Doubloons from your team, Blackheart will bombard your enemy's Structures!"
+		}
+	]
+}

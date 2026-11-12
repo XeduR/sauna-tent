@@ -1,0 +1,342 @@
+{
+	"id": "Wizard",
+	"name": "Li-Ming",
+	"title": "Rebellious Wizard",
+	"unitId": "HeroWizard",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2016-02-02",
+	"ratings": {
+		"complexity": 7,
+		"damage": 10,
+		"survivability": 3,
+		"utility": 1
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Ganker",
+		"RoleCaster",
+		"TowerPusher"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1270,
+			"scale": 0.04,
+			"regenRate": 2.6484,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.625,
+		"innerRadius": 0.625
+	},
+	"weapons": [
+		{
+			"nameId": "HeroWizardWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 63,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "WizardMagicMissiles",
+				"name": "Magic Missiles",
+				"type": "Q",
+				"cooldown": "Cooldown: 3 seconds",
+				"cost": "Mana: 20",
+				"description": "Fire three missiles toward an area, each dealing 147~~0.035~~ damage to the first enemy hit. These missiles do 50% damage to Structures."
+			},
+			{
+				"id": "WizardArcaneOrb",
+				"name": "Arcane Orb",
+				"type": "W",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 40",
+				"description": "Fire an Orb that powers up as it travels, dealing 135~~0.03~~ damage to the first enemy hit. Damage is increased the further it travels, up to 270~~0.03~~ more damage."
+			},
+			{
+				"id": "WizardTeleport",
+				"name": "Teleport",
+				"type": "E",
+				"cooldown": "Cooldown: 5 seconds",
+				"cost": "Mana: 30",
+				"description": "Teleport a short distance instantly."
+			}
+		],
+		"heroic": [
+			{
+				"id": "WizardDisintegrate",
+				"name": "Disintegrate",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel a powerful beam, dealing 480~~0.05~~ damage over 2.6 seconds to enemies while they are in it. The direction of the beam changes with your mouse cursor position."
+			},
+			{
+				"id": "WizardWaveOfForce",
+				"name": "Wave of Force",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 30 seconds",
+				"cost": "Mana: 80",
+				"description": "Knock away all enemies from an area and deal 160~~0.05~~ damage."
+			},
+			{
+				"id": "WizardArchonPurePowerDisintegrate",
+				"name": "Disintegrate",
+				"type": "Heroic",
+				"parent": "Cancel Archon: Pure Power",
+				"toggleCooldown": 0.5,
+				"description": "Channel a powerful beam, dealing 192~~0.05~~ damage per second to enemies while they are in it. The direction of the beam changes with your mouse cursor position."
+			}
+		],
+		"trait": [
+			{
+				"id": "WizardTraitCriticalMass",
+				"name": "Critical Mass",
+				"type": "Trait",
+				"description": "Getting a Takedown will refresh the cooldown on all of Li-Ming's Abilities."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "WizardTeleportIllusionist",
+				"name": "Illusionist",
+				"type": "E",
+				"parent": "Illusionist",
+				"cooldown": "Cooldown: 4 seconds",
+				"description": "If Li-Ming loses more than 20% of her Health at once, its cooldown is instantly refreshed. \n\nThis effect has a 4 second cooldown.\n\nPassive: Increases Teleport range by 50%"
+			},
+			{
+				"id": "WizardArchonPurePower",
+				"name": "Archon: Pure Power",
+				"type": "Active",
+				"parent": "Archon: Pure Power",
+				"toggleCooldown": 0.5,
+				"description": "Activate to enter Archon form, allowing Li-Ming to repeatedly use Disintegrate, but be unable to cast other Abilities."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "WizardForceArmor",
+				"name": "Force Armor",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WizardMagicMissiles",
+				"description": "When Magic Missiles damages an enemy Hero, gain 50 Spell Armor, reducing the damage taken by the next Ability by 50%. Gain 1 charge per cast and store up to 4 charges.\n\nPassive: Li-Ming's Mana regeneration is increased by 100% while below 35% Mana."
+			},
+			{
+				"id": "WizardAetherWalker",
+				"name": "Aether Walker",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WizardTeleport",
+				"description": "Teleport costs no Mana. If Li-Ming hasn't taken damage in the last 3 seconds, Teleport's cooldown is decreased by 2 seconds. Casting Teleport causes Li-Ming's next cast of Magic Missiles to deal 10% bonus damage. "
+			},
+			{
+				"id": "WizardPowerHungry",
+				"name": "Power Hungry",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Regeneration Globes restore 100% more Mana and grant 10% Spell Power for 20 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "WizardMagicMissilesChargedBlast",
+				"name": "Charged Blast",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WizardMagicMissiles",
+				"description": "Basic Attacking a target recently hit by a Magic Missile does an extra 87~~0.04~~ damage."
+			},
+			{
+				"id": "WizardArcaneOrbTriumvirate",
+				"name": "Triumvirate",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WizardArcaneOrb",
+				"description": "If Arcane Orb hits an enemy Hero after traveling at least 50% of its base range, the cooldown is reduced by 5 seconds and 40 Mana is refunded."
+			},
+			{
+				"id": "WizardDominance",
+				"name": "Dominance",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Takedowns restore 30% of Li-Ming's missing Health."
+			}
+		],
+		"level7": [
+			{
+				"id": "WizardMagicMissilesSeeker",
+				"name": "Seeker",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WizardMagicMissiles",
+				"description": "If three Magic Missiles hit the same target, the third one deals an additional 140~~0.04~~ damage."
+			},
+			{
+				"id": "WizardArcaneOrbZeisVengeance",
+				"name": "Zei's Vengeance",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WizardArcaneOrb",
+				"description": "Increase Arcane Orb's damage increase for distance traveled by 30%. Additionally, reduce its cooldown by 1 second."
+			},
+			{
+				"id": "WizardTeleportCalamity",
+				"name": "Calamity",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WizardTeleport",
+				"description": "Teleport does 300~~0.03~~ damage to enemy Heroes near the destination."
+			}
+		],
+		"level10": [
+			{
+				"id": "WizardHeroicAbilityDisintegrate",
+				"name": "Disintegrate",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WizardDisintegrate",
+				"cooldown": "Cooldown: 20 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel a powerful beam, dealing 480~~0.05~~ damage over 2.6 seconds to enemies while they are in it. The direction of the beam changes with your mouse cursor position."
+			},
+			{
+				"id": "WizardHeroicAbilityWaveOfForce",
+				"name": "Wave of Force",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WizardWaveOfForce",
+				"cooldown": "Cooldown: 30 seconds",
+				"cost": "Mana: 80",
+				"description": "Knock away all enemies from an area and deal 160~~0.05~~ damage."
+			}
+		],
+		"level13": [
+			{
+				"id": "WizardTeleportIllusionist",
+				"name": "Illusionist",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WizardTeleport",
+				"description": "If Li-Ming loses more than 20% of her Health at once, its cooldown is instantly refreshed. \n\nThis effect has a 4 second cooldown.\n\nPassive: Increases Teleport range by 50%"
+			},
+			{
+				"id": "WizardCannoneer",
+				"name": "Cannoneer",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "When Li-Ming uses an Ability, her next Basic Attack's damage is increased by 75% and deals Spell damage instead of Physical. Stacks up to 3 times."
+			},
+			{
+				"id": "WizardGlassCannon",
+				"name": "Glass Cannon",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increase Li-Ming's Spell Power by 20%, but decrease her maximum Health by 15%."
+			}
+		],
+		"level16": [
+			{
+				"id": "WizardFireflies",
+				"name": "Fireflies",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WizardMagicMissiles",
+				"description": "Drastically increases Magic Missiles speed. Its cooldown is reduced by 1 second, and its Mana cost is reduced by 5."
+			},
+			{
+				"id": "WizardMagicMissilesMirrorball",
+				"name": "Mirrorball",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WizardMagicMissiles",
+				"description": "Magic Missiles fires an additional 2 missiles, but its Mana cost is increased by 5."
+			},
+			{
+				"id": "WizardArcaneOrbArcaneOrbit",
+				"name": "Arcane Orbit",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WizardArcaneOrb",
+				"description": "Arcane Orb travels 25% farther, increasing its maximum distance damage bonus from 270~~0.03~~ to 371~~0.03~~."
+			},
+			{
+				"id": "WizardTeleportDiamondSkin",
+				"name": "Diamond Skin",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WizardTeleport",
+				"description": "Teleport grants a Shield equal to 25% of Li-Ming's maximum Health for 4 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "WizardDisintegrateTemporalFlux",
+				"name": "Temporal Flux",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WizardDisintegrate",
+				"prerequisites": [
+					"WizardHeroicAbilityDisintegrate"
+				],
+				"description": "Disintegrate gradually Slows enemies caught in its beam, to a maximum of 60%."
+			},
+			{
+				"id": "WizardWaveOfForceRepulsion",
+				"name": "Repulsion",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WizardWaveOfForce",
+				"prerequisites": [
+					"WizardHeroicAbilityWaveOfForce"
+				],
+				"description": "Increases Wave of Force knockback distance by 175% and increases its cast range by 95%."
+			},
+			{
+				"id": "WizardTalRashasElements",
+				"name": "Tal Rasha's Elements",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Casting Abilities increases the damage of the next Ability by 5%, up to 20%. This bonus is reset when the same Ability is used within a chain."
+			},
+			{
+				"id": "WizardArchonPurePower",
+				"name": "Archon: Pure Power",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WizardArchonPurePower",
+				"toggleCooldown": 0.5,
+				"description": "Activate to enter Archon form, allowing Li-Ming to repeatedly use Disintegrate, but be unable to cast other Abilities."
+			}
+		]
+	}
+}

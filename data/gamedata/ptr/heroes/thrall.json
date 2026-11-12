@@ -1,0 +1,367 @@
+{
+	"id": "Thrall",
+	"name": "Thrall",
+	"title": "Warchief of the Horde",
+	"unitId": "HeroThrall",
+	"franchise": "Warcraft",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Medium",
+	"isMelee": true,
+	"releaseDate": "2015-01-13",
+	"ratings": {
+		"complexity": 6,
+		"damage": 8,
+		"survivability": 7,
+		"utility": 5
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Escaper",
+		"Ganker",
+		"Overconfident",
+		"RoleAutoAttacker"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1946,
+			"scale": 0.04,
+			"regenRate": 4.0546,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "ThrallHeroWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.1,
+			"damage": 167,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "ThrallChainLightning",
+				"name": "Chain Lightning",
+				"type": "Q",
+				"cooldown": "Cooldown: 7 seconds",
+				"cost": "Mana: 40",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": true
+				},
+				"description": "Shock an enemy with lightning, dealing 170~~0.04~~ damage. The lightning then bounces 3 times to nearby enemies, dealing 85~~0.04~~ damage to each enemy hit."
+			},
+			{
+				"id": "ThrallFeralSpirit",
+				"name": "Feral Spirit",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 40",
+				"description": "Unleash a Feral Spirit that deals 153~~0.04~~ damage to enemies in its path and Roots Heroes hit for 1 second. Each Hero hit increases the distance traveled by 25%."
+			},
+			{
+				"id": "ThrallWindfury",
+				"name": "Windfury",
+				"type": "E",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 60",
+				"description": "Increase Thrall's Movement Speed by 30% for 4 seconds. His next 3 Basic Attacks occur 100% faster and generate stacks of Frostwolf Resilience."
+			}
+		],
+		"heroic": [
+			{
+				"id": "ThrallSundering",
+				"name": "Sundering",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 75",
+				"description": "After 0.5 seconds, sunder the earth in a long line, dealing 290~~0.04~~ damage and shoving enemies to the side, Stunning them for 1 second."
+			},
+			{
+				"id": "ThrallEarthquake",
+				"name": "Earthquake",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, summon a massive Earthquake that pulses every 4 seconds. Each pulse lasts 2 seconds, Slowing all enemies in the area by 50%, and deals 50~~0.04~~ damage to enemy Heroes. Does 3 pulses."
+			}
+		],
+		"trait": [
+			{
+				"id": "ThrallFrostwolfResilience",
+				"name": "Frostwolf Resilience",
+				"type": "Trait",
+				"description": "Dealing damage with Abilities grants 1 stack of Frostwolf Resilience. At 5 stacks, Thrall is instantly healed for 240~~0.04~~ Health."
+			},
+			{
+				"id": "ThrallFrostwolfsGrace",
+				"name": "Frostwolf Resilience",
+				"type": "Trait",
+				"parent": "Frostwolf's Grace",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Dealing damage with Abilities grants 1 stack of Frostwolf Resilience. At 5 stacks, Thrall is instantly healed for 240~~0.04~~ Health."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "ThrallSpiritShield",
+				"name": "Spirit Shield",
+				"type": "Active",
+				"parent": "Spirit Shield",
+				"toggleCooldown": 0.75,
+				"description": "Spirit Shield is disabled and will not trigger.\n\nClick this button to enable Spirit Shield."
+			},
+			{
+				"id": "ThrallAncestralWrath",
+				"name": "Ancestral Wrath",
+				"type": "Active",
+				"parent": "Ancestral Wrath",
+				"charges": {
+					"countMax": 8,
+					"countUse": 8,
+					"recastCooldown": 1,
+					"isCountHidden": false
+				},
+				"description": "Activate to consume 8 stacks of Ancestral Wrath, damaging a target enemy Hero for 15% of their maximum Health over 3 seconds, and healing Thrall for 150% of the damage dealt.\n\nGain 1 stack of Ancestral Wrath every time Frostwolf Resilience activates."
+			},
+			{
+				"id": "ThrallWindRush",
+				"name": "Wind Rush",
+				"type": "Active",
+				"parent": "Wind Rush",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to immediately teleport to a target location and gain Windfury."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "ThrallEchooftheElements",
+				"name": "Echo of the Elements",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "ThrallChainLightning",
+				"description": "Quest: Kill Minions or Heroes within 2 seconds of hitting them with Chain Lightning. Upon dying, lose 8 stacks. Gained rewards cannot be lost.\n\nReward: After killing 20 enemies, reduce the Mana cost of Chain Lightning from 40 to 20.\n\nReward: After killing 50 enemies, Chain Lightning gains an extra charge.\n\nMythic Reward: After killing 125 enemies, Chain Lightning can now strike the same target multiple times, and also strikes 1 additional target per bounce."
+			},
+			{
+				"id": "ThrallCrashLightning",
+				"name": "Crash Lightning",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "ThrallChainLightning",
+				"description": "Quest: Hit at least 2 Heroes with a single use of Chain Lightning. Upon dying, lose 4 stacks. Gained rewards cannot be lost.\n\nReward: After hitting multiple Heroes 15 times, Chain Lightning deals 270 additional damage on its bounces after the initial strike.\n\nMythic Reward: After hitting multiple Heroes 30 times, Chain Lightning deals 325 additional damage on its bounces, and prioritizes bouncing to enemy Heroes."
+			},
+			{
+				"id": "ThrallMaelstromWeapon",
+				"name": "Maelstrom Weapon",
+				"type": "E",
+				"isQuest": true,
+				"ability": "ThrallWindfury",
+				"description": "Quest: Basic Attack Heroes while Windfury's Movement Speed bonus is active.\n\nReward: After hitting 25 Heroes, increase the Movement Speed bonus of Windfury to 40% and Thrall's Basic Attacks deal 40 additional damage.\n\nReward: After hitting 55 Heroes, Thrall permanently gains 15% increased Movement Speed and his Basic Attacks gain an additional 75 damage.\n\nMythic Reward: After hitting 100 Heroes, Frostwolf Resilience healing restores 200% more Health."
+			}
+		],
+		"level4": [
+			{
+				"id": "ThrallFeralResilience",
+				"name": "Feral Resilience",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ThrallFeralSpirit",
+				"description": "Heroes damaged by Feral Spirit grant 4 stacks of Frostwolf Resilience and 2 stacks of Feral Resilience, granting 75 Physical Armor against the next incoming Hero Basic Attack.\n\nStacks are consumed on the next cast of Feral Spirit."
+			},
+			{
+				"id": "ThrallFrostwolfPack",
+				"name": "Frostwolf Pack",
+				"type": "W",
+				"isQuest": true,
+				"ability": "ThrallFeralSpirit",
+				"description": "Quest: Hit 6 Heroes with Feral Spirit. Progress is lost on death and when Thrall fails to hit a Hero.\n\nReward: Reduce the cooldown and Mana cost of Feral Spirit by 50%."
+			},
+			{
+				"id": "ThrallMasteryManaTide",
+				"name": "Mana Tide",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Frostwolf Resilience restores 15 Mana and reduces Basic Ability cooldowns by 0.5 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "ThrallMasteryRollingThunder",
+				"name": "Rolling Thunder",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "ThrallChainLightning",
+				"description": "Passive: Chain Lightning bounces an additional time.\n\nFor 8 seconds after hitting an enemy with Chain Lightning, Thrall's next Basic Attack against them grants a stack of Frostwolf Resilience. If the target is an enemy Hero, then he also deals damage to them equal to 3% of their maximum Health and healing for the same amount.\n"
+			},
+			{
+				"id": "ThrallAncestralWrath",
+				"name": "Ancestral Wrath",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "ThrallAncestralWrath",
+				"description": "Activate to consume 8 stacks of Ancestral Wrath, damaging a target enemy Hero for 15% of their maximum Health over 3 seconds, and healing Thrall for 150% of the damage dealt.\n\nGain 1 stack of Ancestral Wrath every time Frostwolf Resilience activates."
+			},
+			{
+				"id": "ThrallElementalAssault",
+				"name": "Elemental Assault",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "After using an Ability, Thrall's next Basic Attack within 4 seconds deals 45% more damage."
+			}
+		],
+		"level10": [
+			{
+				"id": "ThrallHeroicAbilitySundering",
+				"name": "Sundering",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ThrallSundering",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 75",
+				"description": "After 0.5 seconds, sunder the earth in a long line, dealing 290~~0.04~~ damage and shoving enemies to the side, Stunning them for 1 second."
+			},
+			{
+				"id": "ThrallHeroicAbilityEarthquake",
+				"name": "Earthquake",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ThrallEarthquake",
+				"cooldown": "Cooldown: 100 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, summon a massive Earthquake that pulses every 4 seconds. Each pulse lasts 2 seconds, Slowing all enemies in the area by 50%, and deals 50~~0.04~~ damage to enemy Heroes. Does 3 pulses."
+			}
+		],
+		"level13": [
+			{
+				"id": "ThrallMasteryGraceOfAir",
+				"name": "Grace Of Air",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ThrallWindfury",
+				"description": "Windfury attacks grant twice as many stacks of Frostwolf Resilience."
+			},
+			{
+				"id": "ThrallMasteryFrostwolfsGrace",
+				"name": "Frostwolf's Grace",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "ThrallFrostwolfsGrace",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Frostwolf Resilience can be activated to instantly heal. This healing is increased by up to 100% based on Thrall's missing health."
+			},
+			{
+				"id": "ThrallSpiritShield",
+				"name": "Spirit Shield",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "ThrallSpiritShield",
+				"cooldown": "Cooldown: 45 seconds",
+				"toggleCooldown": 0.75,
+				"description": "Every 45 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 4 seconds. Frostwolf Resilience reduces this cooldown by 10 seconds.\n\nCan be toggled to allow or prevent this talent from triggering automatically."
+			}
+		],
+		"level16": [
+			{
+				"id": "ThrallMasteryTempestFury",
+				"name": "Tempest Fury",
+				"type": "E",
+				"isQuest": false,
+				"ability": "ThrallWindfury",
+				"description": "The final strike of Windfury hits 3 times for 75% normal damage. These hits do not provide quest progress."
+			},
+			{
+				"id": "ThrallThunderstorm",
+				"name": "Thunderstorm",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "ThrallChainLightning",
+				"description": "Chain Lightning Slows the primary target by 8% for 2 seconds when used on Heroes.\n\nQuest: Targeting a Hero directly with Chain Lightning increases this Slow by 8%, up to an additional 40%.\n\nReward: While at a 40% bonus, Chain Lightning's damage is increased by 30%.\n\nBonuses are reset if Chain Lightning is used on the same Hero it was last used on, or if Thrall dies."
+			},
+			{
+				"id": "ThrallAlphaWolf",
+				"name": "Alpha Wolf",
+				"type": "W",
+				"isQuest": false,
+				"ability": "ThrallFeralSpirit",
+				"description": "For 3 seconds after a Hero is hit by Feral Spirit, Thrall's Basic Attacks against them deal an additional 3% of the target's maximum Health as damage.\n\nPassive: Increase the duration of Feral Spirit's Root to 1.5 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "ThrallMasteryWorldbreaker",
+				"name": "Worldbreaker",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ThrallSundering",
+				"prerequisites": [
+					"ThrallHeroicAbilitySundering"
+				],
+				"description": "Lower the cooldown of Sundering by 40 seconds. After Sundering impacts, it leaves behind an impassable rift, blocking unit movement for 3 seconds."
+			},
+			{
+				"id": "ThrallMasteryEarthenShields",
+				"name": "Earthen Shields",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "ThrallEarthquake",
+				"prerequisites": [
+					"ThrallHeroicAbilityEarthquake"
+				],
+				"description": "Allies within the Earthquake area gain a Shield equal to 15% of their maximum Health each pulse. This shield lasts 4 seconds."
+			},
+			{
+				"id": "ThrallElementalMomentum",
+				"name": "Elemental Momentum",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks reduce Thrall's Basic and Heroic Ability cooldowns by 0.25 seconds, tripled against Heroes."
+			},
+			{
+				"id": "GenericTalentNexusBlades",
+				"name": "Nexus Blades",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks deal 20% more damage and Slow enemy Movement Speed by 20% for 1 second."
+			},
+			{
+				"id": "ThrallWindRush",
+				"name": "Wind Rush",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "ThrallWindRush",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to immediately teleport to a target location and gain Windfury."
+			}
+		]
+	}
+}

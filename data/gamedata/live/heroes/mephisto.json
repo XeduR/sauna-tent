@@ -1,0 +1,331 @@
+{
+	"id": "Mephisto",
+	"name": "Mephisto",
+	"title": "Lord of Hatred",
+	"unitId": "HeroMephisto",
+	"franchise": "Diablo",
+	"roles": [
+		"Assassin"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Hard",
+	"isMelee": false,
+	"releaseDate": "2018-09-04",
+	"ratings": {
+		"complexity": 7,
+		"damage": 8,
+		"survivability": 6,
+		"utility": 4
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"Overconfident",
+		"Roamer",
+		"RoleCaster"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1968,
+			"scale": 0.04,
+			"regenRate": 4.1015,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "MephistoHeroWeapon",
+			"range": 4.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 66,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MephistoSkullMissile",
+				"name": "Skull Missile",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 20",
+				"charges": {
+					"countMax": 1,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": true
+				},
+				"description": "Conjure a skull that travels in the target direction after 0.625 seconds, dealing 127~~0.04~~ damage to enemies hit and Slowing Heroes hit by 25% for 2 seconds."
+			},
+			{
+				"id": "MephistoLightningNova",
+				"name": "Lightning Nova",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 50",
+				"description": "A ring of lightning appears around Mephisto for 2.5 seconds. Enemies within the ring take 43~~0.04~~ damage every 0.25 seconds.\n\nEach time a cast of Lightning Nova hits a Hero, its damage is increased by 3%, up to 30%."
+			},
+			{
+				"id": "MephistoShadeOfMephisto",
+				"name": "Shade of Mephisto",
+				"type": "E",
+				"cooldown": "Cooldown: 18 seconds",
+				"cost": "Mana: 35",
+				"description": "Teleport to a location, dealing 78~~0.04~~ damage to nearby enemies and leaving behind a Shade of Mephisto at Mephisto's original location. \n\nAfter 2.5 seconds, Mephisto is teleported back to the Shade's location."
+			}
+		],
+		"heroic": [
+			{
+				"id": "MephistoConsumeSouls",
+				"name": "Consume Souls",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel for 2.5 seconds, revealing all enemy Heroes. After the Channel completes, all enemy Heroes take 357~~0.04~~ damage and are Slowed by 25% for 2.5 seconds."
+			},
+			{
+				"id": "MephistoDuranceOfHate",
+				"name": "Durance of Hate",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"description": "After 1 second, unleash a wave of evil spirits that Root the first enemy Hero hit for 2.5 seconds and deal 250~~0.04~~ damage to them over the same duration.\n\nDurance of Hate spreads outwards from its initial target, Rooting and damaging additional nearby enemy Heroes."
+			}
+		],
+		"trait": [
+			{
+				"id": "MephistoLordOfHatred",
+				"name": "Lord Of Hatred",
+				"type": "Trait",
+				"description": "Hitting enemy Heroes with Basic Abilities reduces Mephisto's Basic Ability cooldowns.\n\nSkull Missile and Shade of Mephisto grant 1.5 seconds of cooldown reduction per Hero hit, and Lightning Nova grants 0.3 seconds per Hero hit."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "MephistoShadeOfMephistoShadeLord",
+				"name": "Shade Lord",
+				"type": "Active",
+				"parent": "Shade Lord",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to swap locations with Shade of Mephisto and refresh its duration.\n\nPassive: Shade of Mephisto benefits from all of Mephisto's level 7 Talents."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "MephistoSkullMissileUnyieldingPower",
+				"name": "Unyielding Power",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "MephistoSkullMissile",
+				"description": "Quest: Hit Heroes with Skull Missile.\n\nReward: After hitting 20 Heroes, increase Skull Missile's damage by 100.\n\nReward: After hitting 40 Heroes, Skull Missile gains an additional charge."
+			},
+			{
+				"id": "MephistoLightningNovaFuriousSpark",
+				"name": "Furious Spark",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MephistoLightningNova",
+				"description": "Every 3rd hit from Lightning Nova against the same target deals 65~~0.04~~ bonus damage and grants Mephisto 2 Mana."
+			},
+			{
+				"id": "MephistoShadeOfMephistoMaliciousIntent",
+				"name": "Malicious Intent",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MephistoShadeOfMephisto",
+				"description": "Shade of Mephisto grants 25% Spell Power while active and for 2.5 seconds after ending.\n\nIf Mephisto hits enemy Heroes at least 18 times with his Basic Abilities while Shade of Mephisto is active, then increase the duration of the Spell Power bonus to 10 seconds after it ends."
+			}
+		],
+		"level4": [
+			{
+				"id": "MephistoSkullMissileHatefulMending",
+				"name": "Hateful Mending",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MephistoSkullMissile",
+				"description": "Skull Missile grants 10 Mana and heals Mephisto for 70% of the damage it deals to Heroes."
+			},
+			{
+				"id": "MephistoLightningNovaStaticBarrier",
+				"name": "Static Barrier",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MephistoLightningNova",
+				"description": "At the end of its duration, Lightning Nova grants Mephisto a Shield equal to 40% of the damage it dealt to Heroes. Lasts 5 seconds."
+			},
+			{
+				"id": "MephistoSpite",
+				"name": "Spite",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increase Regeneration Globe healing duration by 100%. Every tick of Regeneration Globe healing activates Lord of Hatred, reducing Basic Ability cooldowns by 1 second."
+			}
+		],
+		"level7": [
+			{
+				"id": "MephistoShadeOfMephistoGhastlyArmor",
+				"name": "Ghastly Armor",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MephistoShadeOfMephisto",
+				"description": "Shade of Mephisto grants 25 Armor while active and for 2.5 seconds after it ends."
+			},
+			{
+				"id": "MephistoShadeOfMephistoFrostStorm",
+				"name": "Frost Storm",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MephistoShadeOfMephisto",
+				"description": "While Shade of Mephisto is active, enemies who are hit by Lightning Nova are Slowed by 15% for 1 second and the Slow from Skull Missile is increased to 50%."
+			},
+			{
+				"id": "MephistoShadeOfMephistoTrickery",
+				"name": "Trickery",
+				"type": "E",
+				"isQuest": false,
+				"ability": "MephistoShadeOfMephisto",
+				"description": "Shade of Mephisto grants 20% Movement Speed while active and for 2.5 seconds after it ends.\n\nIf Mephisto hits enemy Heroes at least 18 times with his Basic Abilities while Shade of Mephisto is active, then reset the cooldown of Shade of Mephisto."
+			}
+		],
+		"level10": [
+			{
+				"id": "MephistoConsumeSouls",
+				"name": "Consume Souls",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MephistoConsumeSouls",
+				"cooldown": "Cooldown: 120 seconds",
+				"cost": "Mana: 80",
+				"description": "Channel for 2.5 seconds, revealing all enemy Heroes. After the Channel completes, all enemy Heroes take 357~~0.04~~ damage and are Slowed by 25% for 2.5 seconds."
+			},
+			{
+				"id": "MephistoDuranceOfHate",
+				"name": "Durance of Hate",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MephistoDuranceOfHate",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 50",
+				"description": "After 1 second, unleash a wave of evil spirits that Root the first enemy Hero hit for 2.5 seconds and deal 250~~0.04~~ damage to them over the same duration.\n\nDurance of Hate spreads outwards from its initial target, Rooting and damaging additional nearby enemy Heroes."
+			}
+		],
+		"level13": [
+			{
+				"id": "MephistoSkullMissileAbhorredSkull",
+				"name": "Abhorred Skull",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MephistoSkullMissile",
+				"description": "Hitting a Hero with Skull Missile grants 25% Spell Power for 6 seconds. Skull Missile deals 40% more damage to Heroes under 50% Health."
+			},
+			{
+				"id": "MephistoLordOfHatredHysteria",
+				"name": "Hysteria",
+				"type": "Trait",
+				"isQuest": false,
+				"ability": "MephistoLordofHatred",
+				"description": "Lord of Hatred also reduces the cooldown of Mephisto's Heroic Ability. Mephisto is healed for 15% of his maximum Health and Mana when he casts his Heroic Ability."
+			},
+			{
+				"id": "MephistoShardOfHate",
+				"name": "Shard of Hate",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks hit enemies near the primary target and activate Lord of Hatred against enemy Heroes, reducing Basic Ability cooldowns by 1 second per Hero hit."
+			}
+		],
+		"level16": [
+			{
+				"id": "MephistoSkullMissileLightningReaction",
+				"name": "Lightning Reaction",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "MephistoSkullMissile",
+				"description": "Skull Missile explodes on contact with Lightning Nova, dealing 120~~0.04~~ damage to nearby enemies."
+			},
+			{
+				"id": "MephistoLightningNovaStaticField",
+				"name": "Static Field",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MephistoLightningNova",
+				"description": "When Lightning Nova's damage bonus reaches 30%, enemy Heroes within its radius take damage equal to 10% of their maximum Health."
+			},
+			{
+				"id": "MephistoAnimosity",
+				"name": "Animosity",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MephistoLightningNova",
+				"description": "Increase the duration of Lightning Nova by 1 second and the maximum amount of bonus damage it can deal from 30% to 42%."
+			}
+		],
+		"level20": [
+			{
+				"id": "MephistoConsumeSoulsConsumedByHatred",
+				"name": "Consumed by Hatred",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MephistoConsumeSouls",
+				"prerequisites": [
+					"MephistoConsumeSouls"
+				],
+				"description": "Consume Souls deals bonus damage equal to 10% of the target's missing Health. If Consume Souls initial cast kills a Hero it will cast 1 additional time."
+			},
+			{
+				"id": "MephistoDuranceOfHateUnspeakableHorror",
+				"name": "Unspeakable Horror",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "MephistoDuranceOfHate",
+				"prerequisites": [
+					"MephistoDuranceOfHate"
+				],
+				"description": "Durance of Hate Silences enemies while they are Rooted and for 3 seconds after its Root expires."
+			},
+			{
+				"id": "MephistoLightningNovaMimic",
+				"name": "Mimic",
+				"type": "W",
+				"isQuest": false,
+				"ability": "MephistoLightningNova",
+				"description": "While both Shade of Mephisto and Lightning Nova are active, Lightning Nova also casts from the Shade's location."
+			},
+			{
+				"id": "MephistoShadeOfMephistoShadeLord",
+				"name": "Shade Lord",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "MephistoShadeOfMephistoShadeLord",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to swap locations with Shade of Mephisto and refresh its duration.\n\nPassive: Shade of Mephisto benefits from all of Mephisto's level 7 Talents."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"MephistoShadeOfMephistoUnit"
+	]
+}

@@ -1,0 +1,62 @@
+{
+	"id": "AbathurEvolvedMonstrosity",
+	"name": "Evolved Monstrosity",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Heroic Ability\nCooldown: 70 seconds\n\nSummon a Gargantuan that deals 100~~0.04~~ damage when created. The Gargantuan can grab enemy minions, and will stomp nearby enemies, slowing their Movement Speed by -0%. Lasts for 20 seconds.",
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1350,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 9,
+		"radius": 1,
+		"innerRadius": 0.375
+	},
+	"weapons": [
+		{
+			"nameId": "AbathurEvolveMonstrosityWeapon",
+			"range": 2,
+			"minimumRange": 0.5,
+			"period": 1,
+			"damage": 85,
+			"damageScale": 0.04
+		},
+		{
+			"nameId": "AbathurEvolveMonstrosityWeaponMelee",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 85,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "AbathurMonstrosityDeepTunnel",
+				"name": "Deep Tunnel",
+				"type": "Z",
+				"cooldown": "Cooldown: 80 seconds",
+				"description": "Order your Evolved Monstrosity to quickly tunnel to a visible location"
+			}
+		],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

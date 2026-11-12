@@ -1,0 +1,22 @@
+{
+	"id": "CursedHollow",
+	"name": "Snow Brawl",
+	"size": {
+		"x": 256,
+		"y": 216
+	},
+	"objectives": [
+		{
+			"title": "Throw Snowballs",
+			"description": "Snowballs spawn near Heroes, Buildings, Tributes, and Regen Globes. Pick them up and throw them!"
+		},
+		{
+			"title": "Collect Tributes",
+			"description": "Snowy Tributes spawn rapidly. Collect them to launch collossal snowballs at enemy Structures!"
+		},
+		{
+			"title": "Build Snowmen",
+			"description": "Incomplete Snowmen periodically form throughout the battleground. Use snowballs to complete them, and they will join your fight!"
+		}
+	]
+}

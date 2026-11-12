@@ -1,0 +1,54 @@
+{
+	"id": "MercDefenderSentinel",
+	"name": "Sentinel",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"description": "Tough, high-Health Mercenary. Attacks at melee range. Specializes in soaking up attacks from enemy fortifications.",
+	"killXP": 530,
+	"stats": {
+		"life": {
+			"amount": 6500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "MercDefenderSentinel",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 220,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "MercenarySentinelHorizontalSlash",
+				"name": "Horizontal Slash",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "Heavily damage enemies in a wide area"
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

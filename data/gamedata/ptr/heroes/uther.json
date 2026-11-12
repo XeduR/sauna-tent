@@ -1,0 +1,366 @@
+{
+	"id": "Uther",
+	"name": "Uther",
+	"title": "The Lightbringer",
+	"unitId": "HeroUther",
+	"franchise": "Warcraft",
+	"roles": [
+		"Support"
+	],
+	"expandedRole": "Healer",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 2,
+		"damage": 3,
+		"survivability": 7,
+		"utility": 9
+	},
+	"playstyles": [
+		"AllyHealer",
+		"EnergyImportant",
+		"Helper",
+		"Overconfident",
+		"RoleSupport",
+		"SelfHealer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1975,
+			"scale": 0.04,
+			"regenRate": 4.1146,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "HeroUther",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 75,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "UtherHolyLight",
+				"name": "Holy Light",
+				"type": "Q",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 80",
+				"description": "Heal target allied Hero for 362~~0.04~~ Health. When used on a target other than Uther, also heal Uther for 181~~0.04~~ Health."
+			},
+			{
+				"id": "UtherHolyRadiance",
+				"name": "Holy Radiance",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 55",
+				"description": "Heal all allied Heroes and Minions in a line for 194~~0.04~~ Health, dealing 177~~0.04~~ damage to enemies."
+			},
+			{
+				"id": "UtherHammerOfJustice",
+				"name": "Hammer of Justice",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 40",
+				"description": "Deal 109~~0.04~~ damage and Stun the target for 1 second."
+			},
+			{
+				"id": "UtherFlashofLight",
+				"name": "Flash of Light",
+				"type": "Q",
+				"parent": "Devotion",
+				"cooldown": "Cooldown: 1.5 seconds",
+				"description": "Heal an ally for 230~~0.04~~ Health."
+			}
+		],
+		"heroic": [
+			{
+				"id": "UtherDivineIntervention",
+				"name": "Divine Shield",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 80",
+				"description": "Make an allied Hero Invulnerable and increase their Movement Speed by 20% for 3 seconds."
+			},
+			{
+				"id": "UtherDivineStorm",
+				"name": "Divine Storm",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 80",
+				"description": "Deal 170~~0.04~~ damage and Stun nearby enemies for 1.75 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "UtherEternalDevotion",
+				"name": "Devotion",
+				"type": "Trait",
+				"description": "Uther's Basic Abilities grant 25 Armor to allied Heroes, and 15 to Uther, for 2 seconds.\n\nEternal Vanguard\n\nUpon dying, Uther becomes an Invulnerable spirit for up to 8 seconds. While in spirit form, Uther can heal allies with Flash of Light for 230~~0.04~~."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "HeroGenericSpellShield",
+				"name": "Spell Shield - Disabled",
+				"type": "Active",
+				"parent": "Spell Shield - Disabled",
+				"toggleCooldown": 0.5,
+				"description": "Spell Shield is disabled and will not trigger.\n\nClick this button to enable Spell Shield."
+			},
+			{
+				"id": "UtherHolyShock",
+				"name": "Holy Shock",
+				"type": "Active",
+				"parent": "Holy Shock",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Activate to deal 145~~0.04~~ damage to the target enemy, and gain the self-healing benefits of Holy Light. Shares a cooldown with Holy Light"
+			},
+			{
+				"id": "UtherHolyLightArmorOfFaithCooldownDisplay",
+				"name": "Armor of Faith",
+				"type": "Q",
+				"parent": "Armor of Faith",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Being Stunned, Rooted, or Silenced grants Uther 90 Mana and causes Holy Light's cooldown to recharge 200% faster for 6 seconds. This effect has a 20 second cooldown."
+			},
+			{
+				"id": "UtherHandOfProtection",
+				"name": "Hand of Protection",
+				"type": "Active",
+				"parent": "Hand of Protection",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to make target ally Unstoppable for 1 second. Cannot be cast on Uther. Basic Attacks reduce Hand of Protection's cooldown by 5 seconds."
+			},
+			{
+				"id": "UtherBenediction",
+				"name": "Benediction",
+				"type": "Active",
+				"parent": "Benediction",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to reduce the Mana cost of Uther's next Basic Ability by 50 and its cooldown by 10 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "UtherHolyLightSilverTouch",
+				"name": "Silver Touch",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "UtherHolyLight",
+				"description": "Quest: Reduce damage from Heroic sources with Devotion.\n\nReward: After reducing damage 40 times, Holy Light's Mana cost is reduced from 80 to 60.\n\nReward: After reducing damage 80 times, Holy Light's Mana cost is reduced to 40, and its range is increased by 50%."
+			},
+			{
+				"id": "UtherMasteryWaveofLightHolyRadiance",
+				"name": "Wave of Light",
+				"type": "W",
+				"isQuest": true,
+				"ability": "UtherHolyRadiance",
+				"description": "Quest: Damage or heal Heroes 60 times with Holy Radiance.\n\nReward: Increase the duration of Devotion by 0.5 seconds.\n\nPassive: Damaging or healing Heroes with Holy Radiance refunds 5 Mana and reduces its cooldown by 0.75 seconds."
+			},
+			{
+				"id": "UtherCombatStyleHammerOfTheLightbringer",
+				"name": "Hammer of the Lightbringer",
+				"type": "E",
+				"isQuest": true,
+				"ability": "UtherHammerOfJustice",
+				"description": "Quest: Basic Attack enemies 75 times.\n\nReward: Basic Attacks reduce the cooldown of Hammer of Justice by 1.5 seconds.\n\nPassive: Basic Attacks restore 1.5% of Uther's maximum Mana."
+			}
+		],
+		"level4": [
+			{
+				"id": "UtherMasteryHolyShock",
+				"name": "Holy Shock",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "UtherHolyShock",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Activate to deal 145~~0.04~~ damage to the target enemy, and gain the self-healing benefits of Holy Light. Shares a cooldown with Holy Light."
+			},
+			{
+				"id": "UtherHammerOfJusticePursuitOfJustice",
+				"name": "Pursuit of Justice",
+				"type": "E",
+				"isQuest": false,
+				"ability": "UtherHammerOfJustice",
+				"description": "Hammer of Justice increases Uther's Movement Speed by 25% for 3 seconds."
+			},
+			{
+				"id": "UtherHolyFire",
+				"name": "Holy Fire",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Deal 13~~0.04~~ damage per second to nearby enemies. Basic Attacks against enemy Heroes increase this damage by 20% for 3 seconds. This can stack up to 3 times."
+			}
+		],
+		"level7": [
+			{
+				"id": "UtherEternalDevotionArmorOfFaith",
+				"name": "Armor of Faith",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "UtherHolyLight",
+				"description": "Being Stunned, Rooted, or Silenced grants Uther 90 Mana and causes Holy Light's cooldown to recharge 200% faster for 6 seconds. This effect has a 20 second cooldown."
+			},
+			{
+				"id": "UtherEternalDevotionGuardianOfAncientKings",
+				"name": "Guardian of Ancient Kings",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Healing a Hero with a Basic Ability that is Stunned, Rooted, or Silenced grants them 50 Armor for 3 seconds."
+			},
+			{
+				"id": "UtherHandOfProtection",
+				"name": "Hand of Protection",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "UtherHandOfProtection",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "Activate to make target ally Unstoppable for 1 second. Cannot be cast on Uther. Basic Attacks reduce Hand of Protection's cooldown by 5 seconds."
+			}
+		],
+		"level10": [
+			{
+				"id": "UtherHeroicAbilityDivineShield",
+				"name": "Divine Shield",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "UtherDivineIntervention",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 80",
+				"description": "Make an allied Hero Invulnerable and increase their Movement Speed by 20% for 3 seconds."
+			},
+			{
+				"id": "UtherHeroicAbilityDivineStorm",
+				"name": "Divine Storm",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "UtherDivineStorm",
+				"cooldown": "Cooldown: 80 seconds",
+				"cost": "Mana: 80",
+				"description": "Deal 170~~0.04~~ damage and Stun nearby enemies for 1.75 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "UtherMasteryBlessedChampion",
+				"name": "Blessed Champion",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "UtherHolyLight",
+				"description": "For the next 5 seconds after using Holy Light, Uther's Basic Attacks heal him and nearby allied Heroes for 15% of the total amount healed by Holy Light."
+			},
+			{
+				"id": "UtherHammerOfJusticeWellMet",
+				"name": "Well Met",
+				"type": "E",
+				"isQuest": false,
+				"ability": "UtherHammerOfJustice",
+				"description": "When used against Heroes, Hammer of Justice reduces the target's Movement Speed and damage dealt by 25% for 3 seconds."
+			},
+			{
+				"id": "GenericTalentSpellShield",
+				"name": "Spell Shield",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "HeroGenericSpellShield",
+				"toggleCooldown": 0.5,
+				"description": "Every 30 seconds, gain 50 Spell Armor against the next enemy Ability and subsequent Abilities for 3 seconds, reducing the damage taken by 50%.\n\nCan be toggled to allow or prevent this talent from triggering automatically."
+			}
+		],
+		"level16": [
+			{
+				"id": "UtherBeaconOfLight",
+				"name": "Beacon of Light",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "UtherHolyLight",
+				"description": "Uther receives 125% bonus self-healing when targeting others with Holy Light. This bonus is increased to 250% while he is below 50% Health."
+			},
+			{
+				"id": "UtherHolyRadianceTyrsDeliverance",
+				"name": "Tyr's Deliverance",
+				"type": "W",
+				"isQuest": false,
+				"ability": "UtherHolyRadiance",
+				"description": "Increase the damage and healing of Holy Radiance by 10%. Basic Attacks against enemy Heroes cause Uther's next cast of Holy Radiance to have its damage and healing increased by an additional 10%, stacking up to 7 times."
+			},
+			{
+				"id": "UtherMasteryBenediction",
+				"name": "Benediction",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "UtherBenediction",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to reduce the Mana cost of Uther's next Basic Ability by 50 and its cooldown by 10 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "UtherMasteryBulwarkOfLightDivineShield",
+				"name": "Bulwark of Light",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "UtherDivineIntervention",
+				"prerequisites": [
+					"UtherHeroicAbilityDivineShield"
+				],
+				"description": "Divine Shield is also applied to all nearby allied Heroes and lasts 1 second longer."
+			},
+			{
+				"id": "UtherMasteryDivineHurricaneDivineStorm",
+				"name": "Divine Hurricane",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "UtherDivineStorm",
+				"prerequisites": [
+					"UtherHeroicAbilityDivineStorm"
+				],
+				"description": "Divine Storm's radius is increased by 50% and its cooldown is reduced by 40 seconds."
+			},
+			{
+				"id": "UtherMasteryRedemption",
+				"name": "Redemption",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "After Eternal Vanguard ends, Uther revives at the spirit's location with 50% of his maximum Health.\n\nThis effect has a 180 second cooldown."
+			},
+			{
+				"id": "UtherEternalDevotionDivineProtection",
+				"name": "Divine Protection",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increase Devotion Armor to 50 and its duration by 0.5 seconds."
+			}
+		]
+	}
+}

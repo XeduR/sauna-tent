@@ -1,0 +1,52 @@
+{
+	"id": "TownTownHallL3",
+	"name": "Keep",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"Structure",
+		"Tower"
+	],
+	"description": "Powerful, tough structure. Attacks slow enemy movement and attack speeds. Attacks deplete ammunition, and cannot attack without ammunition. Prioritizes attacking Minions first.",
+	"stats": {
+		"life": {
+			"amount": 22550,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 3,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TownHallL3Weapon",
+			"range": 8,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 440,
+			"damageScale": 0,
+			"damageFactors": {
+				"Structure": 1,
+				"Summoned": -0.5,
+				"MapCreature": 0.75
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TowerMarkAttackTarget",
+				"name": "",
+				"type": "E",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

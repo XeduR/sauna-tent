@@ -1,0 +1,24 @@
+{
+	"id": "MapMechanicNuke",
+	"name": "Nuke",
+	"description": "After 3 seconds, launch a Warhead dealing 1750 damage (30% max Health to Heroes).  Sets buildings on fire, causing additional damage over 10 seconds.  This effect is extended by attacking burning buildings.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

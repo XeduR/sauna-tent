@@ -1,0 +1,52 @@
+{
+	"id": "UnderworldRangedMinion",
+	"name": "Risen Miner",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapCreature"
+	],
+	"killXP": 28,
+	"stats": {
+		"life": {
+			"amount": 545,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "UnderworldRangedMinion",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 30,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 2
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

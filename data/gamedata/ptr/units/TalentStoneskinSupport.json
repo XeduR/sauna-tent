@@ -1,0 +1,24 @@
+{
+	"id": "TalentStoneskinSupport",
+	"name": "Stoneskin",
+	"description": "Stoneskin\nCooldown: 60 seconds\n\nActivate: Gain a temporary shield that absorbs 1 damage for 5 seconds. Nearby allies gain a temporary shield that absorbs 0 damage for 0 seconds.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

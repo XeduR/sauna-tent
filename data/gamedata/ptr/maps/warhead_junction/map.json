@@ -1,0 +1,22 @@
+{
+	"id": "Warhead Junction",
+	"name": "Warhead Junction",
+	"size": {
+		"x": 256,
+		"y": 248
+	},
+	"objectives": [
+		{
+			"title": "Warhead Deployment",
+			"description": "Periodically multiple Warheads will spawn across the battleground."
+		},
+		{
+			"title": "Collect Warheads",
+			"description": "Collect a Warhead to activate your Nuke. Use it quick or you will drop it when you die!"
+		},
+		{
+			"title": "Call Down the Thunder",
+			"description": "Launch Nukes to burn enemy team's fortifications.  Attack their structures to extend the burn!"
+		}
+	]
+}

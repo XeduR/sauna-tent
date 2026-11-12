@@ -1,0 +1,41 @@
+{
+	"id": "WitchDoctorCorpseSpider",
+	"name": "",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 6.5,
+		"sight": 4,
+		"radius": 0.3125,
+		"innerRadius": 0.25
+	},
+	"weapons": [
+		{
+			"nameId": "WitchDoctorCorpseSpiderWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 38,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

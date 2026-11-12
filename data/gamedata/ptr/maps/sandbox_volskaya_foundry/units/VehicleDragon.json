@@ -1,0 +1,92 @@
+{
+	"id": "VehicleDragon",
+	"name": "Dragon Knight",
+	"attributes": [
+		"Heroic",
+		"ImmuneToFriendlyAbilities"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 8350,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 400,
+			"regenRate": 2.2187
+		},
+		"speed": 4,
+		"sight": 12,
+		"radius": 1.5,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "GardensDragonKnightWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 180,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		},
+		{
+			"nameId": "GardensDragonKnightPuntWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 0.5,
+			"damage": 200,
+			"damageScale": 0,
+			"isDisabled": true
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "VehicleDragonFireBreath",
+				"name": "Flame Breath",
+				"type": "Q",
+				"cooldown": "Cooldown: 6 seconds",
+				"description": "Breath a cone of flame, dealing 85 damage and burn the area of effect for an additional 160 damage over 4 seconds."
+			},
+			{
+				"id": "VehicleDragonPunt",
+				"name": "Savage Charge",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "After a short delay, charge an enemy Hero to knock them back and deal 450 damage."
+			}
+		],
+		"heroic": [
+			{
+				"id": "DragonKnightRubbleMaker",
+				"name": "Rubble Maker",
+				"type": "Heroic",
+				"description": "Increases damage to Structures and Minions by 100%.\nReduces damage from Structures by 60%.\nPermanently Unstoppable.\nThe Dragon Knight explodes on death, knocking back nearby enemies."
+			}
+		],
+		"trait": [
+			{
+				"id": "LeaveVehicle",
+				"name": "Leave Vehicle",
+				"type": "Trait",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Exit the Vehicle."
+			}
+		],
+		"mount": [],
+		"activable": []
+	},
+	"playstyles": [
+		"PowerfulLaner",
+		"Suicidal"
+	]
+}

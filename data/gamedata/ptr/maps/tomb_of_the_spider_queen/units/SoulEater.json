@@ -1,0 +1,81 @@
+{
+	"id": "SoulEater",
+	"name": "Webweaver",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 8000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "SoulEaterRangedWeapon",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 80,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		},
+		{
+			"nameId": "SoulEaterRangedWeaponAITargetStructure",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 80,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 1,
+				"Merc": 1,
+				"Minion": 1,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "SoulEaterSpawnMinions",
+				"name": "Spawn Minions",
+				"type": "Q",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Spawn 3 minions for the Soul Eater."
+			},
+			{
+				"id": "SoulEaterDeathWave",
+				"name": "Death Wave",
+				"type": "W",
+				"cooldown": "Cooldown: 7 seconds",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

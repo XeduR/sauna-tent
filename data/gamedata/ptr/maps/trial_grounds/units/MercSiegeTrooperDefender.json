@@ -1,0 +1,51 @@
+{
+	"id": "MercSiegeTrooperDefender",
+	"name": "Assault Trooper",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 90,
+	"stats": {
+		"life": {
+			"amount": 2300,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 8,
+		"radius": 1,
+		"innerRadius": 0.875
+	},
+	"weapons": [
+		{
+			"nameId": "MercSiegeTrooperDefenderWeapon",
+			"range": 7,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 75,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": -0.5,
+				"Minion": 1,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"id": "PayloadChaosPath2",
+	"name": "Payload Chaos - Path 2",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"amount": 2000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0.75,
+		"sight": 8,
+		"radius": 1.5,
+		"innerRadius": 1.5
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [
+			{
+				"id": "move",
+				"name": "Move",
+				"type": "Trait",
+				"description": ""
+			}
+		],
+		"mount": [
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "Z",
+				"description": ""
+			}
+		],
+		"activable": []
+	}
+}

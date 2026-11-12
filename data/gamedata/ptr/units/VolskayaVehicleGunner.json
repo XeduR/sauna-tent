@@ -1,0 +1,77 @@
+{
+	"id": "VolskayaVehicleGunner",
+	"name": "Triglav Gunner",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"amount": 10000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 32,
+			"regenRate": 3.5
+		},
+		"speed": 0,
+		"sight": 12,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "VolskayaVehicleActivateParticleCannon",
+				"name": "Particle Cannon",
+				"type": "Q",
+				"toggleCooldown": 0.0625,
+				"description": "Fire the Particle Cannon, dealing 225 damage in an area."
+			},
+			{
+				"id": "VolskayaVehicleInitiateParticleCannon",
+				"name": "Particle Cannon",
+				"type": "Q",
+				"cooldown": "Cooldown: 4 seconds",
+				"description": "Start extending the range of the Particle Cannon. Reactivate to fire, dealing 225 damage in the target area."
+			},
+			{
+				"id": "VolskayaVehicleTacticalStrikes",
+				"name": "Gatling Cannon",
+				"type": "W",
+				"toggleCooldown": 0.5,
+				"description": "Toggle to fire missiles at the cursor's location. Each missile deals 45 damage but drains 1 Energy. Reactivate to stop firing.\n\nDeals 50% less damage to Structures."
+			},
+			{
+				"id": "VolskayaVehicleSkyLaser",
+				"name": "Scorching Laser",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Vector Targeting\nDraw a line on the ground, dealing 75 damage. After 1 second, it explodes for 500 damage."
+			}
+		],
+		"heroic": [],
+		"trait": [
+			{
+				"id": "LeaveVehicle",
+				"name": "Leave Vehicle",
+				"type": "Trait",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": "Exit the Vehicle."
+			}
+		],
+		"mount": [
+			{
+				"id": "VolskayaVehicleFighterFlight",
+				"name": "",
+				"type": "Z",
+				"description": ""
+			}
+		],
+		"activable": []
+	}
+}

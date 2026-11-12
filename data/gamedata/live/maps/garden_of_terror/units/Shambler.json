@@ -1,0 +1,45 @@
+{
+	"id": "Shambler",
+	"name": "Shambler",
+	"damageType": "Merc",
+	"attributes": [
+		"MapCreature",
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 600,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 2,
+		"sight": 8,
+		"radius": 0.6875,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "ShamblerWeapon",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 75,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

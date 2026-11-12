@@ -1,0 +1,44 @@
+{
+	"id": "ArthasArmyOfTheDeadGhoul",
+	"name": "Ghoul",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1200,
+			"scale": 0.04,
+			"regenRate": -60,
+			"regenScale": 0.04
+		},
+		"speed": 5,
+		"sight": 7,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "ArthasArmyOfTheDeadGhoulWeapon",
+			"range": 1,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 20,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

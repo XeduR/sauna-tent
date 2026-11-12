@@ -1,0 +1,62 @@
+{
+	"id": "UnderworldBoss",
+	"name": "Grave Golem",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapBoss",
+		"MapCreature"
+	],
+	"killXP": 560,
+	"stats": {
+		"life": {
+			"amount": 9000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.75,
+		"sight": 8,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "UnderworldBoss",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 250,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "UnderworldBossRoots",
+				"name": "Ice Shard",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Roots roots roots"
+			},
+			{
+				"id": "UnderworldBossStun",
+				"name": "Mega Smash",
+				"type": "W",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Slam the ground, dealing 0 damage to nearby enemies and stunning them."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

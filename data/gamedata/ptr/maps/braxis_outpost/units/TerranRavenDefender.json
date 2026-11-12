@@ -1,0 +1,63 @@
+{
+	"id": "TerranRavenDefender",
+	"name": "Raven",
+	"damageType": "Merc",
+	"attributes": [
+		"Creep"
+	],
+	"killXP": 90,
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 11,
+		"radius": 0.625,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "TerranRavenDefenderDummyWeapon",
+			"range": 11,
+			"minimumRange": 0,
+			"period": 5,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TerranRavenSeekerMissile",
+				"name": "Seeker Missile",
+				"type": "Q",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Releases a slow moving missile at the targeted unit. The missile will chase the target for 7 seconds. If it gets within 3 range of the target, it will rapidly travel forward and impact, dealing 0 damage to the target and nearby enemies."
+			},
+			{
+				"id": "TerranRavenDeployAutoTurret",
+				"name": "",
+				"type": "W",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Deploy an Auto-Turret at the targeted location. Auto-Turrets are stationary attack turrets that will attack any enemies that come into range."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"TerranAutoTurret"
+	]
+}

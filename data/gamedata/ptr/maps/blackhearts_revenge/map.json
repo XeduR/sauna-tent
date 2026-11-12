@@ -1,0 +1,18 @@
+{
+	"id": "DockEscort",
+	"name": "Blackheart's Revenge",
+	"size": {
+		"x": 256,
+		"y": 232
+	},
+	"objectives": [
+		{
+			"title": "Kill Enemy Heroes",
+			"description": "Prevent enemy Heroes from collecting Cannonballs and firing the Cannons at Blackheart’s Ship."
+		},
+		{
+			"title": "Protect Blackheart's Ship",
+			"description": "Defend the Ship until it destroys the enemy Core at the docks to win."
+		}
+	]
+}

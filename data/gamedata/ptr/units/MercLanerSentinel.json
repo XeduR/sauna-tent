@@ -1,0 +1,48 @@
+{
+	"id": "MercLanerSentinel",
+	"name": "",
+	"damageType": "Merc",
+	"attributes": [
+		"Merc"
+	],
+	"stats": {
+		"life": {
+			"amount": 9500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4,
+		"sight": 8,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "MercLanerSentinel",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1.25,
+			"damage": 220,
+			"damageScale": 0,
+			"damageFactors": {
+				"Minion": 9,
+				"Structure": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

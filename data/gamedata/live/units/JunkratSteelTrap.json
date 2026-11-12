@@ -1,0 +1,39 @@
+{
+	"id": "JunkratSteelTrap",
+	"name": "Steel Trap",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Place a trap on the ground that arms after 2 seconds. Deals 130~~0.04~~ damage to the first enemy that walks over it and Roots them for 2 seconds.\n\nLimit 1 active trap.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 5,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

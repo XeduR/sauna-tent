@@ -1,0 +1,55 @@
+{
+	"id": "ZergHydralisk",
+	"name": "Hydralisk",
+	"damageType": "Monster",
+	"stats": {
+		"life": {
+			"amount": 680,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 4.5,
+		"sight": 9,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "ZergHydraliskMelee",
+			"range": 0.5,
+			"minimumRange": 0,
+			"period": 1.2,
+			"damage": 70,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": 0
+			}
+		},
+		{
+			"nameId": "ZergHydraliskRanged",
+			"range": 6,
+			"minimumRange": 0.5,
+			"period": 1.2,
+			"damage": 70,
+			"damageScale": 0,
+			"damageFactors": {
+				"Heroic": 0
+			}
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

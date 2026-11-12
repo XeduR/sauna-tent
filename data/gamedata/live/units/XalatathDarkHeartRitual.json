@@ -1,0 +1,28 @@
+{
+	"id": "XalatathDarkHeartRitual",
+	"name": "Dark Heart Ritual (Unit)",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Summon the Dark Heart, which pulses for 50~~0.04~~ damage per second to nearby enemies and lasts 8 seconds.\n\nThe Dark Heart moves to Shadow Mark's impact location.\n\nThe Dark Heart will pursue targets afflicted by Shadow Mark and detonate on impact, dealing 245~~0.04~~ damage to nearby enemies and 61~~0.04~~ more damage to the Marked target.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 7,
+		"radius": 0.25,
+		"innerRadius": 0.125
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

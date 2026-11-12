@@ -1,0 +1,29 @@
+{
+	"id": "XalatathVoidConvergenceRiftInvasionPortalUnit",
+	"name": "",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Structure",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1500,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.25,
+		"sight": 5,
+		"radius": 1.5,
+		"innerRadius": 1.25
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

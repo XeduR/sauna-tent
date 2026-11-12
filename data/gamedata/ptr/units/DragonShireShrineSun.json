@@ -1,0 +1,44 @@
+{
+	"id": "DragonShireShrineSun",
+	"name": "Sun Shrine",
+	"attributes": [
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"description": "Stand nearby to activate this shrine for your team.",
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 5,
+		"radius": 0.0625,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "GardensObeliskActivate",
+				"name": "Gardens Obelisk Activate",
+				"type": "Q",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [
+			{
+				"id": "stop",
+				"name": "Stop",
+				"type": "Z",
+				"description": ""
+			}
+		],
+		"activable": []
+	}
+}

@@ -82,6 +82,15 @@ var Data = (function() {
 		return fetchJSON("lounge.json", true);
 	}
 
+	function gameVersions() {
+		return fetchJSON("gamedata/versions.json");
+	}
+
+	// dataset is a snapshot file name without extension (heroes, units, maps); older snapshots may lack one.
+	function gameSnapshot(id, dataset) {
+		return fetchJSON(`gamedata/snapshots/${id}/${dataset}.json`, true);
+	}
+
 	function settings() {
 		return fetchJSON("settings.json").then(function(data) {
 			window.AppSettings = data;
@@ -103,6 +112,8 @@ var Data = (function() {
 		talentDescriptions: talentDescriptions,
 		heroInfo: heroInfo,
 		seasons: seasons,
+		gameVersions: gameVersions,
+		gameSnapshot: gameSnapshot,
 		settings: settings
 	};
 })();

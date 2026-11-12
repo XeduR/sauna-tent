@@ -1,0 +1,361 @@
+{
+	"id": "Deathwing",
+	"name": "Deathwing",
+	"title": "The Destroyer",
+	"unitId": "HeroDeathwing",
+	"franchise": "Warcraft",
+	"roles": [
+		"Warrior"
+	],
+	"expandedRole": "Bruiser",
+	"difficulty": "Hard",
+	"isMelee": true,
+	"releaseDate": "2019-12-03",
+	"ratings": {
+		"complexity": 8,
+		"damage": 7,
+		"survivability": 10,
+		"utility": 7
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"Ganker",
+		"HealingAltarGoalDisabled",
+		"InstantTraveler",
+		"Overconfident",
+		"Roamer",
+		"RoleAutoAttacker",
+		"Suicidal",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2750,
+			"scale": 0.04,
+			"regenRate": 5.7304,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Energy",
+			"amount": 100,
+			"regenRate": 5
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 1.25,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "DeathwingHeroWeapon",
+			"range": 2.5,
+			"minimumRange": 0,
+			"period": 1.5,
+			"damage": 117,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "DeathwingMoltenFlame",
+				"name": "Molten Flame",
+				"type": "Q",
+				"cooldown": "Cooldown: 3 seconds",
+				"cost": "Energy: 10",
+				"description": "After 1.5 seconds, Deathwing breathes a stream of flame, dealing 20~~0.04~~ damage every 0.125 seconds. Drains 30 Energy per second. "
+			},
+			{
+				"id": "DeathwingIncinerate",
+				"name": "Incinerate",
+				"type": "W",
+				"cooldown": "Cooldown: 7 seconds",
+				"cost": "Energy: 30",
+				"description": "After 0.75 seconds, Deathwing flaps his wings, dealing 100~~0.04~~ damage to nearby enemies.\n\nWorld Breaker: Lava Burst\nCreate a lava pool that damages and Slows"
+			},
+			{
+				"id": "DeathwingLavaBurst",
+				"name": "Lava Burst",
+				"type": "W",
+				"cooldown": "Cooldown: 9 seconds",
+				"cost": "Energy: 25",
+				"description": "After a 1 second delay, deal 35~~0.04~~ damage to all enemies in an area and create a pool of magma that deals 28~~0.04~~ damage per second and Slows enemies by 45%. Lasts 6 seconds.\n\nDestroyer: Incinerate\nDamage enemies near Deathwing "
+			},
+			{
+				"id": "DeathwingOnslaught",
+				"name": "Onslaught",
+				"type": "E",
+				"parent": "World Breaker",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Energy: 20",
+				"description": "After 0.5 seconds, Deathwing lunges in a direction dealing 60~~0.04~~ damage to enemies and Slowing them by 35% for 2 seconds. Deathwing bites enemies at the end of the lunge, dealing an additional 120~~0.04~~ damage.\n\nWorld Breaker: Earth Shatter\nDamage and Stun enemies in two lines"
+			},
+			{
+				"id": "DeathwingEarthShatter",
+				"name": "Earth Shatter",
+				"type": "E",
+				"parent": "World Breaker",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Energy: 25",
+				"description": "Create a fissure of earth that deals 90~~0.04~~ damage to enemies hit and Stuns them for 0.75 seconds.\n\nDestroyer: Onslaught\nLunge in a direction"
+			},
+			{
+				"id": "DeathwingDestroyerForm",
+				"name": "Destroyer",
+				"type": "Q",
+				"parent": "Dragonflight",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "After 1.75 seconds, Deathwing slams down to the ground, dealing 50~~0.04~~ damage to enemies in the area and landing in Destroyer form. Deathwing can begin to cast Abilities 3 seconds after landing."
+			},
+			{
+				"id": "DeathwingWorldbreakerForm",
+				"name": "World Breaker",
+				"type": "W",
+				"parent": "Dragonflight",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "After 1.75 seconds, Deathwing slams down to the ground, dealing 50~~0.04~~ damage to enemies in the area and landing in World Breaker form. Deathwing can begin to cast Abilities 3 seconds after landing."
+			},
+			{
+				"id": "DeathwingSkyfall",
+				"name": "Skyfall",
+				"type": "E",
+				"parent": "Skyfall",
+				"cooldown": "Charge Cooldown: 10 seconds",
+				"charges": {
+					"countMax": 3,
+					"countStart": 3,
+					"countUse": 1,
+					"recastCooldown": 0.5,
+					"isCountHidden": false
+				},
+				"description": "After 0.8 seconds, a meteor falls from the sky, dealing 58~~0.04~~ damage to enemies in the area.\n\nIf a Hero is hit, Deathwing heals for 3% of his maximum Health."
+			}
+		],
+		"heroic": [
+			{
+				"id": "DeathwingCataclysm",
+				"name": "Cataclysm",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "After 2 seconds, Deathwing flies in the targeted direction, dealing 90~~0.04~~ damage on impact and leaving scorched ground that deals 36~~0.04~~ damage a second. Lasts 6 seconds.\n\nQuest: Hit Heroes with Molten Flame to grant 1 stack.\nQuest: Score Takedowns to grant 50 stacks.\n\nMythic Reward: After reaching 2000 stacks, Deathwing brings on the Hour of Twilight. Cataclysm's periodic damage to Structures is increased by 2500%."
+			}
+		],
+		"trait": [
+			{
+				"id": "DeathwingAspectOfDeath",
+				"name": "Aspect of Death",
+				"type": "Trait",
+				"description": "Deathwing is fitted with 4 Armor Plates which grant 10 Armor each. Every 25% Health lost causes Deathwing to lose a plate. Plates are only restored when Dragonflight is used, based on the amount of Health Deathwing has when landing.\n\nDeathwing is also a mighty Dragon Aspect who is permanently Unstoppable and deals 100% additional Spell Damage to Heroes, but views his allies with contempt and ignores any of their friendly effects."
+			}
+		],
+		"mount": [
+			{
+				"id": "DeathwingDragonflight",
+				"name": "Dragonflight",
+				"type": "Z",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "After 3 seconds, fly into the sky, becoming Immune to all effects and gaining 2.5% Health per second. Once cast, this ability cannot be interrupted. Cannot be cast for 6 seconds after taking damage, Basic Attacking or casting an Ability."
+			}
+		],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 6 seconds, teleport back to the Hall of Storms."
+			},
+			{
+				"id": "DeathwingBellowingRoar",
+				"name": "Bellowing Roar",
+				"type": "Active",
+				"parent": "Bellowing Roar",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "After 1 second, Deathwing unleashes a mighty roar, dealing 25~~0.04~~ damage to nearby Heroes and causing them to run in Fear for 1.5 seconds."
+			},
+			{
+				"id": "DeathwingElementiumPlating",
+				"name": "Elementium Plating",
+				"type": "Active",
+				"parent": "Elementium Plating",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to gain a Shield equal to 30% of Deathwing's missing Health for 8 seconds. While the Shield holds, Deathwing regenerates 2% of his maximum Health per second. \n\nWhen the Shield expires or is destroyed, Deathwing regains Armor Plates appropriate for his new Health.\n\nThe Shield and effect end immediately if Deathwing uses Dragonflight."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "DeathwingDragonSoul",
+				"name": "Dragon Soul",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DeathwingIncinerate",
+				"description": "Destroyer: Incinerate heals Deathwing for 100% of the damage dealt to enemy Heroes.\n\nWorld Breaker: Lava Burst's explosion damage heals Deathwing for 200% of the damage dealt to enemy Heroes."
+			},
+			{
+				"id": "DeathwingMoltenBlood",
+				"name": "Molten Blood",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "While Deathwing has 3 or more Armor Plates, he heals for 0.6% of his maximum Health per second."
+			},
+			{
+				"id": "DeathwingDraconicMight",
+				"name": "Draconic Might",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Deathwing's Basic Attacks against enemy Heroes heal him for 25% of the damage dealt. Upon losing an Armor Plate, Deathwing becomes Protected for 0.75 seconds."
+			}
+		],
+		"level4": [
+			{
+				"id": "DeathwingInfernus",
+				"name": "Infernus",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DeathwingMoltenFlame",
+				"description": "Increase the damage of Molten Flame against enemy Heroes by 25%. Increase this damage bonus to 75% when Molten Flame is cast at 75 Energy or higher."
+			},
+			{
+				"id": "DeathwingHeatWave",
+				"name": "Heat Wave",
+				"type": "W",
+				"isQuest": false,
+				"ability": "DeathwingIncinerate",
+				"description": "Destroyer: After hitting an enemy Hero with Incinerate, Deathwing deals 18~~0.04~~ damage per second to all nearby enemies for the next 9 seconds. Stacks up to 3 times.\n\nWorld Breaker: Increase the explosion damage of Lava Burst by 150%."
+			},
+			{
+				"id": "DeathwingDragonsIre",
+				"name": "Dragon's Ire",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "While Deathwing has 3 or fewer Armor Plates, his damage is increased by 25%."
+			}
+		],
+		"level7": [
+			{
+				"id": "DeathwingFirestorm",
+				"name": "Firestorm",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DeathwingDragonflight",
+				"description": "Reduce the cooldown of Deathwing's landing Abilities by 3 seconds. When Deathwing lands, he drops 7 meteors near the landing area, dealing 77~~0.04~~ damage to enemies hit. \n\nMeteors prioritize landing on Heroes, otherwise they fall randomly in the area."
+			},
+			{
+				"id": "DeathwingDeathDrop",
+				"name": "Death Drop",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DeathwingDragonflight",
+				"description": "Hitting an enemy Hero with Destroyer or World Breaker's landing damage reduces their Spell Armor by 15 for 4 seconds and Deathwing's Basic Ability cooldowns by 2 seconds."
+			},
+			{
+				"id": "DeathwingSkyfall",
+				"name": "Skyfall",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DeathwingSkyfall",
+				"cooldown": "Charge Cooldown: 10 seconds",
+				"description": "After using Dragonflight, Deathwing can drop meteors anywhere within vision dealing 58~~0.04~~ damage to enemies in the area. Has 3 charges.\n\nIf a Hero is hit, Deathwing heals for 3% of his maximum Health."
+			}
+		],
+		"level10": [
+			{
+				"id": "DeathwingBurnBeneathMyShadow",
+				"name": "Burn Beneath My Shadow",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DeathwingCataclysm",
+				"description": "When an enemy Fort or Keep is destroyed the cooldown of Cataclysm is reset. Cataclysm's periodic damage is increased by 80%."
+			},
+			{
+				"id": "DeathwingBellowingRoar",
+				"name": "Bellowing Roar",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "DeathwingBellowingRoar",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "After 1 second, Deathwing unleashes a mighty roar, dealing 25~~0.04~~ damage to nearby Heroes and causing them to run in Fear for 1.5 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "DeathwingWickedInferno",
+				"name": "Wicked Inferno",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DeathwingMoltenFlame",
+				"description": "Molten Flame's Energy cost per second is reduced by 10. After using Molten Flame, Deathwing gains 15 Energy over 3 seconds."
+			},
+			{
+				"id": "DeathwingRuination",
+				"name": "Ruination",
+				"type": "E",
+				"isQuest": false,
+				"ability": "DeathwingOnslaught",
+				"description": "Destroyer: The bite from Onslaught now Slows by 60% for 1.5 seconds.\n\nWorld Breaker: Reduce Earth Shatter's cooldown by 6 seconds and its Energy cost by 10."
+			},
+			{
+				"id": "DeathwingFireAndFury",
+				"name": "Fire and Fury",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Basic Attacks against Rooted, Slowed, or Stunned enemy Heroes deal 40% additional damage and reduce the cooldowns of Deathwing's Basic Abilities by 0.5 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "DeathwingConflagration",
+				"name": "Conflagration",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "DeathwingMoltenFlame",
+				"description": "Dealing 320~~0.04~~ damage with Molten Flame to enemy Heroes within 4 seconds causes them to burn for an additional 100~~0.04~~ damage over 4 seconds. While burning, they explode every 1 second, dealing 80~~0.04~~ damage to all nearby enemies."
+			},
+			{
+				"id": "DeathwingGazeOntoDestruction",
+				"name": "Gaze Onto Destruction",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DeathwingDragonflight",
+				"description": "Hitting Heroes with Destroyer or World Breaker's landing causes their damage to be reduced by 75% and Slows them by 40% for 3.5 Seconds."
+			},
+			{
+				"id": "DeathwingElementiumPlating",
+				"name": "Elementium Plating",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "DeathwingElementiumPlating",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Activate to gain a Shield equal to 30% of Deathwing's missing Health for 8 seconds. While the Shield holds, Deathwing regenerates 2% of his maximum Health per second. \n\nWhen the Shield expires or is destroyed, Deathwing regains Armor Plates appropriate for his new Health.\n\nThe Shield and effect end immediately if Deathwing uses Dragonflight."
+			}
+		],
+		"level20": [
+			{
+				"id": "DeathwingStoodInTheFire",
+				"name": "Stood in the Fire",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "DeathwingCataclysm",
+				"description": "Enemy Heroes are Slowed by 40% while standing in scorched ground, and its duration is increased by 50%."
+			},
+			{
+				"id": "DeathwingArrivalOfAGod",
+				"name": "Arrival of a God",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "DeathwingDragonflight",
+				"description": "Destroyer or World Breaker's landing damage is increased by 400%.\n\nDeathwing also gains the benefits of all of his level 7 talents. "
+			},
+			{
+				"id": "DeathwingDestroyersRampage",
+				"name": "Destroyer's Rampage",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "For the next 4 seconds after landing in Destroyer form, Deathwing's damage is increased by 40% and his Basic Ability cooldowns recharge 50% faster.\n\nDamaging Heroes refreshes this effect."
+			}
+		]
+	}
+}

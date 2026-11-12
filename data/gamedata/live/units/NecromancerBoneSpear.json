@@ -1,0 +1,24 @@
+{
+	"id": "NecromancerBoneSpear",
+	"name": "Bone Spear",
+	"description": "Deal 230~~0.04~~ damage to enemies in a line.",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

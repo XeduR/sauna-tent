@@ -1,0 +1,367 @@
+{
+	"id": "WitchDoctor",
+	"name": "Nazeebo",
+	"title": "Heretic Witch Doctor",
+	"unitId": "HeroWitchDoctor",
+	"franchise": "Diablo",
+	"roles": [
+		"Specialist"
+	],
+	"expandedRole": "Ranged Assassin",
+	"difficulty": "Medium",
+	"isMelee": false,
+	"releaseDate": "2014-03-13",
+	"ratings": {
+		"complexity": 6,
+		"damage": 8,
+		"survivability": 3,
+		"utility": 4
+	},
+	"playstyles": [
+		"EnergyImportant",
+		"RoleSpecialist",
+		"SoloLaner",
+		"TowerPusher",
+		"WaveClearer"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1502,
+			"scale": 0.04,
+			"regenRate": 3.129,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "HeroWitchDoctor",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 88,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "WitchDoctorCorpseSpiders",
+				"name": "Corpse Spiders",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"cost": "Mana: 40",
+				"description": "Hurl a jar of spiders that deals 50~~0.04~~ damage. If it hits at least one enemy, create 3 Corpse Spiders that attack for 38~~0.04~~ damage. Spiders last for 4 seconds."
+			},
+			{
+				"id": "WitchDoctorZombieWall",
+				"name": "Zombie Wall",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"cost": "Mana: 70",
+				"description": "After 1 second, create a ring of Zombies surrounding the target area that deal 28~~0.04~~ damage and last for 3 seconds."
+			},
+			{
+				"id": "WitchDoctorPlagueofToads",
+				"name": "Plague of Toads",
+				"type": "E",
+				"cooldown": "Charge Cooldown: 8 seconds",
+				"cost": "Mana: 30",
+				"charges": {
+					"countMax": 2,
+					"countStart": 2,
+					"countUse": 1,
+					"recastCooldown": 1,
+					"isCountHidden": false
+				},
+				"description": "Create a wave of 3 Toads that explode on contact, dealing 126~~0.04~~ damage over 6 seconds. This effect stacks.\n\nStores up to 2 charges."
+			}
+		],
+		"heroic": [
+			{
+				"id": "WitchDoctorGargantuan",
+				"name": "Gargantuan",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 90",
+				"description": "Summon a Gargantuan to guard an area, losing Health over 29 seconds. Deals 100~~0.04~~ damage when summoned, attacks for 140~~0.04~~ damage, and can be ordered to stomp nearby enemies. The Gargantuan's Stomp deals 240~~0.04~~ damage and Slows by 30% for 2 seconds."
+			},
+			{
+				"id": "WitchDoctorRavenousSpirit",
+				"name": "Ravenous Spirit",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 100",
+				"description": "Channel a Ravenous Spirit that deals 230~~0.04~~ damage per second. Cannot move while channeling. Lasts for 8 seconds."
+			},
+			{
+				"id": "WitchDoctorGargantuanStompCommand",
+				"name": "Gargantuan Stomp",
+				"type": "Heroic",
+				"parent": "Gargantuan",
+				"cooldown": "Cooldown: 5 seconds",
+				"description": "Order the Gargantuan to stomp, dealing 240~~0.04~~ damage to nearby enemies and Slowing them by 30% for 2 seconds."
+			},
+			{
+				"id": "WitchDoctorGargantuanStomp",
+				"name": "Gargantuan Stomp",
+				"type": "Heroic",
+				"parent": "Gargantuan Stomp",
+				"description": "Order the Gargantuan to stomp, dealing 240~~0.04~~ damage to nearby enemies and Slowing them by 30% for 2 seconds."
+			}
+		],
+		"trait": [
+			{
+				"id": "WitchDoctorVoodooRitualTrait",
+				"name": "Voodoo Ritual",
+				"type": "Trait",
+				"description": "Nazeebo's Basic Attacks and Abilities poison Non-Heroic enemies, causing them to take 66~~0.04~~ additional damage over 6 seconds. \n\nQuest: If a Minion dies while poisoned by Voodoo Ritual, Nazeebo permanently gains 6 Health and 1 Mana."
+			}
+		],
+		"mount": [
+			{
+				"id": "Dismount",
+				"name": "Unsummon Mount",
+				"type": "Z",
+				"parent": "Summon Mount",
+				"toggleCooldown": 0.1,
+				"description": "Dismounts you."
+			}
+		],
+		"activable": [
+			{
+				"id": "TalentBucketIceBlock",
+				"name": "Ice Block",
+				"type": "Active",
+				"parent": "Ice Block",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to place yourself in Stasis and gain Invulnerability for 3 seconds."
+			},
+			{
+				"id": "WitchDoctorSoulHarvest",
+				"name": "Soul Harvest",
+				"type": "Active",
+				"parent": "Soul Harvest",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Activate to increase Nazeebo's Health and Spell Power by 7% for each nearby enemy, up to a maximum of 35%. Lasts 15 seconds."
+			},
+			{
+				"id": "WitchDoctorBadMedicine",
+				"name": "Bad Medicine",
+				"type": "Active",
+				"parent": "Bad Medicine",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Consume 5 stacks of Voodoo Ritual to become Unstoppable, gain 20% increased Movement Speed, and 50 Armor for 2 seconds."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "WitchDoctorWidowmakers",
+				"name": "Widowmakers",
+				"type": "Q",
+				"isQuest": true,
+				"ability": "WitchDoctorCorpseSpiders",
+				"description": "Enemies hit by Corpse Spiders' jar are Slowed by 25% for 1 second.\n\nReward: After Corpse Spiders attack Heroes 100 times, their attack damage is increased by 25% and their duration is increased by 1 second."
+			},
+			{
+				"id": "WitchDoctorPandemic",
+				"name": "Pandemic",
+				"type": "E",
+				"isQuest": true,
+				"ability": "WitchDoctorPlagueofToads",
+				"description": "Quest: Hit Heroes with Plague of Toads.\n\nReward: After hitting 35 Heroes with Plague of Toads, it spawns 2 additional toads.\n\nReward: After hitting 70 Heroes with Plague of Toads, it reduces the damage Heroes deal by 5%, stacking up to 25%."
+			},
+			{
+				"id": "WitchDoctorThingOfTheDeep",
+				"name": "Thing of the Deep",
+				"type": "Passive",
+				"isQuest": true,
+				"description": "Increase the range of Nazeebo's Basic Abilities by 20%.\n\nReward: After gaining 50 stacks of Voodoo Ritual, gain 5% Spell Power.\n\nReward: After gaining 100 stacks of Voodoo Ritual, gain an additional 5% Spell Power."
+			}
+		],
+		"level4": [
+			{
+				"id": "WitchDoctorHexedCrawlers",
+				"name": "Hexed Crawlers",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WitchDoctorCorpseSpiders",
+				"description": "Corpse Spiders restore 1% of Nazeebo's maximum Health and Mana when they attack an enemy Hero."
+			},
+			{
+				"id": "WitchDoctorBigVoodoo",
+				"name": "Big Voodoo",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Increases the Health and Mana bonuses from Voodoo Ritual by 100%."
+			},
+			{
+				"id": "WitchDoctorBloodRitual",
+				"name": "Blood Ritual",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "If an enemy dies while poisoned by Voodoo Ritual, restore 2% of Nazeebo's maximum Health and Mana.\n\nPassive: Takedowns grant 3 stacks of Voodoo Ritual."
+			}
+		],
+		"level7": [
+			{
+				"id": "WitchDoctorSpiritofArachyr",
+				"name": "Spirit of Arachyr",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WitchDoctorCorpseSpiders",
+				"description": "The number of Corpse Spiders spawned is increased from 3 to 4. If Corpse Spiders' jar hits only one enemy, it creates an additional spider."
+			},
+			{
+				"id": "WitchDoctorDeadRush",
+				"name": "Dead Rush",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WitchDoctorZombieWall",
+				"description": "Zombie Wall deals 100% more damage. When it expires up to 5 remaining Zombies uproot and attack nearby enemies, losing Health over 3 seconds. "
+			},
+			{
+				"id": "WitchDoctorToadsofHugeness",
+				"name": "Toads of Hugeness",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WitchDoctorPlagueofToads",
+				"description": "Increase the damage and explosion radius of Plague of Toads by 25% after each hop, up to a maximum of 100%."
+			}
+		],
+		"level10": [
+			{
+				"id": "WitchDoctorHeroicAbilityGargantuan",
+				"name": "Gargantuan",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WitchDoctorGargantuan",
+				"cooldown": "Cooldown: 70 seconds",
+				"cost": "Mana: 90",
+				"description": "Summon a Gargantuan to guard an area, losing Health over 29 seconds. Deals 100~~0.04~~ damage when summoned, attacks for 140~~0.04~~ damage, and can be ordered to stomp nearby enemies. The Gargantuan's Stomp deals 240~~0.04~~ damage and Slows by 30% for 2 seconds."
+			},
+			{
+				"id": "WitchDoctorHeroicAbilityRavenousSpirits",
+				"name": "Ravenous Spirit",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WitchDoctorRavenousSpirit",
+				"cooldown": "Cooldown: 90 seconds",
+				"cost": "Mana: 100",
+				"description": "Channel a Ravenous Spirit that deals 230~~0.04~~ damage per second. Cannot move while channeling. Lasts for 8 seconds."
+			}
+		],
+		"level13": [
+			{
+				"id": "WitchDoctorGuardianToads",
+				"name": "Guardian Toads",
+				"type": "E",
+				"isQuest": false,
+				"ability": "WitchDoctorPlagueofToads",
+				"description": "Hitting an enemy Hero with Plague of Toads grants 30 Armor for 3 seconds, stacking up to 6 seconds."
+			},
+			{
+				"id": "WitchDoctorSuperstition",
+				"name": "Superstition",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Gain 40 Spell Armor. Heroic Basic Attacks against Nazeebo remove this bonus for 3 seconds and spawn a Corpse Spider to attack the Hero."
+			},
+			{
+				"id": "GenericTalentIceBlock",
+				"name": "Ice Block",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "TalentBucketIceBlock",
+				"cooldown": "Cooldown: 60 seconds",
+				"toggleCooldown": 0.5,
+				"description": "Activate to place yourself in Stasis and gain Invulnerability for 3 seconds."
+			}
+		],
+		"level16": [
+			{
+				"id": "WitchDoctorSpiderColony",
+				"name": "Spider Colony",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "WitchDoctorCorpseSpiders",
+				"description": "Corpse Spider Attacks against Heroes reduce the cooldown of Nazeebo's Basic Abilities by 0.125 seconds."
+			},
+			{
+				"id": "WitchDoctorRingOfPoison",
+				"name": "Ring of Poison",
+				"type": "W",
+				"isQuest": false,
+				"ability": "WitchDoctorZombieWall",
+				"description": "Zombie Wall lasts 1 second longer, and the center is filled with poison that deals a total of 319~~0.04~~ damage over 4 seconds. This damage starts small and increases over the duration."
+			},
+			{
+				"id": "WitchDoctorSoulHarvest",
+				"name": "Soul Harvest",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WitchDoctorSoulHarvest",
+				"cooldown": "Cooldown: 15 seconds",
+				"description": "Activate to increase Nazeebo's Health and Spell Power by 7% for each nearby enemy, up to a maximum of 35%. Lasts 15 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "WitchDoctorHumongoid",
+				"name": "Humongoid",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WitchDoctorGargantuan",
+				"prerequisites": [
+					"WitchDoctorHeroicAbilityGargantuan"
+				],
+				"description": "Gargantuan Stomp's area is increased by 25% and its Slow amount is increased to 50%.\n\nPassive: Reduce Gargantuan's cooldown by 40 seconds and its Mana cost by 50%."
+			},
+			{
+				"id": "WitchDoctorAnnihilatingSpirits",
+				"name": "Annihilating Spirit",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "WitchDoctorRavenousSpirit",
+				"prerequisites": [
+					"WitchDoctorHeroicAbilityRavenousSpirits"
+				],
+				"description": "When Ravenous Spirit damages an enemy Hero, reduce their healing received by 50% for 1 second and increase Ravenous Spirit's damage by 5% for the rest of its duration.\n\nPassive: Increases the range of Ravenous Spirit by 50%. "
+			},
+			{
+				"id": "WitchDoctorVileInfection",
+				"name": "Vile Infection",
+				"type": "Trait",
+				"isQuest": true,
+				"description": "Quest: Reach 175 stacks of Voodoo Ritual.\n\nReward: After reaching 175 stacks of Voodoo Ritual, it can also be applied to Heroes and its damage is increased from 66~~0.04~~ to 165~~0.04~~ over 6 seconds."
+			},
+			{
+				"id": "WitchDoctorBadMedicine",
+				"name": "Bad Medicine",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "WitchDoctorBadMedicine",
+				"cooldown": "Cooldown: 30 seconds",
+				"description": "Consume 5 stacks of Voodoo Ritual to become Unstoppable, gain 20% increased Movement Speed, and 50 Armor for 2 seconds."
+			}
+		]
+	},
+	"summonedUnitIds": [
+		"WitchDoctorCorpseSpider",
+		"WitchDoctorGargantuan",
+		"WitchDoctorZombieWallDeadRushTalentUnit",
+		"WitchDoctorZombieWallUnit"
+	]
+}

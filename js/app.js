@@ -1176,9 +1176,9 @@ function setupGlobalNoAltsToggle() {
 
 // Viewport width (px) at/above which the nav shows the full horizontal row;
 // below it the hamburger menu is used. Must match the min-width of the nav
-// @media block in css/style.css (the 1040px one, separate from the 769px desktop
+// @media block in css/style.css (the 1160px one, separate from the 769px desktop
 // block; CSS cannot read a JS value, so the two are kept in sync by hand).
-var NAV_BREAKPOINT_PX = 1040;
+var NAV_BREAKPOINT_PX = 1160;
 
 function isMobileNav() {
 	return !window.matchMedia("(min-width: " + NAV_BREAKPOINT_PX + "px)").matches;
@@ -1309,6 +1309,7 @@ Router.add("/match/:id", function(id) { MatchView.render(id); });
 Router.add("/hall-of-fame", function() { HallOfFameView.render(); });
 Router.add("/draft", function() { DraftView.render(); });
 Router.add("/combos", function() { CombosView.render(); });
+Router.add("/patch-changes", function() { PatchChangesView.render(); });
 
 // Init
 populateNav();

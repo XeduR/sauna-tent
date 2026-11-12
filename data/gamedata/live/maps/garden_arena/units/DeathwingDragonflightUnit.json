@@ -1,0 +1,129 @@
+{
+	"id": "DeathwingDragonflightUnit",
+	"name": "Deathwing",
+	"attributes": [
+		"Heroic",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 2750,
+			"scale": 0.04,
+			"regenRate": 5.7304,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Energy",
+			"amount": 100,
+			"regenRate": 5
+		},
+		"speed": 0,
+		"sight": 0,
+		"radius": 1.25,
+		"innerRadius": 1
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "DeathwingMoltenFlame",
+				"name": "Molten Flame",
+				"type": "Q",
+				"cooldown": "Cooldown: 3 seconds",
+				"cost": "Energy: 10",
+				"description": "After 1.5 seconds, Deathwing breathes a stream of flame, dealing 20~~0.04~~ damage every 0.125 seconds. Drains 30 Energy per second. "
+			},
+			{
+				"id": "DeathwingIncinerate",
+				"name": "Incinerate",
+				"type": "W",
+				"cooldown": "Cooldown: 7 seconds",
+				"cost": "Energy: 30",
+				"description": "After 0.75 seconds, Deathwing flaps his wings, dealing 100~~0.04~~ damage to nearby enemies.\n\nWorld Breaker: Lava Burst\nCreate a lava pool that damages and Slows"
+			},
+			{
+				"id": "DeathwingOnslaught",
+				"name": "Onslaught",
+				"type": "E",
+				"parent": "World Breaker",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Energy: 20",
+				"description": "After 0.5 seconds, Deathwing lunges in a direction dealing 60~~0.04~~ damage to enemies and Slowing them by 35% for 2 seconds. Deathwing bites enemies at the end of the lunge, dealing an additional 120~~0.04~~ damage.\n\nWorld Breaker: Earth Shatter\nDamage and Stun enemies in two lines"
+			},
+			{
+				"id": "DeathwingEarthShatter",
+				"name": "Earth Shatter",
+				"type": "E",
+				"parent": "World Breaker",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Energy: 25",
+				"description": "Create a fissure of earth that deals 90~~0.04~~ damage to enemies hit and Stuns them for 0.75 seconds.\n\nDestroyer: Onslaught\nLunge in a direction"
+			},
+			{
+				"id": "DeathwingDestroyerForm",
+				"name": "Destroyer",
+				"type": "Q",
+				"parent": "Dragonflight",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "After 1.75 seconds, Deathwing slams down to the ground, dealing 50~~0.04~~ damage to enemies in the area and landing in Destroyer form. Deathwing can begin to cast Abilities 3 seconds after landing."
+			},
+			{
+				"id": "DeathwingWorldbreakerForm",
+				"name": "World Breaker",
+				"type": "W",
+				"parent": "Dragonflight",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "After 1.75 seconds, Deathwing slams down to the ground, dealing 50~~0.04~~ damage to enemies in the area and landing in World Breaker form. Deathwing can begin to cast Abilities 3 seconds after landing."
+			}
+		],
+		"heroic": [
+			{
+				"id": "DeathwingCataclysm",
+				"name": "Cataclysm",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 90 seconds",
+				"description": "After 2 seconds, Deathwing flies in the targeted direction, dealing 90~~0.04~~ damage on impact and leaving scorched ground that deals 36~~0.04~~ damage a second. Lasts 6 seconds.\n\nQuest: Hit Heroes with Molten Flame to grant 1 stack.\nQuest: Score Takedowns to grant 50 stacks.\n\nMythic Reward: After reaching 2000 stacks, Deathwing brings on the Hour of Twilight. Cataclysm's periodic damage to Structures is increased by 2500%."
+			}
+		],
+		"trait": [
+			{
+				"id": "DeathwingAspectOfDeath",
+				"name": "Aspect of Death",
+				"type": "Trait",
+				"description": "Deathwing is fitted with 4 Armor Plates which grant 10 Armor each. Every 25% Health lost causes Deathwing to lose a plate. Plates are only restored when Dragonflight is used, based on the amount of Health Deathwing has when landing.\n\nDeathwing is also a mighty Dragon Aspect who is permanently Unstoppable and deals 100% additional Spell Damage to Heroes, but views his allies with contempt and ignores any of their friendly effects."
+			}
+		],
+		"mount": [
+			{
+				"id": "DeathwingDragonflight",
+				"name": "Dragonflight",
+				"type": "Z",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "After 3 seconds, fly into the sky, becoming Immune to all effects and gaining 2.5% Health per second. Once cast, this ability cannot be interrupted. Cannot be cast for 6 seconds after taking damage, Basic Attacking or casting an Ability."
+			}
+		],
+		"activable": [
+			{
+				"id": "Hearthstone",
+				"name": "Hearthstone",
+				"type": "B",
+				"description": "After Channeling for 4.5 seconds, teleport back to the Hall of Storms."
+			}
+		]
+	},
+	"playstyles": [
+		"BodyBlocker",
+		"Ganker",
+		"HealingAltarGoalDisabled",
+		"InstantTraveler",
+		"Overconfident",
+		"Roamer",
+		"RoleAutoAttacker",
+		"Suicidal",
+		"TowerPusher",
+		"WaveClearer"
+	]
+}

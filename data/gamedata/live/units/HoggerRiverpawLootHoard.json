@@ -1,0 +1,35 @@
+{
+	"id": "HoggerRiverpawLootHoard",
+	"name": "Riverpaw Loot Hoard",
+	"attributes": [
+		"IgnoredByTowerAI",
+		"ImmuneToAOE",
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 1,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"amount": 10,
+			"regenRate": 1
+		},
+		"speed": 0,
+		"sight": 1.75,
+		"radius": 1.125,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

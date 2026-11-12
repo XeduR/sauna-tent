@@ -1,0 +1,24 @@
+{
+	"id": "IntroVOInteractor",
+	"name": "Intro VO Interactor",
+	"description": "Force an Intro VO Interaction with the target allied Hero",
+	"stats": {
+		"life": {
+			"amount": 10,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 2.5,
+		"radius": 0.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"id": "ProbiusPhotonCannon",
+	"name": "Photon Cannon",
+	"damageType": "Summon",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"Summoned"
+	],
+	"description": "Warp in a Photon Cannon that deals 105~~0.04~~ damage. Lasts for 13 seconds.\n\nWhile within a Pylon's Power Field, Photon Cannons gain 40% Attack Speed over 4 seconds and reveal nearby enemies.",
+	"stats": {
+		"life": {
+			"amount": 778,
+			"scale": 0.04,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 7,
+		"radius": 1,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "ProbiusPhotonCannonWeapon",
+			"range": 6.5,
+			"minimumRange": 0,
+			"period": 1.4,
+			"damage": 105,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

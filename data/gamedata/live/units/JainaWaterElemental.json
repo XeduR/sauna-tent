@@ -1,0 +1,71 @@
+{
+	"id": "JainaWaterElemental",
+	"name": "Water Elemental",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Jaina's faithful watery companion",
+	"stats": {
+		"life": {
+			"amount": 958,
+			"scale": 0.04,
+			"regenRate": -29.9375,
+			"regenScale": 0.04
+		},
+		"speed": 5.1992,
+		"sight": 7,
+		"radius": 0.375,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "JainaWaterElementalWeapon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 62,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "JainaWaterElementalFrostbolt",
+				"name": "Frostbolt",
+				"type": "Q",
+				"description": "Deal 184~~0.04~~ damage and Chill the target."
+			},
+			{
+				"id": "JainaWaterElementalBlizzard",
+				"name": "Blizzard",
+				"type": "W",
+				"description": "Bombard an area with 3 waves of ice, dealing 142~~0.04~~ damage each. Damaged enemies are Chilled."
+			},
+			{
+				"id": "JainaWaterElementalConeOfCold",
+				"name": "Cone of Cold",
+				"type": "E",
+				"description": "Deal 220~~0.04~~ damage and Chill targets."
+			}
+		],
+		"heroic": [
+			{
+				"id": "HeroGenericSummonedUnitSpecialCaseInteraction",
+				"name": "Summoned Unit Special Case Interaction",
+				"type": "Heroic",
+				"description": ""
+			}
+		],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

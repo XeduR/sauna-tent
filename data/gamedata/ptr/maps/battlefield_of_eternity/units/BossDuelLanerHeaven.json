@@ -1,0 +1,91 @@
+{
+	"id": "BossDuelLanerHeaven",
+	"name": "Immortal",
+	"damageType": "Monster",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 10500,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"shield": {
+			"amount": 1000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0,
+			"regenDelay": 0
+		},
+		"speed": 4.3984,
+		"sight": 10,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "BossDuelLanerRangedWeaponHeaven",
+			"range": 5,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 450,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 10,
+				"Merc": 10,
+				"Minion": 10,
+				"Structure": 1,
+				"Summoned": 1
+			},
+			"isDisabled": true
+		},
+		{
+			"nameId": "BossDuelLanerMeleeWeaponHeaven",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 450,
+			"damageScale": 0,
+			"damageFactors": {
+				"MapCreature": 10,
+				"Merc": 10,
+				"Minion": 10,
+				"Structure": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "AngelicExplosionsLaner",
+				"name": "Angelic Explosions",
+				"type": "Q",
+				"cooldown": "Cooldown: 16 seconds",
+				"description": "Damages and stuns enemies in multiple areas around the caster. There must be nearby heroes around to activate."
+			},
+			{
+				"id": "AngelicCleaveLaner",
+				"name": "Angelic Cleave",
+				"type": "W",
+				"cooldown": "Cooldown: 16 seconds",
+				"description": "Deals area damage and knocks back targets around the caster."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

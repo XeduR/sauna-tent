@@ -1,0 +1,29 @@
+{
+	"id": "TownStoneFenceD",
+	"name": "Town Stone Fence D",
+	"damageType": "Structure",
+	"attributes": [
+		"AITargetableStructure",
+		"NoMinionAggro",
+		"Structure"
+	],
+	"stats": {
+		"life": {
+			"amount": 1000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 8,
+		"radius": 3.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

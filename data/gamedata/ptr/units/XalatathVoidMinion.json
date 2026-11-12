@@ -1,0 +1,51 @@
+{
+	"id": "XalatathVoidMinion",
+	"name": "Void Minion",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"stats": {
+		"life": {
+			"amount": 400,
+			"scale": 0.04,
+			"regenRate": -33.3333,
+			"regenScale": 0.04
+		},
+		"speed": 5,
+		"sight": 10,
+		"radius": 1.25,
+		"innerRadius": 1
+	},
+	"weapons": [
+		{
+			"nameId": "XalatathVoidMinionWeapon",
+			"range": 1.5,
+			"minimumRange": 0,
+			"period": 1.2,
+			"damage": 50,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "XalatathVoidMinionDash",
+				"name": "",
+				"type": "Q",
+				"description": ""
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"id": "BioticEmitter",
+	"name": "Biotic Emitter",
+	"attributes": [
+		"ImmuneToFriendlyAbilities",
+		"ImmuneToSkillshots",
+		"Merc",
+		"NoMinionAggro",
+		"Summoned"
+	],
+	"description": "Create a Biotic Emitter that restores 40% of nearby allied heroes maximum Health and Mana over 10 seconds.",
+	"stats": {
+		"life": {
+			"amount": 650,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 0,
+		"sight": 6.5,
+		"radius": 0,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": []
+	}
+}

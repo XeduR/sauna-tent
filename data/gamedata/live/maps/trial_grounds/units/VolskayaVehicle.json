@@ -1,0 +1,74 @@
+{
+	"id": "VolskayaVehicle",
+	"name": "Triglav Protector",
+	"attributes": [
+		"Heroic",
+		"ImmuneToFriendlyAbilities"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 3000,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"energy": {
+			"type": "Energy",
+			"amount": 32,
+			"regenRate": 0
+		},
+		"speed": 4,
+		"sight": 12,
+		"radius": 1.5,
+		"innerRadius": 0
+	},
+	"abilities": {
+		"basic": [
+			{
+				"id": "VolskayaVehicleCharge",
+				"name": "Charge",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "Charge a target and deal 160 damage in an area. \n\nNon-Heroes take 500% increased damage."
+			},
+			{
+				"id": "VolskayaVehicleRocketFist",
+				"name": "Rocket Fist",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Launch a Rocket Fist that deals 150 damage to the first Hero or Structure in its path. The fist pushes Heroes for up to 2 seconds and disables Structures for 4 seconds.\n\nInstantly kills Minions in its path."
+			},
+			{
+				"id": "VolskayaVehicleTShield",
+				"name": "Shield Emitter",
+				"type": "E",
+				"cooldown": "Cooldown: 16 seconds",
+				"description": "Gain 25 Armor and Shield nearby allied Heroes for 500. Lasts 3 seconds."
+			}
+		],
+		"heroic": [],
+		"trait": [
+			{
+				"id": "LeaveVehicle",
+				"name": "Leave Vehicle",
+				"type": "Trait",
+				"cooldown": "Cooldown: 10 seconds",
+				"description": "Exit the Vehicle."
+			}
+		],
+		"mount": [
+			{
+				"id": "VolskayaVehicleFighterFlight",
+				"name": "",
+				"type": "Z",
+				"description": ""
+			}
+		],
+		"activable": []
+	},
+	"playstyles": [
+		"PowerfulLaner",
+		"Suicidal"
+	]
+}

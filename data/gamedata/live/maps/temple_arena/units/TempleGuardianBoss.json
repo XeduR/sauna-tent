@@ -1,0 +1,58 @@
+{
+	"id": "TempleGuardianBoss",
+	"name": "Defender",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"MapCreature"
+	],
+	"killXP": 195,
+	"stats": {
+		"life": {
+			"amount": 4800,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 3.5,
+		"sight": 8,
+		"radius": 1.25,
+		"innerRadius": 0.5
+	},
+	"weapons": [
+		{
+			"nameId": "TempleGuardianBossWeapon",
+			"range": 2.25,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 100,
+			"damageScale": 0,
+			"damageFactors": {
+				"Creep": 1,
+				"Summoned": 1
+			}
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "TempleGuardianMightySwing",
+				"name": "Mighty Swing",
+				"type": "Q",
+				"cooldown": "Cooldown: 8 seconds",
+				"description": "Cooldown: 8 seconds\n\nSlams down your weapon, dealing 280 damage to all nearby enemies and knock them away from the area."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

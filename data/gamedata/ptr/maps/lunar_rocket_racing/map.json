@@ -1,0 +1,22 @@
+{
+	"id": "LunarFestival",
+	"name": "Lunar Rocket Racing",
+	"size": {
+		"x": 256,
+		"y": 256
+	},
+	"objectives": [
+		{
+			"title": "Rocket Riding",
+			"description": "Heroes automatically move toward their mouse cursor's location!"
+		},
+		{
+			"title": "Envelopes",
+			"description": "Pick up envelopes to gain access to different Abilities!"
+		},
+		{
+			"title": "Racing",
+			"description": "Complete 7 laps and win! The last player loses the race."
+		}
+	]
+}

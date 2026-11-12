@@ -1,0 +1,362 @@
+{
+	"id": "FaerieDragon",
+	"name": "Brightwing",
+	"title": "Faerie Dragon",
+	"unitId": "HeroFaerieDragon",
+	"franchise": "Warcraft",
+	"roles": [
+		"Support"
+	],
+	"expandedRole": "Healer",
+	"difficulty": "Easy",
+	"isMelee": false,
+	"releaseDate": "2014-04-15",
+	"ratings": {
+		"complexity": 7,
+		"damage": 4,
+		"survivability": 5,
+		"utility": 9
+	},
+	"playstyles": [
+		"AllyHealer",
+		"EnergyImportant",
+		"Escaper",
+		"Helper",
+		"RoleSupport",
+		"SelfHealer",
+		"SoloLaner"
+	],
+	"stats": {
+		"life": {
+			"type": "Health",
+			"amount": 1425,
+			"scale": 0.04,
+			"regenRate": 2.9687,
+			"regenScale": 0.04
+		},
+		"energy": {
+			"type": "Mana",
+			"amount": 500,
+			"regenRate": 3
+		},
+		"speed": 4.8398,
+		"sight": 12,
+		"radius": 0.6875,
+		"innerRadius": 0.6875
+	},
+	"weapons": [
+		{
+			"nameId": "HeroFaerieDragon",
+			"range": 5.5,
+			"minimumRange": 0,
+			"period": 0.9,
+			"damage": 81,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "FaerieDragonArcaneFlare",
+				"name": "Arcane Flare",
+				"type": "Q",
+				"cooldown": "Cooldown: 6 seconds",
+				"cost": "Mana: 35",
+				"description": "Shoot a flare dealing 75~~0.04~~ damage to enemies hit, and an additional 105~~0.04~~ damage to enemies in the center. If a Hero is hit by the center, Soothing Mist's passive healing instantly activates."
+			},
+			{
+				"id": "FaerieDragonPolymorph",
+				"name": "Polymorph",
+				"type": "W",
+				"cooldown": "Cooldown: 12 seconds",
+				"cost": "Mana: 50",
+				"description": "Polymorph a target for 1.5 seconds, Slowing their Movement Speed by 30% and Silencing them. Targets are not able to attack while Polymorphed."
+			},
+			{
+				"id": "FaerieDragonPixieDust",
+				"name": "Pixie Dust",
+				"type": "E",
+				"cooldown": "Cooldown: 10 seconds",
+				"cost": "Mana: 60",
+				"description": "Increase target Hero's Movement Speed by 20%, and grant them 30 Spell Armor for 3 seconds, reducing Spell damage taken by 30%."
+			}
+		],
+		"heroic": [
+			{
+				"id": "FaerieDragonBlinkHealDash",
+				"name": "Blink Heal",
+				"type": "Heroic",
+				"cooldown": "Charge Cooldown: 9 seconds",
+				"cost": "Mana: 40",
+				"charges": {
+					"countMax": 2,
+					"countStart": 1,
+					"countUse": 1,
+					"recastCooldown": 2,
+					"isCountHidden": false
+				},
+				"description": "Teleport to a nearby ally. When teleporting to a Hero, heal them for 200~~0.04~~.\n\nStores up to 2 charges."
+			},
+			{
+				"id": "FaerieDragonEmeraldWind",
+				"name": "Emerald Wind",
+				"type": "Heroic",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, create an expanding nova of wind, dealing 225~~0.04~~ damage and pushing enemies away."
+			},
+			{
+				"id": "BrightwingBlinkHealDoubleWyrmholeDash",
+				"name": "Double Wyrmhole",
+				"type": "Heroic",
+				"parent": "Blink Heal",
+				"toggleCooldown": 0.25,
+				"description": "Teleport to a nearby ally, healing them for 200~~0.04~~."
+			}
+		],
+		"trait": [
+			{
+				"id": "BrightwingCalmingMist",
+				"name": "Soothing Mist",
+				"type": "Trait",
+				"cooldown": "Cooldown: 75 seconds",
+				"description": "Activate to remove all Stun, Root, Slow, and Silence effects from nearby allied Heroes.\n\nPassive: Brightwing heals nearby allied Heroes for 110~~0.04~~ every 4 seconds"
+			}
+		],
+		"mount": [
+			{
+				"id": "BrightwingPhaseShift",
+				"name": "Phase Shift",
+				"type": "Z",
+				"cooldown": "Cooldown: 40 seconds",
+				"description": "After 2 seconds, teleport to an allied Hero and heal them for 25% of their maximum Health."
+			}
+		],
+		"activable": [
+			{
+				"id": "FaerieDragonPixieCharm",
+				"name": "Pixie Charm",
+				"type": "Active",
+				"parent": "Pixie Charm",
+				"charges": {
+					"countMax": 4,
+					"countUse": 1,
+					"recastCooldown": 0.25,
+					"isCountHidden": false
+				},
+				"description": "Activate to consume 20 stacks of Bribe to instantly defeat an uncaptured non-Elite Mercenary.\n\nPassive: Gain 1 stack of Bribe when a nearby enemy Minion dies, and 5 stacks when hitting an enemy Hero with Arcane Flare's center. Maximum 80 stacks."
+			},
+			{
+				"id": "BrightwingPhaseOut",
+				"name": "Phase Out",
+				"type": "Active",
+				"parent": "Phase Out",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to place Brightwing in Stasis for 0.75 seconds."
+			},
+			{
+				"id": "BrightwingFaerieProtector",
+				"name": "Faerie Protector",
+				"type": "Active",
+				"parent": "Faerie Protector",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to apply Pixie Dust to all nearby Heroes.\n\nPassive: Pixie Dust always bounces back and applies to Brightwing."
+			}
+		]
+	},
+	"talents": {
+		"level1": [
+			{
+				"id": "BrightwingGreaterPolymorphPolymorph",
+				"name": "Greater Polymorph",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FaerieDragonPolymorph",
+				"description": "Passive: Increase Polymorph's range by 30%. \n\nIf Brightwing hits an enemy Hero with Arcane Flare's center within 2 seconds of being Polymorphed, then reduce Polymorph's cooldown by 7 seconds and gain 50 Mana."
+			},
+			{
+				"id": "BrightwingPhaseShiftHyperShift",
+				"name": "Hyper Shift",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "BrightwingPhaseShift",
+				"description": "Increase Phase Shift's healing by an additional 4% of the target's maximum Health. Nearby enemy Minion deaths reduce Phase Shift's cooldown by 0.5 second."
+			},
+			{
+				"id": "BrightwingPixieCharm",
+				"name": "Pixie Charm",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "FaerieDragonPixieCharm",
+				"description": "Activate to consume 20 stacks of Bribe to instantly defeat an uncaptured non-Elite Mercenary.\n\nPassive: Gain 1 stack of Bribe when a nearby enemy Minion dies, and 5 stacks when hitting an enemy Hero with Arcane Flare's center. Maximum 80 stacks."
+			}
+		],
+		"level4": [
+			{
+				"id": "BrightwingDreamShotArcaneFlare",
+				"name": "Dream Shot",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "FaerieDragonArcaneFlare",
+				"description": "Increase Arcane Flare's range by 60%. Hitting a Hero with Arcane Flare's center reduces its cooldown to 2 seconds."
+			},
+			{
+				"id": "BrightwingUnstableAnomalyPolymorph",
+				"name": "Unstable Anomaly",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FaerieDragonPolymorph",
+				"description": "Increase Polymorph's Slow by 15%. Upon expiration, Polymorph deals damage to nearby enemy Heroes equal to 2% of their maximum Health."
+			},
+			{
+				"id": "BrightwingMagicSpit",
+				"name": "Magic Spit",
+				"type": "Passive",
+				"isQuest": false,
+				"description": "Increase Basic Attack range by 1.1. Basic Attacks against Heroes reduce the cooldown of Soothing Mist by 4 seconds."
+			}
+		],
+		"level7": [
+			{
+				"id": "BrightwingArcaneFlareStickyFlare",
+				"name": "Sticky Flare",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "FaerieDragonArcaneFlare",
+				"description": "Enemy Heroes hit by Arcane Flare have their Movement Speed Slowed by 20% for 3 seconds. Increase the Slow to 40% if they are hit by the center portion."
+			},
+			{
+				"id": "BrightwingPhaseShiftPeekaboo",
+				"name": "Peekaboo!",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "BrightwingPhaseShift",
+				"description": "Phase Shifting to an ally grants both Brightwing and her target a 335~~0.04~~ Shield for 4 seconds and reveals a large area around them for 5 seconds."
+			},
+			{
+				"id": "BrightwingCriticalMistCalmingMist",
+				"name": "Critical Mist",
+				"type": "Trait",
+				"isQuest": false,
+				"description": "Soothing Mist heals allied Heroes for 165~~0.04~~. Increase this healing by 140% if Soothing Mist removed a disabling effect from that ally."
+			}
+		],
+		"level10": [
+			{
+				"id": "FaerieDragonHeroicAbilityBlinkHeal",
+				"name": "Blink Heal",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FaerieDragonBlinkHealDash",
+				"cooldown": "Charge Cooldown: 9 seconds",
+				"cost": "Mana: 40",
+				"description": "Teleport to a nearby ally. When teleporting to a Hero, heal them for 200~~0.04~~.\n\nStores up to 2 charges."
+			},
+			{
+				"id": "FaerieDragonHeroicAbilityEmeraldWind",
+				"name": "Emerald Wind",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FaerieDragonEmeraldWind",
+				"cooldown": "Cooldown: 50 seconds",
+				"cost": "Mana: 90",
+				"description": "After 0.5 seconds, create an expanding nova of wind, dealing 225~~0.04~~ damage and pushing enemies away."
+			}
+		],
+		"level13": [
+			{
+				"id": "BrightwingPixieBoostPixieDust",
+				"name": "Pixie Boost",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FaerieDragonPixieDust",
+				"description": "Increase Pixie Dust's Movement Speed bonus to 50%, decaying to 20% over 3 seconds."
+			},
+			{
+				"id": "BrightwingPixieDustSafetyDust",
+				"name": "Safety Dust",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FaerieDragonPixieDust",
+				"description": "Increase Pixie Dust's duration by 1 second. Soothing Mist and Blink Heal heal allies with an active Pixie Dust for 75% more."
+			},
+			{
+				"id": "BrightwingPixieDustPixiePower",
+				"name": "Pixie Power",
+				"type": "E",
+				"isQuest": false,
+				"ability": "FaerieDragonPixieDust",
+				"description": "Reduce the cooldown of Pixie Dust by 3 seconds and increase the Spell Armor granted by 25."
+			}
+		],
+		"level16": [
+			{
+				"id": "BrightwingArcaneFlareHush!",
+				"name": "Hush!",
+				"type": "Q",
+				"isQuest": false,
+				"ability": "FaerieDragonArcaneFlare",
+				"description": "Enemy Heroes hit by the center of Arcane Flare are Silenced for 1 second and deal 25% less damage for 3 seconds."
+			},
+			{
+				"id": "FaerieDragonMasteryCritterize",
+				"name": "Critterize",
+				"type": "W",
+				"isQuest": false,
+				"ability": "FaerieDragonPolymorph",
+				"description": "While Polymorphed, the target's Armor is reduced by 25, increasing the damage they take by 25%."
+			},
+			{
+				"id": "BrightwingPhaseOut",
+				"name": "Phase Out",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "BrightwingPhaseOut",
+				"cooldown": "Cooldown: 20 seconds",
+				"description": "Activate to place Brightwing in Stasis for 0.75 seconds."
+			}
+		],
+		"level20": [
+			{
+				"id": "BrightwingInvisibleFriends",
+				"name": "Invisible Friends",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FaerieDragonBlinkHealDash",
+				"prerequisites": [
+					"FaerieDragonHeroicAbilityBlinkHeal"
+				],
+				"description": "Blink Heal grants Stealth to Brightwing and her Heroic targets for 9 seconds, and they are Unrevealable for the first 0.5 seconds. While Stealthed by Invisible Friends, Heroes heal for 25~~0.04~~ health per second.\n\nRemaining stationary for at least 1.5 seconds while Stealthed grants Invisible."
+			},
+			{
+				"id": "BrightwingIntensiveWinds",
+				"name": "Intensive Winds",
+				"type": "Heroic",
+				"isQuest": false,
+				"ability": "FaerieDragonEmeraldWind",
+				"prerequisites": [
+					"FaerieDragonHeroicAbilityEmeraldWind"
+				],
+				"description": "Permanently reduce Emerald Wind's cooldown to 5 seconds."
+			},
+			{
+				"id": "BrightwingSpeedyDragon",
+				"name": "Speedy Dragon",
+				"type": "Z",
+				"isQuest": false,
+				"ability": "BrightwingPhaseShift",
+				"cooldown": "Cooldown: 60 seconds",
+				"description": "Permanently gain 20% Movement Speed. Reduce Phase Shift's cast time by 1 second."
+			},
+			{
+				"id": "BrightwingFaerieProtector",
+				"name": "Faerie Protector",
+				"type": "Active",
+				"isQuest": false,
+				"ability": "BrightwingFaerieProtector",
+				"cooldown": "Cooldown: 45 seconds",
+				"description": "Activate to apply Pixie Dust to all nearby Heroes.\n\nPassive: Pixie Dust always bounces back and applies to Brightwing."
+			}
+		]
+	}
+}

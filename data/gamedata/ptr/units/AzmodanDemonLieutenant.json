@@ -1,0 +1,45 @@
+{
+	"id": "AzmodanDemonLieutenant",
+	"name": "Demon Lieutenant",
+	"damageType": "Summon",
+	"attributes": [
+		"Summoned"
+	],
+	"description": "Summon a Demon Lieutenant at any allied Mercenary, Minion, or Azmodan Demon. The Lieutenant will cast Demonic Smite every 7 seconds, instantly killing an enemy Minion. Loses Health over 21 seconds.\n\nUsable while Channeling All Shall Burn.",
+	"stats": {
+		"life": {
+			"amount": 593,
+			"scale": 0.04,
+			"regenRate": -28.2381,
+			"regenScale": 0.04
+		},
+		"speed": 3.25,
+		"sight": 7,
+		"radius": 0.75,
+		"innerRadius": 0.75
+	},
+	"weapons": [
+		{
+			"nameId": "AzmodanDemonLieutenantWeapon",
+			"range": 2,
+			"minimumRange": 0,
+			"period": 1,
+			"damage": 52,
+			"damageScale": 0.04
+		}
+	],
+	"abilities": {
+		"basic": [],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}

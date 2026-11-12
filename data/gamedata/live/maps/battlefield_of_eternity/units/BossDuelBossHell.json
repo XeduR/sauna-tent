@@ -1,0 +1,62 @@
+{
+	"id": "BossDuelBossHell",
+	"name": "Immortal",
+	"damageType": "Monster",
+	"attributes": [
+		"Creep",
+		"ImmuneToFriendlyAbilities",
+		"MapBoss",
+		"MapCreature"
+	],
+	"stats": {
+		"life": {
+			"amount": 16250,
+			"scale": 0,
+			"regenRate": 0,
+			"regenScale": 0
+		},
+		"speed": 15,
+		"sight": 10,
+		"radius": 1.25,
+		"innerRadius": 0
+	},
+	"weapons": [
+		{
+			"nameId": "BossDuelBossDummyHellWeapon",
+			"range": 100,
+			"minimumRange": 0,
+			"period": 2,
+			"damage": 0,
+			"damageScale": 0
+		}
+	],
+	"abilities": {
+		"basic": [
+			{
+				"id": "DemonicExplosionsJungle",
+				"name": "Demonic Explosions",
+				"type": "Q",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Damages and stuns enemies in multiple areas around the caster. There must be nearby heroes around to activate."
+			},
+			{
+				"id": "DemonicCleaveJungle",
+				"name": "Demonic Cleave",
+				"type": "W",
+				"cooldown": "Cooldown: 14 seconds",
+				"description": "Deals area damage and knocks back targets around the caster."
+			}
+		],
+		"heroic": [],
+		"trait": [],
+		"mount": [],
+		"activable": [
+			{
+				"id": "move",
+				"name": "Move Patrol",
+				"type": "B",
+				"description": ""
+			}
+		]
+	}
+}
